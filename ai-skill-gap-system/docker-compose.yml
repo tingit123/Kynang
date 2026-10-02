@@ -1,0 +1,86 @@
+services:
+  # ─── MySQL Database ────────────────────────
+  mysql-db:
+    image: mysql:8.0
+    container_name: skillgap_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: skillgap_db
+      MYSQL_USER: skillgap_user
+      MYSQL_PASSWORD: skillgap_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+      interval: 5s
+      start_period: 30s
+
+  # ─── Core API Backend (FastAPI) ────────────
+  core-api:
+    build: ./services/core-api-backend
+    container_name: skillgap_api
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql-db
+      DB_PORT: 3306
+      DB_NAME: skillgap_db
+      DB_USER: skillgap_user
+      DB_PASS: skillgap_pass
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      timeout: 15s
+      retries: 10
+      interval: 10s
+      start_period: 60s
+
+  # ─── Data Crawler ─────────────────────────
+  data-crawler:
+    build: ./services/data-crawler
+    container_name: skillgap_crawler
+    restart: always
+    depends_on:
+      core-api:
+        condition: service_healthy
+    environment:
+      API_BASE_URL: http://core-api:8000
+      CRAWL_INTERVAL_HOURS: 6
+
+  # ─── AI NLP Worker ────────────────────────
+  ai-nlp-worker:
+    build: ./services/ai-nlp-worker
+    container_name: skillgap_nlp
+    restart: always
+    depends_on:
+      core-api:
+        condition: service_healthy
+    environment:
+      API_BASE_URL: http://core-api:8000
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+
+  # ─── Admin Web Dashboard ──────────────────
+  dashboard:
+    image: nginx:alpine
+    container_name: skillgap_dashboard
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./apps/admin-web-dashboard:/usr/share/nginx/html:ro
+
+volumes:
+  mysql_data:
+
+networks:
+  default:
+    name: skillgap_network

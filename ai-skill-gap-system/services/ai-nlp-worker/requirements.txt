@@ -1,0 +1,5 @@
+requests==2.32.3
+openai==1.35.10
+python-dotenv==1.0.1
+schedule==1.2.2
+regex==2024.5.15

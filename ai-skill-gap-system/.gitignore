@@ -1,0 +1,82 @@
+# ══════════════════════════════════════════════
+#  .gitignore – AI Skill Gap System
+# ══════════════════════════════════════════════
+
+# ─── Biến môi trường – KHÔNG BAO GIỜ push lên GitHub ───
+.env
+.env.*
+!.env.example
+database/config/db.env
+
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+venv/
+env/
+.venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ─── Jupyter Notebook ───
+.ipynb_checkpoints
+*.ipynb
+
+# ─── Data & Datasets (dữ liệu thô/sạch – lớn, không cần push) ───
+data/
+datasets/
+*.csv
+*.xlsx
+*.json.gz
+*.parquet
+raw_data/
+cleaned_data/
+exports/
+
+# ─── Docker volumes & database files ───
+mysql_data/
+*.sql.bak
+*.dump
+
+# ─── Node / Frontend (nếu có npm) ───
+node_modules/
+.npm/
+dist/
+
+# ─── IDE & Editor ───
+.vscode/
+.idea/
+*.suo
+*.user
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── Logs ───
+*.log
+logs/
+*.log.*
+
+# ─── Test & Coverage ───
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ─── OS Generated ───
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
