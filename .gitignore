@@ -20,5 +20,9 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Logs
+# Logs & temporary files
 *.log
+*.bak
+original_recommend.txt
+test_prompt.json
+

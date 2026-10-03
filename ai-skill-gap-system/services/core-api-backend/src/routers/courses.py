@@ -16,6 +16,8 @@ router = APIRouter()
 class CourseOut(BaseModel):
     id: int
     skill_id: int
+    skill_name: str
+    industry: Optional[str] = None
     course_name: str
     platform: Optional[str]
     url: Optional[str]
@@ -28,12 +30,32 @@ class CourseOut(BaseModel):
 @router.get("/", response_model=List[CourseOut])
 def list_courses(
     skill_id: Optional[int] = Query(None),
+    industry: Optional[str] = Query(None),
     db: Session = Depends(get_db),
 ):
-    q = db.query(CourseRecommendation)
+    q = (
+        db.query(CourseRecommendation, SkillCatalog)
+        .join(SkillCatalog, CourseRecommendation.skill_id == SkillCatalog.id)
+    )
     if skill_id:
         q = q.filter(CourseRecommendation.skill_id == skill_id)
-    return q.order_by(CourseRecommendation.priority).all()
+    if industry and industry != "Tất cả":
+        q = q.filter(SkillCatalog.industry.in_([industry, "Tất cả"]))
+
+    results = q.order_by(CourseRecommendation.priority, CourseRecommendation.id).all()
+    return [
+        CourseOut(
+            id=c.id,
+            skill_id=c.skill_id,
+            skill_name=sk.skill_name,
+            industry=sk.industry,
+            course_name=c.course_name,
+            platform=c.platform,
+            url=c.url,
+            priority=c.priority
+        )
+        for c, sk in results
+    ]
 
 
 @router.get("/by-skill-name")
@@ -44,7 +66,6 @@ def courses_by_skill_name(
     """Lấy gợi ý khóa học theo tên kỹ năng."""
     skill = db.query(SkillCatalog).filter(SkillCatalog.skill_name == skill_name).first()
     if not skill:
-        # Fallback data nếu chưa có trong DB
         return _fallback_courses(skill_name)
 
     courses = (
@@ -53,6 +74,9 @@ def courses_by_skill_name(
         .order_by(CourseRecommendation.priority)
         .all()
     )
+    if not courses:
+        return _fallback_courses(skill_name)
+
     return [
         {"course_name": c.course_name, "platform": c.platform, "url": c.url}
         for c in courses
@@ -60,19 +84,6 @@ def courses_by_skill_name(
 
 
 def _fallback_courses(skill_name: str):
-    """Dữ liệu khóa học fallback khi DB chưa có."""
-    fallback = {
-        "Python": [
-            {"course_name": "Python for Everyone", "platform": "Coursera", "url": "https://coursera.org"},
-            {"course_name": "FastAPI Masterclass", "platform": "Udemy",    "url": "https://udemy.com"},
-        ],
-        "Machine Learning": [
-            {"course_name": "ML Crash Course", "platform": "Google",   "url": "https://developers.google.com/machine-learning/crash-course"},
-            {"course_name": "Deep Learning Spec","platform": "Coursera","url": "https://coursera.org"},
-        ],
-        "English": [
-            {"course_name": "IELTS Academic",     "platform": "British Council", "url": "https://britishcouncil.vn"},
-            {"course_name": "Business English",   "platform": "EF",              "url": "https://ef.com"},
-        ],
-    }
-    return fallback.get(skill_name, [{"course_name": f"Học {skill_name} cơ bản", "platform": "Online", "url": "#"}])
+    return [
+        {"course_name": f"Khóa học chuyên sâu: {skill_name} 2026", "platform": "Coursera / Udemy", "url": "https://coursera.org"}
+    ]

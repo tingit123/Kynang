@@ -10,7 +10,7 @@ class JobPosting(Base):
     title            = Column(String(300), nullable=False)
     company          = Column(String(200), nullable=False)
     location         = Column(String(100), default="Cần Thơ")
-    industry         = Column(Enum("IT", "Du lịch", "Logistics", "Kinh tế", "Khác"), nullable=False)
+    industry         = Column(String(50), nullable=False)
     description      = Column(Text)
     salary_min       = Column(Integer)
     salary_max       = Column(Integer)

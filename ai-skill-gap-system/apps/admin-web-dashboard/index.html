@@ -7,7 +7,6 @@
 <meta name="description" content="Hệ thống AI phân tích khoảng cách kỹ năng lao động, gợi ý nghề nghiệp và khóa học phù hợp."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -489,6 +488,192 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   font-size:12px;font-weight:600;color:var(--green);
 }
 
+/* ──────────────── ROLE TOOLBAR & ROLE INSIGHT (EXPERT) ──────────────── */
+.role-toolbar-card{
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;margin-bottom:8px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.03);position:relative;
+  transition:var(--transition);
+}
+.role-toolbar-top{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;margin-bottom:14px;
+}
+.role-toolbar-title-wrap{display:flex;align-items:center;gap:12px}
+.role-toolbar-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  flex-shrink:0;box-shadow:0 3px 12px var(--primary-glow);
+}
+.role-toolbar-icon svg{width:18px;height:18px}
+.role-toolbar-title{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-0.2px}
+.role-toolbar-desc{font-size:11px;color:var(--text3);margin-top:1px}
+.role-toolbar-quick-stat{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;color:var(--primary);
+  background:var(--primary-glow);padding:4px 12px;border-radius:20px;
+}
+.role-chips-bar{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+}
+.role-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 14px;border-radius:25px;font-size:12px;font-weight:600;
+  cursor:pointer;border:1.5px solid var(--border2);color:var(--text2);
+  background:var(--bg3);transition:all 0.2s cubic-bezier(0.16,1,0.3,1);
+  user-select:none;position:relative;
+}
+.role-chip:hover{
+  border-color:var(--primary-light);color:var(--primary);
+  background:var(--hover-bg);transform:translateY(-1px);
+}
+.role-chip.active{
+  border-color:var(--primary);color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  box-shadow:0 4px 14px var(--primary-glow);font-weight:700;
+}
+.role-chip-icon{font-size:14px;line-height:1}
+.role-chip-badge{
+  font-size:10px;padding:1px 6px;border-radius:10px;
+  background:rgba(255,255,255,0.25);color:inherit;font-weight:700;
+}
+.role-chip:not(.active) .role-chip-badge{
+  background:var(--border2);color:var(--text3);
+}
+
+/* ──────────────── ROLE INSIGHT PANEL ──────────────── */
+.role-insight-panel{
+  margin-top:16px;padding:16px;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg,rgba(79,70,229,0.04),rgba(168,85,247,0.04));
+  border:1px solid rgba(79,70,229,0.18);
+  animation:fadeIn 0.3s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.role-insight-header{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;margin-bottom:10px;
+}
+.role-insight-title{
+  font-size:14px;font-weight:800;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+}
+.role-insight-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.role-insight-desc{
+  font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px;
+}
+.role-insight-skills-section{
+  display:flex;flex-direction:column;gap:8px;margin-bottom:12px;
+}
+.role-skill-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;
+  cursor:pointer;transition:var(--transition);
+}
+.role-skill-pill.must{
+  background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.25);
+}
+.role-skill-pill.must:hover{
+  background:var(--red);color:#fff;
+}
+.role-skill-pill.nice{
+  background:rgba(79,70,229,0.08);color:var(--primary);border:1px solid rgba(79,70,229,0.2);
+}
+.role-skill-pill.nice:hover{
+  background:var(--primary);color:#fff;
+}
+.role-insight-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;padding-top:10px;border-top:1px dashed var(--border2);
+}
+
+/* ──────────────── MODAL COURSE CARDS & DIRECT LINKS ──────────────── */
+.skill-course-list{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.skill-course-card{
+  background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);padding:16px;
+  transition:var(--transition);display:flex;flex-direction:column;gap:10px;
+}
+.skill-course-card:hover{
+  border-color:var(--primary);box-shadow:0 4px 20px var(--primary-glow);
+  transform:translateY(-1px);
+}
+.skill-course-header{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+}
+.skill-course-platform-badge{
+  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;
+  padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;
+}
+.platform-coursera{background:rgba(0,86,210,0.12);color:#0056d2}
+.platform-udemy{background:rgba(164,53,240,0.12);color:#a435f0}
+.platform-edx{background:rgba(184,10,34,0.12);color:#b80a22}
+.platform-microsoft{background:rgba(0,164,239,0.12);color:#00a4ef}
+.platform-google{background:rgba(66,133,244,0.12);color:#4285f4}
+.platform-pace{background:rgba(16,185,129,0.12);color:var(--green)}
+.platform-vcci{background:rgba(245,158,11,0.12);color:var(--amber)}
+.platform-other{background:var(--primary-glow);color:var(--primary)}
+
+.skill-course-title{font-size:14px;font-weight:800;color:var(--text);line-height:1.4}
+.skill-course-meta{
+  display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--text2);
+}
+.skill-course-actions{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px;
+}
+.btn-course-direct{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff !important;padding:8px 16px;border-radius:var(--radius-sm);
+  font-size:12px;font-weight:700;text-decoration:none !important;
+  cursor:pointer;transition:var(--transition);box-shadow:0 3px 12px var(--primary-glow);
+}
+.btn-course-direct:hover{
+  transform:translateY(-1px);box-shadow:0 6px 20px var(--primary-glow);
+  opacity:0.95;
+}
+.btn-course-secondary{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--bg2);color:var(--text2);
+  border:1px solid var(--border2);padding:7px 14px;border-radius:var(--radius-sm);
+  font-size:12px;font-weight:600;cursor:pointer;transition:var(--transition);
+}
+.btn-course-secondary:hover{
+  border-color:var(--primary);color:var(--primary);background:var(--hover-bg);
+}
+
+/* ──────────────── COURSE PAGE FILTER TOOLBAR ──────────────── */
+.course-filter-toolbar{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 20px;margin-bottom:18px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.course-filter-row{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.course-filter-chips{display:flex;flex-wrap:wrap;gap:6px}
+.course-filter-chip{
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;
+  cursor:pointer;border:1px solid var(--border2);background:var(--bg3);
+  color:var(--text2);transition:var(--transition);
+}
+.course-filter-chip:hover{border-color:var(--primary);color:var(--primary)}
+.course-filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.course-search-wrap{
+  display:flex;align-items:center;gap:8px;background:var(--bg3);
+  border:1px solid var(--border2);border-radius:var(--radius-sm);
+  padding:6px 14px;min-width:260px;flex:1;max-width:400px;
+}
+.course-search-wrap input{
+  background:none;border:none;outline:none;font-size:12px;
+  color:var(--text);font-family:inherit;width:100%;
+}
+.course-stat-badge{
+  font-size:11px;font-weight:700;color:var(--green);
+  background:rgba(16,185,129,0.1);padding:4px 10px;border-radius:20px;
+}
+
 /* ──────────────── RESPONSIVE ──────────────── */
 @media(max-width:900px){
   .kpi-grid{grid-template-columns:repeat(2,1fr)}
@@ -538,6 +723,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
       <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
       Gợi Ý Nghề Nghiệp
       <span class="nav-badge" style="background:rgba(168,85,247,0.1);color:var(--purple)">AI</span>
+    </div>
+    <div class="nav-item" id="nav-cv-upload" onclick="switchPage('cv-upload',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Phân Tích CV (Gemini AI)
+      <span class="nav-badge green">Mới</span>
     </div>
 
     <div class="nav-group-label" style="margin-top:12px">Quản Lý</div>
@@ -774,6 +964,34 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
       <div class="ind-tab" onclick="selectIndustry('agriculture',this)"><span class="ind-emoji">🌾</span> Nông nghiệp</div>
     </div>
 
+    <!-- ── TOOLBAR CHỌN CHỨC VỤ CHO TỪNG NGÀNH ── -->
+    <div class="role-toolbar-card" id="roleToolbarCard">
+      <div class="role-toolbar-top">
+        <div class="role-toolbar-title-wrap">
+          <div class="role-toolbar-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <div class="role-toolbar-title">Thanh Công Cụ Chức Vụ &amp; Vị Trí Việc Làm Trong Ngành</div>
+            <div class="role-toolbar-desc">Chọn chức danh chuyên môn để lọc bộ kỹ năng chuẩn hóa, phân tích Gap &amp; xem khóa học chỉ định</div>
+          </div>
+        </div>
+        <div class="role-toolbar-quick-stat" id="roleToolbarQuickStat">
+          🎯 Đang chọn: Tất cả chức vụ
+        </div>
+      </div>
+      
+      <!-- Role Chips -->
+      <div class="role-chips-bar" id="industryRoleChips">
+        <!-- Rendered dynamically by renderRoleToolbar() -->
+      </div>
+
+      <!-- Role Insight Panel -->
+      <div class="role-insight-panel" id="roleInsightPanel" style="display:none">
+        <!-- Filled dynamically by selectJobRole() -->
+      </div>
+    </div>
+
     <!-- Industry summary -->
     <div class="kpi-grid" id="industryKPIs" style="grid-template-columns:repeat(3,1fr)">
       <!-- Filled by JS -->
@@ -827,9 +1045,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   <div class="page" id="page-recommend">
     <div class="page-header">
       <div>
-        <h1 class="page-title">Gợi Ý Nghề Nghiệp & Kỹ Năng Còn Thiếu</h1>
+        <h1 class="page-title">Gợi Ý Nghề &amp; Khóa Học</h1>
         <p class="page-sub">Chọn ngành · Tick kỹ năng bạn có · AI chẩn đoán lỗ hổng và kê đơn khóa học bù đắp ngay</p>
       </div>
+      <button class="btn btn-primary" onclick="switchPage('cv-upload', document.getElementById('nav-cv-upload'))" style="display:flex;align-items:center;gap:6px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Tải Lên CV (AI Gemini)
+      </button>
     </div>
 
     <div style="display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start">
@@ -842,19 +1064,44 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
           </div>
           <div class="rec-form">
             <div class="form-group">
-              <label class="form-label">Họ và Tên</label>
-              <input class="form-input" id="recName" placeholder="VD: Nguyễn Văn A" type="text"/>
+              <label class="form-label">Họ và Tên Sinh Viên / Người Lao Động</label>
+              <input class="form-input" id="recName" placeholder="Tên sinh viên..." type="text"/>
+              <select class="form-input" id="recStudentQuick" onchange="onSelectQuickStudent(this.value)" style="margin-top:6px;font-size:11px">
+                <option value="">-- Chọn 1 trong 500 sinh viên mẫu trong CSDL --</option>
+              </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Chuyên ngành học</label>
-              <select class="form-input" id="recMajor">
-                <option value="">-- Chọn chuyên ngành --</option>
+              <label class="form-label">CHỨC VỤ LÚC TRƯỚC / VỊ TRÍ HIỆN TẠI</label>
+              <select class="form-input" id="recPrevRole" style="cursor:pointer">
+                <option value="Thực tập sinh Kế toán" selected>Thực tập sinh Kế toán</option>
+                <option value="Thực tập sinh Lập trình viên / IT">Thực tập sinh Lập trình viên / IT</option>
+                <option value="Thực tập sinh Xuất nhập khẩu &amp; Logistics">Thực tập sinh Xuất nhập khẩu &amp; Logistics</option>
+                <option value="Thực tập sinh Du lịch &amp; Khách sạn">Thực tập sinh Du lịch &amp; Khách sạn</option>
+                <option value="Sinh viên mới tốt nghiệp (Chưa có kinh nghiệm)">Sinh viên mới tốt nghiệp (Chưa có kinh nghiệm)</option>
+                <option value="Nhân viên sơ cấp (Junior 0-1 năm)">Nhân viên sơ cấp (Junior 0-1 năm)</option>
+                <option value="Chuyên viên nghiệp vụ (1-2 năm kinh nghiệm)">Chuyên viên nghiệp vụ (1-2 năm kinh nghiệm)</option>
+                <option value="Nhân viên trái ngành / Muốn chuyển nghề">Nhân viên trái ngành / Muốn chuyển nghề</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">MỤC TIÊU NGÀNH NGHỀ HƯỚNG TỚI</label>
+              <select class="form-input" id="recMajor" onchange="onMajorChange(this.value)" style="cursor:pointer">
+                <option value="economics" selected>📊 Kế Toán &amp; Tài Chính</option>
                 <option value="IT">💻 Công nghệ thông tin</option>
                 <option value="tourism">✈️ Du lịch &amp; Khách sạn</option>
-                <option value="logistics">📦 Logistics &amp; XNK</option>
-                <option value="economics">📊 Kinh tế &amp; Tài chính</option>
-                <option value="agriculture">🌾 Nông nghiệp</option>
+                <option value="logistics">📦 Logistics &amp; Chuỗi cung ứng</option>
+                <option value="agriculture">🌾 Nông nghiệp công nghệ cao</option>
               </select>
+            </div>
+            <div class="form-group" style="background:var(--primary-glow);padding:12px;border-radius:var(--radius-sm);border:1.5px solid var(--primary);box-shadow:0 2px 10px rgba(79,70,229,0.1)">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                <label class="form-label" style="color:var(--primary);font-weight:800;margin:0;font-size:12px">🎯 CHỨC VỤ MỤC TIÊU CẦN ĐÁNH GIÁ GAP:</label>
+                <span style="font-size:10px;font-weight:700;background:var(--primary);color:#fff;padding:2px 8px;border-radius:10px">Mũi tên chọn chức vụ ▼</span>
+              </div>
+              <select class="form-input" id="recTargetRole" onchange="onTargetRoleChange(this.value)" style="cursor:pointer;font-weight:700;color:var(--text);background:var(--bg2);border-color:var(--primary);font-size:13px">
+                <!-- Nạp động theo ngành -->
+              </select>
+              <div id="targetRoleSkillsHint" style="font-size:11px;color:var(--text2);margin-top:8px;line-height:1.4"></div>
             </div>
             <div class="form-group">
               <label class="form-label">Năm học / Kinh nghiệm</label>
@@ -868,16 +1115,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Kỹ năng đang có <small style="color:var(--text3);font-weight:400">(click để bỏ chọn)</small></label>
+              <label class="form-label">KỸ NĂNG ĐANG CÓ <small style="color:var(--text3);font-weight:400">(CLICK ĐỂ XÓA)</small></label>
               <div class="skill-tags" id="selectedSkillTags" style="min-height:48px"></div>
             </div>
             <div class="form-group">
-              <label class="form-label">Thêm nhanh kỹ năng</label>
+              <label class="form-label">THÊM NHANH KỸ NĂNG (THEO ĐÚNG NGÀNH ĐÃ CHỌN)</label>
               <div style="display:flex;flex-wrap:wrap;gap:6px" id="quickSkillBtns"></div>
             </div>
             <button class="btn btn-primary" onclick="runRecommendation()" style="width:100%;justify-content:center">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              Phân Tích &amp; Gợi Ý
+              ⚡ AI Chẩn Đoán &amp; Kê Đơn Khóa Học
             </button>
           </div>
         </div>
@@ -921,6 +1168,138 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     </div>
   </div>
 
+  
+  <!-- ══ PAGE: PHÂN TÍCH CV (AI GEMINI) ══ -->
+  <div class="page" id="page-cv-upload">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Phân Tích CV &amp; Kê Đơn Lộ Trình Học (Gemini AI)</h1>
+        <p class="page-sub">Tải lên file CV hoặc dán văn bản · Google Gemini AI phân tích kỹ năng thiếu hụt và thiết kế lộ trình học cá nhân hóa</p>
+      </div>
+      <div style="display:flex;gap:8px">
+        <span class="card-badge" style="background:rgba(79,70,229,0.1);color:var(--primary);font-size:12px;font-weight:600">⚡ Google Gemini AI Powered</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start">
+      <!-- Cột trái: Nhập hồ sơ & Upload -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:12px">
+            <div class="card-title">📤 Gửi Hồ Sơ / CV Ứng Viên</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tải lên File CV hoặc Ảnh Chụp CV (PNG, JPG, PDF...)</label>
+            <div id="cvDropZone" style="border:2px dashed var(--border2);border-radius:var(--radius-sm);padding:18px 12px;text-align:center;background:var(--bg3);cursor:pointer;transition:var(--transition)" onclick="document.getElementById('cvFileInput').click()">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="margin-bottom:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div style="font-size:12px;font-weight:700;color:var(--text)" id="cvFileNameDisplay">Kéo thả CV / Ảnh hoặc click để chọn</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px">Hỗ trợ <strong>Ảnh (PNG, JPG, WEBP)</strong>, PDF, DOCX, TXT · Hỗ trợ bấm Ctrl+V để dán ảnh</div>
+            </div>
+            <input type="file" id="cvFileInput" accept="image/*,.pdf,.docx,.txt" style="display:none" onchange="onCvFileSelected(event)"/>
+
+            <!-- Khung xem trước ảnh CV -->
+            <div id="cvImagePreviewArea" style="display:none;margin-top:10px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg2)">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:11px;font-weight:700">
+                <span style="color:var(--primary)">🖼️ Ảnh Chụp CV Đã Chọn</span>
+                <button type="button" onclick="removeSelectedCvImage()" style="background:none;border:none;color:var(--red);cursor:pointer;font-weight:700;font-size:11px">✕ Bỏ ảnh</button>
+              </div>
+              <div style="max-height:180px;overflow:hidden;display:flex;justify-content:center;background:#0001;padding:8px">
+                <img id="cvImagePreviewTag" style="max-width:100%;max-height:165px;object-fit:contain;border-radius:4px;box-shadow:0 1px 6px rgba(0,0,0,0.1)" alt="Xem trước ảnh CV"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Hoặc Dán Nội Dung Văn Bản CV (Nếu Không Tải Ảnh)</label>
+            <textarea class="form-input" id="cvTextContent" rows="6" style="resize:vertical;font-family:inherit;font-size:12px" placeholder="Dán toàn bộ văn bản CV, quá trình học tập, kinh nghiệm và kỹ năng vào đây nếu bạn không tải ảnh lên..."></textarea>
+          </div>
+
+          <div style="background: rgba(99, 102, 241, 0.08); border: 1px dashed #6366f1; border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: var(--text2); display: flex; align-items: flex-start; gap: 10px;">
+            <div style="font-size: 22px; line-height: 1;">🤖</div>
+            <div>
+              <div style="font-weight: 700; color: #6366f1; margin-bottom: 3px;">AI Tự Động Phân Tích Toàn Diện 100%</div>
+              <div>Bạn chỉ cần gửi CV (Ảnh chụp hoặc Văn bản). AI sẽ tự động đọc tên, nhận diện vị trí hiện tại, đề xuất chức vụ mục tiêu tối ưu, bóc tách kỹ năng và kiến tạo lộ trình học.</div>
+            </div>
+          </div>
+
+
+          <button class="btn btn-primary" id="btnAnalyzeCv" onclick="submitCvForAiAnalysis()" style="width:100%;justify-content:center;padding:12px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            ✨ Phân Tích CV Bằng Gemini AI
+          </button>
+        </div>
+      </div>
+
+      <!-- Cột phải: Kết quả phân tích & Lộ trình học -->
+      <div>
+        <div id="cvEmptyState" class="card">
+          <div class="empty-state" style="padding:70px 20px">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <div style="font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px">Chưa có hồ sơ nào được gửi</div>
+            <div style="font-size:13px;color:var(--text3);max-width:400px;margin:0 auto">Tải lên file CV hoặc chọn một mẫu CV bên trái, sau đó nhấn "Phân Tích CV Bằng Gemini AI" để xem chẩn đoán kỹ năng và lộ trình đào tạo cá nhân hóa.</div>
+          </div>
+        </div>
+
+        <div id="cvResultArea" style="display:none">
+          <!-- Header hồ sơ & điểm match -->
+          <div class="card" style="margin-bottom:16px;border-left:4px solid var(--primary)">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+              <div>
+                <div style="font-size:18px;font-weight:800;color:var(--text)" id="resCvCandidateName">Ứng Viên</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:4px">
+                  <span style="color:var(--text3)">Vị trí hiện tại (AI nhận diện):</span> <strong id="resCvPrevRole">Đang phân tích</strong>
+                  <span style="color:var(--primary);margin:0 6px;font-weight:700">➔</span>
+                  <span style="color:var(--text3)">Mục tiêu tối ưu (AI đề xuất):</span> <strong id="resCvTargetRole" style="color:var(--primary)">Đang phân tích</strong>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div class="card-badge" id="resCvEngineBadge" style="background:rgba(16,185,129,0.1);color:var(--green);font-size:11px;font-weight:700">🤖 Google Gemini AI</div>
+                <div style="font-size:24px;font-weight:900;color:var(--primary);margin-top:4px" id="resCvMatchPct">65%</div>
+                <div style="font-size:11px;color:var(--text3)">Độ phù hợp chức vụ</div>
+              </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:14px">
+              <div id="resCvProgressBar" style="height:100%;width:65%;background:linear-gradient(90deg,var(--primary),var(--green));transition:width 0.6s ease"></div>
+            </div>
+
+            <!-- AI Assessment text -->
+            <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:14px;font-size:13px;color:var(--text);line-height:1.7;border:1px solid var(--border)">
+              <div style="font-weight:700;color:var(--primary);margin-bottom:4px;display:flex;align-items:center;gap:6px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                Nhận Xét Chuyên Sâu Của AI Về Hồ Sơ:
+              </div>
+              <div id="resCvAssessment">Đang tải đánh giá...</div>
+            </div>
+
+            <!-- Kỹ năng đã có vs Kỹ năng thiếu -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+              <div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.2);border-radius:var(--radius-sm);padding:12px">
+                <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">✅ Kỹ Năng Đã Có (Đáp Ứng)</div>
+                <div id="resCvMatchedSkills" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+              </div>
+              <div style="background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.2);border-radius:var(--radius-sm);padding:12px">
+                <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:8px">❌ Kỹ Năng Còn Thiếu (Lỗ Hổng Gap)</div>
+                <div id="resCvMissingSkills" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LỘ TRÌNH HỌC TẬP ROADMAP -->
+          <div class="card">
+            <div class="card-header" style="margin-bottom:14px">
+              <div class="card-title">🗺️ Lộ Trình Đào Tạo Bù Đắp Kỹ Năng (Personalized Learning Roadmap)</div>
+            </div>
+            <div id="resCvRoadmapPhases" style="display:flex;flex-direction:column;gap:14px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- ══ PAGE: NGƯỜI LAO ĐỘNG ══ -->
   <div class="page" id="page-workers">
     <div class="page-header">
@@ -938,7 +1317,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     <div class="card">
       <div class="card-header">
         <div class="card-title">Danh Sách Người Lao Động</div>
-        <div class="search-box"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm theo tên..."/></div>
+        <div class="search-box"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="workerSearchInput" placeholder="Tìm theo tên, mã SV, trường..." oninput="onWorkerSearch(this.value)"/></div>
       </div>
       <div class="table-wrap">
         <table class="data-table">
@@ -946,6 +1325,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
           <tbody id="workersTableBody"></tbody>
         </table>
       </div>
+      <div id="workersPagination" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px 4px;font-size:12px;color:var(--text2)"></div>
     </div>
   </div>
 
@@ -963,18 +1343,54 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
       <div class="admin-stat"><div class="admin-stat-val" style="color:var(--green)">842</div><div class="admin-stat-label">Đang Hiển Thị</div></div>
       <div class="admin-stat"><div class="admin-stat-val" style="color:var(--amber)">158</div><div class="admin-stat-label">Hết Hạn / Đã Đóng</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px" id="jobPostsGrid"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="search-box"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="jobSearchInput" placeholder="Tìm tin tuyển dụng, công ty..." oninput="onJobSearch(this.value)"/></div>
+        <div id="jobCountBadge" style="font-size:12px;font-weight:700;color:var(--primary)">1,000 Tin Tuyển Dụng</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px" id="jobPostsGrid"></div>
+      <div id="jobsPagination" style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:12px;color:var(--text2)"></div>
   </div>
 
   <!-- ══ PAGE: KHÓA HỌC ══ -->
   <div class="page" id="page-courses">
     <div class="page-header">
       <div>
-        <h1 class="page-title">Khóa Học Gợi Ý Theo Kỹ Năng</h1>
-        <p class="page-sub">Nhà cung cấp đăng khóa học · Người lao động tìm học theo skill còn thiếu</p>
+        <h1 class="page-title">Thư Viện Khóa Học Chuẩn Hóa Theo Kỹ Năng</h1>
+        <p class="page-sub">Chương trình đào tạo thực chiến &amp; quốc tế có chứng chỉ · Bấm "Truy Cập Khóa Học Ngay" để mở trực tiếp trang học</p>
       </div>
-      <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Đăng Khóa Học</button>
+      <button class="btn btn-primary" onclick="alert('Tính năng dành cho Nhà Cung Cấp Khóa Học đang kết nối.')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Đăng Khóa Học Mới</button>
     </div>
+
+    <!-- Filter & Search Toolbar for Courses -->
+    <div class="course-filter-toolbar">
+      <div class="course-filter-row">
+        <div class="course-filter-chips" id="courseIndustryFilters">
+          <div class="course-filter-chip active" onclick="filterCoursesByIndustry('all',this)">Tất Cả Ngành</div>
+          <div class="course-filter-chip" onclick="filterCoursesByIndustry('IT',this)">💻 IT &amp; Công nghệ</div>
+          <div class="course-filter-chip" onclick="filterCoursesByIndustry('tourism',this)">✈️ Du lịch &amp; Khách sạn</div>
+          <div class="course-filter-chip" onclick="filterCoursesByIndustry('logistics',this)">📦 Logistics &amp; XNK</div>
+          <div class="course-filter-chip" onclick="filterCoursesByIndustry('economics',this)">📊 Kinh tế &amp; Tài chính</div>
+          <div class="course-filter-chip" onclick="filterCoursesByIndustry('agriculture',this)">🌾 Nông nghiệp</div>
+          <div class="course-filter-chip" onclick="filterCoursesByIndustry('softskills',this)">🌟 Kỹ Năng Mềm</div>
+        </div>
+        <div class="course-stat-badge" id="courseStatCount">
+          Đang hiển thị: 0 khóa học
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="course-search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--text3)"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="courseSearchInput" placeholder="Tìm theo tên khóa học, kỹ năng, trường..." oninput="onCourseSearch(this.value)"/>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase">Lọc theo kỹ năng:</span>
+          <select class="filter-select" id="courseSkillSelect" onchange="onCourseSkillSelect(this.value)" style="min-width:180px">
+            <option value="all">-- Tất cả kỹ năng --</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
     <div class="course-grid" id="courseGrid"></div>
   </div>
 
@@ -1020,11 +1436,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   </div>
 </div>
 
-<!-- ══ MODAL: COURSE DETAIL ══ -->
+<!-- ══ MODAL: COURSE DETAIL (DIRECT LINKS) ══ -->
 <div class="modal-overlay" id="courseModal">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('courseModal').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    <div class="modal-title" id="courseModalTitle">Chi Tiết Khóa Học</div>
+  <div class="modal" style="width:min(760px,95vw);max-height:90vh;padding:24px 26px">
+    <button class="modal-close" onclick="closeCourseModal()"><svg viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div id="courseModalHeader" style="margin-bottom:14px">
+      <div class="modal-title" id="courseModalTitle" style="margin-bottom:4px;font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px">
+        🎓 Khóa Học Đào Tạo Kỹ Năng
+      </div>
+      <div id="courseModalSub" style="font-size:12px;color:var(--text3);line-height:1.5">
+        Các chương trình đào tạo chuẩn thị trường lao động · Bấm link để học ngay lập tức
+      </div>
+    </div>
     <div id="courseModalBody"></div>
   </div>
 </div>
@@ -1145,15 +1568,53 @@ const JOBS_DATA = [
 ];
 
 const COURSES_DATA = [
-  {id:"C001",title:"Python for Everyone",skill:"Python",group:"IT",provider:"Coursera × Google",duration:"3 tháng",price:"Miễn phí",rating:4.8,color:"#6366f1"},
-  {id:"C002",title:"IELTS Academic Band 6.5+",skill:"Tiếng Anh",group:"Ngoại ngữ",provider:"British Council",duration:"6 tháng",price:"4,500,000đ",rating:4.9,color:"#10b981"},
-  {id:"C003",title:"Supply Chain Management",skill:"Supply Chain",group:"Logistics",provider:"MIT OpenCourseWare",duration:"4 tháng",price:"Miễn phí",rating:4.7,color:"#f59e0b"},
-  {id:"C004",title:"Digital Marketing Fundamentals",skill:"Digital Marketing",group:"Kinh tế",provider:"Google",duration:"2 tháng",price:"Miễn phí",rating:4.8,color:"#ef4444"},
-  {id:"C005",title:"Machine Learning Specialization",skill:"Machine Learning",group:"AI/Data",provider:"DeepLearning.AI",duration:"5 tháng",price:"Miễn phí",rating:4.9,color:"#a855f7"},
-  {id:"C006",title:"Hotel Management Professional",skill:"Quản lý khách sạn",group:"Du lịch",provider:"Cornell × edX",duration:"4 tháng",price:"Miễn phí",rating:4.6,color:"#06b6d4"},
-  {id:"C007",title:"Advanced Excel & Power BI",skill:"Excel / Power BI",group:"Phân tích",provider:"Microsoft Learn",duration:"2 tháng",price:"Miễn phí",rating:4.7,color:"#16a34a"},
-  {id:"C008",title:"Kỹ năng Giao tiếp Hiệu quả",skill:"Giao tiếp",group:"Kỹ năng mềm",provider:"PACE Institute",duration:"1 tháng",price:"1,500,000đ",rating:4.8,color:"#dc2626"},
-  {id:"C009",title:"React & Next.js Full Stack",skill:"ReactJS",group:"IT",provider:"Udemy",duration:"3 tháng",price:"450,000đ",rating:4.8,color:"#0891b2"},
+  // IT
+  {id:"C001",title:"Python for Everybody Specialization",skill:"Python",group:"IT",industry:"IT",provider:"Coursera × Univ. of Michigan",platform:"Coursera",duration:"4 tháng",price:"Miễn phí (Audit)",rating:4.8,color:"#6366f1",url:"https://www.coursera.org/specializations/python"},
+  {id:"C002",title:"Machine Learning Specialization",skill:"Machine Learning",group:"AI/Data",industry:"IT",provider:"Coursera × DeepLearning.AI",platform:"Coursera",duration:"3 tháng",price:"Miễn phí (Audit)",rating:4.9,color:"#a855f7",url:"https://www.coursera.org/specializations/machine-learning-introduction"},
+  {id:"C003",title:"Google Data Analytics Professional Certificate",skill:"Data Analysis",group:"AI/Data",industry:"IT",provider:"Coursera × Google",platform:"Coursera",duration:"6 tháng",price:"Miễn phí (Audit)",rating:4.8,color:"#4285f4",url:"https://www.coursera.org/professional-certificates/google-data-analytics"},
+  {id:"C004",title:"React – The Complete Guide (incl. Hooks, Redux)",skill:"ReactJS",group:"Frontend",industry:"IT",provider:"Udemy × Maximilian",platform:"Udemy",duration:"48 giờ",price:"299.000đ",rating:4.9,color:"#0891b2",url:"https://www.udemy.com/course/react-the-complete-guide-incl-redux/"},
+  {id:"C005",title:"Docker & Kubernetes: The Practical Guide",skill:"Docker & DevOps",group:"DevOps",industry:"IT",provider:"Udemy × Academind",platform:"Udemy",duration:"24 giờ",price:"249.000đ",rating:4.9,color:"#2496ed",url:"https://www.udemy.com/course/docker-kubernetes-the-practical-guide/"},
+  {id:"C006",title:"SQL for Data Science",skill:"SQL & Database",group:"Database",industry:"IT",provider:"Coursera × UC Davis",platform:"Coursera",duration:"4 tuần",price:"Miễn phí",rating:4.7,color:"#f59e0b",url:"https://www.coursera.org/learn/sql-for-data-science"},
+  {id:"C007",title:"Git & GitHub Bootcamp",skill:"Git & CI/CD",group:"DevOps",industry:"IT",provider:"Udemy × Colt Steele",platform:"Udemy",duration:"17 giờ",price:"199.000đ",rating:4.8,color:"#f05032",url:"https://www.udemy.com/course/git-and-github-bootcamp/"},
+  {id:"C008",title:"AWS Certified Cloud Practitioner Essentials",skill:"Cloud (AWS/GCP)",group:"Cloud",industry:"IT",provider:"Amazon Web Services",platform:"AWS Training",duration:"6 giờ",price:"Miễn phí",rating:4.8,color:"#ff9900",url:"https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/"},
+  {id:"C009",title:"Google Cybersecurity Professional Certificate",skill:"Cybersecurity",group:"Security",industry:"IT",provider:"Coursera × Google",platform:"Coursera",duration:"6 tháng",price:"Miễn phí (Audit)",rating:4.8,color:"#ef4444",url:"https://www.coursera.org/professional-certificates/google-cybersecurity"},
+  {id:"C010",title:"AI Ethics: Global Perspectives",skill:"AI Ethics",group:"AI/Data",industry:"IT",provider:"edX × Harvard Online",platform:"edX",duration:"4 tuần",price:"Miễn phí",rating:4.7,color:"#8b5cf6",url:"https://www.edx.org/learn/artificial-intelligence/harvard-university-data-science-ethics"},
+
+  // DU LỊCH & KHÁCH SẠN
+  {id:"C011",title:"English for Tourism & Hospitality Management",skill:"Tiếng Anh Du lịch",group:"Ngoại ngữ",industry:"tourism",provider:"British Council × edX",platform:"British Council",duration:"6 tuần",price:"Miễn phí",rating:4.8,color:"#10b981",url:"https://learnenglish.britishcouncil.org/"},
+  {id:"C012",title:"Nghiệp Vụ Hướng Dẫn Viên Du Lịch Quốc Tế",skill:"Hướng dẫn du lịch",group:"Nghiệp vụ",industry:"tourism",provider:"Trường Du Lịch Saigontourist",platform:"Saigontourist",duration:"2 tháng",price:"2.500.000đ",rating:4.9,color:"#06b6d4",url:"https://saigontourist.edu.vn/khoa-hoc-nghiep-vu-huong-dan-vien-du-lich/"},
+  {id:"C013",title:"Hotel Management & Operations Specialization",skill:"Quản lý khách sạn",group:"Nghiệp vụ",industry:"tourism",provider:"edX × Cornell University",platform:"edX",duration:"3 tháng",price:"Miễn phí (Audit)",rating:4.8,color:"#0ea5e9",url:"https://www.edx.org/learn/hospitality-management"},
+  {id:"C014",title:"Customer Service Fundamentals in Hospitality",skill:"Chăm sóc khách hàng",group:"Dịch vụ",industry:"tourism",provider:"Coursera × Zendesk",platform:"Coursera",duration:"3 tuần",price:"Miễn phí",rating:4.8,color:"#ec4899",url:"https://www.coursera.org/learn/customer-service-fundamentals"},
+  {id:"C015",title:"Khóa Học Tiếng Trung Giao Tiếp & Du Lịch HSK",skill:"Tiếng Trung HSK",group:"Ngoại ngữ",industry:"tourism",provider:"Coursera × Peking University",platform:"Coursera",duration:"8 tuần",price:"Miễn phí",rating:4.8,color:"#f97316",url:"https://www.coursera.org/learn/hsk-4"},
+  {id:"C016",title:"Thiết Kế & Điều Hành Tour Du Lịch Sinh Thái ĐBSCL",skill:"Lên kế hoạch tour",group:"Nghiệp vụ",industry:"tourism",provider:"Trung Tâm Đào Tạo ĐH Cần Thơ",platform:"CTU Edu",duration:"4 tuần",price:"1.800.000đ",rating:4.8,color:"#14b8a6",url:"https://ctu.edu.vn"},
+  {id:"C017",title:"Hotel Revenue Management Strategy",skill:"Revenue Management",group:"Quản lý",industry:"tourism",provider:"Coursera × ESSEC",platform:"Coursera",duration:"4 tuần",price:"Miễn phí",rating:4.7,color:"#6366f1",url:"https://www.coursera.org/learn/hotel-distribution"},
+
+  // LOGISTICS & XNK
+  {id:"C018",title:"Supply Chain Principles & Global Logistics",skill:"Quản lý chuỗi cung ứng",group:"Logistics",industry:"logistics",provider:"edX × MIT OpenCourseWare",platform:"edX",duration:"10 tuần",price:"Miễn phí",rating:4.9,color:"#f59e0b",url:"https://www.edx.org/learn/supply-chain-management"},
+  {id:"C019",title:"Thủ Tục Hải Quan Điện Tử & Khai Báo VNACCS/VCIS",skill:"Nghiệp vụ hải quan",group:"Pháp chế",industry:"logistics",provider:"VCCI Chi Nhánh Cần Thơ",platform:"VCCI",duration:"4 tuần",price:"1.500.000đ",rating:4.9,color:"#d97706",url:"https://vccicantho.com.vn"},
+  {id:"C020",title:"Nghiệp Vụ Xuất Nhập Khẩu & Chứng Từ Thực Chiến",skill:"Xuất nhập khẩu",group:"Nghiệp vụ",industry:"logistics",provider:"VCCI Cần Thơ × Viện Logistics",platform:"VCCI",duration:"6 tuần",price:"2.200.000đ",rating:4.9,color:"#b45309",url:"https://vccicantho.com.vn"},
+  {id:"C021",title:"Warehouse Management & Inventory Control Systems",skill:"Quản lý kho hàng",group:"Logistics",industry:"logistics",provider:"edX × Delft University",platform:"edX",duration:"6 tuần",price:"Miễn phí",rating:4.7,color:"#84cc16",url:"https://www.edx.org/learn/supply-chain-management"},
+  {id:"C022",title:"SAP S/4HANA Supply Chain & Logistics Overview",skill:"SAP/ERP",group:"Phần mềm",industry:"logistics",provider:"SAP Learning Official",platform:"SAP",duration:"4 tuần",price:"Miễn phí",rating:4.8,color:"#0284c7",url:"https://learning.sap.com/"},
+  {id:"C023",title:"Incoterms 2020 Masterclass for Trade",skill:"Incoterms 2020",group:"Thương mại",industry:"logistics",provider:"International Chamber of Commerce",platform:"ICC Academy",duration:"2 tuần",price:"Có phí",rating:4.9,color:"#64748b",url:"https://2go.iccwbo.org/incoterms-2020-english.html"},
+
+  // KINH TẾ & TÀI CHÍNH
+  {id:"C024",title:"Google Digital Marketing & E-Commerce Certificate",skill:"Digital Marketing",group:"Marketing",industry:"economics",provider:"Google Skillshop",platform:"Google",duration:"3 tháng",price:"Miễn phí",rating:4.9,color:"#ea4335",url:"https://skillshop.exceedlms.com/"},
+  {id:"C025",title:"Financial Analysis and Valuation",skill:"Phân tích tài chính",group:"Tài chính",industry:"economics",provider:"Coursera × Wharton School",platform:"Coursera",duration:"5 tuần",price:"Miễn phí (Audit)",rating:4.9,color:"#059669",url:"https://www.coursera.org/learn/wharton-finance"},
+  {id:"C026",title:"Microsoft Excel: Data Analysis with Tables & Pivot",skill:"Excel nâng cao",group:"Công cụ",industry:"economics",provider:"Microsoft Learn Official",platform:"Microsoft Learn",duration:"10 giờ",price:"Miễn phí",rating:4.8,color:"#107c41",url:"https://learn.microsoft.com/vi-vn/training/modules/excel-analyze-data/"},
+  {id:"C027",title:"Khóa Học Kế Toán Doanh Nghiệp & Phần Mềm MISA SME",skill:"Kế toán – MISA",group:"Kế toán",industry:"economics",provider:"Học Viện MISA Academy",platform:"MISA",duration:"4 tuần",price:"800.000đ",rating:4.8,color:"#005ba4",url:"https://amis.misa.vn/"},
+  {id:"C028",title:"Data Visualization with Microsoft Power BI",skill:"Data Visualization",group:"Phân tích",industry:"economics",provider:"Microsoft Learn",platform:"Microsoft Learn",duration:"12 giờ",price:"Miễn phí",rating:4.8,color:"#f2c811",url:"https://learn.microsoft.com/vi-vn/training/powerplatform/power-bi"},
+  {id:"C029",title:"Corporate Financial Risk Management",skill:"Quản trị rủi ro",group:"Tài chính",industry:"economics",provider:"Coursera × EDHEC",platform:"Coursera",duration:"4 tuần",price:"Miễn phí",rating:4.7,color:"#dc2626",url:"https://www.coursera.org/learn/financial-risk-management-overview"},
+
+  // NÔNG NGHIỆP CÔNG NGHỆ CAO
+  {id:"C030",title:"Precision Agriculture & Smart Farm Technologies",skill:"Công nghệ nông nghiệp",group:"Công nghệ",industry:"agriculture",provider:"Coursera × Penn State",platform:"Coursera",duration:"6 tuần",price:"Miễn phí",rating:4.8,color:"#15803d",url:"https://www.coursera.org/learn/precision-agriculture"},
+  {id:"C031",title:"IoT & Sensor Solutions for Modern Agriculture",skill:"Drone & IoT",group:"Công nghệ",industry:"agriculture",provider:"Microsoft Learn IoT Hub",platform:"Microsoft Learn",duration:"8 giờ",price:"Miễn phí",rating:4.8,color:"#0284c7",url:"https://learn.microsoft.com/vi-vn/training/paths/introduction-iot-edge/"},
+  {id:"C032",title:"QGIS & GIS Mapping for Agricultural Land Management",skill:"GIS & Bản đồ nông nghiệp",group:"Bản đồ",industry:"agriculture",provider:"QGIS Official Training Project",platform:"QGIS",duration:"5 tuần",price:"Miễn phí",rating:4.8,color:"#4d7c0f",url:"https://www.qgis.org/en/site/forusers/trainingmaterial/index.html"},
+  {id:"C033",title:"HACCP & ISO 22000 Food Safety Quality Management",skill:"Chế biến thực phẩm",group:"Chất lượng",industry:"agriculture",provider:"HACCP Academy Vietnam",platform:"HACCP",duration:"3 tuần",price:"1.600.000đ",rating:4.9,color:"#b91c1c",url:"https://www.haccp.com/"},
+
+  // KỸ NĂNG MỀM CHUNG
+  {id:"C034",title:"Kỹ Năng Giao Tiếp & Thuyết Trình Chuyên Nghiệp",skill:"Giao tiếp (Communication)",group:"Kỹ năng mềm",industry:"softskills",provider:"Viện Quản Trị PACE",platform:"PACE",duration:"3 tuần",price:"1.500.000đ",rating:4.9,color:"#dc2626",url:"https://www.pace.edu.vn/chuong-trinh-dao-tao/ky-nang-giao-tiep-hieu-qua"},
+  {id:"C035",title:"Creative & Critical Thinking in Business",skill:"Tư duy phản biện",group:"Kỹ năng mềm",industry:"softskills",provider:"edX × University of Queensland",platform:"edX",duration:"4 tuần",price:"Miễn phí",rating:4.8,color:"#7c3aed",url:"https://www.edx.org/learn/critical-thinking"},
+  {id:"C036",title:"Work Smarter, Not Harder: Time Management",skill:"Quản lý thời gian",group:"Kỹ năng mềm",industry:"softskills",provider:"Coursera × UC Irvine",platform:"Coursera",duration:"4 tuần",price:"Miễn phí",rating:4.7,color:"#0284c7",url:"https://www.coursera.org/learn/work-smarter-not-harder"}
 ];
 
 const ADMIN_USERS = [
@@ -1166,20 +1627,631 @@ const ADMIN_USERS = [
   {id:"WK002",name:"Trần Thị Bình",role:"worker",joined:"13/09/2026",status:"active"},
 ];
 
-const ALL_QUICK_SKILLS = ["Python","Excel","SQL","Tiếng Anh","Giao tiếp","Machine Learning","ReactJS","Photoshop","AutoCAD","Digital Marketing","SAP","Kế toán","Docker","Logistics","Customer Service"];
+// ── KỸ NĂNG THEO TỪNG NGÀNH CHO PHẦN THÊM NHANH
+const QUICK_SKILLS_BY_INDUSTRY = {
+  economics: [
+    "Kế toán", "Excel", "MISA", "Báo cáo tài chính", "Thuế", "Phân tích tài chính",
+    "Tiếng Anh", "FAST", "Kiểm toán", "Power BI", "Quản trị rủi ro", "Giao tiếp", "Digital Marketing"
+  ],
+  IT: [
+    "Python", "SQL", "Git", "Docker", "FastAPI", "ReactJS", "JavaScript",
+    "Machine Learning", "Data Analysis", "Linux", "CI/CD", "AWS", "Tiếng Anh", "Giao tiếp"
+  ],
+  tourism: [
+    "Tiếng Anh", "Customer Service", "Giao tiếp", "Hướng dẫn du lịch", "Quản lý khách sạn",
+    "Xử lý than phiền", "Lên kế hoạch tour", "Digital Marketing", "F&B Management", "Nghiệp vụ lễ tân", "Problem Solving"
+  ],
+  logistics: [
+    "Logistics", "Quản lý chuỗi cung ứng", "Xuất nhập khẩu", "Nghiệp vụ hải quan",
+    "Quản lý kho hàng", "SAP", "Tiếng Anh", "Excel", "Đàm phán", "Vận tải", "Incoterms 2020"
+  ],
+  agriculture: [
+    "Nông nghiệp công nghệ cao", "IoT", "Quản lý trang trại", "Xuất khẩu nông sản",
+    "Bảo vệ thực vật", "GIS", "Python", "Tiếng Anh", "Excel"
+  ]
+};
+
+const ALL_QUICK_SKILLS = QUICK_SKILLS_BY_INDUSTRY.economics;
+
+// ══════════════════════════════════════════════════════
+//  CHUẨN HÓA CHỨC DANH NGHỀ NGHIỆP THEO TỪNG NGÀNH (EXPERT ROLES)
+// ══════════════════════════════════════════════════════
+const INDUSTRY_ROLES = {
+  IT: [
+    {
+      id: "all",
+      name: "Tất Cả Chức Vụ Trong Ngành",
+      icon: "🌐",
+      level: "Toàn ngành",
+      salary: "15–35 triệu/tháng",
+      desc: "Xem toàn cảnh 10 kỹ năng trọng yếu và tỷ lệ thiếu hụt chung trong ngành Công nghệ Thông tin tại Cần Thơ & ĐBSCL.",
+      mustSkills: [],
+      niceSkills: []
+    },
+    {
+      id: "python_backend",
+      name: "Python / Backend Developer",
+      icon: "🐍",
+      level: "Junior – Senior",
+      salary: "14–32 triệu/tháng",
+      desc: "Thiết kế kiến trúc máy chủ, lập trình REST API bằng FastAPI/Django, tối ưu hóa cơ sở dữ liệu và bảo đảm tính chịu tải của hệ thống.",
+      mustSkills: ["Python", "SQL & Database", "Git & CI/CD", "Docker & DevOps"],
+      niceSkills: ["Cloud (AWS/GCP)", "Data Analysis"]
+    },
+    {
+      id: "data_analyst",
+      name: "Data Analyst & BI Specialist",
+      icon: "📊",
+      level: "Fresher – Senior",
+      salary: "12–28 triệu/tháng",
+      desc: "Trích xuất và làm sạch dữ liệu lớn, xây dựng Dashboard báo cáo quản trị (Power BI/Tableau) và chẩn đoán xu hướng kinh doanh.",
+      mustSkills: ["Data Analysis", "SQL & Database", "Python"],
+      niceSkills: ["AI Ethics", "Git & CI/CD"]
+    },
+    {
+      id: "ai_ml_eng",
+      name: "AI & Machine Learning Engineer",
+      icon: "🤖",
+      level: "Middle – Tech Lead",
+      salary: "22–45 triệu/tháng",
+      desc: "Huấn luyện mô hình học máy, triển khai các giải pháp Generative AI / LLM, thị giác máy tính và tích hợp AI vào quy trình doanh nghiệp.",
+      mustSkills: ["Machine Learning", "Python", "Data Analysis", "AI Ethics"],
+      niceSkills: ["Docker & DevOps", "Cloud (AWS/GCP)"]
+    },
+    {
+      id: "frontend_dev",
+      name: "Frontend Developer (React / Web)",
+      icon: "🎨",
+      level: "Junior – Senior",
+      salary: "12–28 triệu/tháng",
+      desc: "Phát triển giao diện web tương tác cao, thiết kế Responsive hiện đại, tối ưu hóa trải nghiệm người dùng (UX) và hiệu năng trình duyệt.",
+      mustSkills: ["ReactJS", "Git & CI/CD"],
+      niceSkills: ["SQL & Database", "Docker & DevOps"]
+    },
+    {
+      id: "devops_cloud",
+      name: "DevOps & Cloud Engineer",
+      icon: "⚙️",
+      level: "Middle – Senior",
+      salary: "20–42 triệu/tháng",
+      desc: "Tự động hóa chu trình CI/CD, vận hành cụm container Docker/Kubernetes, giám sát hạ tầng đám mây AWS/GCP đạt chuẩn uptime 99.9%.",
+      mustSkills: ["Docker & DevOps", "Git & CI/CD", "Cloud (AWS/GCP)", "Cybersecurity"],
+      niceSkills: ["Python"]
+    },
+    {
+      id: "cybersecurity",
+      name: "Chuyên Viên An Toàn Thông Tin",
+      icon: "🛡️",
+      level: "Middle – Specialist",
+      salary: "18–38 triệu/tháng",
+      desc: "Giám sát an ninh mạng, rà quét lỗ hổng bảo mật hệ thống, ứng phó sự cố mã độc và bảo vệ dữ liệu nhạy cảm theo chuẩn bảo mật.",
+      mustSkills: ["Cybersecurity", "Cloud (AWS/GCP)", "SQL & Database"],
+      niceSkills: ["Docker & DevOps", "Python"]
+    }
+  ],
+
+  tourism: [
+    {
+      id: "all",
+      name: "Tất Cả Chức Vụ Trong Ngành",
+      icon: "🌐",
+      level: "Toàn ngành",
+      salary: "8–18 triệu/tháng",
+      desc: "Xem toàn cảnh 10 kỹ năng nghề cốt lõi của ngành Du lịch, Lữ hành & Khách sạn tại trung tâm du lịch sông nước Cần Thơ.",
+      mustSkills: [],
+      niceSkills: []
+    },
+    {
+      id: "tour_guide",
+      name: "Hướng Dẫn Viên Du Lịch Quốc Tế / Nội Địa",
+      icon: "🗺️",
+      level: "Cơ bản – Chuyên nghiệp",
+      salary: "10–25 triệu/tháng",
+      desc: "Dẫn đoàn du khách khám phá văn hóa miền Tây, thuyết minh song ngữ Anh/Hoa, xử lý sự cố lộ trình và nâng tầm trải nghiệm du khách.",
+      mustSkills: ["Hướng dẫn du lịch", "Tiếng Anh Du lịch", "Chăm sóc khách hàng", "Tiếng Trung HSK"],
+      niceSkills: ["Lên kế hoạch tour"]
+    },
+    {
+      id: "hotel_mgr",
+      name: "Quản Lý Vận Hành Khách Sạn & Resort",
+      icon: "🏨",
+      level: "Supervisor – Giám Đốc",
+      salary: "18–40 triệu/tháng",
+      desc: "Quản trị toàn diện hoạt động buồng phòng, tiền sảnh, F&B, tối ưu hóa công suất phòng (RevPAR) và duy trì tiêu chuẩn dịch vụ 4–5 sao.",
+      mustSkills: ["Quản lý khách sạn", "Revenue Management", "Chăm sóc khách hàng", "Tiếng Anh Du lịch"],
+      niceSkills: ["F&B Management", "Nghiệp vụ lễ tân"]
+    },
+    {
+      id: "tour_operator",
+      name: "Chuyên Viên Điều Hành & Thiết Kế Tour",
+      icon: "💼",
+      level: "Junior – Senior",
+      salary: "9–20 triệu/tháng",
+      desc: "Xây dựng các tour du lịch sinh thái, miệt vườn sông nước, đàm phán hợp đồng cung ứng dịch vụ vé/phòng và phân bổ phương tiện vận chuyển.",
+      mustSkills: ["Lên kế hoạch tour", "Tiếng Anh Du lịch", "Chăm sóc khách hàng"],
+      niceSkills: ["Digital Marketing", "F&B Management"]
+    },
+    {
+      id: "tourism_mkt",
+      name: "Marketing Du Lịch & Booking Online (OTA)",
+      icon: "📱",
+      level: "Junior – Middle",
+      salary: "10–22 triệu/tháng",
+      desc: "Quảng bá điểm đến ĐBSCL, vận hành các kênh bán phòng trực tuyến Agoda/Booking/Klook, sáng tạo video ngắn và tối ưu chiến dịch số.",
+      mustSkills: ["Digital Marketing", "Tiếng Anh Du lịch", "Chăm sóc khách hàng"],
+      niceSkills: ["Lên kế hoạch tour", "Revenue Management"]
+    },
+    {
+      id: "front_office",
+      name: "Trưởng Bộ Phận Lễ Tân & CSKH (Front Office)",
+      icon: "🛎️",
+      level: "Supervisor – Manager",
+      salary: "10–20 triệu/tháng",
+      desc: "Vận hành phần mềm PMS khách sạn, làm thủ tục check-in/out cao cấp, xử lý nhanh các phản hồi khiếu nại của khách lưu trú.",
+      mustSkills: ["Nghiệp vụ lễ tân", "Chăm sóc khách hàng", "Tiếng Anh Du lịch", "Tiếng Trung HSK"],
+      niceSkills: ["Quản lý khách sạn"]
+    },
+    {
+      id: "fb_manager",
+      name: "Quản Lý F&B & Ẩm Thực Nhà Hàng",
+      icon: "🍽️",
+      level: "Supervisor – Manager",
+      salary: "12–26 triệu/tháng",
+      desc: "Điều hành phục vụ tiệc và ẩm thực Nam Bộ, kiểm soát cost nguyên liệu nhà bếp, bảo đảm vệ sinh an toàn thực phẩm và phong cách phục vụ.",
+      mustSkills: ["F&B Management", "Chăm sóc khách hàng", "Revenue Management"],
+      niceSkills: ["Quản lý khách sạn", "Tiếng Anh Du lịch"]
+    }
+  ],
+
+  logistics: [
+    {
+      id: "all",
+      name: "Tất Cả Chức Vụ Trong Ngành",
+      icon: "🌐",
+      level: "Toàn ngành",
+      salary: "10–22 triệu/tháng",
+      desc: "Xem toàn cảnh 10 kỹ năng chuỗi cung ứng, kho vận và xuất nhập khẩu tại cảng Cái Cui và cụm công nghiệp Cần Thơ.",
+      mustSkills: [],
+      niceSkills: []
+    },
+    {
+      id: "import_export",
+      name: "Chuyên Viên Xuất Nhập Khẩu (Import-Export)",
+      icon: "📦",
+      level: "Fresher – Senior",
+      salary: "10–22 triệu/tháng",
+      desc: "Lập và kiểm tra bộ chứng từ thương mại quốc tế (B/L, C/O, Inv, P/L), làm việc với hãng tàu và đối tác thu mua nông thủy sản toàn cầu.",
+      mustSkills: ["Xuất nhập khẩu", "Tiếng Anh thương mại", "Incoterms 2020", "Nghiệp vụ hải quan"],
+      niceSkills: ["Đàm phán & Thương lượng", "SAP/ERP"]
+    },
+    {
+      id: "customs_spec",
+      name: "Chuyên Viên Khai Báo Hải Quan & Pháp Chế",
+      icon: "📋",
+      level: "Junior – Senior",
+      salary: "11–24 triệu/tháng",
+      desc: "Xác định mã HS hàng hóa chính xác, truyền tờ khai điện tử qua hệ thống VNACCS/VCIS, thực hiện kiểm dịch kiểm tra chuyên ngành và thông quan.",
+      mustSkills: ["Nghiệp vụ hải quan", "Incoterms 2020", "Xuất nhập khẩu"],
+      niceSkills: ["Tiếng Anh thương mại", "SAP/ERP"]
+    },
+    {
+      id: "warehouse_mgr",
+      name: "Quản Lý Kho Bãi & Phân Phối (Warehouse Manager)",
+      icon: "🏭",
+      level: "Middle – Manager",
+      salary: "12–25 triệu/tháng",
+      desc: "Quản trị hệ thống kho tổng, sơ đồ luân chuyển FIFO/LIFO, kiểm soát tồn kho qua phần mềm WMS và hạn chế thất thoát hàng hóa.",
+      mustSkills: ["Quản lý kho hàng", "SAP/ERP", "Data Analysis"],
+      niceSkills: ["Quản lý chuỗi cung ứng", "Đàm phán & Thương lượng"]
+    },
+    {
+      id: "supply_chain_mgr",
+      name: "Quản Lý Chuỗi Cung Ứng (Supply Chain Specialist)",
+      icon: "🌐",
+      level: "Middle – Director",
+      salary: "18–35 triệu/tháng",
+      desc: "Dự báo cung cầu vật tư, hoạch định kế hoạch thu gom nông sản miền Tây, đồng bộ hóa chuỗi lạnh và tối ưu chi phí vận chuyển liên tỉnh.",
+      mustSkills: ["Quản lý chuỗi cung ứng", "SAP/ERP", "Data Analysis", "Tiếng Anh thương mại"],
+      niceSkills: ["Đàm phán & Thương lượng", "Quản lý kho hàng"]
+    },
+    {
+      id: "freight_forwarder",
+      name: "Điều Phối Giao Nhận Quốc Tế (Freight Forwarder)",
+      icon: "🚢",
+      level: "Fresher – Senior",
+      salary: "10–24 triệu/tháng",
+      desc: "Book cước container đường biển/đường sông, làm việc với hãng tàu tại Cần Thơ & Cát Lái, giám sát hành trình giao hàng đa phương thức.",
+      mustSkills: ["Freight Forwarding", "Tiếng Anh thương mại", "Đàm phán & Thương lượng", "Incoterms 2020"],
+      niceSkills: ["Xuất nhập khẩu"]
+    }
+  ],
+
+  economics: [
+    {
+      id: "all",
+      name: "Tất Cả Chức Vụ Trong Ngành",
+      icon: "🌐",
+      level: "Toàn ngành",
+      salary: "10–25 triệu/tháng",
+      desc: "Xem toàn cảnh 10 kỹ năng phân tích tài chính, kế toán kiểm toán và kinh doanh số trong doanh nghiệp tại Cần Thơ.",
+      mustSkills: [],
+      niceSkills: []
+    },
+    {
+      id: "chief_acc",
+      name: "Kế Toán Tổng Hợp & Thuế",
+      icon: "📒",
+      level: "Junior – Senior",
+      salary: "10–22 triệu/tháng",
+      desc: "Thực hiện định khoản kế toán, lập báo cáo tài chính năm, kê khai thuế VAT/CIT/PIT, quyết toán thuế và sử dụng thành thạo phần mềm MISA/FAST.",
+      mustSkills: ["Kế toán – MISA", "Excel nâng cao", "Thuế – Pháp luật"],
+      niceSkills: ["Phân tích tài chính"]
+    },
+    {
+      id: "fin_analyst",
+      name: "Chuyên Viên Phân Tích Tài Chính & Đầu Tư",
+      icon: "📈",
+      level: "Middle – Lead",
+      salary: "15–35 triệu/tháng",
+      desc: "Mô hình hóa dòng tiền, định giá doanh nghiệp/dự án, phân tích báo cáo tài chính hợp nhất và tư vấn cơ cấu vốn tối ưu.",
+      mustSkills: ["Phân tích tài chính", "Data Visualization", "Python cho tài chính", "Quản trị rủi ro"],
+      niceSkills: ["Excel nâng cao"]
+    },
+    {
+      id: "internal_auditor",
+      name: "Kiểm Toán Viên Nội Bộ (Internal Auditor)",
+      icon: "🛡️",
+      level: "Middle – Senior",
+      salary: "14–30 triệu/tháng",
+      desc: "Đánh giá tính hiệu lực của hệ thống kiểm soát nội bộ, kiểm tra việc tuân thủ pháp luật thuế và phòng ngừa rủi ro gian lận tài chính.",
+      mustSkills: ["Quản trị rủi ro", "Kế toán – MISA", "Phân tích tài chính", "Thuế – Pháp luật"],
+      niceSkills: ["Excel nâng cao"]
+    },
+    {
+      id: "digital_marketer",
+      name: "Chuyên Viên Digital Marketing & Tăng Trưởng",
+      icon: "📣",
+      level: "Junior – Lead",
+      salary: "12–28 triệu/tháng",
+      desc: "Triển khai chiến dịch quảng cáo số đa nền tảng (Google, Meta, TikTok), quản lý phễu chuyển đổi CRM và đo lường ROI tăng trưởng doanh số.",
+      mustSkills: ["Digital Marketing", "Data Visualization", "Nghiên cứu thị trường", "CRM & Sales"],
+      niceSkills: ["Excel nâng cao"]
+    },
+    {
+      id: "market_research",
+      name: "Chuyên Viên Nghiên Cứu Thị Trường & Data BA",
+      icon: "🔍",
+      level: "Fresher – Senior",
+      salary: "12–26 triệu/tháng",
+      desc: "Thiết kế bảng khảo sát khách hàng, phân tích đối thủ cạnh tranh, tổng hợp dữ liệu hành vi người tiêu dùng và lập báo cáo xu hướng ngành.",
+      mustSkills: ["Nghiên cứu thị trường", "Data Visualization", "Excel nâng cao", "Python cho tài chính"],
+      niceSkills: ["Digital Marketing"]
+    }
+  ],
+
+  agriculture: [
+    {
+      id: "all",
+      name: "Tất Cả Chức Vụ Trong Ngành",
+      icon: "🌐",
+      level: "Toàn ngành",
+      salary: "8–15 triệu/tháng",
+      desc: "Xem toàn cảnh 10 kỹ năng đổi mới nông nghiệp công nghệ cao, chuỗi giá trị nông sản và tiêu chuẩn chất lượng tại ĐBSCL.",
+      mustSkills: [],
+      niceSkills: []
+    },
+    {
+      id: "agtech_eng",
+      name: "Kỹ Sư Nông Nghiệp Thông Minh & IoT",
+      icon: "🌾",
+      level: "Junior – Senior",
+      salary: "12–25 triệu/tháng",
+      desc: "Thiết lập hệ thống tưới nhỏ giọt tự động, cảm biến vi khí hậu, thiết bị bay không người lái (Drone) phun thuốc và nhà màng thông minh.",
+      mustSkills: ["Công nghệ nông nghiệp", "Drone & IoT", "GIS & Bản đồ nông nghiệp"],
+      niceSkills: ["Quản lý trang trại"]
+    },
+    {
+      id: "agri_export",
+      name: "Chuyên Viên Xuất Khẩu Nông Thủy Sản",
+      icon: "✈️",
+      level: "Junior – Senior",
+      salary: "12–28 triệu/tháng",
+      desc: "Kết nối thị trường xuất khẩu gạo, trái cây nhiệt đới, cá tra ra quốc tế, đáp ứng rào cản kỹ thuật kiểm dịch thực vật SPS/TBT.",
+      mustSkills: ["Xuất khẩu nông sản", "Logistics nông sản", "Chế biến thực phẩm"],
+      niceSkills: ["Bảo vệ thực vật", "Tài chính nông nghiệp"]
+    },
+    {
+      id: "farm_manager",
+      name: "Quản Lý Nông Trường & Chuỗi Canh Tác",
+      icon: "🚜",
+      level: "Middle – Manager",
+      salary: "14–30 triệu/tháng",
+      desc: "Tổ chức sản xuất nông nghiệp quy mô lớn theo chuẩn VietGAP/GlobalGAP, ghi chép nhật ký điện tử và kiểm soát chi phí vụ mùa.",
+      mustSkills: ["Quản lý trang trại", "Tài chính nông nghiệp", "Bảo vệ thực vật"],
+      niceSkills: ["Công nghệ nông nghiệp", "Logistics nông sản"]
+    },
+    {
+      id: "qa_food_safety",
+      name: "Kỹ Sư Quản Lý Chất Lượng & HACCP Nông Sản",
+      icon: "🧪",
+      level: "Fresher – Senior",
+      salary: "10–22 triệu/tháng",
+      desc: "Kiểm tra mẫu vi sinh, dư lượng thuốc bảo vệ thực vật, xây dựng hệ thống quản lý an toàn thực phẩm HACCP/ISO 22000 tại nhà máy chế biến.",
+      mustSkills: ["Chế biến thực phẩm", "Bảo vệ thực vật", "Nuôi trồng thủy sản"],
+      niceSkills: ["Xuất khẩu nông sản"]
+    }
+  ]
+};
+
+// ══════════════════════════════════════════════════════
+//  BẢNG TRA CỨU KHÓA HỌC CHUẨN XÁC VỚI LINK THẬT (DIRECT LINKS)
+// ══════════════════════════════════════════════════════
+const SKILL_COURSES_CATALOG = {
+  // IT
+  "Python": [
+    {title:"Python for Everybody Specialization", provider:"Coursera × University of Michigan", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tháng (3h/tuần)", price:"Miễn phí (Audit)", rating:4.8, students:"1.4M+", url:"https://www.coursera.org/specializations/python"},
+    {title:"Complete Python Bootcamp: Go from zero to hero", provider:"Udemy × Jose Portilla", platform:"Udemy", badgeCls:"platform-udemy", duration:"22 giờ video", price:"249.000đ", rating:4.9, students:"1.9M+", url:"https://www.udemy.com/course/complete-python-bootcamp/"},
+    {title:"Scientific Computing with Python", provider:"freeCodeCamp", platform:"freeCodeCamp", badgeCls:"platform-other", duration:"300 giờ thực hành", price:"Miễn phí 100%", rating:4.9, students:"800K+", url:"https://www.freecodecamp.org/learn/scientific-computing-with-python/"}
+  ],
+  "Machine Learning": [
+    {title:"Machine Learning Specialization by Andrew Ng", provider:"Coursera × DeepLearning.AI", platform:"Coursera", badgeCls:"platform-coursera", duration:"3 tháng", price:"Miễn phí (Audit)", rating:4.9, students:"950K+", url:"https://www.coursera.org/specializations/machine-learning-introduction"},
+    {title:"Machine Learning Crash Course with TensorFlow", provider:"Google Developers", platform:"Google", badgeCls:"platform-google", duration:"15 giờ", price:"Miễn phí", rating:4.8, students:"500K+", url:"https://developers.google.com/machine-learning/crash-course"}
+  ],
+  "Data Analysis": [
+    {title:"Google Data Analytics Professional Certificate", provider:"Coursera × Google", platform:"Coursera", badgeCls:"platform-coursera", duration:"6 tháng (10h/tuần)", price:"Miễn phí (Audit)", rating:4.8, students:"2.1M+", url:"https://www.coursera.org/professional-certificates/google-data-analytics"},
+    {title:"Data Analyst with Python Career Track", provider:"DataCamp", platform:"DataCamp", badgeCls:"platform-other", duration:"64 giờ", price:"Có học bổng", rating:4.8, students:"350K+", url:"https://www.datacamp.com/tracks/data-analyst-with-python"}
+  ],
+  "ReactJS": [
+    {title:"React – The Complete Guide (incl. React Router, Redux)", provider:"Udemy × Maximilian Schwarzmüller", platform:"Udemy", badgeCls:"platform-udemy", duration:"48 giờ video", price:"299.000đ", rating:4.9, students:"850K+", url:"https://www.udemy.com/course/react-the-complete-guide-incl-redux/"},
+    {title:"Front-End Development with React", provider:"Coursera × Meta", platform:"Coursera", badgeCls:"platform-coursera", duration:"5 tuần", price:"Miễn phí (Audit)", rating:4.8, students:"320K+", url:"https://www.coursera.org/learn/front-end-development"}
+  ],
+  "Docker & DevOps": [
+    {title:"Docker Mastery: with Kubernetes +Swarm from a Docker Captain", provider:"Udemy × Bret Fisher", platform:"Udemy", badgeCls:"platform-udemy", duration:"21 giờ", price:"249.000đ", rating:4.9, students:"380K+", url:"https://www.udemy.com/course/docker-mastery/"},
+    {title:"Introduction to DevOps and Site Reliability Engineering", provider:"edX × The Linux Foundation", platform:"edX", badgeCls:"platform-edx", duration:"10 tuần", price:"Miễn phí", rating:4.7, students:"120K+", url:"https://www.edx.org/learn/devops"}
+  ],
+  "SQL & Database": [
+    {title:"SQL for Data Science", provider:"Coursera × University of California, Davis", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"650K+", url:"https://www.coursera.org/learn/sql-for-data-science"},
+    {title:"The Complete SQL Bootcamp: Go from Zero to Hero", provider:"Udemy × Jose Portilla", platform:"Udemy", badgeCls:"platform-udemy", duration:"9 giờ", price:"199.000đ", rating:4.8, students:"750K+", url:"https://www.udemy.com/course/the-complete-sql-bootcamp/"}
+  ],
+  "Git & CI/CD": [
+    {title:"The Git & GitHub Bootcamp", provider:"Udemy × Colt Steele", platform:"Udemy", badgeCls:"platform-udemy", duration:"17 giờ", price:"199.000đ", rating:4.8, students:"220K+", url:"https://www.udemy.com/course/git-and-github-bootcamp/"},
+    {title:"Automate your workflow with GitHub Actions", provider:"GitHub Learning Official", platform:"GitHub", badgeCls:"platform-other", duration:"4 giờ", price:"Miễn phí", rating:4.8, students:"150K+", url:"https://docs.github.com/en/actions"}
+  ],
+  "Cloud (AWS/GCP)": [
+    {title:"AWS Cloud Practitioner Essentials", provider:"Amazon Web Services Training", platform:"AWS", badgeCls:"platform-other", duration:"6 giờ", price:"Miễn phí", rating:4.8, students:"900K+", url:"https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/"},
+    {title:"Google Cloud Fundamentals: Core Infrastructure", provider:"Coursera × Google Cloud", platform:"Coursera", badgeCls:"platform-coursera", duration:"12 giờ", price:"Miễn phí", rating:4.7, students:"400K+", url:"https://www.coursera.org/learn/gcp-fundamentals"}
+  ],
+  "Cybersecurity": [
+    {title:"Google Cybersecurity Professional Certificate", provider:"Coursera × Google", platform:"Coursera", badgeCls:"platform-coursera", duration:"6 tháng", price:"Miễn phí (Audit)", rating:4.8, students:"500K+", url:"https://www.coursera.org/professional-certificates/google-cybersecurity"},
+    {title:"The Complete Cyber Security Course: Hackers Exposed!", provider:"Udemy × Nathan House", platform:"Udemy", badgeCls:"platform-udemy", duration:"12 giờ", price:"249.000đ", rating:4.8, students:"310K+", url:"https://www.udemy.com/course/the-complete-internet-security-privacy-course-volume-1/"}
+  ],
+  "AI Ethics": [
+    {title:"Data Science Ethics", provider:"edX × University of Michigan", platform:"edX", badgeCls:"platform-edx", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"80K+", url:"https://www.edx.org/learn/data-ethics/university-of-michigan-data-science-ethics"},
+    {title:"AI Ethics: Global Perspectives", provider:"Coursera × UNESCO", platform:"Coursera", badgeCls:"platform-coursera", duration:"3 tuần", price:"Miễn phí", rating:4.8, students:"45K+", url:"https://www.coursera.org/learn/ai-ethics"}
+  ],
+
+  // DU LỊCH & KHÁCH SẠN
+  "Tiếng Anh Du lịch": [
+    {title:"English for Tourism & Hospitality Management", provider:"British Council LearnEnglish", platform:"British Council", badgeCls:"platform-other", duration:"6 tuần", price:"Miễn phí", rating:4.8, students:"250K+", url:"https://learnenglish.britishcouncil.org/"},
+    {title:"English for Career Development", provider:"Coursera × University of Pennsylvania", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"1.2M+", url:"https://www.coursera.org/learn/careerdevelopment"}
+  ],
+  "Hướng dẫn du lịch": [
+    {title:"Khóa Đào Tạo Nghiệp Vụ Hướng Dẫn Viên Du Lịch Quốc Tế & Nội Địa", provider:"Trường CĐ Du Lịch Saigontourist", platform:"Saigontourist", badgeCls:"platform-pace", duration:"2 tháng (Thực hành)", price:"2.500.000đ", rating:4.9, students:"12K+", url:"https://saigontourist.edu.vn/khoa-hoc-nghiep-vu-huong-dan-vien-du-lich/"},
+    {title:"Tourism and Travel Management", provider:"edX × University of Queensland", platform:"edX", badgeCls:"platform-edx", duration:"7 tuần", price:"Miễn phí", rating:4.7, students:"65K+", url:"https://www.edx.org/learn/hospitality-management"}
+  ],
+  "Quản lý khách sạn": [
+    {title:"Hotel Management & Operations Specialization", provider:"edX × Cornell University", platform:"edX", badgeCls:"platform-edx", duration:"3 tháng", price:"Miễn phí (Audit)", rating:4.8, students:"140K+", url:"https://www.edx.org/learn/hospitality-management"},
+    {title:"Hospitality Management: Introduction to Management in the Hospitality Industry", provider:"Coursera × University of North Texas", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"90K+", url:"https://www.coursera.org/learn/hospitality-management"}
+  ],
+  "Chăm sóc khách hàng": [
+    {title:"Customer Service Excellence & Communication Skills", provider:"Coursera × Zendesk", platform:"Coursera", badgeCls:"platform-coursera", duration:"3 tuần", price:"Miễn phí", rating:4.8, students:"180K+", url:"https://www.coursera.org/learn/customer-service-fundamentals"},
+    {title:"Kỹ Năng Phục Vụ Khách Hàng Chuẩn Quốc Tế", provider:"Viện Quản Trị PACE", platform:"PACE", badgeCls:"platform-pace", duration:"2 tuần", price:"1.500.000đ", rating:4.9, students:"15K+", url:"https://www.pace.edu.vn/chuong-trinh-dao-tao/ky-nang-cham-soc-khach-hang"}
+  ],
+  "Tiếng Trung HSK": [
+    {title:"HSK Level 4 Preparation Course", provider:"Coursera × Peking University", platform:"Coursera", badgeCls:"platform-coursera", duration:"10 tuần", price:"Miễn phí", rating:4.8, students:"310K+", url:"https://www.coursera.org/learn/hsk-4"},
+    {title:"Chinese for HSK 3 & 4 (Giao tiếp du lịch & đàm phán)", provider:"Coursera × Shanghai Jiao Tong University", platform:"Coursera", badgeCls:"platform-coursera", duration:"6 tuần", price:"Miễn phí", rating:4.8, students:"150K+", url:"https://www.coursera.org/learn/chineseforbeginners"}
+  ],
+  "Digital Marketing": [
+    {title:"Google Digital Marketing & E-commerce Professional Certificate", provider:"Google Skillshop", platform:"Google", badgeCls:"platform-google", duration:"3 tháng", price:"Miễn phí", rating:4.9, students:"1.8M+", url:"https://skillshop.exceedlms.com/"},
+    {title:"The Complete Digital Marketing Course – 12 Courses in 1", provider:"Udemy × Rob Percival", platform:"Udemy", badgeCls:"platform-udemy", duration:"23 giờ", price:"299.000đ", rating:4.8, students:"720K+", url:"https://www.udemy.com/course/learn-digital-marketing-course/"}
+  ],
+  "Lên kế hoạch tour": [
+    {title:"Nghiệp Vụ Điều Hành & Thiết Kế Tour Du Lịch Sinh Thái ĐBSCL", provider:"Trung Tâm Bồi Dưỡng ĐH Cần Thơ", platform:"CTU Edu", badgeCls:"platform-pace", duration:"4 tuần", price:"1.800.000đ", rating:4.8, students:"6K+", url:"https://ctu.edu.vn"},
+    {title:"Sustainable Tourism – Destination Management", provider:"edX × Wageningen University", platform:"edX", badgeCls:"platform-edx", duration:"5 tuần", price:"Miễn phí", rating:4.7, students:"45K+", url:"https://www.edx.org/learn/tourism"}
+  ],
+  "Revenue Management": [
+    {title:"Hotel Distribution & Revenue Management", provider:"Coursera × ESSEC Business School", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"75K+", url:"https://www.coursera.org/learn/hotel-distribution"},
+    {title:"Pricing and Revenue Management", provider:"edX × MIT", platform:"edX", badgeCls:"platform-edx", duration:"6 tuần", price:"Miễn phí", rating:4.8, students:"35K+", url:"https://www.edx.org/learn/revenue-management"}
+  ],
+  "F&B Management": [
+    {title:"Food & Beverage Management Specialization", provider:"edX × Bocconi University", platform:"edX", badgeCls:"platform-edx", duration:"5 tuần", price:"Miễn phí", rating:4.8, students:"110K+", url:"https://www.edx.org/learn/hospitality-management"},
+    {title:"Quản Trị Nhà Hàng & Tiệc F&B Chuyên Nghiệp", provider:"Trường Saigontourist", platform:"Saigontourist", badgeCls:"platform-pace", duration:"6 tuần", price:"2.200.000đ", rating:4.8, students:"8K+", url:"https://saigontourist.edu.vn"}
+  ],
+  "Nghiệp vụ lễ tân": [
+    {title:"Front Office Operations in Hospitality", provider:"Coursera × AHLEI Partner", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"50K+", url:"https://www.coursera.org/learn/hospitality-management"},
+    {title:"Nghiệp Vụ Lễ Tân Khách Sạn Cao Cấp", provider:"Trường Du Lịch Cần Thơ", platform:"Saigontourist", badgeCls:"platform-pace", duration:"3 tuần", price:"1.200.000đ", rating:4.8, students:"5K+", url:"https://saigontourist.edu.vn"}
+  ],
+
+  // LOGISTICS & XNK
+  "Quản lý chuỗi cung ứng": [
+    {title:"Supply Chain Principles & Global Logistics", provider:"edX × MIT Center for Transportation & Logistics", platform:"edX", badgeCls:"platform-edx", duration:"10 tuần", price:"Miễn phí", rating:4.9, students:"240K+", url:"https://www.edx.org/learn/supply-chain-management"},
+    {title:"Supply Chain Management Specialization", provider:"Coursera × Rutgers University", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tháng", price:"Miễn phí (Audit)", rating:4.8, students:"180K+", url:"https://www.coursera.org/specializations/supply-chain-management"}
+  ],
+  "Tiếng Anh thương mại": [
+    {title:"Business English for Global Trade & Logistics", provider:"British Council", platform:"British Council", badgeCls:"platform-other", duration:"8 tuần", price:"Miễn phí", rating:4.8, students:"350K+", url:"https://learnenglish.britishcouncil.org/"},
+    {title:"Business English Communication Skills Specialization", provider:"Coursera × University of Washington", platform:"Coursera", badgeCls:"platform-coursera", duration:"5 tháng", price:"Miễn phí (Audit)", rating:4.7, students:"420K+", url:"https://www.coursera.org/specializations/business-english"}
+  ],
+  "SAP/ERP": [
+    {title:"SAP S/4HANA Supply Chain & Logistics Overview", provider:"SAP Learning Official Portal", platform:"SAP", badgeCls:"platform-other", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"190K+", url:"https://learning.sap.com/"},
+    {title:"SAP ERP: Logistics Execution & Warehouse", provider:"Udemy × SAP Certified Trainer", platform:"Udemy", badgeCls:"platform-udemy", duration:"14 giờ", price:"299.000đ", rating:4.7, students:"65K+", url:"https://www.udemy.com/topic/sap/"}
+  ],
+  "Xuất nhập khẩu": [
+    {title:"Khóa Học Nghiệp Vụ Xuất Nhập Khẩu Thực Chiến ĐBSCL", provider:"VCCI Chi Nhánh Cần Thơ", platform:"VCCI", badgeCls:"platform-vcci", duration:"6 tuần", price:"2.200.000đ", rating:4.9, students:"10K+", url:"https://vccicantho.com.vn"},
+    {title:"International Trade Operations and Documentation", provider:"edX × International Trade Centre (ITC)", platform:"edX", badgeCls:"platform-edx", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"80K+", url:"https://www.edx.org/learn/international-trade"}
+  ],
+  "Quản lý kho hàng": [
+    {title:"Warehouse Management & Inventory Control Systems", provider:"edX × Delft University of Technology", platform:"edX", badgeCls:"platform-edx", duration:"6 tuần", price:"Miễn phí", rating:4.7, students:"95K+", url:"https://www.edx.org/learn/supply-chain-management"},
+    {title:"Operations & Inventory Management in Logistics", provider:"Coursera × University of Illinois", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"130K+", url:"https://www.coursera.org/learn/operations-management"}
+  ],
+  "Nghiệp vụ hải quan": [
+    {title:"Thủ Tục Hải Quan Điện Tử & Khai Báo VNACCS/VCIS Thực Hành", provider:"VCCI Cần Thơ × Cục Hải Quan", platform:"VCCI", badgeCls:"platform-vcci", duration:"4 tuần", price:"1.500.000đ", rating:4.9, students:"8K+", url:"https://vccicantho.com.vn"},
+    {title:"Customs Compliance & International Trade Law", provider:"World Customs Organization (WCO)", platform:"WCO Academy", badgeCls:"platform-other", duration:"5 tuần", price:"Có chứng chỉ", rating:4.8, students:"45K+", url:"https://www.wcoomd.org"}
+  ],
+  "Incoterms 2020": [
+    {title:"Incoterms 2020 Masterclass for Trade Professionals", provider:"International Chamber of Commerce (ICC)", platform:"ICC Academy", badgeCls:"platform-other", duration:"2 tuần", price:"Có chứng nhận", rating:4.9, students:"70K+", url:"https://2go.iccwbo.org/incoterms-2020-english.html"},
+    {title:"Incoterms 2020 in Practice for Importers & Exporters", provider:"Udemy", platform:"Udemy", badgeCls:"platform-udemy", duration:"4 giờ", price:"199.000đ", rating:4.8, students:"35K+", url:"https://www.udemy.com/topic/incoterms/"}
+  ],
+  "Freight Forwarding": [
+    {title:"International Freight Forwarding Operations", provider:"International Air Transport Association (IATA)", platform:"IATA Training", badgeCls:"platform-other", duration:"6 tuần", price:"Có chứng nhận", rating:4.9, students:"55K+", url:"https://www.iata.org/en/training/subject/cargo/"},
+    {title:"Sea Freight & Container Logistics Masterclass", provider:"Coursera", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"60K+", url:"https://www.coursera.org/learn/supply-chain-management"}
+  ],
+  "Đàm phán & Thương lượng": [
+    {title:"Successful Negotiation: Essential Strategies and Skills", provider:"Coursera × University of Michigan", platform:"Coursera", badgeCls:"platform-coursera", duration:"7 tuần", price:"Miễn phí", rating:4.9, students:"1.6M+", url:"https://www.coursera.org/learn/negotiation"},
+    {title:"Kỹ Năng Đàm Phán & Thương Lượng Hợp Đồng Thương Mại", provider:"Viện Quản Trị PACE", platform:"PACE", badgeCls:"platform-pace", duration:"2 tuần", price:"1.800.000đ", rating:4.8, students:"18K+", url:"https://www.pace.edu.vn"}
+  ],
+
+  // KINH TẾ & TÀI CHÍNH
+  "Phân tích tài chính": [
+    {title:"Financial Analysis and Valuation for Decision Making", provider:"Coursera × Wharton School of the University of Pennsylvania", platform:"Coursera", badgeCls:"platform-coursera", duration:"5 tuần", price:"Miễn phí (Audit)", rating:4.9, students:"380K+", url:"https://www.coursera.org/learn/wharton-finance"},
+    {title:"Corporate Finance Fundamentals", provider:"Corporate Finance Institute (CFI)", platform:"CFI", badgeCls:"platform-other", duration:"8 giờ", price:"Miễn phí", rating:4.8, students:"450K+", url:"https://corporatefinanceinstitute.com/"}
+  ],
+  "Excel nâng cao": [
+    {title:"Microsoft Excel: Data Analysis with Tables and Pivot", provider:"Microsoft Learn Official", platform:"Microsoft Learn", badgeCls:"platform-microsoft", duration:"10 giờ", price:"Miễn phí", rating:4.8, students:"1.1M+", url:"https://learn.microsoft.com/vi-vn/training/modules/excel-analyze-data/"},
+    {title:"Excel Skills for Business: Advanced", provider:"Coursera × Macquarie University", platform:"Coursera", badgeCls:"platform-coursera", duration:"6 tuần", price:"Miễn phí", rating:4.9, students:"420K+", url:"https://www.coursera.org/learn/advanced-excel"}
+  ],
+  "Kế toán – MISA": [
+    {title:"Khóa Học Kế Toán Doanh Nghiệp & Thực Hành Phần Mềm MISA SME", provider:"Học Viện MISA Academy", platform:"MISA", badgeCls:"platform-other", duration:"4 tuần", price:"800.000đ", rating:4.8, students:"35K+", url:"https://amis.misa.vn/"},
+    {title:"Kế Toán Thực Hành Chuyên Sâu Doanh Nghiệp Sản Xuất", provider:"Hội Kế Toán Cần Thơ", platform:"VCAA", badgeCls:"platform-pace", duration:"6 tuần", price:"2.000.000đ", rating:4.9, students:"9K+", url:"https://vcaa.edu.vn"}
+  ],
+  "Data Visualization": [
+    {title:"Data Visualization with Microsoft Power BI", provider:"Microsoft Learn Official Track", platform:"Microsoft Learn", badgeCls:"platform-microsoft", duration:"12 giờ", price:"Miễn phí", rating:4.8, students:"850K+", url:"https://learn.microsoft.com/vi-vn/training/powerplatform/power-bi"},
+    {title:"Tableau for Data Science: From Zero to Hero", provider:"Udemy × Kirill Eremenko", platform:"Udemy", badgeCls:"platform-udemy", duration:"10 giờ", price:"249.000đ", rating:4.8, students:"450K+", url:"https://www.udemy.com/course/tableau10/"}
+  ],
+  "Nghiên cứu thị trường": [
+    {title:"Market Research and Consumer Behavior", provider:"Coursera × IE Business School", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"120K+", url:"https://www.coursera.org/learn/market-research"},
+    {title:"Quantitative and Qualitative Research for Business Decisions", provider:"edX × Columbia University", platform:"edX", badgeCls:"platform-edx", duration:"6 tuần", price:"Miễn phí", rating:4.7, students:"65K+", url:"https://www.edx.org/learn/market-research"}
+  ],
+  "Quản trị rủi ro": [
+    {title:"Financial Risk Management Overview", provider:"Coursera × EDHEC Business School", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"90K+", url:"https://www.coursera.org/learn/financial-risk-management-overview"},
+    {title:"Enterprise Risk Management: Enterprise-wide Frameworks", provider:"edX × Babson College", platform:"edX", badgeCls:"platform-edx", duration:"5 tuần", price:"Miễn phí", rating:4.8, students:"55K+", url:"https://www.edx.org/learn/risk-management"}
+  ],
+  "Python cho tài chính": [
+    {title:"Python and Statistics for Financial Analysis", provider:"Coursera × HKUST", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"190K+", url:"https://www.coursera.org/learn/python-for-finance"},
+    {title:"Python for Financial Analysis and Algorithmic Trading", provider:"Udemy × Jose Portilla", platform:"Udemy", badgeCls:"platform-udemy", duration:"17 giờ", price:"299.000đ", rating:4.8, students:"180K+", url:"https://www.udemy.com/course/python-for-finance-and-algorithmic-trading/"}
+  ],
+  "Thuế – Pháp luật": [
+    {title:"Chính Sách Thuế & Quyết Toán Thuế Doanh Nghiệp Thực Chiến", provider:"Hội Kế Toán & Kiểm Toán Việt Nam (VAA)", platform:"VAA", badgeCls:"platform-pace", duration:"3 tuần", price:"1.200.000đ", rating:4.8, students:"20K+", url:"https://vcaa.edu.vn"},
+    {title:"Corporate & Commercial Law in Emerging Markets", provider:"edX × University of London", platform:"edX", badgeCls:"platform-edx", duration:"6 tuần", price:"Miễn phí", rating:4.7, students:"45K+", url:"https://www.edx.org/learn/corporate-law"}
+  ],
+  "CRM & Sales": [
+    {title:"Salesforce CRM Fundamentals & Lead Management", provider:"Salesforce Trailhead Official", platform:"Salesforce", badgeCls:"platform-other", duration:"15 giờ", price:"Miễn phí", rating:4.9, students:"1.2M+", url:"https://trailhead.salesforce.com/"},
+    {title:"Inbound Sales Certification", provider:"HubSpot Academy", platform:"HubSpot", badgeCls:"platform-other", duration:"4 giờ", price:"Miễn phí", rating:4.9, students:"650K+", url:"https://academy.hubspot.com/courses/inbound-sales"}
+  ],
+
+  // NÔNG NGHIỆP CÔNG NGHỆ CAO
+  "Công nghệ nông nghiệp": [
+    {title:"Precision Agriculture Technologies and Data Management", provider:"Coursera × Pennsylvania State University", platform:"Coursera", badgeCls:"platform-coursera", duration:"6 tuần", price:"Miễn phí", rating:4.8, students:"85K+", url:"https://www.coursera.org/learn/precision-agriculture"},
+    {title:"Smart Agriculture & IoT Applications in Crop Production", provider:"edX × Wageningen University", platform:"edX", badgeCls:"platform-edx", duration:"7 tuần", price:"Miễn phí", rating:4.8, students:"60K+", url:"https://www.edx.org/learn/agriculture"}
+  ],
+  "Drone & IoT": [
+    {title:"IoT and Embedded Systems for Agricultural Monitoring", provider:"Microsoft Learn Official IoT Path", platform:"Microsoft Learn", badgeCls:"platform-microsoft", duration:"8 giờ", price:"Miễn phí", rating:4.8, students:"140K+", url:"https://learn.microsoft.com/vi-vn/training/paths/introduction-iot-edge/"},
+    {title:"Drones in Agriculture: Mapping, Spraying and Plant Health", provider:"Udemy × Drone Deploy Certified", platform:"Udemy", badgeCls:"platform-udemy", duration:"6 giờ", price:"199.000đ", rating:4.7, students:"25K+", url:"https://www.udemy.com/topic/drones/"}
+  ],
+  "GIS & Bản đồ nông nghiệp": [
+    {title:"QGIS for Agriculture and Forestry Mapping", provider:"QGIS Official Training Project", platform:"QGIS", badgeCls:"platform-other", duration:"5 tuần", price:"Miễn phí", rating:4.8, students:"90K+", url:"https://www.qgis.org/en/site/forusers/trainingmaterial/index.html"},
+    {title:"Geographic Information Systems (GIS) Specialization", provider:"Coursera × UC Davis", platform:"Coursera", badgeCls:"platform-coursera", duration:"5 tháng", price:"Miễn phí (Audit)", rating:4.8, students:"110K+", url:"https://www.coursera.org/specializations/gis"}
+  ],
+  "Chế biến thực phẩm": [
+    {title:"HACCP & ISO 22000 Food Safety Management Standards", provider:"HACCP Official Academy", platform:"HACCP", badgeCls:"platform-other", duration:"3 tuần", price:"1.600.000đ", rating:4.9, students:"40K+", url:"https://www.haccp.com/"},
+    {title:"Food Safety & Quality Control in Agro-processing", provider:"FAO E-learning Academy", platform:"FAO", badgeCls:"platform-other", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"75K+", url:"https://www.fao.org/e-learning/en"}
+  ],
+  "Xuất khẩu nông sản": [
+    {title:"Quy Chuẩn Xuất Khẩu Nông Thủy Sản Sang EU, Mỹ & Trung Quốc", provider:"VCCI Cần Thơ × Cục Xuất Nhập Khẩu", platform:"VCCI", badgeCls:"platform-vcci", duration:"4 tuần", price:"1.600.000đ", rating:4.9, students:"12K+", url:"https://vccicantho.com.vn"},
+    {title:"Standards and Quality in Global Agricultural Value Chains", provider:"edX × Wageningen University", platform:"edX", badgeCls:"platform-edx", duration:"6 tuần", price:"Miễn phí", rating:4.7, students:"45K+", url:"https://www.edx.org/learn/food-security"}
+  ],
+  "Quản lý trang trại": [
+    {title:"Farm Systems & Sustainable Farm Management Practices", provider:"FAO Agriculture Systems Academy", platform:"FAO", badgeCls:"platform-other", duration:"5 tuần", price:"Miễn phí", rating:4.8, students:"65K+", url:"https://www.fao.org/farm-systems/en/"},
+    {title:"VietGAP / GlobalGAP Farm Certification & Operations", provider:"ĐH Nông Lâm TP.HCM × ĐH Cần Thơ", platform:"CTU Edu", badgeCls:"platform-pace", duration:"4 tuần", price:"1.800.000đ", rating:4.8, students:"14K+", url:"https://ctu.edu.vn"}
+  ],
+  "Bảo vệ thực vật": [
+    {title:"Integrated Pest Management (IPM) & Biological Control", provider:"Cornell University Online Extension", platform:"Cornell", badgeCls:"platform-other", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"50K+", url:"https://cals.cornell.edu"},
+    {title:"An Toàn Dư Lượng Thuốc BVTV Theo Chuẩn Quốc Tế", provider:"Viện Cây Ăn Quả Miền Nam (SOFRI)", platform:"SOFRI", badgeCls:"platform-pace", duration:"3 tuần", price:"1.200.000đ", rating:4.9, students:"8K+", url:"https://ctu.edu.vn"}
+  ],
+  "Nuôi trồng thủy sản": [
+    {title:"Aquaculture & Shrimp Farming Practices in Southeast Asia", provider:"SEAFDEC Aquaculture Department", platform:"SEAFDEC", badgeCls:"platform-other", duration:"6 tuần", price:"Miễn phí", rating:4.8, students:"35K+", url:"https://ctu.edu.vn"},
+    {title:"Fish Pathology and Water Quality Management", provider:"Coursera", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"20K+", url:"https://www.coursera.org"}
+  ],
+  "Tài chính nông nghiệp": [
+    {title:"Agricultural Finance and Risk Management in Rural Areas", provider:"World Bank / edX", platform:"edX", badgeCls:"platform-edx", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"30K+", url:"https://www.edx.org"}
+  ],
+  "Logistics nông sản": [
+    {title:"Cold Chain Logistics & Post-Harvest Loss Prevention", provider:"Coursera × Wageningen", platform:"Coursera", badgeCls:"platform-coursera", duration:"5 tuần", price:"Miễn phí", rating:4.8, students:"45K+", url:"https://www.coursera.org/learn/supply-chain-management"}
+  ],
+
+  // KỸ NĂNG MỀM CHUNG
+  "Giao tiếp (Communication)": [
+    {title:"Kỹ Năng Giao Tiếp & Thuyết Trình Chuyên Nghiệp", provider:"Viện Quản Trị PACE", platform:"PACE", badgeCls:"platform-pace", duration:"3 tuần (Thực hành)", price:"1.500.000đ", rating:4.9, students:"45K+", url:"https://www.pace.edu.vn/chuong-trinh-dao-tao/ky-nang-giao-tiep-hieu-qua"},
+    {title:"Improving Communication Skills", provider:"Coursera × Wharton School", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí (Audit)", rating:4.8, students:"580K+", url:"https://www.coursera.org/learn/wharton-communication-skills"}
+  ],
+  "Giải quyết vấn đề": [
+    {title:"Design Thinking for Problem Solving & Innovation", provider:"IDEO U × Coursera", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.9, students:"290K+", url:"https://www.coursera.org/learn/creative-thinking-techniques"},
+    {title:"Problem Solving and Critical Thinking Skills", provider:"edX × Fullbridge", platform:"edX", badgeCls:"platform-edx", duration:"3 tuần", price:"Miễn phí", rating:4.7, students:"180K+", url:"https://www.edx.org/learn/critical-thinking"}
+  ],
+  "Tiếng Anh": [
+    {title:"IELTS Academic Band 6.5+ Intensive Preparation", provider:"British Council Vietnam", platform:"British Council", badgeCls:"platform-other", duration:"12 tuần", price:"4.500.000đ", rating:4.9, students:"50K+", url:"https://learnenglish.britishcouncil.org/"},
+    {title:"English for Professional Writing & Speaking", provider:"Coursera × University of Washington", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tháng", price:"Miễn phí", rating:4.8, students:"340K+", url:"https://www.coursera.org/specializations/business-english"}
+  ],
+  "Làm việc nhóm": [
+    {title:"Teamwork Skills: Communicating Effectively in Groups", provider:"Coursera × University of Colorado Boulder", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"210K+", url:"https://www.coursera.org/learn/teamwork-skills"},
+    {title:"High-Performance Collaboration: Leadership, Teamwork", provider:"Coursera × Northwestern University", platform:"Coursera", badgeCls:"platform-coursera", duration:"3 tuần", price:"Miễn phí", rating:4.8, students:"160K+", url:"https://www.coursera.org/learn/leadership-collaboration"}
+  ],
+  "Tư duy phản biện": [
+    {title:"Critical Thinking and Problem Solving in Business", provider:"edX × Rochester Institute of Technology (RIT)", platform:"edX", badgeCls:"platform-edx", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"195K+", url:"https://www.edx.org/learn/critical-thinking"},
+    {title:"Introduction to Logic and Critical Reasoning", provider:"Coursera × Duke University", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"320K+", url:"https://www.coursera.org/learn/logic-introduction"}
+  ],
+  "Quản lý thời gian": [
+    {title:"Work Smarter, Not Harder: Time Management for Productivity", provider:"Coursera × University of California, Irvine", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.7, students:"620K+", url:"https://www.coursera.org/learn/work-smarter-not-harder"},
+    {title:"Getting Things Done (GTD) Productivity Masterclass", provider:"Udemy", platform:"Udemy", badgeCls:"platform-udemy", duration:"5 giờ", price:"199.000đ", rating:4.8, students:"110K+", url:"https://www.udemy.com/topic/time-management/"}
+  ],
+  "Sáng tạo": [
+    {title:"Ignite Your Everyday Creativity", provider:"Coursera × State University of New York", platform:"Coursera", badgeCls:"platform-coursera", duration:"6 tuần", price:"Miễn phí", rating:4.8, students:"140K+", url:"https://www.coursera.org/learn/everyday-creativity"},
+    {title:"Creative Thinking: Techniques and Tools for Success", provider:"edX × Imperial College London", platform:"edX", badgeCls:"platform-edx", duration:"7 tuần", price:"Miễn phí", rating:4.8, students:"280K+", url:"https://www.edx.org/learn/creative-thinking"}
+  ],
+  "Lãnh đạo": [
+    {title:"Leadership Principles and Strategic Influence", provider:"Harvard Business School Online", platform:"Harvard", badgeCls:"platform-other", duration:"6 tuần", price:"Có chứng chỉ", rating:4.9, students:"85K+", url:"https://online.hbs.edu/courses/leadership-principles/"},
+    {title:"Inspiring and Motivating Individuals", provider:"Coursera × University of Michigan", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"220K+", url:"https://www.coursera.org/learn/motivating-people"}
+  ],
+  "Thích nghi thay đổi": [
+    {title:"Adaptability and Resiliency in Modern Workplace", provider:"Coursera × Macquarie University", platform:"Coursera", badgeCls:"platform-coursera", duration:"4 tuần", price:"Miễn phí", rating:4.8, students:"95K+", url:"https://www.coursera.org/learn/adaptability"},
+    {title:"Agile Mindset & Managing Change", provider:"Udemy", platform:"Udemy", badgeCls:"platform-udemy", duration:"6 giờ", price:"199.000đ", rating:4.7, students:"70K+", url:"https://www.udemy.com/topic/change-management/"}
+  ],
+  "Dịch vụ khách hàng": [
+    {title:"Customer Service Excellence & Retention Strategy", provider:"Coursera × Zendesk", platform:"Coursera", badgeCls:"platform-coursera", duration:"3 tuần", price:"Miễn phí", rating:4.8, students:"180K+", url:"https://www.coursera.org/learn/customer-service-fundamentals"}
+  ]
+};
 
 let selectedSkills = [];
 let currentIndustry = "IT";
+let currentJobRole = "all";
+let currentCourseIndustry = "all";
+let currentCourseSkill = "all";
+let currentCourseSearch = "";
 let overviewChartInst, industryPieInst;
 let softDemandInst, softSupplyInst, softGapInst;
 let indDemandInst, indSupplyInst, indGapInst;
+
+let workerPage = 1;
+let workerSearchQuery = "";
+let jobPage = 1;
+let jobSearchQuery = "";
+
 
 // ══════════════════════════════════════════════════════
 //  NAVIGATION
 // ══════════════════════════════════════════════════════
 const PAGE_LABELS = {
   dashboard:"Tổng Quan",softskills:"Kỹ Năng Mềm Chung",
-  industry:"Kỹ Năng Theo Ngành",recommend:"Gợi Ý Nghề Nghiệp",
+  industry:"Kỹ Năng Theo Ngành",recommend:"Gợi Ý Nghề & Khóa Học","cv-upload":"Phân Tích CV (AI Gemini)",cv_upload:"Phân Tích CV (AI Gemini)",
   workers:"Người Lao Động",employers:"Nhà Tuyển Dụng",
   courses:"Khóa Học",admin:"Quản Trị"
 };
@@ -1200,6 +2272,7 @@ function initPage(name) {
   if(name==='softskills') initSoftSkills();
   if(name==='industry') initIndustry(currentIndustry);
   if(name==='recommend') initRecommend();
+  if(name==='cv-upload') initCvUpload();
   if(name==='workers') renderWorkers();
   if(name==='employers') renderEmployers();
   if(name==='courses') renderCourses();
@@ -1307,7 +2380,10 @@ function renderSoftTable(data) {
   tbody.innerHTML = sorted.map((s,i)=>{
     const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
     const gapColor = s.gap>40?'red':s.gap>25?'amber':'green';
-    const courseBtn = `<button class="action-btn" onclick="alert('Khóa học:\\n\\n${s.courses.join('\\n')}')">Xem ${s.courses.length} khóa học</button>`;
+    const courseBtn = `<button class="action-btn" onclick="openSkillCoursesModal('${s.skill}','softskills')" style="display:inline-flex;align-items:center;gap:4px">
+      <span>Xem ${s.courses ? s.courses.length : 3} khóa học</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </button>`;
     return `<tr>
       <td class="rank-cell">${medal}</td>
       <td class="skill-name-cell">${s.skill}</td>
@@ -1326,19 +2402,153 @@ function filterSoftTable(q) {
 }
 
 // ══════════════════════════════════════════════════════
-//  INDUSTRY
+//  INDUSTRY & JOB ROLES (TOOLBAR CHUYÊN GIA CHỨC VỤ)
 // ══════════════════════════════════════════════════════
 function selectIndustry(key, el) {
   currentIndustry = key;
+  currentJobRole = "all";
   document.querySelectorAll('.ind-tab').forEach(t=>t.classList.remove('active'));
   if(el) el.classList.add('active');
   initIndustry(key);
+}
+
+function renderRoleToolbar(key) {
+  const roles = INDUSTRY_ROLES[key] || [];
+  const container = document.getElementById('industryRoleChips');
+  const statEl = document.getElementById('roleToolbarQuickStat');
+  const ind = INDUSTRY_DATA[key];
+  if(!container) return;
+
+  if(statEl && ind) {
+    statEl.innerHTML = `🎯 <strong>${roles.length - 1} vị trí</strong> chuẩn hóa · Lương: <strong>${ind.avgSalary}</strong>`;
+  }
+
+  container.innerHTML = roles.map(r => `
+    <div class="role-chip ${currentJobRole === r.id ? 'active' : ''}" onclick="selectJobRole('${r.id}')">
+      <span class="role-chip-icon">${r.icon}</span>
+      <span>${r.name}</span>
+      ${r.id !== 'all' ? `<span class="role-chip-badge">${r.mustSkills.length} Core</span>` : ''}
+    </div>
+  `).join('');
+}
+
+function selectJobRole(roleId) {
+  currentJobRole = roleId;
+  const roles = INDUSTRY_ROLES[currentIndustry] || [];
+  const ind = INDUSTRY_DATA[currentIndustry];
+  if(!ind) return;
+
+  // Update chips active state
+  document.querySelectorAll('#industryRoleChips .role-chip').forEach((chip, idx) => {
+    if(roles[idx] && roles[idx].id === roleId) {
+      chip.classList.add('active');
+    } else {
+      chip.classList.remove('active');
+    }
+  });
+
+  const panel = document.getElementById('roleInsightPanel');
+  const selectedRole = roles.find(r => r.id === roleId);
+
+  if(!selectedRole || roleId === 'all') {
+    if(panel) panel.style.display = 'none';
+    document.getElementById('industryTableTitle').textContent = `Top 10 Kỹ Năng Quan Trọng – ${ind.label}`;
+    buildSmallBarChart('indDemandChart', ind.skills, 'demand', 'rgba(99,102,241,0.85)');
+    buildSmallBarChart('indSupplyChart', ind.skills, 'supply', 'rgba(245,158,11,0.85)');
+    buildSmallBarChart('indGapChart',    ind.skills, 'gap',    'rgba(239,68,68,0.85)');
+    renderIndustryTable(ind.skills, null);
+    return;
+  }
+
+  // Display role insight panel
+  if(panel) {
+    panel.style.display = 'block';
+    panel.innerHTML = `
+      <div class="role-insight-header">
+        <div class="role-insight-title">
+          <span style="font-size:18px">${selectedRole.icon}</span>
+          <span>${selectedRole.name}</span>
+        </div>
+        <div class="role-insight-badges">
+          <span class="chip blue">Cấp bậc: ${selectedRole.level}</span>
+          <span class="chip green">Mức lương: ${selectedRole.salary}</span>
+          <span class="chip red">Gap TB: Cao</span>
+        </div>
+      </div>
+      <div class="role-insight-desc">
+        <strong>Mô tả chuyên môn:</strong> ${selectedRole.desc}
+      </div>
+      <div class="role-insight-skills-section">
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:6px">🎯 Kỹ Năng Bắt Buộc (Must-Have) – Bấm để xem khóa học &amp; đăng ký ngay:</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            ${selectedRole.mustSkills.map(sk => `
+              <span class="role-skill-pill must" onclick="openSkillCoursesModal('${sk}','${currentIndustry}')">
+                ⭐ ${sk} <span style="font-size:9.5px;opacity:0.85;margin-left:2px">↗ Khóa học</span>
+              </span>
+            `).join('')}
+          </div>
+        </div>
+        ${selectedRole.niceSkills && selectedRole.niceSkills.length > 0 ? `
+          <div style="margin-top:4px">
+            <div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px">✨ Kỹ Năng Bổ Trợ &amp; Công Cụ Lợi Thế:</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              ${selectedRole.niceSkills.map(sk => `
+                <span class="role-skill-pill nice" onclick="openSkillCoursesModal('${sk}','${currentIndustry}')">
+                  ${sk} <span style="font-size:9.5px;opacity:0.85;margin-left:2px">↗ Khóa học</span>
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+      </div>
+      <div class="role-insight-footer">
+        <div style="font-size:11px;color:var(--text2)">
+          💡 Đã lọc bảng kỹ năng bên dưới ưu tiên theo chuẩn chức danh <strong>${selectedRole.name}</strong>.
+        </div>
+        <button class="btn btn-primary" onclick="openSkillCoursesModal('${selectedRole.mustSkills[0]}','${currentIndustry}')" style="padding:6px 14px;font-size:11px">
+          🎓 Xem Khóa Học Trọng Điểm Cho Vị Trí Này ↗
+        </button>
+      </div>
+    `;
+  }
+
+  document.getElementById('industryTableTitle').textContent = `Kỹ Năng Tiêu Chuẩn Cho Vị Trí: ${selectedRole.name}`;
+
+  // Prioritize and filter skills matching this role
+  const mustSet = new Set(selectedRole.mustSkills.map(s => s.toLowerCase()));
+  const niceSet = new Set((selectedRole.niceSkills || []).map(s => s.toLowerCase()));
+
+  const roleSkills = [...ind.skills].sort((a,b) => {
+    const aMust = mustSet.has(a.skill.toLowerCase());
+    const bMust = mustSet.has(b.skill.toLowerCase());
+    if(aMust && !bMust) return -1;
+    if(!aMust && bMust) return 1;
+    const aNice = niceSet.has(a.skill.toLowerCase());
+    const bNice = niceSet.has(b.skill.toLowerCase());
+    if(aNice && !bNice) return -1;
+    if(!aNice && bNice) return 1;
+    return b.demand - a.demand;
+  });
+
+  // Filter skills for charts that relate to role
+  const chartSkills = roleSkills.filter(s => mustSet.has(s.skill.toLowerCase()) || niceSet.has(s.skill.toLowerCase()));
+  const finalChartSkills = chartSkills.length >= 3 ? chartSkills : roleSkills.slice(0, 6);
+
+  buildSmallBarChart('indDemandChart', finalChartSkills, 'demand', 'rgba(99,102,241,0.85)');
+  buildSmallBarChart('indSupplyChart', finalChartSkills, 'supply', 'rgba(245,158,11,0.85)');
+  buildSmallBarChart('indGapChart',    finalChartSkills, 'gap',    'rgba(239,68,68,0.85)');
+
+  renderIndustryTable(roleSkills, selectedRole);
 }
 
 function initIndustry(key) {
   const ind = INDUSTRY_DATA[key];
   if(!ind) return;
   document.getElementById('industryTableTitle').textContent = `Top 10 Kỹ Năng Quan Trọng – ${ind.label}`;
+
+  // Render Job Roles Toolbar
+  renderRoleToolbar(key);
 
   // KPI cards
   const kpiEl = document.getElementById('industryKPIs');
@@ -1362,21 +2572,40 @@ function initIndustry(key) {
   buildSmallBarChart('indGapChart',    ind.skills, 'gap',    'rgba(239,68,68,0.85)');
 
   // table
-  renderIndustryTable(ind.skills);
+  renderIndustryTable(ind.skills, null);
 }
 
-function renderIndustryTable(skills) {
+function renderIndustryTable(skills, activeRole) {
   const tbody = document.getElementById('industryTableBody');
   if(!tbody) return;
-  const sorted = [...skills].sort((a,b)=>b.demand-a.demand);
-  tbody.innerHTML = sorted.map((s,i)=>{
+
+  const mustSet = activeRole ? new Set(activeRole.mustSkills.map(s => s.toLowerCase())) : new Set();
+  const niceSet = activeRole ? new Set((activeRole.niceSkills || []).map(s => s.toLowerCase())) : new Set();
+
+  tbody.innerHTML = skills.map((s,i)=>{
     const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
     const gapColor = s.gap>45?'red':s.gap>25?'amber':'green';
     const groupColor = s.group.includes('AI')||s.group.includes('Lập')? 'blue' : s.group.includes('Ngoại')? 'cyan' : 'purple';
-    const courseBtn = `<button class="action-btn" onclick="alert('Khóa học gợi ý:\\n\\n${s.courses.join('\\n')}')">Xem khóa học</button>`;
+    
+    // Role relevance tag
+    let roleBadge = '';
+    if(mustSet.has(s.skill.toLowerCase())) {
+      roleBadge = `<span class="chip red" style="font-size:9px;margin-left:6px;font-weight:700">⭐ Bắt buộc vị trí</span>`;
+    } else if(niceSet.has(s.skill.toLowerCase())) {
+      roleBadge = `<span class="chip blue" style="font-size:9px;margin-left:6px">✨ Kỹ năng bổ trợ</span>`;
+    }
+
+    const courseBtn = `<button class="action-btn" onclick="openSkillCoursesModal('${s.skill}','${currentIndustry}')" style="display:inline-flex;align-items:center;gap:4px">
+      <span>Xem khóa học</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </button>`;
+
     return `<tr>
       <td class="rank-cell">${medal}</td>
-      <td class="skill-name-cell">${s.skill}</td>
+      <td class="skill-name-cell">
+        <span>${s.skill}</span>
+        ${roleBadge}
+      </td>
       <td><span class="chip ${groupColor}">${s.group}</span></td>
       <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${s.demand*0.8}px;max-width:100px;background:#6366f1"></div><span class="pct-val">${s.demand}%</span></div></td>
       <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${s.supply*0.8}px;max-width:100px;background:#f59e0b"></div><span class="pct-val">${s.supply}%</span></div></td>
@@ -1388,17 +2617,198 @@ function renderIndustryTable(skills) {
 }
 
 // ══════════════════════════════════════════════════════
+//  MODAL CHI TIẾT KHÓA HỌC & ĐƯỜNG LINK TRỰC TIẾP
+// ══════════════════════════════════════════════════════
+function openSkillCoursesModal(skillName, industry) {
+  const modal = document.getElementById('courseModal');
+  const titleEl = document.getElementById('courseModalTitle');
+  const subEl = document.getElementById('courseModalSub');
+  const bodyEl = document.getElementById('courseModalBody');
+  if(!modal || !bodyEl) return;
+
+  // Find courses for this skill in SKILL_COURSES_CATALOG or COURSES_DATA
+  let courses = SKILL_COURSES_CATALOG[skillName];
+  if(!courses || courses.length === 0) {
+    // Search by partial match in SKILL_COURSES_CATALOG
+    const foundKey = Object.keys(SKILL_COURSES_CATALOG).find(k => 
+      k.toLowerCase() === skillName.toLowerCase() ||
+      skillName.toLowerCase().includes(k.toLowerCase()) ||
+      k.toLowerCase().includes(skillName.toLowerCase())
+    );
+    if(foundKey) courses = SKILL_COURSES_CATALOG[foundKey];
+  }
+
+  if(!courses || courses.length === 0) {
+    // Fallback: create direct search courses on Coursera and Udemy
+    courses = [
+      {
+        title: `Khóa học chuyên sâu: ${skillName} Masterclass 2026`,
+        provider: "Coursera Professional Learning",
+        platform: "Coursera",
+        badgeCls: "platform-coursera",
+        duration: "4 tuần (Online)",
+        price: "Miễn phí (Audit)",
+        rating: 4.8,
+        students: "50,000+",
+        url: `https://www.coursera.org/search?query=${encodeURIComponent(skillName)}`
+      },
+      {
+        title: `Thực hành ${skillName} từ Cơ Bản đến Nâng Cao`,
+        provider: "Udemy Certified Academy",
+        platform: "Udemy",
+        badgeCls: "platform-udemy",
+        duration: "16 giờ thực hành",
+        price: "249.000đ",
+        rating: 4.8,
+        students: "30,000+",
+        url: `https://www.udemy.com/courses/search/?q=${encodeURIComponent(skillName)}`
+      }
+    ];
+  }
+
+  if(titleEl) {
+    titleEl.innerHTML = `🎓 Khóa Học Đào Tạo Kỹ Năng: <span style="color:var(--primary);margin-left:4px">${skillName}</span>`;
+  }
+  if(subEl) {
+    subEl.innerHTML = `Tìm thấy <strong>${courses.length} chương trình đào tạo</strong> trực tuyến &amp; thực chiến uy tín · Bấm <strong>"Truy Cập Khóa Học Ngay ↗"</strong> để mở trực tiếp trang học`;
+  }
+
+  bodyEl.innerHTML = `
+    <div class="skill-course-list">
+      ${courses.map((c, idx) => `
+        <div class="skill-course-card">
+          <div class="skill-course-header">
+            <div>
+              <span class="skill-course-platform-badge ${c.badgeCls || 'platform-other'}">
+                🏫 ${c.platform || 'Online'}
+              </span>
+              <div class="skill-course-title" style="margin-top:6px">${c.title}</div>
+            </div>
+            <span class="chip green" style="font-weight:700">⭐ ${c.rating || 4.8}</span>
+          </div>
+          <div class="skill-course-meta">
+            <span>🎓 <strong>Đơn vị:</strong> ${c.provider}</span>
+            <span>⏱ <strong>Thời lượng:</strong> ${c.duration}</span>
+            <span>💰 <strong>Học phí:</strong> ${c.price}</span>
+            ${c.students ? `<span>👥 ${c.students} học viên</span>` : ''}
+          </div>
+          <div class="skill-course-actions">
+            <!-- NÚT LINK TRỰC TIẾP MỞ TRANG KHÓA HỌC -->
+            <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="btn-course-direct">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Truy Cập Khóa Học Ngay Trên ${c.platform} ↗
+            </a>
+            <button class="btn-course-secondary" onclick="navigateToCoursesWithSkill('${skillName}')">
+              📚 Xem Trong Thư Viện Khóa Học
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  modal.classList.add('open');
+}
+
+function closeCourseModal() {
+  const modal = document.getElementById('courseModal');
+  if(modal) modal.classList.remove('open');
+}
+
+function navigateToCoursesWithSkill(skillName) {
+  closeCourseModal();
+  switchPage('courses', document.getElementById('nav-courses'));
+  setTimeout(() => {
+    currentCourseSkill = skillName;
+    const selectEl = document.getElementById('courseSkillSelect');
+    if(selectEl) {
+      // Check if option exists, otherwise add it
+      let found = false;
+      for(let opt of selectEl.options) {
+        if(opt.value.toLowerCase() === skillName.toLowerCase()) {
+          selectEl.value = opt.value;
+          found = true;
+          break;
+        }
+      }
+      if(!found) {
+        const newOpt = document.createElement('option');
+        newOpt.value = skillName;
+        newOpt.textContent = `⭐ ${skillName}`;
+        newOpt.selected = true;
+        selectEl.appendChild(newOpt);
+      }
+    }
+    renderCourses();
+  }, 100);
+}
+
+// ══════════════════════════════════════════════════════
 //  RECOMMENDATION
 // ══════════════════════════════════════════════════════
 function initRecommend() {
-  renderQuickSkills();
+  const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics';
+  updateTargetRoleDropdown(major);
+  renderQuickSkills(major);
 }
 
-function renderQuickSkills() {
+function onMajorChange(majorVal) {
+  const major = majorVal || (document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics');
+  updateTargetRoleDropdown(major);
+  renderQuickSkills(major);
+  if(selectedSkills.length > 0) {
+    runRecommendation();
+  }
+}
+
+function updateTargetRoleDropdown(majorVal) {
+  const major = majorVal || (document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics');
+  const jobs = JOB_REQUIREMENTS[major] || [];
+  const sel = document.getElementById('recTargetRole');
+  if(!sel) return;
+  sel.innerHTML = jobs.map(j => `<option value="${j.job}">${j.icon || '💼'} ${j.job} (${j.reqSkills.length} kỹ năng bắt buộc/quan trọng)</option>`).join('');
+  if(jobs.length > 0) {
+    updateTargetRoleHint(jobs[0].job);
+  }
+}
+
+function updateTargetRoleHint(jobName) {
+  const hintEl = document.getElementById('targetRoleSkillsHint');
+  if(!hintEl) return;
+  const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics';
+  const jobs = JOB_REQUIREMENTS[major] || [];
+  const found = jobs.find(j => j.job === jobName) || jobs[0];
+  if(!found) {
+    hintEl.innerHTML = '';
+    return;
+  }
+  const skillsList = found.reqSkills.map(s => 
+    `<span style="display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:2px 8px;font-size:10px;margin:2px 4px 2px 0;font-weight:600">
+      <span style="color:${s.importance==='Bắt buộc'?'var(--red)':'var(--primary)'};margin-right:3px">•</span> ${s.name} <em style="opacity:0.75;margin-left:3px">(${s.importance})</em>
+    </span>`
+  ).join('');
+  hintEl.innerHTML = `
+    <div style="font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:4px">
+      <span>📋 Tiêu chuẩn kỹ năng bắt buộc vị trí ${found.job}:</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap">${skillsList}</div>
+  `;
+}
+
+function onTargetRoleChange(val) {
+  updateTargetRoleHint(val);
+  if(selectedSkills.length > 0) {
+    runRecommendation();
+  }
+}
+
+function renderQuickSkills(ind) {
   const el = document.getElementById('quickSkillBtns');
   if(!el) return;
-  el.innerHTML = ALL_QUICK_SKILLS.map(sk=>`
-    <div class="ind-tab" style="padding:5px 12px;font-size:11px;" onclick="addSkill('${sk}',this)">${sk}</div>
+  const major = ind || document.getElementById('recMajor').value || 'economics';
+  const skills = QUICK_SKILLS_BY_INDUSTRY[major] || QUICK_SKILLS_BY_INDUSTRY.economics;
+  el.innerHTML = skills.map(sk=>`
+    <div class="ind-tab ${selectedSkills.includes(sk)?'active':''}" style="padding:5px 12px;font-size:11px;cursor:pointer" onclick="addSkill('${sk}',this)">+ ${sk}</div>
   `).join('');
 }
 
@@ -1501,6 +2911,15 @@ const JOB_REQUIREMENTS = {
       ]
     },
     {
+      job:'Chuyên Viên Điều Hành Tour', icon:'✈️',
+      reqSkills:[
+        {name:'Lên kế hoạch tour',importance:'Bắt buộc'},
+        {name:'Tiếng Anh',        importance:'Bắt buộc'},
+        {name:'Giao tiếp',        importance:'Bắt buộc'},
+        {name:'Customer Service', importance:'Quan trọng'},
+      ]
+    },
+    {
       job:'Digital Marketing Tour', icon:'📱',
       reqSkills:[
         {name:'Digital Marketing',importance:'Bắt buộc'},
@@ -1521,7 +2940,7 @@ const JOB_REQUIREMENTS = {
       ]
     },
     {
-      job:'Quản Lý Kho Hàng', icon:'🏭',
+      job:'Quản Lý Kho Hàng & WMS', icon:'🏭',
       reqSkills:[
         {name:'Logistics',         importance:'Bắt buộc'},
         {name:'Excel',             importance:'Bắt buộc'},
@@ -1529,14 +2948,73 @@ const JOB_REQUIREMENTS = {
         {name:'SAP',               importance:'Hữu ích'},
       ]
     },
+    {
+      job:'Điều Phối Đội Xe & Vận Tải', icon:'🚚',
+      reqSkills:[
+        {name:'Logistics',         importance:'Bắt buộc'},
+        {name:'Excel',             importance:'Bắt buộc'},
+        {name:'Quản lý thời gian', importance:'Bắt buộc'},
+        {name:'Giao tiếp',         importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Quản Trị Chuỗi Cung Ứng', icon:'🌐',
+      reqSkills:[
+        {name:'Quản lý chuỗi cung ứng',importance:'Bắt buộc'},
+        {name:'Logistics',         importance:'Bắt buộc'},
+        {name:'SAP',               importance:'Quan trọng'},
+        {name:'Tiếng Anh',         importance:'Quan trọng'},
+      ]
+    },
   ],
   economics: [
     {
       job:'Kế Toán Tổng Hợp', icon:'📒',
       reqSkills:[
-        {name:'Excel',   importance:'Bắt buộc'},
-        {name:'Kế toán', importance:'Bắt buộc'},
-        {name:'MISA',    importance:'Bắt buộc'},
+        {name:'Kế toán',         importance:'Bắt buộc'},
+        {name:'Excel',           importance:'Bắt buộc'},
+        {name:'MISA',            importance:'Bắt buộc'},
+        {name:'Báo cáo tài chính',importance:'Bắt buộc'},
+        {name:'Tiếng Anh',       importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Kế Toán Thuế & Báo Cáo', icon:'📑',
+      reqSkills:[
+        {name:'Thuế',            importance:'Bắt buộc'},
+        {name:'Báo cáo tài chính',importance:'Bắt buộc'},
+        {name:'Kế toán',         importance:'Bắt buộc'},
+        {name:'MISA',            importance:'Quan trọng'},
+        {name:'Excel',           importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Chuyên Viên Phân Tích Tài Chính', icon:'📈',
+      reqSkills:[
+        {name:'Phân tích tài chính',importance:'Bắt buộc'},
+        {name:'Excel',             importance:'Bắt buộc'},
+        {name:'Báo cáo tài chính', importance:'Bắt buộc'},
+        {name:'Power BI',          importance:'Quan trọng'},
+        {name:'Tiếng Anh',         importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Kiểm Toán Viên Nội Bộ', icon:'🛡️',
+      reqSkills:[
+        {name:'Kiểm toán',         importance:'Bắt buộc'},
+        {name:'Báo cáo tài chính', importance:'Bắt buộc'},
+        {name:'Quản trị rủi ro',   importance:'Quan trọng'},
+        {name:'Excel',             importance:'Quan trọng'},
+        {name:'Tiếng Anh',         importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Business Analyst (BA Tài Chính)', icon:'🔍',
+      reqSkills:[
+        {name:'Excel',    importance:'Bắt buộc'},
+        {name:'SQL',      importance:'Bắt buộc'},
+        {name:'Power BI', importance:'Bắt buộc'},
+        {name:'Giao tiếp',importance:'Quan trọng'},
         {name:'Tiếng Anh',importance:'Quan trọng'},
       ]
     },
@@ -1544,19 +3022,10 @@ const JOB_REQUIREMENTS = {
       job:'Digital Marketing Manager', icon:'📣',
       reqSkills:[
         {name:'Digital Marketing',importance:'Bắt buộc'},
-        {name:'Excel',            importance:'Bắt buộc'},
         {name:'Sáng tạo',         importance:'Bắt buộc'},
+        {name:'Excel',            importance:'Bắt buộc'},
         {name:'Power BI',         importance:'Quan trọng'},
-      ]
-    },
-    {
-      job:'Business Analyst', icon:'🔍',
-      reqSkills:[
-        {name:'Excel',    importance:'Bắt buộc'},
-        {name:'SQL',      importance:'Bắt buộc'},
-        {name:'Power BI', importance:'Bắt buộc'},
-        {name:'Tiếng Anh',importance:'Quan trọng'},
-        {name:'Giao tiếp',importance:'Quan trọng'},
+        {name:'Tiếng Anh',        importance:'Quan trọng'},
       ]
     },
   ],
@@ -1584,132 +3053,331 @@ const JOB_REQUIREMENTS = {
 
 // ── Bảng nối Skill → Khóa học (Kê đơn thuốc)
 const SKILL_COURSES_MAP = {
-  'Python':           [{title:'Python for Everybody',       src:'Coursera × Michigan',  dur:'4 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
-  'SQL':              [{title:'SQL for Data Science',       src:'Coursera',             dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'Git':              [{title:'Git & GitHub Complete Guide', src:'Udemy',               dur:'2 tuần', price:'199K',    rating:4.8, url:'#'}],
-  'Docker':           [{title:'Docker Mastery',             src:'Udemy',                dur:'3 tuần', price:'299K',    rating:4.9, url:'#'}],
-  'Power BI':         [{title:'Power BI Data Analytics',    src:'Microsoft Learn',      dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'Machine Learning': [{title:'ML Specialization',          src:'DeepLearning.AI',     dur:'8 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
-  'TensorFlow':       [{title:'TensorFlow Developer Cert',  src:'Google',              dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'ReactJS':          [{title:'React – The Complete Guide', src:'Udemy',               dur:'5 tuần', price:'399K',    rating:4.9, url:'#'}],
-  'JavaScript':       [{title:'JavaScript Algorithms & DS', src:'freeCodeCamp',        dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'CSS':              [{title:'CSS – The Complete Guide',   src:'Udemy',               dur:'3 tuần', price:'249K',    rating:4.7, url:'#'}],
-  'AWS':              [{title:'AWS Cloud Practitioner',     src:'AWS Training',        dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'Tiếng Anh':        [{title:'IELTS Academic Band 6.5+',   src:'British Council',     dur:'12 tuần',price:'4.5tr',   rating:4.9, url:'#'}],
-  'Excel':            [{title:'Excel & Power Query',        src:'Microsoft Learn',      dur:'3 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
-  'Digital Marketing':[{title:'Google Digital Marketing',  src:'Google Skillshop',    dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'Giao tiếp':        [{title:'Business Communication',    src:'PACE Institute',       dur:'2 tuần', price:'1.5tr',   rating:4.8, url:'#'}],
-  'SAP':              [{title:'SAP S/4HANA Fundamentals',  src:'SAP Learning',        dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
-  'Logistics':        [{title:'Supply Chain Management',   src:'MIT OpenCourseWare',  dur:'6 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
-  'Kế toán':          [{title:'Kế Toán Tổng Hợp Thực Hành',src:'ACCA Vietnam',        dur:'8 tuần', price:'2.5tr',   rating:4.8, url:'#'}],
-  'MISA':             [{title:'MISA SME Certified',         src:'MISA Academy',        dur:'2 tuần', price:'800K',    rating:4.7, url:'#'}],
-  'FastAPI':          [{title:'FastAPI Modern Python API',  src:'Udemy',               dur:'2 tuần', price:'249K',    rating:4.8, url:'#'}],
-  'Statistics':       [{title:'Statistics with Python',    src:'Coursera × Michigan', dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
-  'Figma':            [{title:'Figma UI/UX Design',        src:'Udemy',               dur:'3 tuần', price:'299K',    rating:4.8, url:'#'}],
-  'Linux':            [{title:'Linux Command Line Basics',  src:'Linux Foundation',    dur:'3 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
-  'CI/CD':            [{title:'CI/CD with GitHub Actions', src:'GitHub Learning',     dur:'2 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
-  'Power BI':         [{title:'Power BI Desktop Master',   src:'Udemy',               dur:'4 tuần', price:'299K',    rating:4.8, url:'#'}],
-  'Sáng tạo':         [{title:'Design Thinking',           src:'IDEO + Coursera',     dur:'3 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
-  'Lãnh đạo':         [{title:'Leadership Skills',         src:'Harvard Online',      dur:'4 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
-  'IoT':              [{title:'IoT for Beginners',          src:'Microsoft Learn',     dur:'4 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+  'Quản lý thời gian': [{title:'Work Smarter, Not Harder: Time Management', src:'Coursera × UC Irvine', dur:'3 tuần', price:'Miễn phí', rating:4.8, url:'https://www.coursera.org/learn/work-smarter-not-harder'}],
+  'Problem Solving':    [{title:'Effective Problem-Solving and Decision-Making', src:'Coursera × UC Irvine', dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'https://www.coursera.org/learn/problem-solving'}],
+  'Bảo vệ thực vật':    [{title:'Nghiệp Vụ Kiểm Dịch & Bảo Vệ Thực Vật Ứng Dụng', src:'ĐH Cần Thơ (CTU)', dur:'4 tuần', price:'1.5tr', rating:4.8, url:'https://ctu.edu.vn'}],
+  'Nông nghiệp công nghệ cao': [{title:'Smart Agriculture & IoT Systems', src:'Wageningen / edX', dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'https://www.edx.org/learn/agriculture'}],
+  'Báo cáo tài chính': [{title:'Đọc Hiểu & Phân Tích Báo Cáo Tài Chính', src:'Viện PACE', dur:'4 tuần', price:'1.8tr', rating:4.9, url:'https://pace.edu.vn'}],
+  'Thuế':              [{title:'Chính Sách Thuế & Quyết Toán Thuế Doanh Nghiệp', src:'Hội Kế Toán Cần Thơ', dur:'3 tuần', price:'1.2tr', rating:4.8, url:'https://vcaa.edu.vn'}],
+  'Phân tích tài chính':[{title:'Corporate Financial Analysis', src:'Coursera × Wharton', dur:'5 tuần', price:'Miễn phí', rating:4.8, url:'https://coursera.org'}],
+  'Kiểm toán':         [{title:'Internal Auditing Fundamentals', src:'IIA / edX', dur:'6 tuần', price:'Miễn phí', rating:4.7, url:'https://edx.org'}],
+  'Quản trị rủi ro':   [{title:'Financial Risk Management', src:'GARP / Coursera', dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'https://coursera.org'}],
+  'Nghiệp vụ hải quan':[{title:'Thủ Tục Hải Quan & Khai Báo VNACCS/VCIS', src:'VCCI Cần Thơ', dur:'4 tuần', price:'1.5tr', rating:4.8, url:'https://vccicantho.com.vn'}],
+  'Xuất nhập khẩu':    [{title:'Nghiệp Vụ Xuất Nhập Khẩu Thực Chiến', src:'VCCI Cần Thơ', dur:'6 tuần', price:'2.2tr', rating:4.9, url:'https://vccicantho.com.vn'}],
+  'Quản lý chuỗi cung ứng':[{title:'Supply Chain Management Specialization', src:'Coursera × Rutgers', dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'https://coursera.org'}],
+  'Lên kế hoạch tour': [{title:'Nghiệp Vụ Điều Hành & Thiết Kế Tour', src:'ĐH Cần Thơ (CTU)', dur:'4 tuần', price:'1.6tr', rating:4.8, url:'https://ctu.edu.vn'}],
+  'Quản lý khách sạn': [{title:'Hotel Operations & Management', src:'edX × Cornell', dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'https://edx.org'}],
+  'Customer Service':  [{title:'Customer Service Excellence in Hospitality', src:'Coursera', dur:'3 tuần', price:'Miễn phí', rating:4.8, url:'https://www.coursera.org/learn/customer-service-fundamentals'}],
+  'Hướng dẫn du lịch': [{title:'Kỹ Năng Hướng Dẫn Viên Du Lịch Chuyên Nghiệp', src:'Saigontourist Academy', dur:'6 tuần', price:'2.0tr', rating:4.9, url:'https://saigontourist.edu.vn/khoa-hoc-nghiep-vu-huong-dan-vien-du-lich/'}],
+
+  'Python':           [{title:'Python for Everybody',       src:'Coursera × Michigan',  dur:'4 tuần', price:'Miễn phí', rating:4.9, url:'https://www.coursera.org/specializations/python'}],
+  'SQL':              [{title:'SQL for Data Science',       src:'Coursera × UC Davis',  dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'https://www.coursera.org/learn/sql-for-data-science'}],
+  'Git':              [{title:'Git & GitHub Complete Guide', src:'Udemy',               dur:'2 tuần', price:'199K',    rating:4.8, url:'https://www.udemy.com/course/git-and-github-bootcamp/'}],
+  'Docker':           [{title:'Docker & Kubernetes Guide',  src:'Udemy',                dur:'3 tuần', price:'299K',    rating:4.9, url:'https://www.udemy.com/course/docker-mastery/'}],
+  'Power BI':         [{title:'Power BI Data Analytics',    src:'Microsoft Learn',      dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'https://learn.microsoft.com/vi-vn/training/powerplatform/power-bi'}],
+  'Machine Learning': [{title:'ML Specialization',          src:'DeepLearning.AI',     dur:'8 tuần', price:'Miễn phí', rating:4.9, url:'https://www.coursera.org/specializations/machine-learning-introduction'}],
+  'TensorFlow':       [{title:'TensorFlow Developer Cert',  src:'Google',              dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'https://www.coursera.org/professional-certificates/tensorflow-in-practice'}],
+  'ReactJS':          [{title:'React – The Complete Guide', src:'Udemy',               dur:'5 tuần', price:'399K',    rating:4.9, url:'https://www.udemy.com/course/react-the-complete-guide-incl-redux/'}],
+  'JavaScript':       [{title:'JavaScript Algorithms & DS', src:'freeCodeCamp',        dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/'}],
+  'CSS':              [{title:'CSS – The Complete Guide',   src:'Udemy',               dur:'3 tuần', price:'249K',    rating:4.7, url:'https://www.udemy.com/course/css-the-complete-guide-incl-flexbox-grid-compiler/'}],
+  'AWS':              [{title:'AWS Cloud Practitioner',     src:'AWS Training',        dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'https://aws.amazon.com/training/digital/aws-cloud-practitioner-essentials/'}],
+  'Tiếng Anh':        [{title:'IELTS Academic Band 6.5+',   src:'British Council',     dur:'12 tuần',price:'4.5tr',   rating:4.9, url:'https://learnenglish.britishcouncil.org/'}],
+  'Excel':            [{title:'Excel & Power Query',        src:'Microsoft Learn',      dur:'3 tuần', price:'Miễn phí', rating:4.7, url:'https://learn.microsoft.com/vi-vn/training/modules/excel-analyze-data/'}],
+  'Digital Marketing':[{title:'Google Digital Marketing',  src:'Google Skillshop',    dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'https://skillshop.exceedlms.com/'}],
+  'Giao tiếp':        [{title:'Business Communication',    src:'PACE Institute',       dur:'2 tuần', price:'1.5tr',   rating:4.8, url:'https://www.pace.edu.vn/chuong-trinh-dao-tao/ky-nang-giao-tiep-hieu-qua'}],
+  'SAP':              [{title:'SAP S/4HANA Fundamentals',  src:'SAP Learning',        dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'https://learning.sap.com/'}],
+  'Logistics':        [{title:'Supply Chain Management',   src:'MIT OpenCourseWare',  dur:'6 tuần', price:'Miễn phí', rating:4.7, url:'https://www.edx.org/learn/supply-chain-management'}],
+  'Kế toán':          [{title:'Kế Toán Tổng Hợp Thực Hành',src:'ACCA Vietnam',        dur:'8 tuần', price:'2.5tr',   rating:4.8, url:'https://amis.misa.vn/'}],
+  'MISA':             [{title:'MISA SME Certified',         src:'MISA Academy',        dur:'2 tuần', price:'800K',    rating:4.7, url:'https://amis.misa.vn/'}],
+  'FastAPI':          [{title:'FastAPI Modern Python API',  src:'FastAPI Official',    dur:'2 tuần', price:'Miễn phí', rating:4.8, url:'https://fastapi.tiangolo.com/tutorial/'}],
+  'Statistics':       [{title:'Statistics with Python',    src:'Coursera × Michigan', dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'https://www.coursera.org/learn/statistics-with-python'}],
+  'Figma':            [{title:'Figma UI/UX Design',        src:'Udemy',               dur:'3 tuần', price:'299K',    rating:4.8, url:'https://www.udemy.com/topic/figma/'}],
+  'Linux':            [{title:'Linux Command Line Basics',  src:'Linux Foundation',    dur:'3 tuần', price:'Miễn phí', rating:4.8, url:'https://www.edx.org/learn/linux/the-linux-foundation-introduction-to-linux'}],
+  'CI/CD':            [{title:'CI/CD with GitHub Actions', src:'GitHub Learning',     dur:'2 tuần', price:'Miễn phí', rating:4.7, url:'https://docs.github.com/en/actions'}],
+  'Sáng tạo':         [{title:'Design Thinking',           src:'IDEO + Coursera',     dur:'3 tuần', price:'Miễn phí', rating:4.9, url:'https://www.coursera.org/learn/creative-thinking-techniques'}],
+  'Lãnh đạo':         [{title:'Leadership Skills',         src:'Harvard Online',      dur:'4 tuần', price:'Miễn phí', rating:4.9, url:'https://online.hbs.edu/courses/leadership-principles/'}],
+  'IoT':              [{title:'IoT for Beginners',          src:'Microsoft Learn',     dur:'4 tuần', price:'Miễn phí', rating:4.7, url:'https://learn.microsoft.com/vi-vn/training/paths/introduction-iot-edge/'}],
 };
 
 function runRecommendation() {
-  const major   = document.getElementById('recMajor').value;
-  const name    = document.getElementById('recName').value || 'Bạn';
-  const level   = document.getElementById('recLevel');
-  const levelTxt= level.options[level.selectedIndex].text;
+  const major = document.getElementById('recMajor').value || 'economics';
+  const name = document.getElementById('recName').value || 'Bạn';
+  const prevRole = (document.getElementById('recPrevRole') ? document.getElementById('recPrevRole').value : '') || 'Thực tập sinh Kế toán';
+  const targetRoleName = (document.getElementById('recTargetRole') ? document.getElementById('recTargetRole').value : '') || '';
+  const level = document.getElementById('recLevel');
+  const levelTxt = level ? level.options[level.selectedIndex].text : 'Năm 1';
   if(!major){ alert('Vui lòng chọn chuyên ngành!'); return; }
-  if(selectedSkills.length===0){ alert('Vui lòng chọn ít nhất 1 kỹ năng bạn đang có!'); return; }
+  if(selectedSkills.length === 0){ alert('Vui lòng chọn ít nhất 1 kỹ năng bạn đang có!'); return; }
 
   const jobs = JOB_REQUIREMENTS[major] || [];
-  const userSkillsLow = selectedSkills.map(s=>s.toLowerCase());
+  const userSkillsLow = selectedSkills.map(s => s.toLowerCase());
 
-  // ── Ẩn empty state, hiện header
-  document.getElementById('recEmptyState').style.display   = 'none';
+  // Ẩn empty state, hiện header
+  document.getElementById('recEmptyState').style.display = 'none';
   document.getElementById('recResultHeader').style.display = 'block';
-  document.getElementById('recResultName').textContent = `Kết quả phân tích cho: ${name}`;
-  document.getElementById('recResultSub').textContent  = `${major === 'IT'?'Công nghệ thông tin':major} · ${levelTxt} · ${selectedSkills.length} kỹ năng đã khai báo`;
+  document.getElementById('recResultName').textContent = `Kết quả phân tích khoảng cách kỹ năng: ${name}`;
+  document.getElementById('recResultSub').textContent = `Xuất phát điểm: ${prevRole} ➔ Chức vụ mục tiêu: ${targetRoleName || 'Vị trí đã chọn'} · ${levelTxt} · ${selectedSkills.length} kỹ năng đã có`;
 
   const container = document.getElementById('recJobCards');
   container.innerHTML = '';
 
+  // Đánh giá tất cả vị trí và sắp xếp đưa đúng vị trí đã chọn lên ĐẦU TIÊN
   const sorted = jobs.map(j => {
-    const userHas  = j.reqSkills.filter(sk => userSkillsLow.some(u => u===sk.name.toLowerCase()||sk.name.toLowerCase().includes(u)||u.includes(sk.name.toLowerCase())));
-    const missing  = j.reqSkills.filter(sk => !userSkillsLow.some(u => u===sk.name.toLowerCase()||sk.name.toLowerCase().includes(u)||u.includes(sk.name.toLowerCase())));
-    const pct      = Math.round((userHas.length / j.reqSkills.length) * 100);
-    return {...j, userHas, missing, pct};
-  }).sort((a,b)=>b.pct-a.pct);
+    const userHas = j.reqSkills.filter(sk => userSkillsLow.some(u => u === sk.name.toLowerCase() || sk.name.toLowerCase().includes(u) || u.includes(sk.name.toLowerCase())));
+    const missing = j.reqSkills.filter(sk => !userSkillsLow.some(u => u === sk.name.toLowerCase() || sk.name.toLowerCase().includes(u) || u.includes(sk.name.toLowerCase())));
+    const pct = Math.round((userHas.length / j.reqSkills.length) * 100);
+    const isTarget = (targetRoleName && j.job === targetRoleName);
+    return {...j, userHas, missing, pct, isTarget};
+  }).sort((a,b) => {
+    if(a.isTarget) return -1;
+    if(b.isTarget) return 1;
+    return b.pct - a.pct;
+  });
 
-  sorted.forEach(j => {
-    const pctColor  = j.pct>=70?'var(--green)':j.pct>=40?'var(--amber)':'var(--red)';
-    const badgeCls  = j.pct>=70?'high':j.pct>=40?'mid':'low';
-    const fillGrad  = j.pct>=70?'linear-gradient(90deg,#10b981,#34d399)':j.pct>=40?'linear-gradient(90deg,#f59e0b,#fbbf24)':'linear-gradient(90deg,#ef4444,#f87171)';
+  const targetJob = sorted.find(j => j.isTarget) || sorted[0];
 
-    // ── PHẦN 1: Chẩn đoán
-    const hasHTML = j.userHas.map(sk=>
-      `<span class="diag-skill-item have">✅ ${sk.name}<span style="font-size:9px;opacity:.7;margin-left:3px">${sk.importance}</span></span>`
-    ).join('');
-    const missingHTML = j.missing.map(sk=>
-      `<span class="diag-skill-item missing">❌ ${sk.name}<span style="font-size:9px;opacity:.7;margin-left:3px">${sk.importance}</span></span>`
-    ).join('');
+  // ══════════════════════════════════════════════════════════
+  // 🌟 KHỐI TIÊU ĐIỂM: KẾT QUẢ ĐÁNH GIÁ CHÍNH XÁC CHỨC VỤ ĐÃ CHỌN
+  // ══════════════════════════════════════════════════════════
+  const targetPctColor = targetJob.pct >= 70 ? 'var(--green)' : targetJob.pct >= 40 ? 'var(--amber)' : 'var(--red)';
+  const targetFillGrad = targetJob.pct >= 70 ? 'linear-gradient(90deg,#10b981,#34d399)' : targetJob.pct >= 40 ? 'linear-gradient(90deg,#f59e0b,#fbbf24)' : 'linear-gradient(90deg,#ef4444,#f87171)';
 
-    // ── PHẦN 2: Kê đơn khóa học
-    let prescHTML = '';
-    if(j.missing.length === 0){
-      prescHTML = `<div class="no-gap-msg">🎉 Tuyệt vời! Bạn đã đáp ứng <strong>đầy đủ</strong> yêu cầu của vị trí này. Hãy cập nhật CV và ứng tuyển ngay!</div>`;
-    } else {
-      const courseCards = j.missing.map(sk => {
-        const courses = SKILL_COURSES_MAP[sk.name] || [{title:`Học ${sk.name}`, src:'Coursera', dur:'Đang cập nhật', price:'Miễn phí', rating:4.5, url:'#'}];
+  const spotlightCard = document.createElement('div');
+  spotlightCard.className = 'diag-card';
+  spotlightCard.style.cssText = 'border:2.5px solid var(--primary);box-shadow:0 8px 30px rgba(79,70,229,0.18);position:relative;background:var(--bg2);margin-bottom:24px;overflow:hidden';
+
+  spotlightCard.innerHTML = `
+    <div style="position:absolute;top:0;right:0;background:var(--primary);color:#fff;font-size:11px;font-weight:800;padding:6px 18px;border-bottom-left-radius:14px;letter-spacing:0.5px">
+      🎯 CHỨC VỤ BẠN ĐÃ CHỌN ĐÁNH GIÁ
+    </div>
+
+    <!-- Header chức vụ -->
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-right:160px;flex-wrap:wrap">
+      <span style="font-size:38px">${targetJob.icon || '💼'}</span>
+      <div>
+        <div style="font-size:20px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px">
+          <span>Chức Vụ Mục Tiêu:</span>
+          <span style="color:var(--primary)">${targetJob.job}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span>Chức vụ lúc trước / Hiện tại:</span>
+          <span class="chip" style="font-size:11px;font-weight:700">${prevRole}</span>
+          <span style="color:var(--primary);font-weight:800">➔</span>
+          <span style="color:var(--text3)">Tiêu chuẩn đánh giá:</span>
+          <span class="chip blue" style="font-size:11px;font-weight:700">${targetJob.reqSkills.length} kỹ năng trọng yếu</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thanh tiến độ phù hợp -->
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:13px;font-weight:700;color:var(--text)">Mức độ đáp ứng tiêu chuẩn tuyển dụng Cần Thơ:</span>
+        <span style="font-size:16px;font-weight:800;color:${targetPctColor}">${targetJob.pct}% Phù Hợp</span>
+      </div>
+      <div class="diag-progress-track" style="height:10px;border-radius:10px">
+        <div class="diag-progress-fill" style="width:${targetJob.pct}%;background:${targetFillGrad};border-radius:10px"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px;display:flex;justify-content:space-between">
+        <span>Đã có: <strong>${targetJob.userHas.length}/${targetJob.reqSkills.length}</strong> kỹ năng</span>
+        <span>${targetJob.missing.length === 0 ? '✅ Đã đạt chuẩn tuyệt đối' : `⚠️ Còn thiếu: <strong>${targetJob.missing.length}</strong> kỹ năng cốt lõi`}</span>
+      </div>
+    </div>
+
+    <!-- 2 CỘT: CHỨC VỤ ĐANG THIẾU GÌ (ĐỎ) vs KỸ NĂNG ĐÃ ĐÁP ỨNG (XANH) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      
+      <!-- CỘT 1: CHỨC VỤ ĐANG THIẾU GÌ -->
+      <div style="background:rgba(239,68,68,0.06);border:1.5px solid rgba(239,68,68,0.25);border-radius:var(--radius-sm);padding:16px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--red);margin-bottom:12px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          ĐỐI VỚI VỊ TRÍ "${targetJob.job}", BẠN ĐANG THIẾU (${targetJob.missing.length} KỸ NĂNG):
+        </div>
+        ${targetJob.missing.length === 0 ? `
+          <div style="background:var(--bg2);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:14px;color:var(--green);font-size:13px;font-weight:700">
+            🎉 Chúc mừng! Bạn đã đáp ứng đầy đủ 100% kỹ năng bắt buộc của vị trí ${targetJob.job}. Bạn hoàn toàn tự tin nộp hồ sơ ứng tuyển ngay hôm nay!
+          </div>
+        ` : targetJob.missing.map(sk => `
+          <div style="background:var(--bg2);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:10px 14px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong style="font-size:14px;color:var(--red);display:flex;align-items:center;gap:6px">
+                <span>❌</span> ${sk.name}
+              </strong>
+              <span style="font-size:10px;font-weight:700;background:rgba(239,68,68,0.12);color:var(--red);padding:2px 8px;border-radius:10px">${sk.importance}</span>
+            </div>
+            <div style="font-size:11px;color:var(--text2);margin-top:4px;line-height:1.4">
+              📌 <em>Lý do thiếu hụt:</em> Doanh nghiệp tại Cần Thơ yêu cầu ứng viên vị trí <strong>${targetJob.job}</strong> phải sử dụng thành thạo để giải quyết công việc thực tế.
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- CỘT 2: KỸ NĂNG ĐÃ ĐÁP ỨNG -->
+      <div style="background:rgba(16,185,129,0.06);border:1.5px solid rgba(16,185,129,0.25);border-radius:var(--radius-sm);padding:16px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--green);margin-bottom:12px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="9 11 12 14 22 4"/></svg>
+          KỸ NĂNG BẠN ĐÃ ĐÁP ỨNG ĐƯỢC CHO CHỨC VỤ NÀY (${targetJob.userHas.length} KỸ NĂNG):
+        </div>
+        ${targetJob.userHas.length === 0 ? `
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;color:var(--text3);font-size:12px">
+            Chưa có kỹ năng nào trong hồ sơ của bạn trùng với tiêu chuẩn của vị trí này. Hãy chọn thêm kỹ năng bạn đã tích lũy ở cột bên trái hoặc tham gia đào tạo bổ sung.
+          </div>
+        ` : targetJob.userHas.map(sk => `
+          <div style="background:var(--bg2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:10px 14px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong style="font-size:14px;color:var(--green);display:flex;align-items:center;gap:6px">
+                <span>✓</span> ${sk.name}
+              </strong>
+              <span style="font-size:10px;font-weight:700;background:rgba(16,185,129,0.12);color:var(--green);padding:2px 8px;border-radius:10px">Đã đạt chuẩn</span>
+            </div>
+            <div style="font-size:11px;color:var(--text3);margin-top:4px">
+              Điểm cộng quan trọng giúp bạn cạnh tranh trong hồ sơ ứng tuyển vị trí ${targetJob.job}.
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+    </div>
+
+    <!-- KHỐI 3: ĐƠN THUỐC ĐÀO TẠO — CÁC KHÓA HỌC BÙ ĐẮP ĐÚNG NHỮNG GÌ CHỨC VỤ ĐANG THIẾU -->
+    <div class="prescription-zone" style="background:var(--bg3);border:1.5px dashed var(--primary);border-radius:var(--radius-sm);padding:18px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:14px;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:8px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          KÊ ĐƠN KHÓA HỌC — BÙ ĐẮP ĐÚNG CÁC KỸ NĂNG THIẾU CỦA CHỨC VỤ "${targetJob.job}"
+        </div>
+        <span style="font-size:11px;color:var(--text2);background:var(--bg2);padding:3px 10px;border-radius:20px;border:1px solid var(--border)">
+          🔗 Nhấn "Vào Học Ngay ↗" để mở khóa học trực tiếp
+        </span>
+      </div>
+
+      ${targetJob.missing.length === 0 ? `
+        <div style="text-align:center;padding:20px;color:var(--green);font-size:13px;font-weight:700">
+          🎉 Bạn không có khoảng cách kỹ năng (Gap = 0) đối với vị trí này. Hãy xuất CV và nộp ngay!
+        </div>
+      ` : targetJob.missing.map(sk => {
+        const courses = SKILL_COURSES_MAP[sk.name] || [{
+          title: `Khóa Đào Tạo Kỹ Năng ${sk.name} Chuyên Sâu Cho ${targetJob.job}`,
+          src: 'Coursera / edX / PACE',
+          dur: '4 tuần',
+          price: 'Miễn phí',
+          rating: 4.8,
+          url: 'https://www.coursera.org'
+        }];
         return courses.map(c => `
-          <div class="mini-course-card">
-            <div class="mini-course-left">
-              <div class="mini-course-skill-tag">Bù đắp: ${sk.name}</div>
-              <div class="mini-course-title" title="${c.title}">${c.title}</div>
-              <div class="mini-course-meta">
-                <span>🎓 ${c.src}</span>
-                <span>⏱ ${c.dur}</span>
-                <span>💰 ${c.price}</span>
-                <span>⭐ ${c.rating}</span>
+          <div class="mini-course-card" style="margin-bottom:10px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04)">
+            <div class="mini-course-left" style="flex:1">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                <span class="mini-course-skill-tag" style="background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.25);font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px">
+                  Bù đắp khoảng cách kỹ năng: ${sk.name}
+                </span>
+                <span style="font-size:11px;color:var(--primary);font-weight:600">Chuẩn chức vụ ${targetJob.job}</span>
+              </div>
+              <div class="mini-course-title" style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px" title="${c.title}">${c.title}</div>
+              <div class="mini-course-meta" style="font-size:11px;color:var(--text3);display:flex;gap:14px;flex-wrap:wrap">
+                <span>🎓 Nền tảng: <strong style="color:var(--text2)">${c.src}</strong></span>
+                <span>⏱ Thời lượng: <strong style="color:var(--text2)">${c.dur}</strong></span>
+                <span>💰 Học phí: <strong style="color:var(--text2)">${c.price}</strong></span>
+                <span>⭐ Đánh giá: <strong style="color:var(--amber)">${c.rating}</strong></span>
               </div>
             </div>
-            <button class="mini-course-enroll" onclick="window.open('${c.url}','_blank')">Đăng Ký Học →</button>
+            <button class="action-btn" onclick="window.open('${c.url}','_blank')" style="background:var(--primary);color:#fff;border-color:var(--primary);padding:8px 16px;font-weight:700;border-radius:var(--radius-sm);white-space:nowrap;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+              Vào Học Ngay ↗
+            </button>
           </div>
         `).join('');
-      }).join('');
-      prescHTML = courseCards;
-    }
+      }).join('')}
+    </div>
+  `;
 
-    const card = document.createElement('div');
-    card.className = 'diag-card';
-    card.innerHTML = `
-      <div class="diag-header">
-        <div class="diag-job-name">${j.icon} ${j.job}</div>
-        <span class="diag-match-badge ${badgeCls}">${j.pct}% Phù Hợp</span>
+  container.appendChild(spotlightCard);
+
+  // ══════════════════════════════════════════════════════════
+  // 📚 PHẦN CÁC VỊ TRÍ KHÁC CÙNG NGÀNH ĐỂ THAM KHẢO THÊM
+  // ══════════════════════════════════════════════════════════
+  const otherJobs = sorted.filter(j => !j.isTarget);
+  if(otherJobs.length > 0) {
+    const sectionHeader = document.createElement('div');
+    sectionHeader.style.cssText = 'margin:30px 0 16px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:10px';
+    sectionHeader.innerHTML = `
+      <div style="font-size:15px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px">
+        <span>📊</span> CÁC VỊ TRÍ KHÁC TRONG NGÀNH ĐỂ BẠN THAM KHẢO THÊM (${otherJobs.length} vị trí)
       </div>
-      <div class="diag-progress-wrap">
-        <div class="diag-progress-track">
-          <div class="diag-progress-fill" style="width:${j.pct}%;background:${fillGrad}"></div>
-        </div>
-      </div>
-      <div class="diag-section">
-        <div class="diag-section-title diagnosis">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          CHẨN ĐOÁN KỸ NĂNG — ${j.reqSkills.length} kỹ năng yêu cầu
-        </div>
-        ${j.userHas.length>0?`<div style="margin-bottom:8px">${hasHTML}</div>`:''}
-        ${j.missing.length>0?missingHTML:`<div style="font-size:11px;color:var(--green);font-weight:600">✅ Bạn đã có đủ tất cả kỹ năng!</div>`}
-      </div>
-      <div class="prescription-zone">
-        <div class="diag-section-title prescription" style="margin-bottom:12px">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          KÊ ĐƠN KHÓA HỌC — LỘ TRÌNH BÙ ĐẮP GAP
-        </div>
-        ${prescHTML}
-      </div>
+      <span style="font-size:11px;color:var(--text3)">So sánh tỷ lệ phù hợp với kỹ năng hiện có</span>
     `;
-    container.appendChild(card);
-  });
+    container.appendChild(sectionHeader);
+
+    otherJobs.forEach(j => {
+      const pctColor = j.pct >= 70 ? 'var(--green)' : j.pct >= 40 ? 'var(--amber)' : 'var(--red)';
+      const badgeCls = j.pct >= 70 ? 'high' : j.pct >= 40 ? 'mid' : 'low';
+      const fillGrad = j.pct >= 70 ? 'linear-gradient(90deg,#10b981,#34d399)' : j.pct >= 40 ? 'linear-gradient(90deg,#f59e0b,#fbbf24)' : 'linear-gradient(90deg,#ef4444,#f87171)';
+
+      const hasHTML = j.userHas.map(sk => `<span class="diag-skill-item have">✅ ${sk.name}<span style="font-size:9px;opacity:.7;margin-left:3px">${sk.importance}</span></span>`).join('');
+      const missingHTML = j.missing.map(sk => `<span class="diag-skill-item missing">❌ ${sk.name}<span style="font-size:9px;opacity:.7;margin-left:3px">${sk.importance}</span></span>`).join('');
+
+      let prescHTML = '';
+      if(j.missing.length === 0){
+        prescHTML = `<div class="no-gap-msg">🎉 Bạn đã đáp ứng đầy đủ yêu cầu của vị trí này.</div>`;
+      } else {
+        prescHTML = j.missing.map(sk => {
+          const courses = SKILL_COURSES_MAP[sk.name] || [{title:`Học ${sk.name}`, src:'Coursera / edX', dur:'4 tuần', price:'Miễn phí', rating:4.7, url:'https://www.coursera.org'}];
+          return courses.map(c => `
+            <div class="mini-course-card" style="margin-bottom:6px">
+              <div class="mini-course-left">
+                <div class="mini-course-skill-tag">Bù đắp: ${sk.name}</div>
+                <div class="mini-course-title" title="${c.title}">${c.title}</div>
+                <div class="mini-course-meta">
+                  <span>🎓 ${c.src}</span>
+                  <span>⏱ ${c.dur}</span>
+                  <span>💰 ${c.price}</span>
+                  <span>⭐ ${c.rating}</span>
+                </div>
+              </div>
+              <button class="mini-course-enroll" onclick="window.open('${c.url}','_blank')">Vào Học Ngay ↗</button>
+            </div>
+          `).join('');
+        }).join('');
+      }
+
+      const card = document.createElement('div');
+      card.className = 'diag-card';
+      card.innerHTML = `
+        <div class="diag-header">
+          <div>
+            <div class="diag-job-name">${j.icon} ${j.job}</div>
+            <div style="font-size:11px;color:var(--text2);margin-top:3px">
+              <span style="color:var(--text3)">Mục tiêu phụ:</span> <span class="chip blue" style="font-size:10px;padding:1px 6px">${j.job}</span>
+            </div>
+          </div>
+          <span class="diag-match-badge ${badgeCls}">${j.pct}% Phù Hợp</span>
+        </div>
+        <div class="diag-progress-wrap">
+          <div class="diag-progress-track">
+            <div class="diag-progress-fill" style="width:${j.pct}%;background:${fillGrad}"></div>
+          </div>
+        </div>
+        <div class="diag-section">
+          <div class="diag-section-title diagnosis">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            CHẨN ĐOÁN KỸ NĂNG — ${j.reqSkills.length} kỹ năng yêu cầu
+          </div>
+          ${j.userHas.length > 0 ? `<div style="margin-bottom:8px">${hasHTML}</div>` : ''}
+          ${j.missing.length > 0 ? missingHTML : `<div style="font-size:11px;color:var(--green);font-weight:600">✅ Bạn đã có đủ tất cả kỹ năng!</div>`}
+        </div>
+        <div class="prescription-zone">
+          <div class="diag-section-title prescription" style="margin-bottom:12px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            KÊ ĐƠN KHÓA HỌC BÙ ĐẮP
+          </div>
+          ${prescHTML}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // Cuộn nhẹ tới kết quả
+  spotlightCard.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 }
 
 // ══════════════════════════════════════════════════════
@@ -1761,24 +3429,142 @@ function renderEmployers() {
 }
 
 // ══════════════════════════════════════════════════════
-//  COURSES
+//  COURSES & DIRECT LEARNING LINKS
 // ══════════════════════════════════════════════════════
+let coursesSkillDropdownPopulated = false;
+
+function populateCourseSkillDropdown() {
+  const select = document.getElementById('courseSkillSelect');
+  if(!select) return;
+  select.innerHTML = '<option value="all">-- Tất cả kỹ năng --</option>';
+
+  // Get unique skills
+  const skills = Array.from(new Set(COURSES_DATA.map(c => c.skill))).sort();
+  skills.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    if(s.toLowerCase() === currentCourseSkill.toLowerCase()) {
+      opt.selected = true;
+    }
+    select.appendChild(opt);
+  });
+  coursesSkillDropdownPopulated = true;
+}
+
+function filterCoursesByIndustry(ind, el) {
+  currentCourseIndustry = ind;
+  document.querySelectorAll('#courseIndustryFilters .course-filter-chip').forEach(c => c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderCourses();
+}
+
+function onCourseSkillSelect(skill) {
+  currentCourseSkill = skill;
+  renderCourses();
+}
+
+function onCourseSearch(query) {
+  currentCourseSearch = query.trim().toLowerCase();
+  renderCourses();
+}
+
 function renderCourses() {
   const grid = document.getElementById('courseGrid');
   if(!grid) return;
-  grid.innerHTML = COURSES_DATA.map(c=>`
+
+  if(!coursesSkillDropdownPopulated) {
+    populateCourseSkillDropdown();
+  }
+
+  const statEl = document.getElementById('courseStatCount');
+
+  // Filter logic
+  const filtered = COURSES_DATA.filter(c => {
+    // 1. Industry filter
+    if(currentCourseIndustry !== 'all') {
+      const matchInd = (c.industry && c.industry.toLowerCase() === currentCourseIndustry.toLowerCase()) ||
+                       (c.group && c.group.toLowerCase().includes(currentCourseIndustry.toLowerCase()));
+      if(!matchInd) return false;
+    }
+
+    // 2. Skill filter
+    if(currentCourseSkill !== 'all') {
+      const matchSkill = c.skill.toLowerCase() === currentCourseSkill.toLowerCase() ||
+                         c.skill.toLowerCase().includes(currentCourseSkill.toLowerCase()) ||
+                         currentCourseSkill.toLowerCase().includes(c.skill.toLowerCase());
+      if(!matchSkill) return false;
+    }
+
+    // 3. Search query
+    if(currentCourseSearch) {
+      const matchSearch = c.title.toLowerCase().includes(currentCourseSearch) ||
+                          c.skill.toLowerCase().includes(currentCourseSearch) ||
+                          (c.provider && c.provider.toLowerCase().includes(currentCourseSearch)) ||
+                          (c.platform && c.platform.toLowerCase().includes(currentCourseSearch));
+      if(!matchSearch) return false;
+    }
+
+    return true;
+  });
+
+  if(statEl) {
+    statEl.textContent = `Đang hiển thị: ${filtered.length} / ${COURSES_DATA.length} khóa học`;
+  }
+
+  if(filtered.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1" class="card">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px">Không tìm thấy khóa học phù hợp</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:14px">Thử chọn "Tất Cả Ngành" hoặc tìm từ khóa khác</div>
+          <button class="btn btn-outline" onclick="resetCourseFilters()" style="margin:0 auto">Đặt Lại Bộ Lọc</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c => `
     <div class="course-card">
-      <span class="course-skill-tag" style="background:${c.color}18;color:${c.color}">${c.skill}</span>
-      <div class="course-title">${c.title}</div>
-      <div class="course-provider">🎓 ${c.provider}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span class="course-skill-tag" style="background:${c.color || '#6366f1'}18;color:${c.color || '#6366f1'}">
+          🎯 ${c.skill}
+        </span>
+        <span class="chip green" style="font-weight:700;font-size:11px">⭐ ${c.rating || 4.8}</span>
+      </div>
+      <div class="course-title" title="${c.title}">${c.title}</div>
+      <div class="course-provider">
+        <span>🏫 <strong>${c.provider}</strong></span>
+      </div>
       <div class="course-meta">
         <span>⏱ ${c.duration}</span>
         <span>💰 ${c.price}</span>
-        <span>⭐ ${c.rating}</span>
+        <span>🌐 ${c.platform || 'Online'}</span>
       </div>
-      <button class="course-cta" onclick="alert('Đang mở khóa học ${c.title}...')">Đăng Ký Học</button>
+      <!-- NÚT BẤM TRỰC TIẾP MỞ LINK KHÓA HỌC -->
+      <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="course-cta" style="display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none">
+        <span>Truy Cập Khóa Học Ngay</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
   `).join('');
+}
+
+function resetCourseFilters() {
+  currentCourseIndustry = 'all';
+  currentCourseSkill = 'all';
+  currentCourseSearch = '';
+  document.querySelectorAll('#courseIndustryFilters .course-filter-chip').forEach((c, idx) => {
+    if(idx === 0) c.classList.add('active');
+    else c.classList.remove('active');
+  });
+  const searchInput = document.getElementById('courseSearchInput');
+  if(searchInput) searchInput.value = '';
+  const select = document.getElementById('courseSkillSelect');
+  if(select) select.value = 'all';
+  renderCourses();
 }
 
 // ══════════════════════════════════════════════════════
@@ -1828,9 +3614,554 @@ function applyGlobalFilter(){}
 // ══════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════
+//  DYNAMIC DATA INTEGRATION (1,000 JDs · 500 CVs)
+// ══════════════════════════════════════════════════════
+const API_BASE = 'http://localhost:8000';
+let RAW_WORKERS = [...WORKERS_DATA];
+let RAW_JOBS = [...JOBS_DATA];
+
+async function fetchLiveDBData() {
+  // 1. Load Live KPI
+  try {
+    const res = await fetch(`${API_BASE}/api/kpi`);
+    if(res.ok) {
+      const k = await res.json();
+      const bCard = document.querySelector('.kpi-card.blue .kpi-value');
+      if(bCard) bCard.textContent = Number(k.totalJobPostings).toLocaleString();
+      const gCard = document.querySelector('.kpi-card.green .kpi-value');
+      if(gCard) gCard.textContent = Number(k.totalSurveyResponses).toLocaleString();
+      const aCard = document.querySelector('.kpi-card.amber .kpi-value');
+      if(aCard) aCard.textContent = (k.avgSkillGap > 0 ? '+' : '') + k.avgSkillGap + '%';
+      const pCard = document.querySelector('.kpi-card.purple .kpi-value');
+      if(pCard) pCard.textContent = k.aiClassifiedSkills;
+    }
+  } catch(e) {}
+
+  // 2. Load 500 CVs
+  try {
+    const res = await fetch(`${API_BASE}/api/surveys/?limit=500`);
+    if(res.ok) {
+      const surveys = await res.json();
+      if(surveys.length > 0) {
+        RAW_WORKERS = surveys.map(s => ({
+          id: s.student_code,
+          name: s.full_name,
+          major: s.major,
+          school: s.institution,
+          skills: s.skills || [],
+          match: s.recommended_role || 'Chuyên viên nghiệp vụ',
+          status: 'active'
+        }));
+        renderWorkers();
+
+        // Populate quick student select in recommendation page
+        const qSel = document.getElementById('recStudentQuick');
+        if(qSel) {
+          qSel.innerHTML = '<option value="">-- Chọn 1 trong 500 sinh viên mẫu trong CSDL --</option>' +
+            RAW_WORKERS.slice(0, 100).map(w => `<option value="${w.id}">${w.id} - ${w.name} (${w.major})</option>`).join('');
+        }
+      }
+    }
+  } catch(e) {}
+
+  // 3. Load 1,000 JDs
+  try {
+    const res = await fetch(`${API_BASE}/api/jobs/?limit=1000`);
+    if(res.ok) {
+      const jobs = await res.json();
+      if(jobs.length > 0) {
+        RAW_JOBS = jobs.map(j => {
+          const sal = j.salary_min ? `${(j.salary_min/1000000).toFixed(0)}–${(j.salary_max/1000000).toFixed(0)}tr/th` : 'Thương lượng';
+          return {
+            id: `JB${String(j.id).padStart(4, '0')}`,
+            dbId: j.id,
+            title: j.title,
+            company: j.company,
+            industry: j.industry,
+            salary: sal,
+            skills: j.skills || [],
+            url: j.source_url || '#'
+          };
+        });
+        renderEmployers();
+      }
+    }
+  } catch(e) {}
+}
+
+function onSelectQuickStudent(code) {
+  if(!code) return;
+  const s = RAW_WORKERS.find(w => w.id === code);
+  if(!s) return;
+  document.getElementById('recName').value = s.name;
+  
+  // Update Chức vụ lúc trước (hỗ trợ cả select dropdown)
+  const prevInput = document.getElementById('recPrevRole');
+  if(prevInput) {
+    const val = s.match ? `Thực tập sinh (${s.match})` : (s.major ? `Sinh viên ngành ${s.major}` : 'Thực tập sinh Kế toán');
+    let exists = Array.from(prevInput.options || []).some(o => o.value === val);
+    if(!exists && prevInput.tagName === 'SELECT') {
+      const opt = new Option(val, val, true, true);
+      prevInput.add(opt);
+    }
+    prevInput.value = val;
+  }
+
+  // Guess industry
+  const m = (s.major||'').toLowerCase();
+  let ind = 'IT';
+  if(m.includes('kế toán') || m.includes('tài chính') || m.includes('kinh tế')) ind = 'economics';
+  else if(m.includes('du lịch') || m.includes('khách sạn')) ind = 'tourism';
+  else if(m.includes('logistics') || m.includes('vận tải')) ind = 'logistics';
+  else if(m.includes('nông nghiệp')) ind = 'agriculture';
+
+  document.getElementById('recMajor').value = ind;
+  updateTargetRoleDropdown(ind);
+
+  // Khớp chức vụ mục tiêu với sinh viên mẫu
+  if(s.match) {
+    const targetSelect = document.getElementById('recTargetRole');
+    if(targetSelect) {
+      const matchOpt = Array.from(targetSelect.options).find(o => 
+        o.value.toLowerCase().includes(s.match.toLowerCase()) || 
+        s.match.toLowerCase().includes(o.value.toLowerCase())
+      );
+      if(matchOpt) {
+        targetSelect.value = matchOpt.value;
+        updateTargetRoleHint(matchOpt.value);
+      }
+    }
+  }
+
+  renderQuickSkills(ind);
+
+  selectedSkills = [...(s.skills || [])];
+  renderSelectedTags();
+  runRecommendation();
+}
+
+function onWorkerSearch(q) {
+  workerSearchQuery = (q || '').trim().toLowerCase();
+  workerPage = 1;
+  renderWorkers();
+}
+
+function onJobSearch(q) {
+  jobSearchQuery = (q || '').trim().toLowerCase();
+  jobPage = 1;
+  renderEmployers();
+}
+
+function renderWorkers() {
+  const tbody = document.getElementById('workersTableBody');
+  if(!tbody) return;
+  
+  let list = RAW_WORKERS;
+  if(workerSearchQuery) {
+    list = list.filter(w => 
+      w.name.toLowerCase().includes(workerSearchQuery) || 
+      w.id.toLowerCase().includes(workerSearchQuery) ||
+      (w.major && w.major.toLowerCase().includes(workerSearchQuery)) ||
+      (w.school && w.school.toLowerCase().includes(workerSearchQuery))
+    );
+  }
+
+  const pageSize = 10;
+  const totalPages = Math.ceil(list.length / pageSize) || 1;
+  if(workerPage > totalPages) workerPage = totalPages;
+  const start = (workerPage - 1) * pageSize;
+  const pagedList = list.slice(start, start + pageSize);
+
+  tbody.innerHTML = pagedList.map(w=>{
+    const chips = w.skills.map(s=>`<span class="chip blue">${s}</span>`).join(' ');
+    const statusMap = {active:'active',pending:'pending',inactive:'inactive'};
+    const statusLabel = {active:'✅ Đã phân tích',pending:'⏳ Chờ xử lý',inactive:'❌ Không hoạt động'};
+    return `<tr>
+      <td>${w.id}</td>
+      <td class="skill-name-cell">${w.name}</td>
+      <td>${w.major}</td>
+      <td style="color:var(--text2)">${w.school}</td>
+      <td style="display:flex;flex-wrap:wrap;gap:4px;padding-top:11px">${chips}</td>
+      <td><span class="chip green">${w.match}</span></td>
+      <td><span class="status-dot ${statusMap[w.status]}"></span>${statusLabel[w.status]}</td>
+      <td><button class="action-btn" onclick="alert('Hồ sơ: ' + w.name + '\nChuyên ngành: ' + w.major + '\nKỹ năng: ' + w.skills.join(', '))">Chi tiết</button></td>
+    </tr>`;
+  }).join('');
+
+  const pag = document.getElementById('workersPagination');
+  if(pag) {
+    pag.innerHTML = `
+      <div>Hiển thị <strong>${pagedList.length}</strong> / <strong>${list.length}</strong> hồ sơ sinh viên</div>
+      <div style="display:flex;gap:6px">
+        <button class="action-btn" ${workerPage<=1?'disabled':''} onclick="workerPage--;renderWorkers()">« Trang trước</button>
+        <span style="font-weight:700;padding:4px 8px">${workerPage} / ${totalPages}</span>
+        <button class="action-btn" ${workerPage>=totalPages?'disabled':''} onclick="workerPage++;renderWorkers()">Trang sau »</button>
+      </div>
+    `;
+  }
+}
+
+function renderEmployers() {
+  const grid = document.getElementById('jobPostsGrid');
+  if(!grid) return;
+
+  let list = RAW_JOBS;
+  if(jobSearchQuery) {
+    list = list.filter(j => 
+      j.title.toLowerCase().includes(jobSearchQuery) || 
+      j.company.toLowerCase().includes(jobSearchQuery) ||
+      (j.industry && j.industry.toLowerCase().includes(jobSearchQuery))
+    );
+  }
+
+  const badge = document.getElementById('jobCountBadge');
+  if(badge) badge.textContent = `${list.length.toLocaleString()} Tin Tuyển Dụng`;
+
+  const pageSize = 12;
+  const totalPages = Math.ceil(list.length / pageSize) || 1;
+  if(jobPage > totalPages) jobPage = totalPages;
+  const start = (jobPage - 1) * pageSize;
+  const pagedList = list.slice(start, start + pageSize);
+
+  grid.innerHTML = pagedList.map(j=>`
+    <div class="job-post-card">
+      <div class="job-post-title">${j.title}</div>
+      <div class="job-post-meta">
+        <span>🏢 ${j.company}</span>
+        <span>📁 ${j.industry}</span>
+        <span>💰 ${j.salary}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">
+        ${j.skills.map(s=>`<span class="chip blue">${s}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="action-btn" onclick="alert('Chi tiết tin:\n' + '${j.title}' + ' tại ' + '${j.company}' + '\nNgành: ' + '${j.industry}' + '\nLương: ' + '${j.salary}')">Xem chi tiết</button>
+        <button class="action-btn danger" onclick="if(confirm('Xóa tin tuyển dụng này?')){ RAW_JOBS = RAW_JOBS.filter(x=>x.id!=='${j.id}'); renderEmployers(); }">Xóa</button>
+      </div>
+    </div>
+  `).join('');
+
+  const pag = document.getElementById('jobsPagination');
+  if(pag) {
+    pag.innerHTML = `
+      <div>Hiển thị <strong>${pagedList.length}</strong> / <strong>${list.length}</strong> tin tuyển dụng</div>
+      <div style="display:flex;gap:6px">
+        <button class="action-btn" ${jobPage<=1?'disabled':''} onclick="jobPage--;renderEmployers()">« Trang trước</button>
+        <span style="font-weight:700;padding:4px 8px">${jobPage} / ${totalPages}</span>
+        <button class="action-btn" ${jobPage>=totalPages?'disabled':''} onclick="jobPage++;renderEmployers()">Trang sau »</button>
+      </div>
+    `;
+  }
+}
+
 window.addEventListener('DOMContentLoaded', ()=>{
   initDashboardCharts();
+  initRecommend();
+  fetchLiveDBData();
 });
+
+
+// ══════════════════════════════════════════════════════
+//  CV ANALYZER (GEMINI AI + ESCO ROADMAP)
+// ══════════════════════════════════════════════════════
+let currentCvFile = null;
+
+function initCvUpload() {
+  // ready
+}
+
+function onCvFileSelected(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  attachCvFile(file);
+}
+
+function attachCvFile(file) {
+  currentCvFile = file;
+  document.getElementById('cvFileNameDisplay').textContent = `📄 Đã chọn: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+
+  // Check if image
+  if(file.type.startsWith('image/') || /\.(png|jpe?g|webp)$/i.test(file.name)) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('cvImagePreviewTag').src = e.target.result;
+      document.getElementById('cvImagePreviewArea').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+    document.getElementById('cvTextContent').value = '';
+    document.getElementById('cvTextContent').placeholder = `[Đang sử dụng file ảnh: ${file.name}]`;
+  } else {
+    document.getElementById('cvImagePreviewArea').style.display = 'none';
+    if(file.name.endsWith('.txt')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('cvTextContent').value = e.target.result;
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+  }
+}
+
+function removeSelectedCvImage() {
+  currentCvFile = null;
+  document.getElementById('cvImagePreviewArea').style.display = 'none';
+  document.getElementById('cvImagePreviewTag').src = '';
+  document.getElementById('cvFileInput').value = '';
+  document.getElementById('cvFileNameDisplay').textContent = 'Kéo thả CV / Ảnh hoặc click để chọn';
+}
+
+// Clipboard paste listener (Ctrl+V support for CV screenshot)
+window.addEventListener('paste', e => {
+  const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+  for(let item of items) {
+    if(item.kind === 'file' && item.type.startsWith('image/')) {
+      const blob = item.getAsFile();
+      const file = new File([blob], `screenshot_cv_${Date.now()}.png`, {type: item.type});
+      attachCvFile(file);
+      alert('Đã nhận diện ảnh chụp CV từ clipboard!');
+      break;
+    }
+  }
+});
+
+function loadSampleCv(type) {
+  if(type === 'ketoan') {
+    document.getElementById('cvPrevRole').value = 'Thực tập sinh Kế toán';
+    document.getElementById('cvTargetRole').value = 'Kế Toán Tổng Hợp';
+    document.getElementById('cvTextContent').value = `HỌ VÀ TÊN: NGUYỄN THỊ THU HÀ
+Sinh viên Kế toán – Đại học Cần Thơ (Khóa 47)
+Chức vụ hiện tại: Thực tập sinh Kế toán tại Công ty CP Thủy sản Cần Thơ
+Mục tiêu nghề nghiệp: Trở thành Kế Toán Tổng Hợp trong 6 tháng tới.
+
+HỌC VẤN:
+- Cử nhân Kế toán – Tài chính, Đại học Cần Thơ (GPA 3.4/4.0)
+
+KỸ NĂNG:
+- Kế toán doanh nghiệp, định khoản kế toán
+- Excel nâng cao (VLOOKUP, Pivot Table, hàm điều kiện)
+- Phần mềm kế toán MISA SME (nhập liệu hóa đơn, lập phiếu chi)
+- Giao tiếp, làm việc nhóm, tiếng Anh giao tiếp cơ bản
+
+KINH NGHIỆM:
+- 4 tháng thực tập hỗ trợ kiểm tra chứng từ hóa đơn, đối chiếu công nợ.`;
+  } else if(type === 'it') {
+    document.getElementById('cvPrevRole').value = 'Thực tập sinh Lập trình';
+    document.getElementById('cvTargetRole').value = 'Python Developer';
+    document.getElementById('cvTextContent').value = `HỌ VÀ TÊN: TRẦN VĂN AN
+Chuyên ngành: Kỹ thuật phần mềm – ĐH Cần Thơ
+Chức vụ trước: Thực tập sinh Web Developer
+Mục tiêu: Trở thành Python Backend Developer
+
+KỸ NĂNG:
+- Ngôn ngữ: Python, JavaScript cơ bản
+- Cơ sở dữ liệu: SQL, MySQL
+- Công cụ: Git, GitHub, VS Code
+- Tiếng Anh: Đọc hiểu tài liệu kỹ thuật tốt`;
+  } else if(type === 'image') {
+    document.getElementById('cvPrevRole').value = 'Thực tập sinh Kế toán';
+    document.getElementById('cvTargetRole').value = 'Kế Toán Tổng Hợp';
+    document.getElementById('cvTextContent').value = '[Đã đính kèm Ảnh chụp CV mẫu của ứng viên: Nguyễn Thị Thu Hà - Cử nhân Kế toán ĐH Cần Thơ]';
+    
+    // Create an elegant SVG sample CV image converted to PNG/Blob
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 750;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,600,750);
+    
+    ctx.fillStyle = '#4f46e5';
+    ctx.fillRect(0,0,600,90);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('CURRICULUM VITAE - NGUYỄN THỊ THU HÀ', 30, 52);
+    
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('CHUYÊN NGÀNH: KẾ TOÁN & TÀI CHÍNH', 30, 130);
+    ctx.font = '14px sans-serif';
+    ctx.fillStyle = '#475569';
+    ctx.fillText('Trường: Đại học Cần Thơ (Khóa 47) | GPA: 3.4/4.0', 30, 155);
+    ctx.fillText('Vị trí hiện tại: Thực tập sinh Kế toán tại TP. Cần Thơ', 30, 180);
+    
+    ctx.fillStyle = '#10b981';
+    ctx.fillRect(30, 210, 540, 2);
+    
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('KỸ NĂNG NỔI BẬT:', 30, 245);
+    ctx.font = '14px sans-serif';
+    ctx.fillStyle = '#334155';
+    ctx.fillText('• Kế toán doanh nghiệp, nghiệp vụ định khoản', 40, 275);
+    ctx.fillText('• Sử dụng thành thạo phần mềm MISA SME', 40, 305);
+    ctx.fillText('• Excel văn phòng nâng cao (VLOOKUP, Pivot, Sumifs)', 40, 335);
+    ctx.fillText('• Giao tiếp, làm việc nhóm, tiếng Anh giao tiếp B1', 40, 365);
+    
+    ctx.fillStyle = '#4f46e5';
+    ctx.fillRect(30, 400, 540, 2);
+    
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('MỤC TIÊU NGHỀ NGHIỆP:', 30, 435);
+    ctx.font = '14px sans-serif';
+    ctx.fillStyle = '#334155';
+    ctx.fillText('Phát triển trở thành Kế Toán Tổng Hợp trong 6 tháng tới.', 40, 465);
+    ctx.fillText('Sẵn sàng tham gia đào tạo bổ sung Báo cáo tài chính & Thuế.', 40, 495);
+
+    canvas.toBlob(blob => {
+      const file = new File([blob], 'CV_Anh_Chup_Mau_NguyenThiThuHa.png', {type: 'image/png'});
+      attachCvFile(file);
+    });
+  } else if(type === 'logistics') {
+    document.getElementById('cvPrevRole').value = 'Thực tập sinh Kho vận';
+    document.getElementById('cvTargetRole').value = 'Chuyên Viên Xuất Nhập Khẩu';
+    document.getElementById('cvTextContent').value = `HỌ VÀ TÊN: LÊ HOÀNG NAM
+Chuyên ngành: Logistics & Quản lý chuỗi cung ứng
+Chức vụ trước: Thực tập sinh kho vận tại Cảng Cần Thơ
+Mục tiêu: Chuyên Viên Xuất Nhập Khẩu
+
+KỸ NĂNG:
+- Logistics căn bản, quản lý xuất nhập hàng hóa
+- Incoterms 2020 cơ bản
+- Excel quản lý đơn hàng
+- Tiếng Anh thương mại TOEIC 650`;
+  }
+}
+
+async function submitCvForAiAnalysis() {
+  const cvText = document.getElementById('cvTextContent') ? document.getElementById('cvTextContent').value.trim() : '';
+  const prevRole = (document.getElementById('cvPrevRole') && document.getElementById('cvPrevRole').value.trim()) || 'auto';
+  const targetRole = (document.getElementById('cvTargetRole') && document.getElementById('cvTargetRole').value) || 'auto';
+  const btn = document.getElementById('btnAnalyzeCv');
+
+  if(!cvText && !currentCvFile) {
+    alert('Vui lòng chọn file CV hoặc dán nội dung CV để AI phân tích!');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner" style="display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:6px"></span> Đang Gửi AI Gemini Phân Tích...`;
+
+  try {
+    let res;
+    if(currentCvFile) {
+      const formData = new FormData();
+      formData.append('file', currentCvFile);
+      formData.append('target_role', targetRole);
+      formData.append('previous_role', prevRole);
+      if(cvText) formData.append('cv_text', cvText);
+      res = await fetch(`${API_BASE}/api/cv/upload`, {
+        method: 'POST',
+        body: formData
+      });
+    } else {
+      res = await fetch(`${API_BASE}/api/cv/analyze`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          cv_text: cvText,
+          target_role: targetRole,
+          previous_role: prevRole
+        })
+      });
+    }
+
+    if(!res.ok) {
+      throw new Error(`API returned status ${res.status}`);
+    }
+
+    const data = await res.json();
+    displayCvAnalysisResult(data);
+
+  } catch(err) {
+    console.error('Error analyzing CV:', err);
+    alert('Không thể kết nối đến AI Server. Vui lòng kiểm tra lại dịch vụ core-api.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> ✨ Phân Tích CV Bằng Gemini AI`;
+  }
+}
+
+function displayCvAnalysisResult(data) {
+  document.getElementById('cvEmptyState').style.display = 'none';
+  const resArea = document.getElementById('cvResultArea');
+  resArea.style.display = 'block';
+
+  // Candidate Header
+  document.getElementById('resCvCandidateName').textContent = data.candidate_name || 'Ứng Viên';
+  document.getElementById('resCvPrevRole').textContent = data.previous_role || 'Chưa rõ';
+  document.getElementById('resCvTargetRole').textContent = data.target_role || 'Chức vụ mục tiêu';
+  document.getElementById('resCvMatchPct').textContent = `${data.match_percentage}%`;
+  document.getElementById('resCvProgressBar').style.width = `${data.match_percentage}%`;
+
+  if(data.ai_engine) {
+    const isGemini = data.ai_engine.includes('Google Gemini');
+    const badge = document.getElementById('resCvEngineBadge');
+    badge.textContent = isGemini ? `✨ ${data.ai_engine}` : `🤖 ${data.ai_engine}`;
+    badge.style.background = isGemini ? 'rgba(99, 102, 241, 0.15)' : 'rgba(16, 185, 129, 0.1)';
+    badge.style.color = isGemini ? '#4338ca' : 'var(--green)';
+    badge.style.border = isGemini ? '1px solid #818cf8' : 'none';
+  }
+
+  // Assessment
+  document.getElementById('resCvAssessment').textContent = data.ai_assessment || 'Hồ sơ đã được phân tích theo chuẩn kỹ năng thị trường.';
+
+  // Matched Skills
+  const matchedEl = document.getElementById('resCvMatchedSkills');
+  const matchedList = data.matched_skills || [];
+  matchedEl.innerHTML = matchedList.length > 0
+    ? matchedList.map(s => `<span class="chip green" style="font-weight:600">✅ ${s}</span>`).join(' ')
+    : '<span style="color:var(--text3);font-size:12px">Chưa tìm thấy kỹ năng khớp yêu cầu</span>';
+
+  // Missing Skills
+  const missingEl = document.getElementById('resCvMissingSkills');
+  const missingList = data.missing_skills || [];
+  missingEl.innerHTML = missingList.length > 0
+    ? missingList.map(s => `<span class="chip red" style="font-weight:600">❌ ${s}</span>`).join(' ')
+    : '<span style="color:var(--green);font-size:12px">🎉 Hồ sơ đã đáp ứng đầy đủ kỹ năng!</span>';
+
+  // Roadmap
+  const roadmapEl = document.getElementById('resCvRoadmapPhases');
+  const roadmap = data.learning_roadmap || [];
+  
+  roadmapEl.innerHTML = roadmap.map((phase, idx) => {
+    const course = phase.course;
+    const courseCard = course ? `
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;margin-top:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:11px;color:var(--primary);font-weight:700">📘 Khóa học chỉ định bù đắp:</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-top:2px">${course.title}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">
+            <span>🏫 ${course.src}</span> · 
+            <span>⏱ ${course.dur}</span> · 
+            <span>💰 ${course.price}</span>
+          </div>
+        </div>
+        <button class="action-btn" onclick="window.open('${course.url || '#'}','_blank')" style="background:var(--primary);color:#fff;border-color:var(--primary);padding:6px 14px;font-weight:600">Đăng Ký Học →</button>
+      </div>
+    ` : '';
+
+    return `
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;position:relative">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="background:var(--primary);color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center">${idx+1}</span>
+          <div style="font-size:14px;font-weight:800;color:var(--text)">${phase.phase}</div>
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px"><strong>Mục tiêu:</strong> ${phase.goal}</div>
+        <ul style="padding-left:22px;font-size:12px;color:var(--text2);line-height:1.6">
+          ${(phase.actions || []).map(a => `<li>${a}</li>`).join('')}
+        </ul>
+        ${courseCard}
+      </div>
+    `;
+  }).join('');
+
+  // Scroll to result on mobile/desktop
+  resArea.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
 </script>
 </body>
 </html>

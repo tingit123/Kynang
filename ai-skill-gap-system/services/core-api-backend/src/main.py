@@ -65,13 +65,14 @@ app.add_middleware(
 )
 
 # Đăng ký các router
-from src.routers import jobs, skills, surveys, crawler_data, courses  # noqa
+from src.routers import jobs, skills, surveys, crawler_data, courses, cv_analyzer  # noqa
 
 app.include_router(jobs.router,         prefix="/api/jobs",     tags=["Tin Tuyển Dụng"])
 app.include_router(skills.router,       prefix="/api/skills",   tags=["Kỹ Năng & Skill Gap"])
 app.include_router(surveys.router,      prefix="/api/surveys",  tags=["Khảo Sát Sinh Viên"])
 app.include_router(crawler_data.router, prefix="/api/crawler",  tags=["Dữ Liệu Cào"])
 app.include_router(courses.router,      prefix="/api/courses",  tags=["Gợi Ý Khóa Học"])
+app.include_router(cv_analyzer.router,   prefix="/api/cv",       tags=["Phân Tích CV & Lộ Trình Học"])
 
 
 @app.get("/", tags=["Health"])
@@ -96,25 +97,29 @@ def get_kpi():
     from src.models.job import JobPosting
     from src.models.skill import SkillCatalog
     from src.models.survey import SurveyResponse
+    from src.models.course import CourseRecommendation
+    from datetime import datetime
 
     db = SessionLocal()
     try:
         total_jobs    = db.query(JobPosting).count()
         total_surveys = db.query(SurveyResponse).count()
         ai_classified = db.query(SkillCatalog).count()
+        total_courses = db.query(CourseRecommendation).count()
 
         skills  = db.query(SkillCatalog).all()
-        avg_gap = round(sum(s.gap_pct for s in skills) / len(skills), 1) if skills else 0
+        pos_skills = [s for s in skills if s.gap_pct and s.gap_pct > 0]
+        avg_gap = round(sum(s.gap_pct for s in pos_skills) / len(pos_skills), 1) if pos_skills else 0
 
         return {
             "totalJobPostings":    total_jobs,
             "totalSurveyResponses":total_surveys,
             "avgSkillGap":         avg_gap,
             "aiClassifiedSkills":  ai_classified,
-            "duplicatesRemoved":   234,
+            "duplicatesRemoved":   186,
             "activeIndustries":    4,
-            "coursesRecommended":  127,
-            "lastUpdated":         "14/09/2026 - 09:30",
+            "coursesRecommended":  total_courses,
+            "lastUpdated":         datetime.now().strftime("%d/%m/%Y - %H:%M"),
         }
     finally:
         db.close()

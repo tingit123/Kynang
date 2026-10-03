@@ -31,6 +31,8 @@ services:
     depends_on:
       mysql-db:
         condition: service_healthy
+    volumes:
+      - ./services/core-api-backend/src:/app/src
     environment:
       DB_HOST: mysql-db
       DB_PORT: 3306
