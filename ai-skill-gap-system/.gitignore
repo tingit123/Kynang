@@ -2,10 +2,7 @@
 #  .gitignore – AI Skill Gap System
 # ══════════════════════════════════════════════
 
-# ─── Biến môi trường – KHÔNG BAO GIỜ push lên GitHub ───
-.env
-.env.*
-!.env.example
+# ─── Biến môi trường ───
 database/config/db.env
 
 # ─── Python ───

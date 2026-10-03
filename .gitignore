@@ -4,10 +4,6 @@ venv/
 __pycache__/
 *.pyc
 
-# Environment
-.env
-.env.*
-
 # Node
 node_modules/
 dist/
@@ -20,9 +16,10 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Logs & temporary files
+# Logs
 *.log
-*.bak
-original_recommend.txt
-test_prompt.json
+
+# Local secrets backup
+*.local
+
 

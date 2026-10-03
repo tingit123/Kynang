@@ -27,6 +27,7 @@ router = APIRouter()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
+
 # ── STANDARD ROLES & ESCO PROFILES ─────────────────────────────────
 STANDARD_ROLE_PROFILES = {
     "Kế Toán Tổng Hợp": {
