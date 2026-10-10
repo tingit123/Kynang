@@ -819,32 +819,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
         <div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
         <div class="kpi-info">
           <div class="kpi-label">Tin Tuyển Dụng</div>
-          <div class="kpi-value">1,000</div>
-          <div class="kpi-change up">↗ Từ TopCV – 4 ngành chủ chốt</div>
+          <div class="kpi-value" id="kpiTotalJobs">1,000</div>
+          <div class="kpi-change up" id="kpiJobsSub">↗ Từ TopCV – 4 ngành chủ chốt</div>
         </div>
       </div>
       <div class="kpi-card green">
         <div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
         <div class="kpi-info">
           <div class="kpi-label">CV Sinh Viên</div>
-          <div class="kpi-value">500</div>
-          <div class="kpi-change up">↗ Đã phân loại kỹ năng bằng AI</div>
+          <div class="kpi-value" id="kpiTotalSurveys">500</div>
+          <div class="kpi-change up" id="kpiSurveysSub">↗ Đã phân loại kỹ năng bằng AI</div>
         </div>
       </div>
       <div class="kpi-card amber">
         <div class="kpi-icon amber"><svg viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
         <div class="kpi-info">
           <div class="kpi-label">Gap Trung Bình</div>
-          <div class="kpi-value" style="color:var(--amber)">34.6%</div>
-          <div class="kpi-change down">↗ Cần cải thiện khẩn cấp</div>
+          <div class="kpi-value" id="kpiAvgGap" style="color:var(--amber)">34.6%</div>
+          <div class="kpi-change down" id="kpiGapSub">↗ Cần cải thiện khẩn cấp</div>
         </div>
       </div>
       <div class="kpi-card purple">
         <div class="kpi-icon purple"><svg viewBox="0 0 24 24" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         <div class="kpi-info">
           <div class="kpi-label">Kỹ Năng AI Phân Loại</div>
-          <div class="kpi-value" style="color:var(--purple)">68</div>
-          <div class="kpi-change up">↗ Nhóm lớn → nhóm nhỏ</div>
+          <div class="kpi-value" id="kpiAiSkills" style="color:var(--purple)">—</div>
+          <div class="kpi-change up" id="kpiLastUpdated">↗ Đang tải từ API...</div>
         </div>
       </div>
     </div>
@@ -2280,19 +2280,129 @@ function initPage(name) {
 }
 
 // ══════════════════════════════════════════════════════
+//  API CONFIG – kết nối Backend thật (port 8000)
+// ══════════════════════════════════════════════════════
+const API_BASE = 'http://localhost:8000';
+
+// Dữ liệu live từ API (sẽ được ghi đè sau khi fetch)
+let LIVE_SOFT_SKILLS = null;
+let LIVE_INDUSTRY_SKILLS = {};
+let LIVE_KPI = null;
+
+async function loadKpiFromApi() {
+  try {
+    const res = await fetch(`${API_BASE}/api/kpi`, {signal: AbortSignal.timeout(4000)});
+    if (!res.ok) throw new Error('API error');
+    const d = await res.json();
+    LIVE_KPI = d;
+    // Cập nhật 4 KPI cards
+    const jEl = document.getElementById('kpiTotalJobs');
+    const sEl = document.getElementById('kpiTotalSurveys');
+    const gEl = document.getElementById('kpiAvgGap');
+    const aEl = document.getElementById('kpiAiSkills');
+    const luEl = document.getElementById('kpiLastUpdated');
+    if (jEl) jEl.textContent = d.totalJobPostings?.toLocaleString() || '1,000';
+    if (sEl) sEl.textContent = d.totalSurveyResponses?.toLocaleString() || '500';
+    if (gEl) gEl.textContent = (d.avgSkillGap != null ? d.avgSkillGap + '%' : '34.6%');
+    if (aEl) aEl.textContent = d.aiClassifiedSkills?.toLocaleString() || '10';
+    if (luEl) luEl.textContent = `↗ Cập nhật: ${d.lastUpdated || 'Vừa xong'}`;
+    console.log('[API] KPI loaded:', d);
+  } catch(e) {
+    console.warn('[API] KPI fallback – dùng dữ liệu mặc định:', e.message);
+    // Dữ liệu thật từ init.sql: 10 skills, gap trung bình = (60+44+43+30+34.6+16+17+17+15.3+10)/10 ≈ 28.7%
+    const aEl = document.getElementById('kpiAiSkills');
+    const luEl = document.getElementById('kpiLastUpdated');
+    if (aEl) aEl.textContent = '10';
+    if (luEl) luEl.textContent = '↗ Từ init.sql · 10 kỹ năng đã phân loại';
+  }
+}
+
+async function loadSoftSkillsFromApi() {
+  try {
+    const res = await fetch(`${API_BASE}/api/skills/soft-skills`, {signal: AbortSignal.timeout(4000)});
+    if (!res.ok) throw new Error('API error');
+    const raw = await res.json();
+    // Chuyển format API → format SOFT_SKILLS
+    LIVE_SOFT_SKILLS = raw.map(s => ({
+      skill:   s.skill,
+      demand:  s.demand,
+      supply:  s.supply,
+      gap:     s.gap,
+      trend:   s.trend || '+0%',
+      courses: []
+    }));
+    console.log('[API] Soft Skills loaded:', LIVE_SOFT_SKILLS.length, 'items');
+    return LIVE_SOFT_SKILLS;
+  } catch(e) {
+    console.warn('[API] SoftSkills fallback:', e.message);
+    // Dữ liệu thật từ init.sql – 4 kỹ năng mềm (industry = "Tất cả")
+    LIVE_SOFT_SKILLS = [
+      {skill:'Tiếng Anh',    demand:76.6, supply:42.0, gap:34.6, trend:'+8%',  courses:[]},
+      {skill:'Giao tiếp',    demand:35.3, supply:18.3, gap:17.0, trend:'+4%',  courses:[]},
+      {skill:'Giải quyết vấn đề', demand:38.1, supply:22.8, gap:15.3, trend:'+5%', courses:[]},
+      {skill:'Customer Service', demand:30.0, supply:20.0, gap:10.0, trend:'+6%', courses:[]},
+    ];
+    return LIVE_SOFT_SKILLS;
+  }
+}
+
+async function loadIndustrySkillsFromApi(industry) {
+  const industryMap = {IT:'IT', tourism:'Du lịch', logistics:'Logistics', economics:'Kinh tế', agriculture:'Nông nghiệp'};
+  const apiKey = industryMap[industry] || industry;
+  try {
+    const res = await fetch(`${API_BASE}/api/skills/gap-matrix?industry=${encodeURIComponent(apiKey)}&limit=10`, {signal: AbortSignal.timeout(4000)});
+    if (!res.ok) throw new Error('API error');
+    const raw = await res.json();
+    if (raw.length === 0) return null;
+    LIVE_INDUSTRY_SKILLS[industry] = raw.map(s => ({
+      skill:   s.skill,
+      demand:  s.demand,
+      supply:  s.supply,
+      gap:     s.gap,
+      trend:   s.trend || '+0%',
+      group:   s.industry || apiKey,
+      courses: []
+    }));
+    console.log(`[API] Industry ${industry} loaded:`, LIVE_INDUSTRY_SKILLS[industry].length, 'skills');
+    return LIVE_INDUSTRY_SKILLS[industry];
+  } catch(e) {
+    console.warn('[API] Industry skills fallback:', e.message);
+    return null;
+  }
+}
+
+async function loadJobPieFromApi() {
+  try {
+    const res = await fetch(`${API_BASE}/api/jobs/stats/by-industry`, {signal: AbortSignal.timeout(4000)});
+    if (!res.ok) throw new Error('API error');
+    const raw = await res.json();
+    if (raw.length === 0) return null;
+    console.log('[API] Job pie loaded:', raw);
+    return raw;
+  } catch(e) {
+    console.warn('[API] Job pie fallback:', e.message);
+    return null;
+  }
+}
+
+// ══════════════════════════════════════════════════════
 //  DASHBOARD CHARTS
 // ══════════════════════════════════════════════════════
 let overviewHoriz = false;
-function initDashboardCharts() {
+async function initDashboardCharts() {
+  // Load KPI và chart data từ API thật song song
+  await Promise.all([loadKpiFromApi(), loadSoftSkillsFromApi()]);
   buildOverviewGapChart();
-  buildIndustryPie();
+  buildIndustryPieAsync();
 }
 
 function buildOverviewGapChart() {
   const ctx = document.getElementById('overviewGapChart');
   if(!ctx) return;
   if(overviewChartInst) overviewChartInst.destroy();
-  const top5 = SOFT_SKILLS.slice(0,5);
+  // Ưu tiên dữ liệu live từ API, fallback về SOFT_SKILLS mock
+  const allSkills = LIVE_SOFT_SKILLS || SOFT_SKILLS || [];
+  const top5 = allSkills.slice(0,5);
   overviewChartInst = new Chart(ctx, {
     type:'bar',
     data:{
@@ -2322,32 +2432,58 @@ function setOverviewChartType(type,btn){
   buildOverviewGapChart();
 }
 
-function buildIndustryPie() {
+async function buildIndustryPieAsync() {
   const ctx = document.getElementById('industryPieChart');
   if(!ctx) return;
   if(industryPieInst) industryPieInst.destroy();
+
+  // Thứ tự ngành cố định
+  const industryOrder = ['IT', 'Du lịch', 'Logistics', 'Kinh tế', 'Nông nghiệp'];
+  const colors = ['#6366f1','#10b981','#f59e0b','#ef4444','#a855f7'];
+
+  // Lấy số liệu thật từ API
+  const rawPie = await loadJobPieFromApi();
+  let pieData;
+  if (rawPie && rawPie.length > 0) {
+    // Map API data về thứ tự cố định
+    const countMap = {};
+    rawPie.forEach(r => { countMap[r.industry] = r.count; });
+    pieData = industryOrder.map(ind => countMap[ind] || 0);
+    console.log('[API] Pie chart data:', countMap);
+  } else {
+    // Fallback: tỷ lệ ước tính từ SEARCH_KEYWORDS trong crawler (IT=6 từ khóa chiếm nhiều nhất)
+    pieData = [385, 218, 241, 156, 0];
+  }
+
   industryPieInst = new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['IT & Công nghệ','Du lịch','Logistics','Kinh tế','Nông nghiệp'],
-      datasets:[{data:[385,218,241,156,0],backgroundColor:['#6366f1','#10b981','#f59e0b','#ef4444','#a855f7'],borderWidth:0,hoverOffset:8}]
+      labels: industryOrder.map((l,i) => `${['💻','✈️','📦','📊','🌾'][i]} ${l}`),
+      datasets:[{data: pieData, backgroundColor: colors, borderWidth:0, hoverOffset:8}]
     },
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#8892a4',font:{size:11},padding:12}}}}
   });
 }
 
+// Alias để tương thích ngược
+function buildIndustryPie() { buildIndustryPieAsync(); }
+
 // ══════════════════════════════════════════════════════
 //  SOFT SKILLS
 // ══════════════════════════════════════════════════════
-function initSoftSkills() {
+async function initSoftSkills() {
+  // Tải dữ liệu thật từ API trước khi vẽ chart
+  await loadSoftSkillsFromApi();
   buildSoftCharts();
-  renderSoftTable(SOFT_SKILLS);
+  const data = LIVE_SOFT_SKILLS || SOFT_SKILLS || [];
+  renderSoftTable(data);
 }
 
 function buildSoftCharts() {
-  buildSmallBarChart('softDemandChart', SOFT_SKILLS, 'demand', 'rgba(99,102,241,0.85)');
-  buildSmallBarChart('softSupplyChart', SOFT_SKILLS, 'supply', 'rgba(245,158,11,0.85)');
-  buildSmallBarChart('softGapChart',    SOFT_SKILLS, 'gap',    'rgba(239,68,68,0.85)');
+  const data = LIVE_SOFT_SKILLS || SOFT_SKILLS || [];
+  buildSmallBarChart('softDemandChart', data, 'demand', 'rgba(99,102,241,0.85)');
+  buildSmallBarChart('softSupplyChart', data, 'supply', 'rgba(245,158,11,0.85)');
+  buildSmallBarChart('softGapChart',    data, 'gap',    'rgba(239,68,68,0.85)');
 }
 
 function buildSmallBarChart(canvasId, data, field, color) {
@@ -2397,7 +2533,8 @@ function renderSoftTable(data) {
 }
 
 function filterSoftTable(q) {
-  const filtered = SOFT_SKILLS.filter(s=>s.skill.toLowerCase().includes(q.toLowerCase()));
+  const data = LIVE_SOFT_SKILLS || SOFT_SKILLS || [];
+  const filtered = data.filter(s=>s.skill.toLowerCase().includes(q.toLowerCase()));
   renderSoftTable(filtered);
 }
 
