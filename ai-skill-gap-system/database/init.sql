@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS job_postings (
   title           VARCHAR(300) NOT NULL,
   company         VARCHAR(200) NOT NULL,
   location        VARCHAR(100) DEFAULT 'Cần Thơ',
-  industry        ENUM('IT', 'Du lịch', 'Logistics', 'Kinh tế', 'Khác') NOT NULL,
+  industry        VARCHAR(50) NOT NULL,
   description     TEXT,
   salary_min      INT,
   salary_max      INT,
