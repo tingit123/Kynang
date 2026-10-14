@@ -1,0 +1,130 @@
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: GỢI Ý NGHỀ NGHIỆP ══ -->
+  <div class="page" id="page-recommend">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Gợi Ý Nghề Nghiệp & Kỹ Năng Còn Thiếu</h1>
+        <p class="page-sub">Chọn ngành · Tick kỹ năng bạn có · AI chẩn đoán lỗ hổng và kê đơn khóa học bù đắp ngay</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start">
+
+      <!-- ─── CỘT TRÁI: HỒ SƠ ─── -->
+      <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:80px">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:12px">
+            <div class="card-title">📋 Hồ Sơ Của Bạn</div>
+          </div>
+          <div class="rec-form">
+            <div class="form-group">
+              <label class="form-label">Họ và Tên</label>
+              <input class="form-input" id="recName" placeholder="VD: Nguyễn Văn A" type="text"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Chuyên ngành học</label>
+              <select class="form-input" id="recMajor">
+                <option value="">-- Chọn chuyên ngành --</option>
+                <option value="IT">💻 Công nghệ thông tin</option>
+                <option value="tourism">✈️ Du lịch &amp; Khách sạn</option>
+                <option value="logistics">📦 Logistics &amp; XNK</option>
+                <option value="economics">📊 Kinh tế &amp; Tài chính</option>
+                <option value="agriculture">🌾 Nông nghiệp</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Năm học / Kinh nghiệm</label>
+              <select class="form-input" id="recLevel">
+                <option value="1">Năm 1</option>
+                <option value="2">Năm 2</option>
+                <option value="3">Năm 3</option>
+                <option value="4">Năm 4</option>
+                <option value="5">Đã tốt nghiệp &lt; 1 năm</option>
+                <option value="6">Kinh nghiệm 1–3 năm</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kỹ năng đang có <small style="color:var(--text3);font-weight:400">(click để bỏ chọn)</small></label>
+              <div class="skill-tags" id="selectedSkillTags" style="min-height:48px"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Thêm nhanh kỹ năng</label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px" id="quickSkillBtns"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runRecommendation()" style="width:100%;justify-content:center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Phân Tích &amp; Gợi Ý
+            </button>
+          </div>
+        </div>
+
+        <!-- Hướng dẫn -->
+        <div class="card" style="background:linear-gradient(135deg,rgba(79,70,229,0.05),rgba(168,85,247,0.05));border-color:rgba(79,70,229,0.15)">
+          <div style="font-size:11px;color:var(--text2);line-height:1.7">
+            <div style="font-weight:700;color:var(--primary);margin-bottom:6px">💡 Cách đọc kết quả</div>
+            <div>✅ Kỹ năng bạn <strong>đã có</strong> so với yêu cầu</div>
+            <div>❌ Kỹ năng bạn <strong>đang thiếu</strong> (Gap)</div>
+            <div>📘 Khóa học <strong>gợi ý bù đắp</strong> trực tiếp từng Gap</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── CỘT PHẢI: KẾT QUẢ ─── -->
+      <div>
+        <!-- Empty state -->
+        <div id="recEmptyState" class="card">
+          <div class="empty-state" style="padding:60px 20px">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <div style="font-size:15px;font-weight:700;color:var(--text2);margin-bottom:6px">Chưa có kết quả phân tích</div>
+            <div style="font-size:12px">Điền hồ sơ bên trái và nhấn "Phân Tích &amp; Gợi Ý"</div>
+          </div>
+        </div>
+
+        <!-- Result header (hidden until run) -->
+        <div id="recResultHeader" style="display:none;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="font-size:16px;font-weight:800;color:var(--text)" id="recResultName">Kết Quả Phân Tích</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px" id="recResultSub"></div>
+            </div>
+            <span class="card-badge" style="background:rgba(168,85,247,0.1);color:var(--purple);font-size:11px">🤖 AI Skill Gap Engine</span>
+          </div>
+        </div>
+
+        <!-- Job diagnosis cards -->
+        <div id="recJobCards"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: NGƯỜI LAO ĐỘNG ══ -->
+  <div class="page" id="page-workers">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Quản Lý Người Lao Động</h1>
+        <p class="page-sub">500 hồ sơ CV sinh viên đã được AI phân loại kỹ năng</p>
+      </div>
+      <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Thêm Hồ Sơ</button>
+    </div>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--primary)">500</div><div class="admin-stat-label">Tổng Hồ Sơ</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--green)">423</div><div class="admin-stat-label">Đã Phân Tích AI</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--amber)">77</div><div class="admin-stat-label">Chờ Xử Lý</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Danh Sách Người Lao Động</div>
+        <div class="search-box"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm theo tên..."/></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Họ &amp; Tên</th><th>Chuyên Ngành</th><th>Trường</th><th>Kỹ Năng Đã Có</th><th>Match Nghề</th><th>Trạng Thái</th><th></th></tr></thead>
+          <tbody id="workersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
