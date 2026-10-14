@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SkillGap AI – Hệ Thống Phân Tích Kỹ Năng Lao Động | Cần Thơ</title>
+<meta name="description" content="Hệ thống AI phân tích khoảng cách kỹ năng lao động, gợi ý nghề nghiệp và khóa học phù hợp."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f1f5f9;--bg2:#ffffff;--bg3:#f8fafc;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --primary:#4f46e5;--primary-light:#6366f1;--primary-glow:rgba(79,70,229,0.15);
+  --green:#10b981;--amber:#f59e0b;--red:#ef4444;--purple:#a855f7;--cyan:#06b6d4;
+  --sidebar-w:260px;--topbar-h:62px;--radius:14px;--radius-sm:8px;
+  --shadow:0 2px 16px rgba(0,0,0,0.07);--shadow-lg:0 8px 40px rgba(0,0,0,0.12);
+  --hover-bg:rgba(79,70,229,0.05);--transition:all 0.22s ease;
+}
+[data-theme="dark"]{
+  --bg:#0c0e1a;--bg2:#131726;--bg3:#1a1f30;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e2e8f0;--text2:#8892a4;--text3:#4b5577;
+  --primary:#6366f1;--primary-light:#818cf8;--primary-glow:rgba(99,102,241,0.18);
+  --shadow:0 2px 16px rgba(0,0,0,0.45);--shadow-lg:0 8px 40px rgba(0,0,0,0.55);
+  --hover-bg:rgba(99,102,241,0.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ──────────────── LAYOUT ──────────────── */
+.shell{display:flex;min-height:100vh}
+
+/* ──────────────── SIDEBAR ──────────────── */
+.sidebar{
+  width:var(--sidebar-w);background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:200;
+  transition:transform 0.28s ease;overflow:hidden;
+}
+.sidebar.collapsed{transform:translateX(calc(-1 * var(--sidebar-w)))}
+.sidebar-logo{
+  padding:20px 20px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.logo-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.logo-icon svg{width:20px;height:20px;stroke:#fff}
+.logo-title{font-size:15px;font-weight:800;color:var(--text);letter-spacing:-0.3px}
+.logo-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px 10px}
+.nav-group-label{
+  font-size:9.5px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:1px;
+  padding:10px 10px 6px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--radius-sm);
+  cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;
+  transition:var(--transition);margin-bottom:2px;position:relative;user-select:none;
+}
+.nav-item:hover{background:var(--hover-bg);color:var(--primary)}
+.nav-item.active{background:var(--primary-glow);color:var(--primary);font-weight:700}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:20%;bottom:20%;
+  width:3px;border-radius:2px;background:var(--primary);
+}
+.nav-item svg{width:17px;height:17px;flex-shrink:0;stroke:currentColor;stroke-width:2}
+.nav-badge{
+  margin-left:auto;font-size:10px;font-weight:700;
+  padding:2px 7px;border-radius:20px;
+  background:var(--primary-glow);color:var(--primary);
+}
+.nav-badge.green{background:rgba(16,185,129,0.12);color:var(--green)}
+.nav-badge.red{background:rgba(239,68,68,0.12);color:var(--red)}
+.sidebar-footer{
+  padding:14px 16px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.6)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+.footer-text{font-size:11px;color:var(--text3)}
+
+/* ──────────────── MAIN ──────────────── */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;transition:margin-left 0.28s ease}
+.main.expanded{margin-left:0}
+
+/* ──────────────── TOPBAR ──────────────── */
+.topbar{
+  height:var(--topbar-h);background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;position:sticky;top:0;z-index:100;
+}
+.topbar-left{display:flex;align-items:center;gap:14px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.menu-btn{
+  background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);
+  padding:7px;cursor:pointer;color:var(--text2);display:flex;transition:var(--transition);
+}
+.menu-btn:hover{background:var(--hover-bg);color:var(--primary)}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px}
+.bc-sep{color:var(--text3)}
+.bc-cur{font-weight:700;color:var(--text)}
+.topbar-filters{display:flex;align-items:center;gap:8px}
+.filter-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px}
+.filter-select{
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text);font-size:12px;padding:5px 10px;
+  border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+}
+.filter-select:focus{outline:none;border-color:var(--primary)}
+.icon-btn{
+  background:none;border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text2);cursor:pointer;padding:8px;display:flex;
+  align-items:center;transition:var(--transition);position:relative;
+}
+.icon-btn:hover{background:var(--hover-bg);color:var(--primary)}
+.icon-btn svg{width:18px;height:18px}
+.notif-dot{
+  position:absolute;top:5px;right:5px;width:7px;height:7px;
+  border-radius:50%;background:var(--red);border:2px solid var(--bg2);
+}
+.user-chip{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  padding:4px 10px 4px 4px;border-radius:30px;
+  background:var(--bg3);border:1px solid var(--border);
+  transition:var(--transition);
+}
+.user-chip:hover{border-color:var(--primary-light)}
+.user-avatar{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;
+}
+.user-name{font-size:12px;font-weight:600;color:var(--text)}
+.theme-toggle{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px;cursor:pointer;color:var(--text2);display:flex;transition:var(--transition)}
+.theme-toggle:hover{background:var(--hover-bg);color:var(--primary)}
+.theme-toggle svg{width:18px;height:18px}
+
+/* ──────────────── PAGE ──────────────── */
+.page{display:none;padding:24px;flex-direction:column;gap:20px}
+.page.active{display:flex}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-title{font-size:21px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.page-sub{font-size:12px;color:var(--text2);margin-top:3px}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 18px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:600;cursor:pointer;
+  border:none;font-family:inherit;transition:var(--transition);
+}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--purple));color:#fff;box-shadow:0 4px 15px var(--primary-glow)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 25px var(--primary-glow)}
+.btn-outline{background:none;border:1.5px solid var(--primary);color:var(--primary)}
+.btn-outline:hover{background:var(--primary-glow)}
+.btn svg{width:15px;height:15px}
+
+/* ──────────────── KPI CARDS ──────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+  display:flex;align-items:flex-start;gap:14px;
+  transition:var(--transition);position:relative;overflow:hidden;
+}
+.kpi-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;
+}
+.kpi-card.blue::after{background:linear-gradient(90deg,#4f46e5,#818cf8)}
+.kpi-card.green::after{background:linear-gradient(90deg,#10b981,#34d399)}
+.kpi-card.amber::after{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.kpi-card.purple::after{background:linear-gradient(90deg,#a855f7,#c084fc)}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.kpi-icon{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.kpi-icon.blue{background:rgba(79,70,229,0.1);color:var(--primary)}
+.kpi-icon.green{background:rgba(16,185,129,0.1);color:var(--green)}
+.kpi-icon.amber{background:rgba(245,158,11,0.1);color:var(--amber)}
+.kpi-icon.purple{background:rgba(168,85,247,0.1);color:var(--purple)}
+.kpi-icon svg{width:22px;height:22px;stroke:currentColor;stroke-width:2}
+.kpi-info{display:flex;flex-direction:column;gap:2px;flex:1}
+.kpi-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.7px}
+.kpi-value{font-size:28px;font-weight:800;color:var(--text);line-height:1.2;letter-spacing:-1.2px;margin-top:3px}
+.kpi-change{font-size:11px;color:var(--text2);margin-top:2px}
+.kpi-change.up{color:var(--green)} .kpi-change.down{color:var(--red)}
+
+/* ──────────────── CARD ──────────────── */
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px}
+.card-title{font-size:12px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.5px}
+.card-badge{
+  font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;
+  background:var(--primary-glow);color:var(--primary);
+}
+.card-badge.green{background:rgba(16,185,129,0.1);color:var(--green)}
+.card-badge.amber{background:rgba(245,158,11,0.1);color:var(--amber)}
+.card-badge.red{background:rgba(239,68,68,0.1);color:var(--red)}
+.card-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ──────────────── CHARTS ──────────────── */
+.chart-wrap{position:relative;height:300px}
+.chart-wrap.tall{height:360px}
+.charts-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.legend-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2)}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.tab-row{display:flex;gap:4px;background:var(--bg3);padding:3px;border-radius:var(--radius-sm)}
+.tab-btn{
+  background:none;border:none;font-size:11px;font-weight:600;padding:4px 12px;
+  border-radius:6px;cursor:pointer;color:var(--text2);font-family:inherit;transition:var(--transition);
+}
+.tab-btn.active{background:var(--primary);color:#fff}
+
+/* ──────────────── TABLE ──────────────── */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-sm)}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{
+  background:var(--bg3);color:var(--text3);
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  padding:10px 14px;text-align:left;white-space:nowrap;
+}
+.data-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--hover-bg);color:var(--text)}
+.rank-cell{font-weight:800;font-size:15px;text-align:center}
+.skill-name-cell{font-weight:700;color:var(--text)}
+.pct-bar-wrap{display:flex;align-items:center;gap:8px}
+.pct-bar{height:6px;border-radius:3px;min-width:4px;flex-shrink:0;transition:width 0.5s ease}
+.pct-val{font-weight:700;color:var(--text);font-size:12px;white-space:nowrap}
+.chip{
+  display:inline-flex;align-items:center;
+  font-size:10px;font-weight:600;padding:2px 8px;border-radius:12px;
+  white-space:nowrap;
+}
+.chip.blue{background:rgba(79,70,229,0.1);color:var(--primary)}
+.chip.green{background:rgba(16,185,129,0.1);color:var(--green)}
+.chip.amber{background:rgba(245,158,11,0.1);color:var(--amber)}
+.chip.red{background:rgba(239,68,68,0.1);color:var(--red)}
+.chip.purple{background:rgba(168,85,247,0.1);color:var(--purple)}
+.chip.cyan{background:rgba(6,182,212,0.1);color:var(--cyan)}
+.trend-up{color:var(--green);font-weight:700;font-size:11px}
+.trend-dn{color:var(--red);font-weight:700;font-size:11px}
+.search-box{
+  display:flex;align-items:center;gap:8px;background:var(--bg3);
+  border:1px solid var(--border2);border-radius:var(--radius-sm);
+  padding:6px 12px;
+}
+.search-box input{background:none;border:none;outline:none;font-family:inherit;font-size:13px;color:var(--text);flex:1}
+.search-box input::placeholder{color:var(--text3)}
+.search-box svg{width:16px;height:16px;stroke:var(--text3);stroke-width:2;flex-shrink:0}
+
+/* ──────────────── INDUSTRY TABS ──────────────── */
+.ind-tab-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.ind-tab{
+  display:flex;align-items:center;gap:7px;
+  padding:8px 16px;border-radius:30px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  border:1.5px solid var(--border2);color:var(--text2);
+  background:var(--bg2);transition:var(--transition);
+}
+.ind-tab:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-glow)}
+.ind-tab.active{border-color:var(--primary);color:#fff;background:var(--primary)}
+.ind-tab .ind-emoji{font-size:15px}
+
+/* ──────────────── RECOMMENDATION ──────────────── */
+.rec-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rec-form{display:flex;flex-direction:column;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:12px;font-weight:600;color:var(--text2)}
+.form-input{
+  background:var(--bg3);border:1.5px solid var(--border2);
+  color:var(--text);font-family:inherit;font-size:13px;
+  padding:9px 14px;border-radius:var(--radius-sm);
+  transition:var(--transition);outline:none;width:100%;
+}
+.form-input:focus{border-color:var(--primary)}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px;min-height:40px;padding:8px;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius-sm)}
+.skill-tag{
+  display:flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;
+  background:var(--primary-glow);color:var(--primary);cursor:pointer;
+}
+.skill-tag:hover{background:rgba(239,68,68,0.1);color:var(--red)}
+.rec-results{display:flex;flex-direction:column;gap:12px}
+.rec-card{
+  background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:16px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:var(--transition);cursor:pointer;
+}
+.rec-card:hover{border-color:var(--primary);box-shadow:0 4px 20px var(--primary-glow)}
+.rec-card-top{display:flex;align-items:center;justify-content:space-between}
+.rec-job{font-size:14px;font-weight:700;color:var(--text)}
+.rec-match{font-size:12px;font-weight:700;color:var(--green)}
+.rec-missing{display:flex;flex-wrap:wrap;gap:4px}
+.progress-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:2px}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--purple))}
+.rec-missing-label{font-size:11px;color:var(--text3);font-weight:500}
+
+/* ──────────────── ADMIN ──────────────── */
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.admin-stat{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;text-align:center;
+}
+.admin-stat-val{font-size:32px;font-weight:800;color:var(--primary)}
+.admin-stat-label{font-size:12px;color:var(--text2);margin-top:4px}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.status-dot.active{background:var(--green)}
+.status-dot.pending{background:var(--amber)}
+.status-dot.inactive{background:var(--text3)}
+.action-btn{
+  background:none;border:1px solid var(--border2);
+  padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;
+  cursor:pointer;color:var(--text2);font-family:inherit;
+  transition:var(--transition);
+}
+.action-btn:hover{border-color:var(--primary);color:var(--primary)}
+.action-btn.danger:hover{border-color:var(--red);color:var(--red)}
+
+/* ──────────────── COURSE PORTAL ──────────────── */
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.course-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:var(--transition);
+}
+.course-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--primary-light)}
+.course-skill-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;margin-bottom:2px}
+.course-title{font-size:14px;font-weight:700;color:var(--text)}
+.course-provider{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:4px}
+.course-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--text3)}
+.course-cta{
+  margin-top:auto;background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff;border:none;border-radius:var(--radius-sm);padding:8px;
+  font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:var(--transition);
+}
+.course-cta:hover{opacity:0.9}
+
+/* ──────────────── EMPLOYER PORTAL ──────────────── */
+.job-post-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;display:flex;flex-direction:column;gap:8px;transition:var(--transition);
+}
+.job-post-card:hover{border-color:var(--primary-light);box-shadow:var(--shadow)}
+.job-post-title{font-size:14px;font-weight:700;color:var(--text)}
+.job-post-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--text2)}
+
+/* ──────────────── MODAL OVERLAY ──────────────── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
+  z-index:1000;align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--bg2);border-radius:var(--radius);padding:28px;
+  width:min(520px,95vw);max-height:90vh;overflow-y:auto;
+  box-shadow:var(--shadow-lg);position:relative;
+}
+.modal-close{
+  position:absolute;top:14px;right:14px;background:none;border:none;
+  cursor:pointer;color:var(--text3);transition:var(--transition);padding:4px;
+}
+.modal-close:hover{color:var(--red)}
+.modal-close svg{width:20px;height:20px;stroke:currentColor;stroke-width:2}
+.modal-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:18px}
+
+/* ──────────────── SKILL HIERARCHY ──────────────── */
+.skill-tree{display:flex;flex-direction:column;gap:10px}
+.skill-group{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.skill-group-header{
+  display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;
+  font-weight:700;color:var(--text);font-size:13px;
+}
+.skill-group-header:hover{background:var(--hover-bg)}
+.skill-group-header svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;transition:transform 0.2s;color:var(--text3)}
+.skill-group.open .skill-group-header svg{transform:rotate(90deg)}
+.skill-group-body{display:none;padding:8px 16px 12px 32px;display:flex;flex-wrap:wrap;gap:6px}
+.skill-sub{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid var(--border2);color:var(--text2)}
+.skill-sub.high{border-color:var(--green);color:var(--green);background:rgba(16,185,129,0.05)}
+.skill-sub.mid{border-color:var(--amber);color:var(--amber);background:rgba(245,158,11,0.05)}
+.skill-sub.low{border-color:var(--text3);color:var(--text3)}
+
+/* ──────────────── EMPTY STATE ──────────────── */
+.empty-state{text-align:center;padding:40px;color:var(--text3)}
+.empty-state svg{width:48px;height:48px;stroke:var(--text3);stroke-width:1.5;margin:0 auto 12px;display:block}
+
+/* ──────────────── DIAGNOSIS CARD ──────────────── */
+.diag-card{
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  transition:var(--transition);margin-bottom:16px;
+}
+.diag-card:hover{box-shadow:var(--shadow-lg)}
+.diag-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+}
+.diag-job-name{font-size:15px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.diag-match-badge{
+  font-size:13px;font-weight:800;padding:4px 14px;
+  border-radius:20px;white-space:nowrap;
+}
+.diag-match-badge.high{background:rgba(16,185,129,0.12);color:var(--green)}
+.diag-match-badge.mid{background:rgba(245,158,11,0.12);color:var(--amber)}
+.diag-match-badge.low{background:rgba(239,68,68,0.12);color:var(--red)}
+.diag-progress-wrap{padding:0 20px;margin:12px 0 4px}
+.diag-progress-track{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.diag-progress-fill{height:100%;border-radius:4px;transition:width 0.8s ease}
+.diag-section{
+  padding:14px 20px;
+}
+.diag-section-title{
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+  margin-bottom:10px;display:flex;align-items:center;gap:6px;
+}
+.diag-section-title.diagnosis{color:var(--red)}
+.diag-section-title.prescription{color:var(--primary)}
+.diag-skill-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.diag-skill-item{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;
+  font-size:11px;font-weight:600;
+}
+.diag-skill-item.have{
+  background:rgba(16,185,129,0.1);color:var(--green);
+  border:1px solid rgba(16,185,129,0.25);
+}
+.diag-skill-item.missing{
+  background:rgba(239,68,68,0.08);color:var(--red);
+  border:1px dashed rgba(239,68,68,0.4);
+}
+.prescription-zone{
+  background:linear-gradient(135deg,rgba(79,70,229,0.04),rgba(168,85,247,0.04));
+  border-top:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);
+  padding:14px 20px;
+}
+.mini-course-card{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:10px 14px;
+  margin-bottom:8px;transition:var(--transition);
+}
+.mini-course-card:hover{border-color:var(--primary-light);box-shadow:0 2px 12px var(--primary-glow)}
+.mini-course-card:last-child{margin-bottom:0}
+.mini-course-left{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.mini-course-skill-tag{
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  color:var(--primary);margin-bottom:1px;
+}
+.mini-course-title{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-course-meta{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text3);margin-top:2px}
+.mini-course-enroll{
+  flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary),var(--purple));
+  color:#fff;border:none;border-radius:var(--radius-sm);
+  padding:6px 14px;font-size:11px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:var(--transition);
+  white-space:nowrap;
+}
+.mini-course-enroll:hover{transform:translateY(-1px);box-shadow:0 4px 15px var(--primary-glow)}
+.no-gap-msg{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 16px;border-radius:var(--radius-sm);
+  background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);
+  font-size:12px;font-weight:600;color:var(--green);
+}
+
+/* ──────────────── RESPONSIVE ──────────────── */
+@media(max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .charts-grid{grid-template-columns:1fr}
+  .rec-layout{grid-template-columns:1fr}
+  .course-grid{grid-template-columns:1fr 1fr}
+  .admin-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .kpi-grid{grid-template-columns:1fr}
+  .course-grid{grid-template-columns:1fr}
+  .admin-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div class="logo-title">SkillGap<span style="color:var(--primary)">AI</span></div>
+      <div class="logo-sub">Phân Tích Kỹ Năng Lao Động</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Phân Tích</div>
+    <div class="nav-item active" id="nav-dashboard" onclick="switchPage('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Tổng Quan
+      <span class="nav-badge green">Live</span>
+    </div>
+    <div class="nav-item" id="nav-softskills" onclick="switchPage('softskills',this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Kỹ Năng Mềm Chung
+      <span class="nav-badge">Top10</span>
+    </div>
+    <div class="nav-item" id="nav-industry" onclick="switchPage('industry',this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      Kỹ Năng Theo Ngành
+    </div>
+    <div class="nav-item" id="nav-recommend" onclick="switchPage('recommend',this)">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      Gợi Ý Nghề Nghiệp
+      <span class="nav-badge" style="background:rgba(168,85,247,0.1);color:var(--purple)">AI</span>
+    </div>
+
+    <div class="nav-group-label" style="margin-top:12px">Quản Lý</div>
+    <div class="nav-item" id="nav-workers" onclick="switchPage('workers',this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Người Lao Động
+      <span class="nav-badge">500</span>
+    </div>
+    <div class="nav-item" id="nav-employers" onclick="switchPage('employers',this)">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      Nhà Tuyển Dụng
+      <span class="nav-badge">1,000</span>
+    </div>
+    <div class="nav-item" id="nav-courses" onclick="switchPage('courses',this)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      Khóa Học
+      <span class="nav-badge green">Mới</span>
+    </div>
+    <div class="nav-item" id="nav-admin" onclick="switchPage('admin',this)">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Quản Trị Hệ Thống
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="ai-dot"></div>
+    <div class="footer-text">AI Engine đang chạy · v2.0.0</div>
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div class="main" id="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="breadcrumb">
+        <span style="color:var(--text3)">SkillGapAI</span>
+        <span class="bc-sep">›</span>
+        <span class="bc-cur" id="breadcrumbText">Tổng Quan</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-filters" id="topbarFilters">
+        <span class="filter-label">Ngành</span>
+        <select class="filter-select" id="globalIndustry" onchange="applyGlobalFilter()">
+          <option value="all">Tất cả</option>
+          <option value="IT">IT &amp; Công nghệ</option>
+          <option value="tourism">Du lịch &amp; Khách sạn</option>
+          <option value="logistics">Logistics &amp; XNK</option>
+          <option value="economics">Kinh tế &amp; Tài chính</option>
+          <option value="agriculture">Nông nghiệp</option>
+        </select>
+        <span class="filter-label" style="margin-left:6px">Kỳ</span>
+        <select class="filter-select">
+          <option>Quý 3/2026</option><option>Quý 2/2026</option><option>Quý 1/2026</option>
+        </select>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Đổi giao diện">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="notif-dot"></span>
+      </button>
+      <div class="user-chip">
+        <div class="user-avatar">AD</div>
+        <span class="user-name">Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ PAGE: TỔNG QUAN ══ -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard Tổng Quan</h1>
+        <p class="page-sub">Dữ liệu từ 1,000 Job Postings (TopCV) · 500 CV Sinh viên · AI xử lý tự động</p>
+      </div>
+      <button class="btn btn-primary" onclick="alert('Đang xuất báo cáo PDF...')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Xuất Báo Cáo
+      </button>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tin Tuyển Dụng</div>
+          <div class="kpi-value">1,000</div>
+          <div class="kpi-change up">↗ Từ TopCV – 4 ngành chủ chốt</div>
+        </div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-icon green"><svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+        <div class="kpi-info">
+          <div class="kpi-label">CV Sinh Viên</div>
+          <div class="kpi-value">500</div>
+          <div class="kpi-change up">↗ Đã phân loại kỹ năng bằng AI</div>
+        </div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-icon amber"><svg viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="kpi-info">
+          <div class="kpi-label">Gap Trung Bình</div>
+          <div class="kpi-value" style="color:var(--amber)">34.6%</div>
+          <div class="kpi-change down">↗ Cần cải thiện khẩn cấp</div>
+        </div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-icon purple"><svg viewBox="0 0 24 24" fill="none"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="kpi-info">
+          <div class="kpi-label">Kỹ Năng AI Phân Loại</div>
+          <div class="kpi-value" style="color:var(--purple)">68</div>
+          <div class="kpi-change up">↗ Nhóm lớn → nhóm nhỏ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts overview -->
+    <div class="charts-grid">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Top 5 Kỹ Năng Thiếu Hụt Nhiều Nhất</div>
+            <div class="card-sub">Gap = Demand – Supply (dữ liệu Q3/2026)</div>
+          </div>
+          <div class="tab-row">
+            <button class="tab-btn active" onclick="setOverviewChartType('bar',this)">Cột</button>
+            <button class="tab-btn" onclick="setOverviewChartType('horizontal',this)">Ngang</button>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="overviewGapChart"></canvas></div>
+        <div class="legend-row">
+          <div class="leg-item"><div class="leg-dot" style="background:#6366f1"></div>Nhu cầu (Demand)</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Cung lao động (Supply)</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Thiếu hụt (Gap)</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Phân Bổ Ngành Nghề</div>
+            <div class="card-sub">Tỷ lệ tin tuyển dụng theo ngành</div>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="industryPieChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: KỸ NĂNG MỀM ══ -->
+  <div class="page" id="page-softskills">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Top 10 Kỹ Năng Mềm Chung</h1>
+        <p class="page-sub">Điểm chung của tất cả ngành nghề · Xếp hạng theo Nhu cầu thị trường</p>
+      </div>
+    </div>
+
+    <!-- 3 bảng xếp hạng -->
+    <div class="charts-grid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🏆 Top Nhu Cầu Thị Trường</div>
+          <span class="card-badge">Demand %</span>
+        </div>
+        <div class="chart-wrap" style="height:240px"><canvas id="softDemandChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👥 Lao Động Đang Có</div>
+          <span class="card-badge green">Supply %</span>
+        </div>
+        <div class="chart-wrap" style="height:240px"><canvas id="softSupplyChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚡ Kỹ Năng Thiếu Hụt</div>
+          <span class="card-badge red">Gap %</span>
+        </div>
+        <div class="chart-wrap" style="height:240px"><canvas id="softGapChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Bảng chi tiết -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Bảng Xếp Hạng Chi Tiết – Kỹ Năng Mềm</div>
+          <div class="card-sub">Sắp xếp theo Demand giảm dần</div>
+        </div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" placeholder="Tìm kỹ năng..." oninput="filterSoftTable(this.value)"/>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px">#</th>
+              <th>Kỹ Năng Mềm</th>
+              <th>Nhu Cầu (Demand)</th>
+              <th>Cung Hiện Có (Supply)</th>
+              <th>Thiếu Hụt (Gap)</th>
+              <th>Xu Hướng</th>
+              <th>Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="softSkillTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: KỸ NĂNG THEO NGÀNH ══ -->
+  <div class="page" id="page-industry">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Kỹ Năng Theo Ngành Nghề</h1>
+        <p class="page-sub">Chọn ngành để xem Top 10 kỹ năng quan trọng nhất</p>
+      </div>
+    </div>
+
+    <!-- Industry tabs -->
+    <div class="ind-tab-row" id="industryTabs">
+      <div class="ind-tab active" onclick="selectIndustry('IT',this)"><span class="ind-emoji">💻</span> IT &amp; Công nghệ</div>
+      <div class="ind-tab" onclick="selectIndustry('tourism',this)"><span class="ind-emoji">✈️</span> Du lịch &amp; Khách sạn</div>
+      <div class="ind-tab" onclick="selectIndustry('logistics',this)"><span class="ind-emoji">📦</span> Logistics &amp; XNK</div>
+      <div class="ind-tab" onclick="selectIndustry('economics',this)"><span class="ind-emoji">📊</span> Kinh tế &amp; Tài chính</div>
+      <div class="ind-tab" onclick="selectIndustry('agriculture',this)"><span class="ind-emoji">🌾</span> Nông nghiệp</div>
+    </div>
+
+    <!-- Industry summary -->
+    <div class="kpi-grid" id="industryKPIs" style="grid-template-columns:repeat(3,1fr)">
+      <!-- Filled by JS -->
+    </div>
+
+    <!-- 3 charts -->
+    <div class="charts-grid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="card">
+        <div class="card-header"><div class="card-title">🏆 Nhu Cầu Tuyển Dụng</div><span class="card-badge">Demand</span></div>
+        <div class="chart-wrap" style="height:240px"><canvas id="indDemandChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">👥 Cung Lao Động</div><span class="card-badge green">Supply</span></div>
+        <div class="chart-wrap" style="height:240px"><canvas id="indSupplyChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">⚡ Kỹ Năng Thiếu Hụt</div><span class="card-badge red">Gap</span></div>
+        <div class="chart-wrap" style="height:240px"><canvas id="indGapChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Industry table -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title" id="industryTableTitle">Top 10 Kỹ Năng Quan Trọng – IT &amp; Công nghệ</div>
+          <div class="card-sub">Phân cấp: Nhóm lớn → Nhóm nhỏ</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:50px">#</th>
+              <th>Kỹ Năng</th>
+              <th>Nhóm</th>
+              <th>Nhu Cầu (Demand)</th>
+              <th>Cung Hiện Có (Supply)</th>
+              <th>Thiếu Hụt (Gap)</th>
+              <th>Xu Hướng</th>
+              <th>Gợi Ý Khóa Học</th>
+            </tr>
+          </thead>
+          <tbody id="industryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: GỢI Ý NGHỀ NGHIỆP ══ -->
+  <div class="page" id="page-recommend">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Gợi Ý Nghề Nghiệp & Kỹ Năng Còn Thiếu</h1>
+        <p class="page-sub">Chọn ngành · Tick kỹ năng bạn có · AI chẩn đoán lỗ hổng và kê đơn khóa học bù đắp ngay</p>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start">
+
+      <!-- ─── CỘT TRÁI: HỒ SƠ ─── -->
+      <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:80px">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:12px">
+            <div class="card-title">📋 Hồ Sơ Của Bạn</div>
+          </div>
+          <div class="rec-form">
+            <div class="form-group">
+              <label class="form-label">Họ và Tên</label>
+              <input class="form-input" id="recName" placeholder="VD: Nguyễn Văn A" type="text"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Chuyên ngành học</label>
+              <select class="form-input" id="recMajor">
+                <option value="">-- Chọn chuyên ngành --</option>
+                <option value="IT">💻 Công nghệ thông tin</option>
+                <option value="tourism">✈️ Du lịch &amp; Khách sạn</option>
+                <option value="logistics">📦 Logistics &amp; XNK</option>
+                <option value="economics">📊 Kinh tế &amp; Tài chính</option>
+                <option value="agriculture">🌾 Nông nghiệp</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Năm học / Kinh nghiệm</label>
+              <select class="form-input" id="recLevel">
+                <option value="1">Năm 1</option>
+                <option value="2">Năm 2</option>
+                <option value="3">Năm 3</option>
+                <option value="4">Năm 4</option>
+                <option value="5">Đã tốt nghiệp &lt; 1 năm</option>
+                <option value="6">Kinh nghiệm 1–3 năm</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kỹ năng đang có <small style="color:var(--text3);font-weight:400">(click để bỏ chọn)</small></label>
+              <div class="skill-tags" id="selectedSkillTags" style="min-height:48px"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Thêm nhanh kỹ năng</label>
+              <div style="display:flex;flex-wrap:wrap;gap:6px" id="quickSkillBtns"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runRecommendation()" style="width:100%;justify-content:center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Phân Tích &amp; Gợi Ý
+            </button>
+          </div>
+        </div>
+
+        <!-- Hướng dẫn -->
+        <div class="card" style="background:linear-gradient(135deg,rgba(79,70,229,0.05),rgba(168,85,247,0.05));border-color:rgba(79,70,229,0.15)">
+          <div style="font-size:11px;color:var(--text2);line-height:1.7">
+            <div style="font-weight:700;color:var(--primary);margin-bottom:6px">💡 Cách đọc kết quả</div>
+            <div>✅ Kỹ năng bạn <strong>đã có</strong> so với yêu cầu</div>
+            <div>❌ Kỹ năng bạn <strong>đang thiếu</strong> (Gap)</div>
+            <div>📘 Khóa học <strong>gợi ý bù đắp</strong> trực tiếp từng Gap</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── CỘT PHẢI: KẾT QUẢ ─── -->
+      <div>
+        <!-- Empty state -->
+        <div id="recEmptyState" class="card">
+          <div class="empty-state" style="padding:60px 20px">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <div style="font-size:15px;font-weight:700;color:var(--text2);margin-bottom:6px">Chưa có kết quả phân tích</div>
+            <div style="font-size:12px">Điền hồ sơ bên trái và nhấn "Phân Tích &amp; Gợi Ý"</div>
+          </div>
+        </div>
+
+        <!-- Result header (hidden until run) -->
+        <div id="recResultHeader" style="display:none;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="font-size:16px;font-weight:800;color:var(--text)" id="recResultName">Kết Quả Phân Tích</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px" id="recResultSub"></div>
+            </div>
+            <span class="card-badge" style="background:rgba(168,85,247,0.1);color:var(--purple);font-size:11px">🤖 AI Skill Gap Engine</span>
+          </div>
+        </div>
+
+        <!-- Job diagnosis cards -->
+        <div id="recJobCards"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: NGƯỜI LAO ĐỘNG ══ -->
+  <div class="page" id="page-workers">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Quản Lý Người Lao Động</h1>
+        <p class="page-sub">500 hồ sơ CV sinh viên đã được AI phân loại kỹ năng</p>
+      </div>
+      <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Thêm Hồ Sơ</button>
+    </div>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--primary)">500</div><div class="admin-stat-label">Tổng Hồ Sơ</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--green)">423</div><div class="admin-stat-label">Đã Phân Tích AI</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--amber)">77</div><div class="admin-stat-label">Chờ Xử Lý</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Danh Sách Người Lao Động</div>
+        <div class="search-box"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Tìm theo tên..."/></div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Họ &amp; Tên</th><th>Chuyên Ngành</th><th>Trường</th><th>Kỹ Năng Đã Có</th><th>Match Nghề</th><th>Trạng Thái</th><th></th></tr></thead>
+          <tbody id="workersTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: NHÀ TUYỂN DỤNG ══ -->
+  <div class="page" id="page-employers">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Cổng Nhà Tuyển Dụng</h1>
+        <p class="page-sub">Đăng tin tuyển dụng và tiếp cận ứng viên phù hợp nhất</p>
+      </div>
+      <button class="btn btn-primary" onclick="openJobModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Đăng Tin Mới</button>
+    </div>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--primary)">1,000</div><div class="admin-stat-label">Tổng Tin Tuyển Dụng</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--green)">842</div><div class="admin-stat-label">Đang Hiển Thị</div></div>
+      <div class="admin-stat"><div class="admin-stat-val" style="color:var(--amber)">158</div><div class="admin-stat-label">Hết Hạn / Đã Đóng</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px" id="jobPostsGrid"></div>
+  </div>
+
+  <!-- ══ PAGE: KHÓA HỌC ══ -->
+  <div class="page" id="page-courses">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Khóa Học Gợi Ý Theo Kỹ Năng</h1>
+        <p class="page-sub">Nhà cung cấp đăng khóa học · Người lao động tìm học theo skill còn thiếu</p>
+      </div>
+      <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Đăng Khóa Học</button>
+    </div>
+    <div class="course-grid" id="courseGrid"></div>
+  </div>
+
+  <!-- ══ PAGE: ADMIN ══ -->
+  <div class="page" id="page-admin">
+    <div class="page-header">
+      <div><h1 class="page-title">Quản Trị Hệ Thống</h1><p class="page-sub">Quản lý toàn bộ người dùng, dữ liệu và cài đặt hệ thống</p></div>
+    </div>
+    <div class="admin-grid">
+      <div class="admin-stat"><div class="admin-stat-val">500</div><div class="admin-stat-label">Người Lao Động</div></div>
+      <div class="admin-stat"><div class="admin-stat-val">87</div><div class="admin-stat-label">Nhà Tuyển Dụng</div></div>
+      <div class="admin-stat"><div class="admin-stat-val">24</div><div class="admin-stat-label">Nhà Cung Cấp Khóa Học</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Quản Lý Tài Khoản</div></div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>ID</th><th>Tên</th><th>Vai Trò</th><th>Ngày Tham Gia</th><th>Trạng Thái</th><th>Hành Động</th></tr></thead>
+          <tbody id="adminUsersBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- ══ MODAL: POST JOB ══ -->
+<div class="modal-overlay" id="jobModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeJobModal()"><svg viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="modal-title">Đăng Tin Tuyển Dụng Mới</div>
+    <div class="rec-form">
+      <div class="form-group"><label class="form-label">Tên Vị Trí</label><input class="form-input" placeholder="VD: Lập trình viên Python"/></div>
+      <div class="form-group"><label class="form-label">Công Ty</label><input class="form-input" placeholder="Tên công ty"/></div>
+      <div class="form-group"><label class="form-label">Ngành Nghề</label>
+        <select class="form-input"><option>IT &amp; Công nghệ</option><option>Du lịch</option><option>Logistics</option><option>Kinh tế</option><option>Nông nghiệp</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Mô Tả Yêu Cầu Kỹ Năng</label><textarea class="form-input" rows="4" placeholder="Liệt kê các kỹ năng cần thiết..."></textarea></div>
+      <div class="form-group"><label class="form-label">Mức Lương</label><input class="form-input" placeholder="VD: 10,000,000 – 20,000,000đ"/></div>
+      <button class="btn btn-primary" onclick="alert('Tin tuyển dụng đã được đăng!');closeJobModal()">Đăng Tin</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: COURSE DETAIL ══ -->
+<div class="modal-overlay" id="courseModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('courseModal').classList.remove('open')"><svg viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <div class="modal-title" id="courseModalTitle">Chi Tiết Khóa Học</div>
+    <div id="courseModalBody"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  MOCK DATA
+// ══════════════════════════════════════════════════════
+const SOFT_SKILLS = [
+  {skill:"Giao tiếp (Communication)",    demand:88.4, supply:52.1, gap:36.3, trend:"+8%",  courses:["Business Communication – Coursera","Public Speaking – Toastmasters","Kỹ năng thuyết trình – PACE"]},
+  {skill:"Giải quyết vấn đề",            demand:82.6, supply:48.3, gap:34.3, trend:"+12%", courses:["Design Thinking – IDEO","Critical Thinking – edX","Problem Solving – LinkedIn Learning"]},
+  {skill:"Tiếng Anh",                    demand:79.8, supply:39.2, gap:40.6, trend:"+15%", courses:["IELTS Academic – British Council","TOEIC 750+ – Language Link","English for Work – Coursera"]},
+  {skill:"Làm việc nhóm",               demand:76.5, supply:55.8, gap:20.7, trend:"+5%",  courses:["Team Leadership – Coursera","Agile Teamwork – LinkedIn","Collaboration Skills – edX"]},
+  {skill:"Tư duy phản biện",            demand:71.3, supply:34.6, gap:36.7, trend:"+18%", courses:["Critical Thinking – edX","Logic & Reasoning – Coursera","Tư duy hệ thống – FUNiX"]},
+  {skill:"Quản lý thời gian",           demand:68.9, supply:44.7, gap:24.2, trend:"+6%",  courses:["Time Management – Udemy","Getting Things Done – Coursera","Productivity – LinkedIn Learning"]},
+  {skill:"Sáng tạo",                    demand:64.2, supply:38.9, gap:25.3, trend:"+22%", courses:["Creative Thinking – MIT","Innovation – Stanford Online","Design Thinking – IDEO"]},
+  {skill:"Lãnh đạo",                    demand:58.7, supply:29.4, gap:29.3, trend:"+10%", courses:["Leadership Skills – Harvard","Management 101 – Coursera","Leadership – edX"]},
+  {skill:"Thích nghi thay đổi",         demand:55.4, supply:41.2, gap:14.2, trend:"+25%", courses:["Change Management – Prosci","Adaptability – LinkedIn","Agile Mindset – Udemy"]},
+  {skill:"Dịch vụ khách hàng",         demand:52.1, supply:42.8, gap:9.3,  trend:"+4%",  courses:["Customer Experience – Zendesk","Service Excellence – Coursera","Hospitality Mgmt – edX"]},
+];
+
+const INDUSTRY_DATA = {
+  IT: {
+    label:"IT & Công nghệ", emoji:"💻", jobs:385, avgSalary:"15–35tr", topMissing:"Python",
+    skills:[
+      {skill:"Python",             group:"Lập trình",        demand:91.2, supply:32.5, gap:58.7, trend:"+45%", courses:["Python for Everyone – Coursera","FastAPI – Udemy","Python AI – DataCamp"]},
+      {skill:"Machine Learning",   group:"AI/Data",          demand:78.6, supply:18.2, gap:60.4, trend:"+62%", courses:["ML Crash Course – Google","Deep Learning – Coursera","Applied ML – edX"]},
+      {skill:"Data Analysis",      group:"AI/Data",          demand:74.3, supply:29.8, gap:44.5, trend:"+38%", courses:["Data Analysis – DataCamp","Power BI – Microsoft","SQL for DS – Mode"]},
+      {skill:"ReactJS",            group:"Frontend",         demand:68.9, supply:38.4, gap:30.5, trend:"+28%", courses:["React – Meta/Coursera","ReactJS – Udemy","Frontend Dev – FreeCodeCamp"]},
+      {skill:"Docker & DevOps",    group:"Infrastructure",   demand:62.4, supply:22.1, gap:40.3, trend:"+35%", courses:["Docker Mastery – Udemy","DevOps – Linux Foundation","K8s – CNCF"]},
+      {skill:"SQL & Database",     group:"Database",         demand:58.7, supply:44.6, gap:14.1, trend:"+10%", courses:["SQL for Data Science","PostgreSQL – Udemy","MySQL – W3Schools"]},
+      {skill:"Git & CI/CD",        group:"DevOps",           demand:55.3, supply:38.9, gap:16.4, trend:"+12%", courses:["Git & GitHub – Udemy","CI/CD – Jenkins","DevOps CI/CD – Coursera"]},
+      {skill:"Cloud (AWS/GCP)",    group:"Infrastructure",   demand:52.8, supply:15.6, gap:37.2, trend:"+55%", courses:["AWS Practitioner","GCP Fundamentals","Azure Fundamentals"]},
+      {skill:"Cybersecurity",      group:"Bảo mật",          demand:48.6, supply:12.3, gap:36.3, trend:"+48%", courses:["Security+ – CompTIA","Ethical Hacking – Udemy","Cyber Sec – Google"]},
+      {skill:"AI Ethics",          group:"AI/Data",          demand:41.2, supply:8.9,  gap:32.3, trend:"+70%", courses:["AI Ethics – Harvard","Responsible AI – Google","Ethics in Tech – edX"]},
+    ]
+  },
+  tourism: {
+    label:"Du lịch & Khách sạn", emoji:"✈️", jobs:218, avgSalary:"8–18tr", topMissing:"Tiếng Anh",
+    skills:[
+      {skill:"Tiếng Anh Du lịch",    group:"Ngoại ngữ",   demand:92.4, supply:38.2, gap:54.2, trend:"+20%", courses:["IELTS – BC","English for Tourism – Coursera","TOEIC – EF"]},
+      {skill:"Hướng dẫn du lịch",    group:"Nghiệp vụ",   demand:78.3, supply:45.6, gap:32.7, trend:"+8%",  courses:["Tour Guide – VNAT","Tourism Management – edX","Local Guide – Coursera"]},
+      {skill:"Quản lý khách sạn",   group:"Nghiệp vụ",   demand:71.5, supply:39.8, gap:31.7, trend:"+14%", courses:["Hotel Management – Cornell","Hospitality – edX","Opera PMS – MICROS"]},
+      {skill:"Chăm sóc khách hàng", group:"Mềm",         demand:68.2, supply:52.4, gap:15.8, trend:"+6%",  courses:["Customer Service – Zendesk","Service Design – IDEO","CX – Coursera"]},
+      {skill:"Tiếng Trung HSK",     group:"Ngoại ngữ",   demand:64.8, supply:22.1, gap:42.7, trend:"+35%", courses:["HSK 4 – Hanban","Chinese for Tourism","Mandarin – Coursera"]},
+      {skill:"Digital Marketing",   group:"Marketing",   demand:58.6, supply:34.5, gap:24.1, trend:"+28%", courses:["Google Digital Mktg","Social Media – Hootsuite","SEO – Moz"]},
+      {skill:"Lên kế hoạch tour",   group:"Nghiệp vụ",   demand:54.3, supply:38.7, gap:15.6, trend:"+10%", courses:["Trip Planning – Udemy","Itinerary Design","Tourism Planning – Coursera"]},
+      {skill:"Revenue Management",  group:"Quản lý",     demand:49.7, supply:18.4, gap:31.3, trend:"+40%", courses:["Revenue Mgmt – Cornell","Hotel Revenue – edX","Pricing Strategy"]},
+      {skill:"F&B Management",      group:"Nghiệp vụ",   demand:45.8, supply:32.6, gap:13.2, trend:"+8%",  courses:["F&B Management – edX","Restaurant Ops – Coursera","Food Safety – ServSafe"]},
+      {skill:"Nghiệp vụ lễ tân",    group:"Nghiệp vụ",   demand:42.1, supply:35.8, gap:6.3,  trend:"+4%",  courses:["Front Office – AHLEI","Receptionist Skills","Hotel Ops – Coursera"]},
+    ]
+  },
+  logistics: {
+    label:"Logistics & XNK", emoji:"📦", jobs:241, avgSalary:"10–22tr", topMissing:"Supply Chain",
+    skills:[
+      {skill:"Quản lý chuỗi cung ứng", group:"Logistics",  demand:85.6, supply:28.4, gap:57.2, trend:"+32%", courses:["APICS CSCP","Supply Chain – MIT","Logistics Analytics – edX"]},
+      {skill:"Tiếng Anh thương mại",   group:"Ngoại ngữ",  demand:82.3, supply:35.6, gap:46.7, trend:"+18%", courses:["Business English – EF","English for Trade","TOEIC 700+ – BC"]},
+      {skill:"SAP/ERP",                group:"Phần mềm",   demand:74.8, supply:19.2, gap:55.6, trend:"+42%", courses:["SAP Fundamentals – SAP","ERP for Logistics","SAP S/4HANA – Udemy"]},
+      {skill:"Xuất nhập khẩu",         group:"Nghiệp vụ",  demand:71.2, supply:42.8, gap:28.4, trend:"+14%", courses:["XNK Thực Hành – VCCI","Import/Export – Coursera","Customs Clearance"]},
+      {skill:"Quản lý kho hàng",       group:"Logistics",  demand:65.4, supply:48.3, gap:17.1, trend:"+10%", courses:["Warehouse Mgmt – edX","WMS Systems – Udemy","Inventory Control"]},
+      {skill:"Nghiệp vụ hải quan",     group:"Nghiệp vụ",  demand:61.8, supply:35.6, gap:26.2, trend:"+20%", courses:["Customs Procedures","HS Code Classification","Import/Export Law"]},
+      {skill:"Data Analysis",          group:"Phân tích",  demand:58.6, supply:24.8, gap:33.8, trend:"+35%", courses:["Data for Logistics","Power BI – Microsoft","SQL Analytics"]},
+      {skill:"Đàm phán & Thương lượng",group:"Mềm",        demand:54.3, supply:38.2, gap:16.1, trend:"+8%",  courses:["Negotiation – Yale","Business Negotiation – Coursera","Sales & Negotiation"]},
+      {skill:"Freight Forwarding",     group:"Logistics",  demand:48.7, supply:25.4, gap:23.3, trend:"+15%", courses:["Freight & Forwarding","Air Cargo – IATA","Sea Freight – Coursera"]},
+      {skill:"Incoterms 2020",         group:"Nghiệp vụ",  demand:44.2, supply:28.6, gap:15.6, trend:"+12%", courses:["Incoterms 2020 – ICC","Trade Terms – Coursera","International Trade"]},
+    ]
+  },
+  economics: {
+    label:"Kinh tế & Tài chính", emoji:"📊", jobs:156, avgSalary:"10–25tr", topMissing:"Digital Marketing",
+    skills:[
+      {skill:"Digital Marketing",   group:"Marketing",  demand:84.6, supply:35.2, gap:49.4, trend:"+38%", courses:["Google Digital Mktg","Facebook Blueprint","SEO – Moz"]},
+      {skill:"Phân tích tài chính", group:"Tài chính",  demand:78.3, supply:32.6, gap:45.7, trend:"+28%", courses:["Financial Analysis – CFA","Corporate Finance – Coursera","Excel Finance"]},
+      {skill:"Excel nâng cao",      group:"Công cụ",    demand:72.5, supply:48.4, gap:24.1, trend:"+10%", courses:["Excel Advanced – Udemy","Excel for Finance","Power Query – Microsoft"]},
+      {skill:"Kế toán – MISA",     group:"Kế toán",   demand:68.4, supply:52.8, gap:15.6, trend:"+8%",  courses:["MISA – Chứng chỉ","Kế toán thực hành – ACCA","Accounting – Coursera"]},
+      {skill:"Data Visualization",  group:"Phân tích",  demand:64.2, supply:22.4, gap:41.8, trend:"+45%", courses:["Power BI – Microsoft","Tableau – Udemy","Data Viz – Coursera"]},
+      {skill:"Nghiên cứu thị trường",group:"Marketing", demand:58.8, supply:38.6, gap:20.2, trend:"+15%", courses:["Market Research – Coursera","SPSS Analytics","Survey Design – edX"]},
+      {skill:"Quản trị rủi ro",    group:"Tài chính",  demand:54.3, supply:18.4, gap:35.9, trend:"+32%", courses:["Risk Management – PMI","FRM – GARP","Risk Analytics – Coursera"]},
+      {skill:"Python cho tài chính",group:"Phân tích",  demand:49.6, supply:12.8, gap:36.8, trend:"+55%", courses:["Python Finance – Coursera","Quant Finance – edX","Algorithmic Trading"]},
+      {skill:"Thuế – Pháp luật",   group:"Kế toán",   demand:46.2, supply:34.5, gap:11.7, trend:"+6%",  courses:["Luật Thuế VN","Tax Law – Coursera","CPA Vietnam – VACPA"]},
+      {skill:"CRM & Sales",        group:"Marketing",  demand:42.8, supply:28.6, gap:14.2, trend:"+18%", courses:["CRM – Salesforce","Sales Management – Coursera","HubSpot CRM"]},
+    ]
+  },
+  agriculture: {
+    label:"Nông nghiệp", emoji:"🌾", jobs:0, avgSalary:"8–15tr", topMissing:"Công nghệ nông nghiệp",
+    skills:[
+      {skill:"Công nghệ nông nghiệp", group:"Công nghệ", demand:76.4, supply:18.2, gap:58.2, trend:"+65%", courses:["AgTech – Coursera","Precision Farming","Smart Agriculture – edX"]},
+      {skill:"Quản lý trang trại",    group:"Nghiệp vụ", demand:68.2, supply:42.5, gap:25.7, trend:"+12%", courses:["Farm Management – FAO","Agri Business – Coursera","Farm Planning"]},
+      {skill:"Drone & IoT",           group:"Công nghệ", demand:62.8, supply:12.4, gap:50.4, trend:"+80%", courses:["Drone for Agriculture","IoT Farm – Coursera","Precision Ag Tech"]},
+      {skill:"Chế biến thực phẩm",   group:"Chế biến",  demand:58.4, supply:38.6, gap:19.8, trend:"+15%", courses:["Food Processing – FAO","HACCP – Codex","Food Safety – ServSafe"]},
+      {skill:"Xuất khẩu nông sản",   group:"Thương mại",demand:54.6, supply:28.4, gap:26.2, trend:"+25%", courses:["Agri Export – Coursera","Food Standards – Codex","Export Marketing"]},
+      {skill:"GIS & Bản đồ nông nghiệp",group:"Công nghệ",demand:48.3,supply:14.2,gap:34.1, trend:"+40%", courses:["GIS for Agriculture","QGIS – OSGeo","Remote Sensing – Coursera"]},
+      {skill:"Tài chính nông nghiệp",group:"Quản lý",   demand:44.2, supply:22.8, gap:21.4, trend:"+18%", courses:["Agri Finance – FAO","Rural Credit – Coursera","Farm Business Finance"]},
+      {skill:"Bảo vệ thực vật",       group:"Nghiệp vụ", demand:42.6, supply:36.4, gap:6.2,  trend:"+5%",  courses:["Plant Protection – FAO","IPM – Cornell","Pesticide Safety – WHO"]},
+      {skill:"Nuôi trồng thủy sản",   group:"Nghiệp vụ", demand:38.4, supply:28.6, gap:9.8,  trend:"+8%",  courses:["Aquaculture – SEAFDEC","Fish Farming – FAO","Shrimp Culture"]},
+      {skill:"Logistics nông sản",    group:"Thương mại",demand:35.2, supply:18.4, gap:16.8, trend:"+22%", courses:["Cold Chain – Coursera","Agri Supply Chain","Food Logistics – edX"]},
+    ]
+  }
+};
+
+const WORKERS_DATA = [
+  {id:"SV001",name:"Nguyễn Văn An",major:"Công nghệ thông tin",school:"ĐH Cần Thơ",skills:["Python","SQL","Git"],match:"Lập trình viên Backend",status:"active"},
+  {id:"SV002",name:"Trần Thị Bình",major:"Quản trị kinh doanh",school:"ĐH Kinh tế CT",skills:["Digital Marketing","Excel","Communication"],match:"Marketing Specialist",status:"active"},
+  {id:"SV003",name:"Lê Văn Cường",major:"Logistics",school:"ĐH Cần Thơ",skills:["Logistics","English","Problem Solving"],match:"Chuyên viên Xuất nhập khẩu",status:"pending"},
+  {id:"SV004",name:"Phạm Thị Dung",major:"Du lịch",school:"CĐ Du lịch CT",skills:["English","Customer Service","Communication"],match:"Hướng dẫn viên Du lịch",status:"active"},
+  {id:"SV005",name:"Hoàng Văn Em",major:"Công nghệ thông tin",school:"ĐH FPT CT",skills:["Python","Machine Learning","Docker"],match:"AI/ML Engineer",status:"active"},
+  {id:"SV006",name:"Vũ Thị Hoa",major:"Kế toán",school:"ĐH Kinh tế CT",skills:["Accounting","Excel","MISA"],match:"Kế toán Tổng hợp",status:"pending"},
+  {id:"SV007",name:"Đinh Văn Khoa",major:"Công nghệ thông tin",school:"ĐH Cần Thơ",skills:["ReactJS","JavaScript","CSS"],match:"Frontend Developer",status:"active"},
+  {id:"SV008",name:"Bùi Thị Linh",major:"Marketing",school:"ĐH Cần Thơ",skills:["SEO","Content Writing","Social Media"],match:"Content Marketing",status:"inactive"},
+];
+
+const JOBS_DATA = [
+  {id:"JB001",title:"Python Backend Developer",company:"FPT Software Cần Thơ",industry:"IT",salary:"15–25tr/th",skills:["Python","FastAPI","Docker","PostgreSQL"],status:"active"},
+  {id:"JB002",title:"Data Analyst",company:"Viettel Digital CT",industry:"IT",salary:"12–20tr/th",skills:["Python","SQL","Power BI"],status:"active"},
+  {id:"JB003",title:"Digital Marketing Manager",company:"Lazada Vietnam",industry:"Kinh tế",salary:"18–30tr/th",skills:["SEO","Facebook Ads","Analytics"],status:"active"},
+  {id:"JB004",title:"Logistics Specialist",company:"DHL Express",industry:"Logistics",salary:"10–18tr/th",skills:["Logistics","SAP","English"],status:"active"},
+  {id:"JB005",title:"Tour Guide Senior",company:"Saigontourist CT",industry:"Du lịch",salary:"10–16tr/th",skills:["English","Communication","Local Knowledge"],status:"active"},
+  {id:"JB006",title:"AI/ML Engineer",company:"VNG Corporation",industry:"IT",salary:"25–45tr/th",skills:["Python","TensorFlow","Machine Learning"],status:"active"},
+];
+
+const COURSES_DATA = [
+  {id:"C001",title:"Python for Everyone",skill:"Python",group:"IT",provider:"Coursera × Google",duration:"3 tháng",price:"Miễn phí",rating:4.8,color:"#6366f1"},
+  {id:"C002",title:"IELTS Academic Band 6.5+",skill:"Tiếng Anh",group:"Ngoại ngữ",provider:"British Council",duration:"6 tháng",price:"4,500,000đ",rating:4.9,color:"#10b981"},
+  {id:"C003",title:"Supply Chain Management",skill:"Supply Chain",group:"Logistics",provider:"MIT OpenCourseWare",duration:"4 tháng",price:"Miễn phí",rating:4.7,color:"#f59e0b"},
+  {id:"C004",title:"Digital Marketing Fundamentals",skill:"Digital Marketing",group:"Kinh tế",provider:"Google",duration:"2 tháng",price:"Miễn phí",rating:4.8,color:"#ef4444"},
+  {id:"C005",title:"Machine Learning Specialization",skill:"Machine Learning",group:"AI/Data",provider:"DeepLearning.AI",duration:"5 tháng",price:"Miễn phí",rating:4.9,color:"#a855f7"},
+  {id:"C006",title:"Hotel Management Professional",skill:"Quản lý khách sạn",group:"Du lịch",provider:"Cornell × edX",duration:"4 tháng",price:"Miễn phí",rating:4.6,color:"#06b6d4"},
+  {id:"C007",title:"Advanced Excel & Power BI",skill:"Excel / Power BI",group:"Phân tích",provider:"Microsoft Learn",duration:"2 tháng",price:"Miễn phí",rating:4.7,color:"#16a34a"},
+  {id:"C008",title:"Kỹ năng Giao tiếp Hiệu quả",skill:"Giao tiếp",group:"Kỹ năng mềm",provider:"PACE Institute",duration:"1 tháng",price:"1,500,000đ",rating:4.8,color:"#dc2626"},
+  {id:"C009",title:"React & Next.js Full Stack",skill:"ReactJS",group:"IT",provider:"Udemy",duration:"3 tháng",price:"450,000đ",rating:4.8,color:"#0891b2"},
+];
+
+const ADMIN_USERS = [
+  {id:"ADM001",name:"Nguyễn Admin",role:"admin",joined:"01/09/2026",status:"active"},
+  {id:"EMP001",name:"FPT Software CT",role:"employer",joined:"05/09/2026",status:"active"},
+  {id:"EMP002",name:"DHL Express",role:"employer",joined:"06/09/2026",status:"active"},
+  {id:"CP001",name:"British Council VN",role:"course_provider",joined:"08/09/2026",status:"active"},
+  {id:"CP002",name:"Coursera Vietnam",role:"course_provider",joined:"10/09/2026",status:"pending"},
+  {id:"WK001",name:"Nguyễn Văn An",role:"worker",joined:"12/09/2026",status:"active"},
+  {id:"WK002",name:"Trần Thị Bình",role:"worker",joined:"13/09/2026",status:"active"},
+];
+
+const ALL_QUICK_SKILLS = ["Python","Excel","SQL","Tiếng Anh","Giao tiếp","Machine Learning","ReactJS","Photoshop","AutoCAD","Digital Marketing","SAP","Kế toán","Docker","Logistics","Customer Service"];
+
+let selectedSkills = [];
+let currentIndustry = "IT";
+let overviewChartInst, industryPieInst;
+let softDemandInst, softSupplyInst, softGapInst;
+let indDemandInst, indSupplyInst, indGapInst;
+
+// ══════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════
+const PAGE_LABELS = {
+  dashboard:"Tổng Quan",softskills:"Kỹ Năng Mềm Chung",
+  industry:"Kỹ Năng Theo Ngành",recommend:"Gợi Ý Nghề Nghiệp",
+  workers:"Người Lao Động",employers:"Nhà Tuyển Dụng",
+  courses:"Khóa Học",admin:"Quản Trị"
+};
+
+function switchPage(name, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg = document.getElementById('page-'+name);
+  if(pg) pg.classList.add('active');
+  const nav = document.getElementById('nav-'+name);
+  if(nav) nav.classList.add('active');
+  document.getElementById('breadcrumbText').textContent = PAGE_LABELS[name]||name;
+  initPage(name);
+}
+
+function initPage(name) {
+  if(name==='dashboard') initDashboardCharts();
+  if(name==='softskills') initSoftSkills();
+  if(name==='industry') initIndustry(currentIndustry);
+  if(name==='recommend') initRecommend();
+  if(name==='workers') renderWorkers();
+  if(name==='employers') renderEmployers();
+  if(name==='courses') renderCourses();
+  if(name==='admin') renderAdmin();
+}
+
+// ══════════════════════════════════════════════════════
+//  DASHBOARD CHARTS
+// ══════════════════════════════════════════════════════
+let overviewHoriz = false;
+function initDashboardCharts() {
+  buildOverviewGapChart();
+  buildIndustryPie();
+}
+
+function buildOverviewGapChart() {
+  const ctx = document.getElementById('overviewGapChart');
+  if(!ctx) return;
+  if(overviewChartInst) overviewChartInst.destroy();
+  const top5 = SOFT_SKILLS.slice(0,5);
+  overviewChartInst = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: top5.map(s=>s.skill.split('(')[0].trim()),
+      datasets:[
+        {label:'Nhu cầu (Demand)',data:top5.map(s=>s.demand),backgroundColor:'rgba(99,102,241,0.8)',borderRadius:5},
+        {label:'Cung lao động (Supply)',data:top5.map(s=>s.supply),backgroundColor:'rgba(245,158,11,0.8)',borderRadius:5},
+        {label:'Thiếu hụt (Gap)',data:top5.map(s=>s.gap),backgroundColor:'rgba(239,68,68,0.8)',borderRadius:5},
+      ]
+    },
+    options:{
+      indexAxis: overviewHoriz?'y':'x',
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed[overviewHoriz?'x':'y'].toFixed(1)}%`}}},
+      scales:{
+        x:{grid:{color:'var(--grid-color,rgba(0,0,0,0.04))'},ticks:{color:'#8892a4',font:{size:10}}},
+        y:{grid:{color:'var(--grid-color,rgba(0,0,0,0.04))'},ticks:{color:'#8892a4',font:{size:10}}}
+      }
+    }
+  });
+}
+
+function setOverviewChartType(type,btn){
+  overviewHoriz = (type==='horizontal');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildOverviewGapChart();
+}
+
+function buildIndustryPie() {
+  const ctx = document.getElementById('industryPieChart');
+  if(!ctx) return;
+  if(industryPieInst) industryPieInst.destroy();
+  industryPieInst = new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['IT & Công nghệ','Du lịch','Logistics','Kinh tế','Nông nghiệp'],
+      datasets:[{data:[385,218,241,156,0],backgroundColor:['#6366f1','#10b981','#f59e0b','#ef4444','#a855f7'],borderWidth:0,hoverOffset:8}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#8892a4',font:{size:11},padding:12}}}}
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  SOFT SKILLS
+// ══════════════════════════════════════════════════════
+function initSoftSkills() {
+  buildSoftCharts();
+  renderSoftTable(SOFT_SKILLS);
+}
+
+function buildSoftCharts() {
+  buildSmallBarChart('softDemandChart', SOFT_SKILLS, 'demand', 'rgba(99,102,241,0.85)');
+  buildSmallBarChart('softSupplyChart', SOFT_SKILLS, 'supply', 'rgba(245,158,11,0.85)');
+  buildSmallBarChart('softGapChart',    SOFT_SKILLS, 'gap',    'rgba(239,68,68,0.85)');
+}
+
+function buildSmallBarChart(canvasId, data, field, color) {
+  const ctx = document.getElementById(canvasId);
+  if(!ctx) return;
+  // destroy old
+  if(ctx._chart) ctx._chart.destroy();
+  const sorted = [...data].sort((a,b)=>b[field]-a[field]).slice(0,10);
+  ctx._chart = new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:sorted.map(s=>s.skill.length>14?s.skill.substring(0,14)+'…':s.skill),
+      datasets:[{data:sorted.map(s=>s[field]),backgroundColor:color,borderRadius:4}]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.x.toFixed(1)}%`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#8892a4',font:{size:9}}},
+        y:{grid:{display:false},ticks:{color:'#8892a4',font:{size:9}}}
+      }
+    }
+  });
+}
+
+function renderSoftTable(data) {
+  const tbody = document.getElementById('softSkillTableBody');
+  if(!tbody) return;
+  const sorted = [...data].sort((a,b)=>b.demand-a.demand);
+  tbody.innerHTML = sorted.map((s,i)=>{
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    const gapColor = s.gap>40?'red':s.gap>25?'amber':'green';
+    const courseBtn = `<button class="action-btn" onclick="alert('Khóa học:\\n\\n${s.courses.join('\\n')}')">Xem ${s.courses.length} khóa học</button>`;
+    return `<tr>
+      <td class="rank-cell">${medal}</td>
+      <td class="skill-name-cell">${s.skill}</td>
+      <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${s.demand*0.8}px;max-width:120px;background:#6366f1"></div><span class="pct-val">${s.demand}%</span></div></td>
+      <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${s.supply*0.8}px;max-width:120px;background:#f59e0b"></div><span class="pct-val">${s.supply}%</span></div></td>
+      <td><span class="chip ${gapColor}">${s.gap.toFixed(1)}%</span></td>
+      <td><span class="${s.trend.startsWith('+')?'trend-up':'trend-dn'}">🔺 ${s.trend}</span></td>
+      <td>${courseBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterSoftTable(q) {
+  const filtered = SOFT_SKILLS.filter(s=>s.skill.toLowerCase().includes(q.toLowerCase()));
+  renderSoftTable(filtered);
+}
+
+// ══════════════════════════════════════════════════════
+//  INDUSTRY
+// ══════════════════════════════════════════════════════
+function selectIndustry(key, el) {
+  currentIndustry = key;
+  document.querySelectorAll('.ind-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  initIndustry(key);
+}
+
+function initIndustry(key) {
+  const ind = INDUSTRY_DATA[key];
+  if(!ind) return;
+  document.getElementById('industryTableTitle').textContent = `Top 10 Kỹ Năng Quan Trọng – ${ind.label}`;
+
+  // KPI cards
+  const kpiEl = document.getElementById('industryKPIs');
+  if(kpiEl) kpiEl.innerHTML = `
+    <div class="kpi-card blue">
+      <div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+      <div class="kpi-info"><div class="kpi-label">Tin Tuyển Dụng</div><div class="kpi-value">${ind.jobs}</div><div class="kpi-change up">Từ TopCV</div></div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-icon amber"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="kpi-info"><div class="kpi-label">Mức Lương TB</div><div class="kpi-value">${ind.avgSalary}</div><div class="kpi-change">Triệu đồng/tháng</div></div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-icon" style="background:rgba(239,68,68,0.1);color:var(--red)"><svg viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <div class="kpi-info"><div class="kpi-label">Kỹ Năng Thiếu Nhất</div><div class="kpi-value" style="font-size:16px;letter-spacing:-0.5px;color:var(--red)">${ind.topMissing}</div><div class="kpi-change down">Gap cao nhất ngành</div></div>
+    </div>`;
+
+  // build 3 charts
+  buildSmallBarChart('indDemandChart', ind.skills, 'demand', 'rgba(99,102,241,0.85)');
+  buildSmallBarChart('indSupplyChart', ind.skills, 'supply', 'rgba(245,158,11,0.85)');
+  buildSmallBarChart('indGapChart',    ind.skills, 'gap',    'rgba(239,68,68,0.85)');
+
+  // table
+  renderIndustryTable(ind.skills);
+}
+
+function renderIndustryTable(skills) {
+  const tbody = document.getElementById('industryTableBody');
+  if(!tbody) return;
+  const sorted = [...skills].sort((a,b)=>b.demand-a.demand);
+  tbody.innerHTML = sorted.map((s,i)=>{
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    const gapColor = s.gap>45?'red':s.gap>25?'amber':'green';
+    const groupColor = s.group.includes('AI')||s.group.includes('Lập')? 'blue' : s.group.includes('Ngoại')? 'cyan' : 'purple';
+    const courseBtn = `<button class="action-btn" onclick="alert('Khóa học gợi ý:\\n\\n${s.courses.join('\\n')}')">Xem khóa học</button>`;
+    return `<tr>
+      <td class="rank-cell">${medal}</td>
+      <td class="skill-name-cell">${s.skill}</td>
+      <td><span class="chip ${groupColor}">${s.group}</span></td>
+      <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${s.demand*0.8}px;max-width:100px;background:#6366f1"></div><span class="pct-val">${s.demand}%</span></div></td>
+      <td><div class="pct-bar-wrap"><div class="pct-bar" style="width:${s.supply*0.8}px;max-width:100px;background:#f59e0b"></div><span class="pct-val">${s.supply}%</span></div></td>
+      <td><span class="chip ${gapColor}">${s.gap.toFixed(1)}%</span></td>
+      <td><span class="trend-up">🔺 ${s.trend}</span></td>
+      <td>${courseBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  RECOMMENDATION
+// ══════════════════════════════════════════════════════
+function initRecommend() {
+  renderQuickSkills();
+}
+
+function renderQuickSkills() {
+  const el = document.getElementById('quickSkillBtns');
+  if(!el) return;
+  el.innerHTML = ALL_QUICK_SKILLS.map(sk=>`
+    <div class="ind-tab" style="padding:5px 12px;font-size:11px;" onclick="addSkill('${sk}',this)">${sk}</div>
+  `).join('');
+}
+
+function addSkill(skill, el) {
+  if(selectedSkills.includes(skill)){
+    selectedSkills = selectedSkills.filter(s=>s!==skill);
+    el.classList.remove('active');
+  } else {
+    selectedSkills.push(skill);
+    el.classList.add('active');
+  }
+  renderSelectedTags();
+}
+
+function renderSelectedTags() {
+  const el = document.getElementById('selectedSkillTags');
+  if(!el) return;
+  el.innerHTML = selectedSkills.map(s=>`<span class="skill-tag" onclick="removeSkill('${s}')">${s} ✕</span>`).join('');
+}
+
+function removeSkill(skill) {
+  selectedSkills = selectedSkills.filter(s=>s!==skill);
+  renderSelectedTags();
+  document.querySelectorAll('#quickSkillBtns .ind-tab').forEach(el=>{
+    if(el.textContent.trim()===skill) el.classList.remove('active');
+  });
+}
+
+// ── Dữ liệu yêu cầu kỹ năng theo từng vị trí (mở rộng đầy đủ)
+const JOB_REQUIREMENTS = {
+  IT: [
+    {
+      job:'Python Developer', icon:'🐍',
+      reqSkills:[
+        {name:'Python',     importance:'Bắt buộc'},
+        {name:'SQL',        importance:'Bắt buộc'},
+        {name:'Git',        importance:'Bắt buộc'},
+        {name:'FastAPI',    importance:'Quan trọng'},
+        {name:'Docker',     importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Data Analyst', icon:'📊',
+      reqSkills:[
+        {name:'Python',       importance:'Bắt buộc'},
+        {name:'SQL',          importance:'Bắt buộc'},
+        {name:'Power BI',     importance:'Bắt buộc'},
+        {name:'Excel',        importance:'Quan trọng'},
+        {name:'Statistics',   importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Machine Learning Engineer', icon:'🤖',
+      reqSkills:[
+        {name:'Python',          importance:'Bắt buộc'},
+        {name:'Machine Learning',importance:'Bắt buộc'},
+        {name:'TensorFlow',      importance:'Bắt buộc'},
+        {name:'Docker',          importance:'Quan trọng'},
+        {name:'Git',             importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Frontend Developer', icon:'🎨',
+      reqSkills:[
+        {name:'ReactJS',    importance:'Bắt buộc'},
+        {name:'JavaScript', importance:'Bắt buộc'},
+        {name:'CSS',        importance:'Bắt buộc'},
+        {name:'Git',        importance:'Quan trọng'},
+        {name:'Figma',      importance:'Hữu ích'},
+      ]
+    },
+    {
+      job:'DevOps Engineer', icon:'⚙️',
+      reqSkills:[
+        {name:'Docker',     importance:'Bắt buộc'},
+        {name:'Linux',      importance:'Bắt buộc'},
+        {name:'Git',        importance:'Bắt buộc'},
+        {name:'AWS',        importance:'Quan trọng'},
+        {name:'CI/CD',      importance:'Quan trọng'},
+      ]
+    },
+  ],
+  tourism: [
+    {
+      job:'Hướng Dẫn Viên Du Lịch', icon:'🗺️',
+      reqSkills:[
+        {name:'Tiếng Anh',        importance:'Bắt buộc'},
+        {name:'Giao tiếp',        importance:'Bắt buộc'},
+        {name:'Customer Service', importance:'Bắt buộc'},
+        {name:'Problem Solving',  importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Quản Lý Khách Sạn', icon:'🏨',
+      reqSkills:[
+        {name:'Tiếng Anh',        importance:'Bắt buộc'},
+        {name:'Customer Service', importance:'Bắt buộc'},
+        {name:'Lãnh đạo',         importance:'Bắt buộc'},
+        {name:'Quản lý thời gian',importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Digital Marketing Tour', icon:'📱',
+      reqSkills:[
+        {name:'Digital Marketing',importance:'Bắt buộc'},
+        {name:'Tiếng Anh',        importance:'Bắt buộc'},
+        {name:'Sáng tạo',         importance:'Quan trọng'},
+        {name:'Excel',            importance:'Hữu ích'},
+      ]
+    },
+  ],
+  logistics: [
+    {
+      job:'Chuyên Viên Xuất Nhập Khẩu', icon:'📦',
+      reqSkills:[
+        {name:'Tiếng Anh',importance:'Bắt buộc'},
+        {name:'Excel',     importance:'Bắt buộc'},
+        {name:'Logistics', importance:'Bắt buộc'},
+        {name:'SAP',       importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Quản Lý Kho Hàng', icon:'🏭',
+      reqSkills:[
+        {name:'Logistics',         importance:'Bắt buộc'},
+        {name:'Excel',             importance:'Bắt buộc'},
+        {name:'Quản lý thời gian', importance:'Quan trọng'},
+        {name:'SAP',               importance:'Hữu ích'},
+      ]
+    },
+  ],
+  economics: [
+    {
+      job:'Kế Toán Tổng Hợp', icon:'📒',
+      reqSkills:[
+        {name:'Excel',   importance:'Bắt buộc'},
+        {name:'Kế toán', importance:'Bắt buộc'},
+        {name:'MISA',    importance:'Bắt buộc'},
+        {name:'Tiếng Anh',importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Digital Marketing Manager', icon:'📣',
+      reqSkills:[
+        {name:'Digital Marketing',importance:'Bắt buộc'},
+        {name:'Excel',            importance:'Bắt buộc'},
+        {name:'Sáng tạo',         importance:'Bắt buộc'},
+        {name:'Power BI',         importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Business Analyst', icon:'🔍',
+      reqSkills:[
+        {name:'Excel',    importance:'Bắt buộc'},
+        {name:'SQL',      importance:'Bắt buộc'},
+        {name:'Power BI', importance:'Bắt buộc'},
+        {name:'Tiếng Anh',importance:'Quan trọng'},
+        {name:'Giao tiếp',importance:'Quan trọng'},
+      ]
+    },
+  ],
+  agriculture: [
+    {
+      job:'Kỹ Sư Nông Nghiệp Công Nghệ Cao', icon:'🌾',
+      reqSkills:[
+        {name:'Python',      importance:'Bắt buộc'},
+        {name:'IoT',         importance:'Bắt buộc'},
+        {name:'Excel',       importance:'Quan trọng'},
+        {name:'Tiếng Anh',   importance:'Quan trọng'},
+      ]
+    },
+    {
+      job:'Chuyên Viên Xuất Khẩu Nông Sản', icon:'✈️',
+      reqSkills:[
+        {name:'Tiếng Anh',importance:'Bắt buộc'},
+        {name:'Logistics', importance:'Bắt buộc'},
+        {name:'Giao tiếp', importance:'Quan trọng'},
+        {name:'Excel',     importance:'Hữu ích'},
+      ]
+    },
+  ],
+};
+
+// ── Bảng nối Skill → Khóa học (Kê đơn thuốc)
+const SKILL_COURSES_MAP = {
+  'Python':           [{title:'Python for Everybody',       src:'Coursera × Michigan',  dur:'4 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
+  'SQL':              [{title:'SQL for Data Science',       src:'Coursera',             dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'Git':              [{title:'Git & GitHub Complete Guide', src:'Udemy',               dur:'2 tuần', price:'199K',    rating:4.8, url:'#'}],
+  'Docker':           [{title:'Docker Mastery',             src:'Udemy',                dur:'3 tuần', price:'299K',    rating:4.9, url:'#'}],
+  'Power BI':         [{title:'Power BI Data Analytics',    src:'Microsoft Learn',      dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'Machine Learning': [{title:'ML Specialization',          src:'DeepLearning.AI',     dur:'8 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
+  'TensorFlow':       [{title:'TensorFlow Developer Cert',  src:'Google',              dur:'6 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'ReactJS':          [{title:'React – The Complete Guide', src:'Udemy',               dur:'5 tuần', price:'399K',    rating:4.9, url:'#'}],
+  'JavaScript':       [{title:'JavaScript Algorithms & DS', src:'freeCodeCamp',        dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'CSS':              [{title:'CSS – The Complete Guide',   src:'Udemy',               dur:'3 tuần', price:'249K',    rating:4.7, url:'#'}],
+  'AWS':              [{title:'AWS Cloud Practitioner',     src:'AWS Training',        dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'Tiếng Anh':        [{title:'IELTS Academic Band 6.5+',   src:'British Council',     dur:'12 tuần',price:'4.5tr',   rating:4.9, url:'#'}],
+  'Excel':            [{title:'Excel & Power Query',        src:'Microsoft Learn',      dur:'3 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+  'Digital Marketing':[{title:'Google Digital Marketing',  src:'Google Skillshop',    dur:'4 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'Giao tiếp':        [{title:'Business Communication',    src:'PACE Institute',       dur:'2 tuần', price:'1.5tr',   rating:4.8, url:'#'}],
+  'SAP':              [{title:'SAP S/4HANA Fundamentals',  src:'SAP Learning',        dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+  'Logistics':        [{title:'Supply Chain Management',   src:'MIT OpenCourseWare',  dur:'6 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+  'Kế toán':          [{title:'Kế Toán Tổng Hợp Thực Hành',src:'ACCA Vietnam',        dur:'8 tuần', price:'2.5tr',   rating:4.8, url:'#'}],
+  'MISA':             [{title:'MISA SME Certified',         src:'MISA Academy',        dur:'2 tuần', price:'800K',    rating:4.7, url:'#'}],
+  'FastAPI':          [{title:'FastAPI Modern Python API',  src:'Udemy',               dur:'2 tuần', price:'249K',    rating:4.8, url:'#'}],
+  'Statistics':       [{title:'Statistics with Python',    src:'Coursera × Michigan', dur:'5 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+  'Figma':            [{title:'Figma UI/UX Design',        src:'Udemy',               dur:'3 tuần', price:'299K',    rating:4.8, url:'#'}],
+  'Linux':            [{title:'Linux Command Line Basics',  src:'Linux Foundation',    dur:'3 tuần', price:'Miễn phí', rating:4.8, url:'#'}],
+  'CI/CD':            [{title:'CI/CD with GitHub Actions', src:'GitHub Learning',     dur:'2 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+  'Power BI':         [{title:'Power BI Desktop Master',   src:'Udemy',               dur:'4 tuần', price:'299K',    rating:4.8, url:'#'}],
+  'Sáng tạo':         [{title:'Design Thinking',           src:'IDEO + Coursera',     dur:'3 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
+  'Lãnh đạo':         [{title:'Leadership Skills',         src:'Harvard Online',      dur:'4 tuần', price:'Miễn phí', rating:4.9, url:'#'}],
+  'IoT':              [{title:'IoT for Beginners',          src:'Microsoft Learn',     dur:'4 tuần', price:'Miễn phí', rating:4.7, url:'#'}],
+};
+
+function runRecommendation() {
+  const major   = document.getElementById('recMajor').value;
+  const name    = document.getElementById('recName').value || 'Bạn';
+  const level   = document.getElementById('recLevel');
+  const levelTxt= level.options[level.selectedIndex].text;
+  if(!major){ alert('Vui lòng chọn chuyên ngành!'); return; }
+  if(selectedSkills.length===0){ alert('Vui lòng chọn ít nhất 1 kỹ năng bạn đang có!'); return; }
+
+  const jobs = JOB_REQUIREMENTS[major] || [];
+  const userSkillsLow = selectedSkills.map(s=>s.toLowerCase());
+
+  // ── Ẩn empty state, hiện header
+  document.getElementById('recEmptyState').style.display   = 'none';
+  document.getElementById('recResultHeader').style.display = 'block';
+  document.getElementById('recResultName').textContent = `Kết quả phân tích cho: ${name}`;
+  document.getElementById('recResultSub').textContent  = `${major === 'IT'?'Công nghệ thông tin':major} · ${levelTxt} · ${selectedSkills.length} kỹ năng đã khai báo`;
+
+  const container = document.getElementById('recJobCards');
+  container.innerHTML = '';
+
+  const sorted = jobs.map(j => {
+    const userHas  = j.reqSkills.filter(sk => userSkillsLow.some(u => u===sk.name.toLowerCase()||sk.name.toLowerCase().includes(u)||u.includes(sk.name.toLowerCase())));
+    const missing  = j.reqSkills.filter(sk => !userSkillsLow.some(u => u===sk.name.toLowerCase()||sk.name.toLowerCase().includes(u)||u.includes(sk.name.toLowerCase())));
+    const pct      = Math.round((userHas.length / j.reqSkills.length) * 100);
+    return {...j, userHas, missing, pct};
+  }).sort((a,b)=>b.pct-a.pct);
+
+  sorted.forEach(j => {
+    const pctColor  = j.pct>=70?'var(--green)':j.pct>=40?'var(--amber)':'var(--red)';
+    const badgeCls  = j.pct>=70?'high':j.pct>=40?'mid':'low';
+    const fillGrad  = j.pct>=70?'linear-gradient(90deg,#10b981,#34d399)':j.pct>=40?'linear-gradient(90deg,#f59e0b,#fbbf24)':'linear-gradient(90deg,#ef4444,#f87171)';
+
+    // ── PHẦN 1: Chẩn đoán
+    const hasHTML = j.userHas.map(sk=>
+      `<span class="diag-skill-item have">✅ ${sk.name}<span style="font-size:9px;opacity:.7;margin-left:3px">${sk.importance}</span></span>`
+    ).join('');
+    const missingHTML = j.missing.map(sk=>
+      `<span class="diag-skill-item missing">❌ ${sk.name}<span style="font-size:9px;opacity:.7;margin-left:3px">${sk.importance}</span></span>`
+    ).join('');
+
+    // ── PHẦN 2: Kê đơn khóa học
+    let prescHTML = '';
+    if(j.missing.length === 0){
+      prescHTML = `<div class="no-gap-msg">🎉 Tuyệt vời! Bạn đã đáp ứng <strong>đầy đủ</strong> yêu cầu của vị trí này. Hãy cập nhật CV và ứng tuyển ngay!</div>`;
+    } else {
+      const courseCards = j.missing.map(sk => {
+        const courses = SKILL_COURSES_MAP[sk.name] || [{title:`Học ${sk.name}`, src:'Coursera', dur:'Đang cập nhật', price:'Miễn phí', rating:4.5, url:'#'}];
+        return courses.map(c => `
+          <div class="mini-course-card">
+            <div class="mini-course-left">
+              <div class="mini-course-skill-tag">Bù đắp: ${sk.name}</div>
+              <div class="mini-course-title" title="${c.title}">${c.title}</div>
+              <div class="mini-course-meta">
+                <span>🎓 ${c.src}</span>
+                <span>⏱ ${c.dur}</span>
+                <span>💰 ${c.price}</span>
+                <span>⭐ ${c.rating}</span>
+              </div>
+            </div>
+            <button class="mini-course-enroll" onclick="window.open('${c.url}','_blank')">Đăng Ký Học →</button>
+          </div>
+        `).join('');
+      }).join('');
+      prescHTML = courseCards;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'diag-card';
+    card.innerHTML = `
+      <div class="diag-header">
+        <div class="diag-job-name">${j.icon} ${j.job}</div>
+        <span class="diag-match-badge ${badgeCls}">${j.pct}% Phù Hợp</span>
+      </div>
+      <div class="diag-progress-wrap">
+        <div class="diag-progress-track">
+          <div class="diag-progress-fill" style="width:${j.pct}%;background:${fillGrad}"></div>
+        </div>
+      </div>
+      <div class="diag-section">
+        <div class="diag-section-title diagnosis">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          CHẨN ĐOÁN KỸ NĂNG — ${j.reqSkills.length} kỹ năng yêu cầu
+        </div>
+        ${j.userHas.length>0?`<div style="margin-bottom:8px">${hasHTML}</div>`:''}
+        ${j.missing.length>0?missingHTML:`<div style="font-size:11px;color:var(--green);font-weight:600">✅ Bạn đã có đủ tất cả kỹ năng!</div>`}
+      </div>
+      <div class="prescription-zone">
+        <div class="diag-section-title prescription" style="margin-bottom:12px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          KÊ ĐƠN KHÓA HỌC — LỘ TRÌNH BÙ ĐẮP GAP
+        </div>
+        ${prescHTML}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  WORKERS TABLE
+// ══════════════════════════════════════════════════════
+function renderWorkers() {
+  const tbody = document.getElementById('workersTableBody');
+  if(!tbody) return;
+  tbody.innerHTML = WORKERS_DATA.map(w=>{
+    const chips = w.skills.map(s=>`<span class="chip blue">${s}</span>`).join(' ');
+    const statusMap = {active:'active',pending:'pending',inactive:'inactive'};
+    const statusLabel = {active:'✅ Đã phân tích',pending:'⏳ Chờ xử lý',inactive:'❌ Không hoạt động'};
+    return `<tr>
+      <td>${w.id}</td>
+      <td class="skill-name-cell">${w.name}</td>
+      <td>${w.major}</td>
+      <td style="color:var(--text2)">${w.school}</td>
+      <td style="display:flex;flex-wrap:wrap;gap:4px;padding-top:11px">${chips}</td>
+      <td><span class="chip green">${w.match}</span></td>
+      <td><span class="status-dot ${statusMap[w.status]}"></span>${statusLabel[w.status]}</td>
+      <td><button class="action-btn">Chi tiết</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  EMPLOYERS
+// ══════════════════════════════════════════════════════
+function renderEmployers() {
+  const grid = document.getElementById('jobPostsGrid');
+  if(!grid) return;
+  grid.innerHTML = JOBS_DATA.map(j=>`
+    <div class="job-post-card">
+      <div class="job-post-title">${j.title}</div>
+      <div class="job-post-meta">
+        <span>🏢 ${j.company}</span>
+        <span>📁 ${j.industry}</span>
+        <span>💰 ${j.salary}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">
+        ${j.skills.map(s=>`<span class="chip blue">${s}</span>`).join('')}
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button class="action-btn">Xem chi tiết</button>
+        <button class="action-btn danger">Xóa</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  COURSES
+// ══════════════════════════════════════════════════════
+function renderCourses() {
+  const grid = document.getElementById('courseGrid');
+  if(!grid) return;
+  grid.innerHTML = COURSES_DATA.map(c=>`
+    <div class="course-card">
+      <span class="course-skill-tag" style="background:${c.color}18;color:${c.color}">${c.skill}</span>
+      <div class="course-title">${c.title}</div>
+      <div class="course-provider">🎓 ${c.provider}</div>
+      <div class="course-meta">
+        <span>⏱ ${c.duration}</span>
+        <span>💰 ${c.price}</span>
+        <span>⭐ ${c.rating}</span>
+      </div>
+      <button class="course-cta" onclick="alert('Đang mở khóa học ${c.title}...')">Đăng Ký Học</button>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════════════
+function renderAdmin() {
+  const tbody = document.getElementById('adminUsersBody');
+  if(!tbody) return;
+  const roleMap = {admin:'Admin',employer:'Nhà Tuyển Dụng',course_provider:'Nhà Cung Cấp KH',worker:'Người Lao Động'};
+  const roleColor = {admin:'purple',employer:'blue',course_provider:'cyan',worker:'green'};
+  tbody.innerHTML = ADMIN_USERS.map(u=>`<tr>
+    <td>${u.id}</td>
+    <td class="skill-name-cell">${u.name}</td>
+    <td><span class="chip ${roleColor[u.role]}">${roleMap[u.role]}</span></td>
+    <td style="color:var(--text2)">${u.joined}</td>
+    <td><span class="status-dot ${u.status}"></span>${u.status==='active'?'Hoạt động':u.status==='pending'?'Chờ duyệt':'Không hoạt động'}</td>
+    <td style="display:flex;gap:4px">
+      <button class="action-btn">Sửa</button>
+      <button class="action-btn danger">Xóa</button>
+    </td>
+  </tr>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+//  MODALS
+// ══════════════════════════════════════════════════════
+function openJobModal(){ document.getElementById('jobModal').classList.add('open'); }
+function closeJobModal(){ document.getElementById('jobModal').classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+
+// ══════════════════════════════════════════════════════
+//  THEME & SIDEBAR
+// ══════════════════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement;
+  html.setAttribute('data-theme', html.getAttribute('data-theme')==='dark'?'light':'dark');
+}
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const mn = document.getElementById('main');
+  sb.classList.toggle('collapsed');
+  mn.classList.toggle('expanded');
+}
+
+function applyGlobalFilter(){}
+
+// ══════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', ()=>{
+  initDashboardCharts();
+});
+</script>
+</body>
+</html>
