@@ -414,12 +414,136 @@
       border: 2px solid var(--bg2);
     }
 
+    .topbar-guest-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-auth-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .btn-auth-action.login {
+      background: var(--bg3);
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+
+    .btn-auth-action.login:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .btn-auth-action.register {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 2px 8px rgba(15, 163, 158, 0.25);
+    }
+
+    .btn-auth-action.register:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(15, 163, 158, 0.4);
+    }
+
+    .demo-selector-wrap {
+      position: relative;
+    }
+
+    .btn-demo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 20px;
+      background: rgba(245, 158, 11, 0.1);
+      color: #b45309;
+      border: 1px dashed rgba(245, 158, 11, 0.45);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-demo-pill:hover {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: #b45309;
+    }
+
+    .demo-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 220px;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      padding: 6px;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .demo-dropdown-menu.show {
+      display: flex;
+    }
+
+    .demo-drop-header {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text3);
+      padding: 6px 10px 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .demo-drop-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .demo-drop-item:hover {
+      background: var(--bg3);
+      color: var(--primary);
+    }
+
+    .user-chip-wrapper {
+      position: relative;
+    }
+
     .user-chip {
       display: flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
-      padding: 4px 10px 4px 4px;
+      padding: 4px 12px 4px 5px;
       border-radius: 30px;
       background: var(--bg3);
       border: 1px solid var(--border);
@@ -427,12 +551,13 @@
     }
 
     .user-chip:hover {
-      border-color: var(--primary-light)
+      border-color: var(--primary-light);
+      box-shadow: 0 2px 8px rgba(15, 163, 158, 0.15);
     }
 
     .user-avatar {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), var(--purple));
       display: flex;
@@ -441,12 +566,148 @@
       font-size: 11px;
       font-weight: 800;
       color: #fff;
+      flex-shrink: 0;
+    }
+
+    .user-chip-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+      text-align: left;
     }
 
     .user-name {
       font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-role-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .user-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 230px;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      padding: 6px;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+    }
+
+    .user-dropdown-menu.show {
+      display: flex;
+    }
+
+    .user-dropdown-header {
+      padding: 10px 12px;
+      background: var(--bg3);
+      border-radius: 8px;
+      margin-bottom: 4px;
+    }
+
+    .user-dropdown-name {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-dropdown-role {
+      font-size: 11px;
+      color: var(--primary);
       font-weight: 600;
-      color: var(--text)
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .user-dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+
+    .user-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .user-dropdown-item:hover {
+      background: var(--bg3);
+      color: var(--primary);
+    }
+
+    .user-dropdown-item.danger {
+      color: var(--red);
+    }
+
+    .user-dropdown-item.danger:hover {
+      background: rgba(220, 38, 38, 0.08);
+      color: var(--red);
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text2);
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .auth-tab-btn.active {
+      color: var(--primary);
+      background: rgba(15, 163, 158, 0.08);
+    }
+
+    .auth-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
     }
 
     .theme-toggle {
@@ -2422,11 +2683,279 @@
         grid-template-columns: 1fr
       }
     }
+
+    /* ──────────────── DUAL LAYOUT ARCHITECTURE (Task 1) ──────────────── */
+    .layout-container {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* 1. Admin Layout: giữ nguyên 100% layout cũ */
+    #adminLayout {
+      display: block;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* 2. Public Layout: tách biệt hoàn toàn */
+    #publicLayout {
+      display: none;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      width: 100%;
+    }
+
+    /* TopNavbar component (Fixed Top) */
+    .public-top-navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      z-index: 950;
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .public-navbar-container {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .public-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .public-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .public-logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+
+    .public-logo-text {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: var(--text);
+    }
+
+    .public-logo-text span {
+      color: var(--primary);
+    }
+
+    .public-nav-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .public-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* TopCV Style Buttons for Public TopNavbar (Task 2) */
+    .btn-topcv {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 15px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: inherit;
+      white-space: nowrap;
+      line-height: 1.3;
+    }
+
+    /* Micro-task 2.2 - Nút 1: "Đăng ký" (Border xanh lá, text xanh lá, nền trắng) */
+    .btn-topcv-register {
+      background: #ffffff;
+      color: #00b14f;
+      border: 1.5px solid #00b14f;
+    }
+    .btn-topcv-register:hover {
+      background: rgba(0, 177, 79, 0.08);
+      color: #009643;
+      border-color: #009643;
+      transform: translateY(-1px);
+    }
+
+    /* Micro-task 2.2 - Nút 2: "Đăng nhập" (Nền xanh lá, text trắng) */
+    .btn-topcv-login {
+      background: #00b14f;
+      color: #ffffff;
+      border: 1.5px solid #00b14f;
+      box-shadow: 0 2px 6px rgba(0, 177, 79, 0.25);
+    }
+    .btn-topcv-login:hover {
+      background: #009643;
+      border-color: #009643;
+      box-shadow: 0 4px 12px rgba(0, 177, 79, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Micro-task 2.2 - Nút 3: "Đăng tuyển & tìm hồ sơ" (Nền xám nhạt, text đen, dành cho Employer) */
+    .btn-topcv-employer {
+      background: #f1f5f9;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      font-weight: 600;
+    }
+    .btn-topcv-employer:hover {
+      background: #e2e8f0;
+      color: #00b14f;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+
+    /* Micro-task 2.3: Public Authenticated User Chip & Dropdown */
+    .public-user-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 4px 12px 4px 5px;
+      border-radius: 30px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+    .public-user-chip:hover {
+      border-color: #00b14f;
+      background: var(--bg2);
+      box-shadow: 0 2px 10px rgba(0, 177, 79, 0.15);
+    }
+    .public-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00b14f, #0fa39e);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .public-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .public-user-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 250px;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 1000;
+    }
+    .public-user-dropdown.show {
+      display: flex;
+    }
+    .public-user-dropdown .user-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    .public-user-dropdown .user-menu-item:hover {
+      background: var(--hover-bg);
+      color: var(--primary);
+    }
+    .public-user-dropdown .user-menu-item.logout {
+      color: var(--red);
+    }
+    .public-user-dropdown .user-menu-item.logout:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--red);
+    }
+
+    /* Public Main Content: Có padding-top 70px để không bị lẹm dưới TopNavbar */
+    .public-main-content {
+      padding-top: 70px;
+      min-height: calc(100vh - 70px);
+      width: 100%;
+      background: var(--bg);
+    }
+
+    .public-page-placeholder {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
   </style>
 </head>
 
 <body>
-  <div class="shell">
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- DUAL LAYOUT: 1. ADMIN LAYOUT (/admin/*) (Micro-task 1.1)           -->
+  <!-- GIỮ NGUYÊN 100% TOÀN BỘ SIDEBAR, TOPBAR VÀ LOGIC ADMIN CŨ         -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="adminLayout" class="layout-container admin-layout">
+    <div class="shell">
 
     <!-- ══════════ SIDEBAR ══════════ -->
     <aside class="sidebar" id="sidebar">
@@ -2543,6 +3072,7 @@
             <span style="color:var(--text3)">SkillGapAI</span>
             <span class="bc-sep">›</span>
             <span class="bc-cur" id="breadcrumbText">Tổng Quan</span>
+            <a href="/" onclick="event.preventDefault(); navigate('/');" style="font-size:11px;padding:2px 8px;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;text-decoration:none;color:var(--primary);font-weight:700;margin-left:10px;display:inline-flex;align-items:center;gap:4px" title="Quay lại Cổng Người Dùng Public">🌐 Public Portal</a>
           </div>
         </div>
         <div class="topbar-right">
@@ -2575,9 +3105,68 @@
             </svg>
             <span class="notif-dot"></span>
           </button>
-          <div class="user-chip">
-            <div class="user-avatar">AD</div>
-            <span class="user-name">Admin</span>
+          <!-- KHU VỰC KHI CHƯA ĐĂNG NHẬP (KHÁCH): CÓ ĐĂNG NHẬP, ĐĂNG KÝ VÀ DEMO ROLE -->
+          <div class="topbar-guest-actions" id="topbarGuestArea" style="display:flex">
+            <button class="btn-auth-action login" id="btnTopbarLogin" onclick="openAuthModal('login')" title="Đăng nhập tài khoản">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Đăng Nhập
+            </button>
+            <button class="btn-auth-action register" id="btnTopbarRegister" onclick="openAuthModal('register')" title="Đăng ký tài khoản mới">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+              Đăng Ký
+            </button>
+            <div class="demo-selector-wrap">
+              <button class="btn-demo-pill" id="btnDemoRoleQuick" onclick="toggleDemoDropdown(event)" title="Thử nghiệm phân quyền 4 Roles">
+                <span>⚡ Demo</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="demo-dropdown-menu" id="demoDropdownMenu">
+                <div class="demo-drop-header">⚡ TRẢI NGHIỆM DEMO ROLE</div>
+                <button class="demo-drop-item" onclick="quickLoginRole('admin')">👑 Admin (Quản trị)</button>
+                <button class="demo-drop-item" onclick="quickLoginRole('employer')">🏢 Employer (Tuyển dụng)</button>
+                <button class="demo-drop-item" onclick="quickLoginRole('candidate')">🎓 Candidate (Sinh viên)</button>
+                <button class="demo-drop-item" onclick="quickLoginRole('provider')">📚 Provider (Đào tạo)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- KHU VỰC KHI ĐÃ ĐĂNG NHẬP (CHỈ HIỂN THỊ KHI ĐÃ CÓ TÀI KHOẢN ĐĂNG NHẬP) -->
+          <div class="user-chip-wrapper" id="topbarUserArea" style="display:none">
+            <div class="user-chip" id="userChipBtn" onclick="toggleUserDropdown(event)" title="Tài khoản">
+              <div class="user-avatar" id="topUserAvatar">AD</div>
+              <div class="user-chip-info">
+                <span class="user-name" id="topUserName">Admin Tổng</span>
+                <span class="user-role-badge" id="topUserRoleBadge">Admin</span>
+              </div>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text3);margin-left:2px"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="user-dropdown-menu" id="userDropdownMenu">
+              <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="userDropdownName">Admin Tổng</div>
+                <div class="user-dropdown-role" id="userDropdownRole">Quản trị viên (admin)</div>
+              </div>
+              <div class="user-dropdown-divider"></div>
+
+              <div id="authMenuItems" style="display:flex;flex-direction:column;gap:3px">
+                <button class="user-dropdown-item" id="menuMyProfile" onclick="openProfileModal()">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Hồ sơ của tôi
+                </button>
+                <button class="user-dropdown-item" id="menuChangePassword" onclick="openChangePasswordModal()">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Đổi mật khẩu
+                </button>
+                <button class="user-dropdown-item" onclick="openAuthModal('demo')">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  Chuyển vai trò khác
+                </button>
+                <div class="user-dropdown-divider"></div>
+                <button class="user-dropdown-item danger" onclick="handleLogout()">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  Đăng xuất
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -3269,7 +3858,7 @@
             <h1 class="page-title">Cổng Nhà Tuyển Dụng</h1>
             <p class="page-sub">Đăng tin tuyển dụng và tiếp cận ứng viên phù hợp nhất</p>
           </div>
-          <button class="btn btn-primary" onclick="openJobModal()"><svg viewBox="0 0 24 24" fill="none"
+          <button class="btn btn-primary" id="btnCreateJobPosting" onclick="openJobModal()"><svg viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19" />
               <line x1="5" y1="12" x2="19" y2="12" />
@@ -3407,6 +3996,127 @@
 
     </div><!-- /main -->
   </div><!-- /shell -->
+  </div><!-- /adminLayout -->
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- DUAL LAYOUT: 2. PUBLIC LAYOUT (/, /jobs, /profile...) (Micro-task 1.2) -->
+  <!-- GIAO DIỆN PUBLIC VỚI TOP NAVBAR VÀ MAIN CONTAINER PADDING-TOP       -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="publicLayout" class="layout-container public-layout" style="display:none">
+    <!-- TopNavbar component (Fixed Top) -->
+    <header class="public-top-navbar" id="publicNavbar">
+      <div class="public-navbar-container">
+        <!-- Micro-task 2.1 Cụm Trái (Logo text SkillGap AI, font đậm, không dùng logo trường ĐH) -->
+        <div class="public-nav-left" id="publicNavLeft">
+          <a href="/" onclick="event.preventDefault(); navigate('/');" class="public-logo" title="SkillGap AI - Trang chủ">
+            <div class="public-logo-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </div>
+            <span class="public-logo-text">SkillGap<span>AI</span></span>
+          </a>
+        </div>
+
+        <!-- Micro-task 3.x Cụm Giữa (Dynamic Role-based Menu - Prepared for Task 3) -->
+        <nav class="public-nav-center" id="publicNavCenter">
+          <!-- Sẽ render động theo role ở Task 3 -->
+        </nav>
+
+        <!-- Micro-task 2.x Cụm Phải (Auth / User Action - TopCV Style) -->
+        <div class="public-nav-right" id="publicNavRight">
+          <!-- 1. Trạng thái Chưa đăng nhập (Guest) - Micro-task 2.2: 3 Nút chuẩn TopCV + Demo -->
+          <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:8px">
+            <!-- Nút 1: Đăng ký (Border xanh lá, text xanh lá, nền trắng) -->
+            <button class="btn-topcv btn-topcv-register" id="btnPublicRegister" onclick="openAuthModal('register')">
+              Đăng ký
+            </button>
+            <!-- Nút 2: Đăng nhập (Nền xanh lá, text trắng) -->
+            <button class="btn-topcv btn-topcv-login" id="btnPublicLogin" onclick="openAuthModal('login')">
+              Đăng nhập
+            </button>
+            <!-- Nút 3: Đăng tuyển & tìm hồ sơ (Nền xám nhạt, text đen, dành cho Employer) -->
+            <button class="btn-topcv btn-topcv-employer" id="btnPublicEmployer" onclick="handleEmployerPortalClick()">
+              Đăng tuyển &amp; tìm hồ sơ
+            </button>
+            <!-- Quick Demo dropdown pill -->
+            <div class="demo-selector-wrap" style="position:relative">
+              <button class="demo-btn-pill" id="publicDemoBtn" onclick="togglePublicDemoDropdown(event)" title="Thử nghiệm nhanh quyền (Role) hệ thống" style="padding:6px 10px;font-size:12px;background:var(--bg3);border:1px dashed var(--border2);border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--text2)">
+                <span>⚡ Demo</span>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="demo-dropdown-menu" id="publicDemoDropdownMenu" style="position:absolute;top:calc(100% + 6px);right:0;width:200px;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:6px;box-shadow:var(--shadow);display:none;flex-direction:column;gap:3px;z-index:1000">
+                <div style="font-size:10px;font-weight:800;color:var(--text3);padding:4px 8px;text-transform:uppercase">Chọn Role Thử Nghiệm</div>
+                <button class="demo-item-btn" onclick="quickLoginRole('admin')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#e0f2fe;color:#0369a1;font-size:12px;cursor:pointer;font-weight:700">👑 Admin (Quản trị)</button>
+                <button class="demo-item-btn" onclick="quickLoginRole('employer')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#fef3c7;color:#b45309;font-size:12px;cursor:pointer;font-weight:700">🏢 Employer (Tuyển dụng)</button>
+                <button class="demo-item-btn" onclick="quickLoginRole('candidate')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#dcfce7;color:#15803d;font-size:12px;cursor:pointer;font-weight:700">🎓 Candidate (Ứng viên)</button>
+                <button class="demo-item-btn" onclick="quickLoginRole('provider')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#f3e8ff;color:#7e22ce;font-size:12px;cursor:pointer;font-weight:700">📚 Provider (Đào tạo)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Trạng thái Đã đăng nhập (Authenticated) - Micro-task 2.3 -->
+          <div class="public-auth-user" id="publicAuthUser" style="display:none;position:relative">
+            <div class="public-user-chip" id="publicUserChip" onclick="togglePublicUserDropdown(event)" title="Tài khoản của bạn">
+              <div class="public-user-avatar" id="publicUserAvatar">U</div>
+              <div class="public-user-name" id="publicUserName">User</div>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--text3);margin-left:2px">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+
+            <!-- Dropdown Menu Người Dùng -->
+            <div class="public-user-dropdown" id="publicUserDropdown">
+              <div style="padding:10px 12px;border-bottom:1px solid var(--border);margin-bottom:4px">
+                <div style="font-weight:800;font-size:13px;color:var(--text)" id="publicDropdownFullName">User Name</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px" id="publicDropdownRoleBadge">🎓 Ứng viên</div>
+              </div>
+              <button class="user-menu-item" id="publicMenuProfile" onclick="openProfileModal()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Hồ sơ của tôi
+              </button>
+              <button class="user-menu-item" onclick="openChangePasswordModal()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Đổi mật khẩu
+              </button>
+              <button class="user-menu-item" id="publicMenuAdminPortal" onclick="navigate('/admin'); if(document.getElementById('publicUserDropdown')) document.getElementById('publicUserDropdown').classList.remove('show');" style="display:none;color:var(--primary);font-weight:700">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Trang Quản Trị Hệ Thống (/admin)
+              </button>
+              <div style="height:1px;background:var(--border);margin:4px 0"></div>
+              <button class="user-menu-item logout" onclick="handleLogout()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Đăng xuất
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content (Có padding-top 70px để không bị lẹm dưới TopNavbar) -->
+    <main class="public-main-content" id="publicMainContent">
+      <div class="public-page-placeholder" id="publicPageContainer">
+        <div style="background:var(--bg2);padding:36px;border-radius:18px;border:1px solid var(--border);text-align:center;box-shadow:var(--shadow)">
+          <div style="display:inline-flex;padding:12px;border-radius:14px;background:var(--primary-glow);color:var(--primary);margin-bottom:14px">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h2 style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px">SkillGap AI Portal – Public Layout</h2>
+          <p style="color:var(--text2);margin-bottom:20px;max-width:600px;margin-left:auto;margin-right:auto">
+            Hệ thống Dual Layout đã được cấu hình thành công. Giao diện Public hoạt động hoàn toàn tách biệt với Admin Dashboard.
+          </p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="navigate('/admin')">Truy cập Trang Quản Trị (/admin) ↗</button>
+            <button class="btn" style="border:1px solid var(--border2);background:var(--bg3)" onclick="navigate('/jobs')">Xem Việc Làm (/jobs)</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <!-- ══ MODAL: POST JOB ══ -->
   <div class="modal-overlay" id="jobModal">
@@ -3457,6 +4167,148 @@
         </div>
       </div>
       <div id="courseModalBody"></div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: PROFILE MODAL ══ -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal" style="width:min(480px,95vw);padding:24px">
+      <button class="modal-close" onclick="closeProfileModal()"><svg viewBox="0 0 24 24" fill="none">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
+      <div class="modal-title" style="margin-bottom:14px;font-size:18px;font-weight:800;color:var(--text)">
+        👤 Hồ Sơ Của Tôi
+      </div>
+      <div class="rec-form">
+        <div class="form-group">
+          <label class="form-label">Tên hiển thị</label>
+          <input class="form-input" id="profileFullName" placeholder="Họ và tên" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="profileEmail" placeholder="Email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Số điện thoại</label>
+          <input class="form-input" id="profilePhone" placeholder="Số điện thoại" />
+        </div>
+        <div class="form-group" id="profileCompanyGroup" style="display:none">
+          <label class="form-label">Tên Công Ty</label>
+          <input class="form-input" id="profileCompanyName" placeholder="Tên công ty" />
+        </div>
+        <div class="form-group" id="profileCompanyDescGroup" style="display:none">
+          <label class="form-label">Mô tả công ty</label>
+          <textarea class="form-input" id="profileCompanyDesc" rows="2" placeholder="Mô tả công ty..."></textarea>
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="saveProfileChanges()">Lưu Thay Đổi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: CHANGE PASSWORD ══ -->
+  <div class="modal-overlay" id="changePasswordModal">
+    <div class="modal" style="width:min(420px,95vw);padding:24px">
+      <button class="modal-close" onclick="closeChangePasswordModal()"><svg viewBox="0 0 24 24" fill="none">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
+      <div class="modal-title" style="margin-bottom:14px;font-size:18px;font-weight:800;color:var(--text)">
+        🔒 Đổi Mật Khẩu
+      </div>
+      <div class="rec-form">
+        <div class="form-group">
+          <label class="form-label">Mật khẩu hiện tại</label>
+          <input type="password" class="form-input" id="pwdCurrent" placeholder="Nhập mật khẩu hiện tại" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mật khẩu mới</label>
+          <input type="password" class="form-input" id="pwdNew" placeholder="Ít nhất 6 ký tự" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Xác nhận mật khẩu mới</label>
+          <input type="password" class="form-input" id="pwdConfirm" placeholder="Nhập lại mật khẩu mới" />
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="submitChangePassword()">Cập Nhật Mật Khẩu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ / SWITCH ROLE) ══ -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal" style="width:min(460px,95vw);padding:24px 26px">
+      <button class="modal-close" onclick="closeAuthModal()"><svg viewBox="0 0 24 24" fill="none">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg></button>
+      
+      <!-- TABS CHUYỂN ĐỔI -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="authTabLoginBtn" onclick="switchAuthTab('login')">🔑 Đăng Nhập</button>
+        <button class="auth-tab-btn" id="authTabRegisterBtn" onclick="switchAuthTab('register')">📝 Đăng Ký</button>
+      </div>
+
+      <!-- TAB 1: FORM ĐĂNG NHẬP -->
+      <div id="authLoginTab">
+        <div class="rec-form">
+          <div class="form-group">
+            <label class="form-label">Tên đăng nhập hoặc Email</label>
+            <input class="form-input" id="authUsername" placeholder="VD: admin hoặc admin@skillgap.local" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mật khẩu</label>
+            <input type="password" class="form-input" id="authPassword" placeholder="Nhập mật khẩu (VD: admin123)" onkeydown="if(event.key==='Enter') submitLogin()" />
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:6px;padding:11px" onclick="submitLogin()">Đăng Nhập Ngay</button>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 10px;font-size:12px;color:var(--text2)">
+          <span>Chưa có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('register')" style="color:var(--primary);font-weight:700">Đăng ký mới</a></span>
+        </div>
+
+        <div style="border-top:1px dashed var(--border);padding-top:12px;margin-top:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Hoặc thử nghiệm nhanh với Demo Role:</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <button class="btn" style="background:#e0f2fe;color:#0369a1;font-size:11px;padding:7px" onclick="quickLoginRole('admin')">👑 Admin (Quản trị)</button>
+            <button class="btn" style="background:#fef3c7;color:#b45309;font-size:11px;padding:7px" onclick="quickLoginRole('employer')">🏢 Employer (Tuyển dụng)</button>
+            <button class="btn" style="background:#dcfce7;color:#15803d;font-size:11px;padding:7px" onclick="quickLoginRole('candidate')">🎓 Candidate (Sinh viên)</button>
+            <button class="btn" style="background:#f3e8ff;color:#7e22ce;font-size:11px;padding:7px" onclick="quickLoginRole('provider')">📚 Provider (Đào tạo)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: FORM ĐĂNG KÝ -->
+      <div id="authRegisterTab" style="display:none">
+        <div class="rec-form">
+          <div class="form-group">
+            <label class="form-label">Họ và tên</label>
+            <input class="form-input" id="regFullName" placeholder="VD: Nguyễn Văn A" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="regEmail" placeholder="VD: nguyenvana@gmail.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mật khẩu</label>
+            <input type="password" class="form-input" id="regPassword" placeholder="Ít nhất 6 ký tự" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bạn là ai? (Loại tài khoản)</label>
+            <select class="form-input" id="regRole" onchange="toggleRegCompanyInput()">
+              <option value="candidate">🎓 Ứng viên / Sinh viên tìm việc</option>
+              <option value="employer">🏢 Doanh nghiệp / Nhà tuyển dụng</option>
+              <option value="provider">📚 Đơn vị đào tạo khóa học</option>
+            </select>
+          </div>
+          <div class="form-group" id="regCompanyGroup" style="display:none">
+            <label class="form-label">Tên Công ty / Doanh nghiệp</label>
+            <input class="form-input" id="regCompanyName" placeholder="VD: Công ty TNHH ABC Cần Thơ" />
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:6px;padding:11px" onclick="submitRegister()">Tạo Tài Khoản Mới</button>
+        </div>
+
+        <div style="text-align:center;margin-top:14px;font-size:12px;color:var(--text2)">
+          Đã có tài khoản? <a href="javascript:void(0)" onclick="switchAuthTab('login')" style="color:var(--primary);font-weight:700">Đăng nhập ngay</a>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -3567,12 +4419,12 @@
     ];
 
     const JOBS_DATA = [
-      { id: "JB001", title: "Python Backend Developer", company: "FPT Software Cần Thơ", industry: "IT", salary: "15–25tr/th", skills: ["Python", "FastAPI", "Docker", "PostgreSQL"], status: "active" },
-      { id: "JB002", title: "Data Analyst", company: "Viettel Digital CT", industry: "IT", salary: "12–20tr/th", skills: ["Python", "SQL", "Power BI"], status: "active" },
-      { id: "JB003", title: "Digital Marketing Manager", company: "Lazada Vietnam", industry: "Kinh tế", salary: "18–30tr/th", skills: ["SEO", "Facebook Ads", "Analytics"], status: "active" },
-      { id: "JB004", title: "Logistics Specialist", company: "DHL Express", industry: "Logistics", salary: "10–18tr/th", skills: ["Logistics", "SAP", "English"], status: "active" },
-      { id: "JB005", title: "Tour Guide Senior", company: "Saigontourist CT", industry: "Du lịch", salary: "10–16tr/th", skills: ["English", "Communication", "Local Knowledge"], status: "active" },
-      { id: "JB006", title: "AI/ML Engineer", company: "VNG Corporation", industry: "IT", salary: "25–45tr/th", skills: ["Python", "TensorFlow", "Machine Learning"], status: "active" },
+      { id: "JB001", title: "Python Backend Developer", company: "FPT Software Cần Thơ", location: "Cần Thơ", industry: "IT", salary: "15–25tr/th", skills: ["Python", "FastAPI", "Docker", "PostgreSQL"], status: "active" },
+      { id: "JB002", title: "Data Analyst", company: "Viettel Digital CT", location: "Cần Thơ", industry: "IT", salary: "12–20tr/th", skills: ["Python", "SQL", "Power BI"], status: "active" },
+      { id: "JB003", title: "Digital Marketing Manager", company: "Lazada Vietnam", location: "Cần Thơ", industry: "Kinh tế", salary: "18–30tr/th", skills: ["SEO", "Facebook Ads", "Analytics"], status: "active" },
+      { id: "JB004", title: "Logistics Specialist", company: "DHL Express", location: "Cần Thơ", industry: "Logistics", salary: "10–18tr/th", skills: ["Logistics", "SAP", "English"], status: "active" },
+      { id: "JB005", title: "Tour Guide Senior", company: "Saigontourist CT", location: "Cần Thơ", industry: "Du lịch", salary: "10–16tr/th", skills: ["English", "Communication", "Local Knowledge"], status: "active" },
+      { id: "JB006", title: "AI/ML Engineer", company: "VNG Corporation", location: "Cần Thơ", industry: "IT", salary: "25–45tr/th", skills: ["Python", "TensorFlow", "Machine Learning"], status: "active" },
     ];
 
     const COURSES_DATA = [
@@ -4255,7 +5107,7 @@
 
 
     // ══════════════════════════════════════════════════════
-    //  NAVIGATION
+    //  NAVIGATION & DUAL LAYOUT ROUTER (TASK 1 - Micro-task 1.3)
     // ══════════════════════════════════════════════════════
     const PAGE_LABELS = {
       dashboard: "Tổng Quan", softskills: "Kỹ Năng Mềm Chung",
@@ -4264,15 +5116,128 @@
       courses: "Khóa Học", admin: "Quản Trị"
     };
 
-    function switchPage(name, el) {
+    function getNormalizedRoute() {
+      // Prioritize hash if present (e.g. #/admin or #/jobs), otherwise pathname
+      const hash = window.location.hash.replace(/^#/, '');
+      if (hash) {
+        return hash.startsWith('/') ? hash : '/' + hash;
+      }
+      return window.location.pathname || '/';
+    }
+
+    function navigate(routePath, pushState = true, triggerPageSwitch = true) {
+      if (!routePath.startsWith('/')) routePath = '/' + routePath;
+
+      if (pushState) {
+        try {
+          window.history.pushState({ route: routePath }, '', routePath);
+        } catch(e) {
+          window.location.hash = '#' + routePath;
+        }
+      }
+
+      handleRouting(routePath, triggerPageSwitch);
+    }
+
+    function handleRouting(customPath, triggerPageSwitch = true) {
+      const currentPath = customPath || getNormalizedRoute();
+      // Micro-task 1.3: Bất kỳ route nào bắt đầu bằng /admin sẽ bọc trong AdminLayout
+      const isAdminRoute = currentPath === '/admin' || currentPath.startsWith('/admin/');
+
+      const adminLayout = document.getElementById('adminLayout');
+      const publicLayout = document.getElementById('publicLayout');
+
+      if (isAdminRoute) {
+        // Micro-task 1.1: Hiển thị AdminLayout (Sidebar + Dashboard nguyên bản 100%)
+        if (adminLayout) adminLayout.style.display = 'block';
+        if (publicLayout) publicLayout.style.display = 'none';
+
+        if (triggerPageSwitch) {
+          const clean = currentPath.replace(/^\/admin\/?/, '');
+          const parts = clean.split('/').filter(Boolean);
+          let subPage = parts[0] || 'dashboard';
+          if (subPage === 'jobs') subPage = 'employers';
+          if (subPage === 'system') subPage = 'admin';
+          if (subPage === 'learning') subPage = 'courses';
+          if (!PAGE_LABELS[subPage]) subPage = 'dashboard';
+
+          switchPage(subPage, null, false);
+        }
+      } else {
+        // Micro-task 1.2 & 1.3: Tất cả route còn lại (/, /jobs, /profile...) bọc trong PublicLayout
+        if (adminLayout) adminLayout.style.display = 'none';
+        if (publicLayout) publicLayout.style.display = 'block';
+
+        renderPublicRoute(currentPath);
+      }
+    }
+
+    function renderPublicRoute(path) {
+      const container = document.getElementById('publicPageContainer');
+      if (!container) return;
+
+      if (path === '/' || path === '') {
+        container.innerHTML = `
+          <div style="background:var(--bg2);padding:44px 32px;border-radius:20px;border:1px solid var(--border);text-align:center;box-shadow:var(--shadow);max-width:920px;margin:0 auto">
+            <div style="display:inline-flex;padding:14px;border-radius:16px;background:var(--primary-glow);color:var(--primary);margin-bottom:16px">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <h1 style="font-size:28px;font-weight:800;color:var(--text);margin-bottom:10px">Cổng Thông Tin Kỹ Năng &amp; Việc Làm SkillGap AI</h1>
+            <p style="color:var(--text2);font-size:15px;margin-bottom:24px;line-height:1.6;max-width:620px;margin-left:auto;margin-right:auto">
+              Bạn đang ở giao diện <strong>PublicLayout</strong> độc lập (dành cho Ứng viên, Doanh nghiệp &amp; Khách vãng lai). Giao diện Admin với Sidebar được bảo vệ nguyên bản tại <code>/admin/*</code>.
+            </p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-primary" onclick="navigate('/admin')">Truy cập Trang Quản Trị (/admin) ↗</button>
+              <button class="btn" style="border:1.5px solid var(--border2);background:var(--bg3);font-weight:700" onclick="navigate('/jobs')">Khám Phá Việc Làm (/jobs)</button>
+            </div>
+          </div>
+        `;
+      } else if (path.startsWith('/jobs')) {
+        container.innerHTML = `
+          <div style="background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);max-width:900px;margin:0 auto">
+            <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Danh Sách Việc Làm (Public Route: /jobs)</h2>
+            <p style="color:var(--text2);margin-bottom:16px">Trang tuyển dụng công khai hiển thị trên PublicLayout.</p>
+            <button class="btn" style="border:1px solid var(--border2)" onclick="navigate('/')">← Quay lại Trang Chủ</button>
+          </div>
+        `;
+      } else if (path.startsWith('/profile')) {
+        container.innerHTML = `
+          <div style="background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);max-width:900px;margin:0 auto">
+            <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Hồ Sơ Cá Nhân (Public Route: /profile)</h2>
+            <p style="color:var(--text2);margin-bottom:16px">Trang thông tin tài khoản và CV hiển thị trên PublicLayout.</p>
+            <button class="btn" style="border:1px solid var(--border2)" onclick="navigate('/')">← Quay lại Trang Chủ</button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div style="background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);max-width:900px;margin:0 auto;text-align:center">
+            <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Đường dẫn: ${path}</h2>
+            <p style="color:var(--text2);margin-bottom:16px">Nội dung công khai hiển thị trên PublicLayout.</p>
+            <button class="btn btn-primary" onclick="navigate('/')">← Về Trang Chủ Public</button>
+          </div>
+        `;
+      }
+    }
+
+    function switchPage(name, el, updateRoute = true) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       const pg = document.getElementById('page-' + name);
       if (pg) pg.classList.add('active');
       const nav = document.getElementById('nav-' + name);
       if (nav) nav.classList.add('active');
-      document.getElementById('breadcrumbText').textContent = PAGE_LABELS[name] || name;
+      const bc = document.getElementById('breadcrumbText');
+      if (bc) bc.textContent = PAGE_LABELS[name] || name;
       initPage(name);
+
+      if (updateRoute) {
+        const routeName = (name === 'employers' ? 'jobs' : (name === 'admin' ? 'system' : name));
+        navigate(`/admin/${routeName}`, true, false);
+      }
     }
 
     function initPage(name) {
@@ -5773,11 +6738,13 @@
           if (jobs.length > 0) {
             RAW_JOBS = jobs.map(j => {
               const sal = j.salary_min ? `${(j.salary_min / 1000000).toFixed(0)}–${(j.salary_max / 1000000).toFixed(0)}tr/th` : 'Thương lượng';
+              const loc = (j.location && j.location.trim() && j.location !== 'Chưa cập nhật') ? j.location : 'Cần Thơ';
               return {
                 id: `JB${String(j.id).padStart(4, '0')}`,
                 dbId: j.id,
                 title: j.title,
                 company: j.company,
+                location: loc,
                 industry: j.industry,
                 salary: sal,
                 skills: j.skills || [],
@@ -5847,90 +6814,81 @@
       renderWorkers();
     }
 
+    // ══════════════════════════════════════════════════════
+    //  DEBOUNCED SEARCH & JOB PAGINATION (API ?q=...&limit=12&offset=0)
+    // ══════════════════════════════════════════════════════
+    function debounce(func, delay = 500) {
+      let timeoutId;
+      return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+
+    const debouncedJobSearch = debounce(async (query) => {
+      await fetchJobsPaged(query, 0, 12);
+    }, 500);
+
     function onJobSearch(q) {
-      jobSearchQuery = (q || '').trim().toLowerCase();
+      jobSearchQuery = (q || '').trim();
       jobPage = 1;
+      debouncedJobSearch(jobSearchQuery);
+    }
+
+    async function fetchJobsPaged(query = '', offset = 0, limit = 12) {
+      const badge = document.getElementById('jobCountBadge');
+      try {
+        const params = new URLSearchParams({
+          q: query || '',
+          limit: limit.toString(),
+          offset: offset.toString()
+        });
+        const res = await fetch(`${API_BASE}/api/jobs/paged?${params.toString()}`);
+        if (res.ok) {
+          const data = await res.json();
+          const totalCount = (data.total !== undefined) ? data.total : (data.items ? data.items.length : 0);
+          if (badge) {
+            badge.textContent = `${totalCount.toLocaleString()} Tin Tuyển Dụng`;
+          }
+          if (Array.isArray(data.items)) {
+            const mapped = data.items.map(j => {
+              const sal = j.salary_min ? `${(j.salary_min / 1000000).toFixed(0)}–${(j.salary_max / 1000000).toFixed(0)}tr/th` : 'Thương lượng';
+              const loc = (j.location && j.location.trim() && j.location !== 'Chưa cập nhật') ? j.location : 'Cần Thơ';
+              return {
+                id: `JB${String(j.id).padStart(4, '0')}`,
+                dbId: j.id,
+                title: j.title,
+                company: j.company,
+                location: loc,
+                industry: j.industry,
+                salary: sal,
+                skills: j.skills || [],
+                url: j.source_url || '#'
+              };
+            });
+            renderJobGridItems(mapped, totalCount, offset, limit);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('API /api/jobs/paged call error, using local data:', err);
+      }
       renderEmployers();
     }
 
-    function renderWorkers() {
-      const tbody = document.getElementById('workersTableBody');
-      if (!tbody) return;
-
-      let list = RAW_WORKERS;
-      if (workerSearchQuery) {
-        list = list.filter(w =>
-          w.name.toLowerCase().includes(workerSearchQuery) ||
-          w.id.toLowerCase().includes(workerSearchQuery) ||
-          (w.major && w.major.toLowerCase().includes(workerSearchQuery)) ||
-          (w.school && w.school.toLowerCase().includes(workerSearchQuery))
-        );
-      }
-
-      const pageSize = 10;
-      const totalPages = Math.ceil(list.length / pageSize) || 1;
-      if (workerPage > totalPages) workerPage = totalPages;
-      const start = (workerPage - 1) * pageSize;
-      const pagedList = list.slice(start, start + pageSize);
-
-      tbody.innerHTML = pagedList.map(w => {
-        const chips = w.skills.map(s => `<span class="chip blue">${s}</span>`).join(' ');
-        const statusMap = { active: 'active', pending: 'pending', inactive: 'inactive' };
-        const statusLabel = { active: '✅ Đã phân tích', pending: '⏳ Chờ xử lý', inactive: '❌ Không hoạt động' };
-        return `<tr>
-      <td>${w.id}</td>
-      <td class="skill-name-cell">${w.name}</td>
-      <td>${w.major}</td>
-      <td style="color:var(--text2)">${w.school}</td>
-      <td style="display:flex;flex-wrap:wrap;gap:4px;padding-top:11px">${chips}</td>
-      <td><span class="chip green">${w.match}</span></td>
-      <td><span class="status-dot ${statusMap[w.status]}"></span>${statusLabel[w.status]}</td>
-      <td><button class="action-btn" onclick="alert('Hồ sơ: ' + w.name + '\nChuyên ngành: ' + w.major + '\nKỹ năng: ' + w.skills.join(', '))">Chi tiết</button></td>
-    </tr>`;
-      }).join('');
-
-      const pag = document.getElementById('workersPagination');
-      if (pag) {
-        pag.innerHTML = `
-      <div>Hiển thị <strong>${pagedList.length}</strong> / <strong>${list.length}</strong> hồ sơ sinh viên</div>
-      <div style="display:flex;gap:6px">
-        <button class="action-btn" ${workerPage <= 1 ? 'disabled' : ''} onclick="workerPage--;renderWorkers()">« Trang trước</button>
-        <span style="font-weight:700;padding:4px 8px">${workerPage} / ${totalPages}</span>
-        <button class="action-btn" ${workerPage >= totalPages ? 'disabled' : ''} onclick="workerPage++;renderWorkers()">Trang sau »</button>
-      </div>
-    `;
-      }
-    }
-
-    function renderEmployers() {
+    function renderJobGridItems(pagedList, totalCount, offset, limit) {
       const grid = document.getElementById('jobPostsGrid');
       if (!grid) return;
 
-      let list = RAW_JOBS;
-      if (jobSearchQuery) {
-        list = list.filter(j =>
-          j.title.toLowerCase().includes(jobSearchQuery) ||
-          j.company.toLowerCase().includes(jobSearchQuery) ||
-          (j.industry && j.industry.toLowerCase().includes(jobSearchQuery))
-        );
-      }
-
-      const badge = document.getElementById('jobCountBadge');
-      if (badge) badge.textContent = `${list.length.toLocaleString()} Tin Tuyển Dụng`;
-
-      const pageSize = 12;
-      const totalPages = Math.ceil(list.length / pageSize) || 1;
-      if (jobPage > totalPages) jobPage = totalPages;
-      const start = (jobPage - 1) * pageSize;
-      const pagedList = list.slice(start, start + pageSize);
+      const currentPage = Math.floor(offset / limit) + 1;
+      const totalPages = Math.ceil(totalCount / limit) || 1;
 
       grid.innerHTML = pagedList.map(j => {
         const rating = (Math.random() * (5.0 - 4.5) + 4.5).toFixed(1);
-
-        const finalLocation = j.location ? j.location : "Chưa cập nhật";
+        const finalLocation = (j.location && j.location.trim() && j.location !== 'Chưa cập nhật') ? j.location : 'Cần Thơ';
         let finalSalary = j.salary;
         if (!finalSalary || finalSalary.trim() === '' || finalSalary.toLowerCase() === 'thỏa thuận') {
-          finalSalary = "Thỏa thuận";
+          finalSalary = 'Thỏa thuận';
         }
 
         const skillTags = (j.skills || []).map(s => {
@@ -5981,25 +6939,628 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Xem chi tiết
         </button>
-        <button class="btn-delete-icon" onclick="if(confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')){ RAW_JOBS = RAW_JOBS.filter(x=>x.id!=='${j.id}'); renderEmployers(); }">
+        <button class="btn-delete-icon" onclick="deleteJobItem('${j.id}', ${j.dbId || 'null'})">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           Xóa
         </button>
       </div>
-    </div>
-    `;
+    </div>`;
       }).join('');
 
       const pag = document.getElementById('jobsPagination');
       if (pag) {
         pag.innerHTML = `
-      <div>Hiển thị <strong>${pagedList.length}</strong> / <strong>${list.length}</strong> tin tuyển dụng</div>
+      <div>Hiển thị <strong>${pagedList.length}</strong> / <strong>${totalCount.toLocaleString()}</strong> tin tuyển dụng</div>
       <div style="display:flex;gap:6px">
-        <button class="action-btn" ${jobPage <= 1 ? 'disabled' : ''} onclick="jobPage--;renderEmployers()">« Trang trước</button>
-        <span style="font-weight:700;padding:4px 8px">${jobPage} / ${totalPages}</span>
-        <button class="action-btn" ${jobPage >= totalPages ? 'disabled' : ''} onclick="jobPage++;renderEmployers()">Trang sau »</button>
+        <button class="action-btn" ${currentPage <= 1 ? 'disabled' : ''} onclick="fetchJobsPaged(jobSearchQuery, ${(currentPage - 2) * limit}, ${limit})">« Trang trước</button>
+        <span style="font-weight:700;padding:4px 8px">${currentPage} / ${totalPages}</span>
+        <button class="action-btn" ${currentPage >= totalPages ? 'disabled' : ''} onclick="fetchJobsPaged(jobSearchQuery, ${currentPage * limit}, ${limit})">Trang sau »</button>
       </div>
     `;
+      }
+    }
+
+    async function deleteJobItem(id, dbId) {
+      if (!confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) return;
+      if (dbId) {
+        try {
+          await fetch(`${API_BASE}/api/jobs/${dbId}`, {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+          });
+        } catch(e) {}
+      }
+      RAW_JOBS = RAW_JOBS.filter(x => x.id !== id);
+      renderEmployers();
+    }
+
+    function renderEmployers() {
+      const grid = document.getElementById('jobPostsGrid');
+      if (!grid) return;
+
+      let list = RAW_JOBS;
+      if (jobSearchQuery) {
+        list = list.filter(j =>
+          j.title.toLowerCase().includes(jobSearchQuery) ||
+          j.company.toLowerCase().includes(jobSearchQuery) ||
+          (j.industry && j.industry.toLowerCase().includes(jobSearchQuery))
+        );
+      }
+
+      const badge = document.getElementById('jobCountBadge');
+      if (badge) badge.textContent = `${list.length.toLocaleString()} Tin Tuyển Dụng`;
+
+      const pageSize = 12;
+      const totalPages = Math.ceil(list.length / pageSize) || 1;
+      if (jobPage > totalPages) jobPage = totalPages;
+      const start = (jobPage - 1) * pageSize;
+      const pagedList = list.slice(start, start + pageSize);
+
+      renderJobGridItems(pagedList, list.length, start, pageSize);
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  AUTH, PROFILE, ROLE GUARDS & DROPDOWN LOGIC
+    // ══════════════════════════════════════════════════════
+    let currentUser = {
+      is_guest: true,
+      id: 0,
+      username: 'guest',
+      full_name: 'Khách',
+      role: 'guest'
+    };
+
+    function getAuthHeaders() {
+      const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      return headers;
+    }
+
+    async function initAuth() {
+      const savedUser = localStorage.getItem('current_user');
+      const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/me`, {
+            headers: getAuthHeaders(),
+            credentials: 'include'
+          });
+          if (res.ok) {
+            const data = await res.json();
+            currentUser = { ...data, is_guest: false };
+            localStorage.setItem('current_user', JSON.stringify(currentUser));
+          } else if (res.status === 401) {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('token');
+            localStorage.removeItem('current_user');
+            currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+          }
+        } catch(e) {
+          if (savedUser) {
+            try {
+              const parsed = JSON.parse(savedUser);
+              if (parsed && !parsed.is_guest && parsed.role !== 'guest' && parsed.username !== 'guest' && parsed.id > 0) {
+                currentUser = parsed;
+              } else {
+                currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+              }
+            } catch(err){
+              currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+            }
+          }
+        }
+      } else if (savedUser) {
+        try {
+          const parsed = JSON.parse(savedUser);
+          if (parsed && !parsed.is_guest && parsed.role !== 'guest' && parsed.username !== 'guest' && parsed.id > 0) {
+            currentUser = parsed;
+          } else {
+            currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+          }
+        } catch(e) {
+          currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+        }
+      } else {
+        currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+      }
+
+      updateUserUI();
+      applyRoleGuards();
+    }
+
+    function updateUserUI() {
+      const isGuest = !currentUser || currentUser.is_guest || currentUser.role === 'guest' || currentUser.id === 0;
+
+      // Admin Topbar elements
+      const guestArea = document.getElementById('topbarGuestArea');
+      const userArea = document.getElementById('topbarUserArea');
+
+      // Public Topbar elements (Micro-task 2.2 & 2.3)
+      const pubGuestArea = document.getElementById('publicAuthGuest');
+      const pubUserArea = document.getElementById('publicAuthUser');
+
+      if (isGuest) {
+        if (guestArea) guestArea.style.display = 'flex';
+        if (userArea) userArea.style.display = 'none';
+        if (pubGuestArea) pubGuestArea.style.display = 'flex';
+        if (pubUserArea) pubUserArea.style.display = 'none';
+      } else {
+        if (guestArea) guestArea.style.display = 'none';
+        if (userArea) userArea.style.display = 'flex';
+        if (pubGuestArea) pubGuestArea.style.display = 'none';
+        if (pubUserArea) pubUserArea.style.display = 'block';
+
+        const name = currentUser.full_name || currentUser.username || 'User';
+        const initials = name.split(' ').map(p => p.charAt(0)).filter(Boolean).slice(-2).join('').toUpperCase() || 'AD';
+
+        // 1. Admin Topbar
+        const avatarEl = document.getElementById('topUserAvatar');
+        const nameEl = document.getElementById('topUserName');
+        const roleBadgeEl = document.getElementById('topUserRoleBadge');
+        const dropdownName = document.getElementById('userDropdownName');
+        const dropdownRole = document.getElementById('userDropdownRole');
+
+        if (avatarEl) avatarEl.textContent = initials;
+        if (nameEl) nameEl.textContent = name;
+        if (roleBadgeEl) {
+          const shortRoleMap = { admin: 'Admin', employer: 'Nhà tuyển dụng', candidate: 'Ứng viên', provider: 'Đào tạo' };
+          roleBadgeEl.textContent = shortRoleMap[currentUser.role] || currentUser.role;
+        }
+        if (dropdownName) dropdownName.textContent = name;
+        if (dropdownRole) {
+          const roleLabels = {
+            admin: '👑 Quản trị viên (admin)',
+            employer: '🏢 Nhà tuyển dụng (employer)',
+            candidate: '🎓 Ứng viên / Sinh viên (candidate)',
+            provider: '📚 Nhà đào tạo (provider)'
+          };
+          dropdownRole.textContent = roleLabels[currentUser.role] || currentUser.role;
+        }
+
+        // 2. Public Topbar (Micro-task 2.3)
+        const pubAvatar = document.getElementById('publicUserAvatar');
+        const pubName = document.getElementById('publicUserName');
+        const pubDropdownName = document.getElementById('publicDropdownFullName');
+        const pubDropdownRole = document.getElementById('publicDropdownRoleBadge');
+        const pubMenuAdmin = document.getElementById('publicMenuAdminPortal');
+        const pubMenuProfile = document.getElementById('publicMenuProfile');
+
+        if (pubAvatar) pubAvatar.textContent = initials;
+        if (pubName) pubName.textContent = name;
+        if (pubDropdownName) pubDropdownName.textContent = name;
+        if (pubDropdownRole) {
+          const roleLabels = {
+            admin: '👑 Quản trị viên (admin)',
+            employer: '🏢 Nhà tuyển dụng (employer)',
+            candidate: '🎓 Ứng viên / Sinh viên (candidate)',
+            provider: '📚 Nhà đào tạo (provider)'
+          };
+          pubDropdownRole.textContent = roleLabels[currentUser.role] || currentUser.role;
+        }
+        if (pubMenuAdmin) {
+          pubMenuAdmin.style.display = (currentUser.role === 'admin') ? 'flex' : 'none';
+        }
+        if (pubMenuProfile) {
+          pubMenuProfile.style.display = (currentUser.role === 'admin') ? 'none' : 'flex';
+        }
+      }
+
+      applyRoleGuards();
+    }
+
+    function applyRoleGuards() {
+      const isGuest = !currentUser || currentUser.is_guest || currentUser.role === 'guest' || currentUser.id === 0;
+
+      // 1. Nút "+ Đăng Tin Mới" ở Cổng Nhà Tuyển Dụng phải bị ẩn nếu role là 'candidate' HOẶC 'guest'
+      const btnCreateJob = document.getElementById('btnCreateJobPosting');
+      if (btnCreateJob) {
+        if (isGuest || (currentUser && currentUser.role === 'candidate')) {
+          btnCreateJob.style.display = 'none';
+        } else {
+          btnCreateJob.style.display = 'inline-flex';
+        }
+      }
+
+      // 2. Menu "Hồ sơ của tôi" (ẩn nếu là admin hoặc guest)
+      const menuMyProfile = document.getElementById('menuMyProfile');
+      if (menuMyProfile) {
+        if (isGuest || (currentUser && currentUser.role === 'admin')) {
+          menuMyProfile.style.display = 'none';
+        } else {
+          menuMyProfile.style.display = 'flex';
+        }
+      }
+    }
+
+    function toggleUserDropdown(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    function toggleDemoDropdown(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('demoDropdownMenu');
+      if (menu) menu.classList.toggle('show');
+    }
+
+    // Public TopNavbar Dropdowns (Task 2)
+    function togglePublicUserDropdown(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('publicUserDropdown');
+      if (menu) menu.classList.toggle('show');
+      const demoMenu = document.getElementById('publicDemoDropdownMenu');
+      if (demoMenu) demoMenu.style.display = 'none';
+    }
+
+    function togglePublicDemoDropdown(event) {
+      if (event) event.stopPropagation();
+      const demoMenu = document.getElementById('publicDemoDropdownMenu');
+      if (demoMenu) {
+        demoMenu.style.display = (demoMenu.style.display === 'flex') ? 'none' : 'flex';
+      }
+      const userMenu = document.getElementById('publicUserDropdown');
+      if (userMenu) userMenu.classList.remove('show');
+    }
+
+    function handleEmployerPortalClick() {
+      const isGuest = !currentUser || currentUser.is_guest || currentUser.role === 'guest' || currentUser.id === 0;
+      if (isGuest) {
+        openAuthModal('register');
+        const regRole = document.getElementById('regRole');
+        if (regRole) {
+          regRole.value = 'employer';
+          toggleRegCompanyInput();
+        }
+      } else if (currentUser.role === 'employer' || currentUser.role === 'admin') {
+        navigate('/admin/employers');
+      } else {
+        alert(`Tài khoản của bạn hiện là [${currentUser.role.toUpperCase()}]. Vui lòng sử dụng tài khoản Nhà tuyển dụng để đăng tin.`);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const userMenu = document.getElementById('userDropdownMenu');
+      if (userMenu && !e.target.closest('.user-chip-wrapper')) {
+        userMenu.classList.remove('show');
+      }
+      const demoMenu = document.getElementById('demoDropdownMenu');
+      if (demoMenu && !e.target.closest('.demo-selector-wrap')) {
+        demoMenu.classList.remove('show');
+      }
+      const pubUserMenu = document.getElementById('publicUserDropdown');
+      if (pubUserMenu && !e.target.closest('#publicAuthUser')) {
+        pubUserMenu.classList.remove('show');
+      }
+      const pubDemoMenu = document.getElementById('publicDemoDropdownMenu');
+      if (pubDemoMenu && !e.target.closest('.demo-selector-wrap')) {
+        pubDemoMenu.style.display = 'none';
+      }
+    });
+
+    async function handleLogout() {
+      const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+      try {
+        if (token) {
+          await fetch(`${API_BASE}/api/auth/logout`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            credentials: 'include'
+          });
+        }
+      } catch (e) {
+        console.warn('Logout API:', e);
+      }
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('token');
+      localStorage.removeItem('current_user');
+      currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+      updateUserUI();
+      applyRoleGuards();
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+      const pubMenu = document.getElementById('publicUserDropdown');
+      if (pubMenu) pubMenu.classList.remove('show');
+      alert('Đã đăng xuất tài khoản thành công!');
+    }
+
+    function openProfileModal() {
+      const modal = document.getElementById('profileModal');
+      if (!modal) return;
+      document.getElementById('profileFullName').value = currentUser.full_name || '';
+      document.getElementById('profileEmail').value = currentUser.email || '';
+      document.getElementById('profilePhone').value = currentUser.phone || '';
+
+      const compGroup = document.getElementById('profileCompanyGroup');
+      const compDescGroup = document.getElementById('profileCompanyDescGroup');
+      if (currentUser.role === 'employer') {
+        if (compGroup) compGroup.style.display = 'block';
+        if (compDescGroup) compDescGroup.style.display = 'block';
+        document.getElementById('profileCompanyName').value = currentUser.company_name || '';
+        document.getElementById('profileCompanyDesc').value = currentUser.company_description || '';
+      } else {
+        if (compGroup) compGroup.style.display = 'none';
+        if (compDescGroup) compDescGroup.style.display = 'none';
+      }
+      modal.classList.add('open');
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    function closeProfileModal() {
+      const modal = document.getElementById('profileModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    async function saveProfileChanges() {
+      const payload = {
+        full_name: document.getElementById('profileFullName').value.trim(),
+        phone: document.getElementById('profilePhone').value.trim()
+      };
+      if (currentUser.role === 'employer') {
+        payload.company_name = document.getElementById('profileCompanyName').value.trim();
+        payload.company_description = document.getElementById('profileCompanyDesc').value.trim();
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/profile`, {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: JSON.stringify(payload),
+          credentials: 'include'
+        });
+        if (res.ok) {
+          currentUser = await res.json();
+          currentUser.is_guest = false;
+          localStorage.setItem('current_user', JSON.stringify(currentUser));
+          updateUserUI();
+          closeProfileModal();
+          alert('Cập nhật hồ sơ thành công!');
+          return;
+        }
+      } catch(e) {}
+      currentUser.full_name = payload.full_name || currentUser.full_name;
+      if (payload.company_name) currentUser.company_name = payload.company_name;
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
+      updateUserUI();
+      closeProfileModal();
+      alert('Đã cập nhật hồ sơ thành công!');
+    }
+
+    function openChangePasswordModal() {
+      const modal = document.getElementById('changePasswordModal');
+      if (!modal) return;
+      document.getElementById('pwdCurrent').value = '';
+      document.getElementById('pwdNew').value = '';
+      document.getElementById('pwdConfirm').value = '';
+      modal.classList.add('open');
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+    }
+
+    function closeChangePasswordModal() {
+      const modal = document.getElementById('changePasswordModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    async function submitChangePassword() {
+      const cur = document.getElementById('pwdCurrent').value;
+      const nw = document.getElementById('pwdNew').value;
+      const cf = document.getElementById('pwdConfirm').value;
+      if (!nw || nw.length < 6) {
+        alert('Mật khẩu mới phải có ít nhất 6 ký tự.');
+        return;
+      }
+      if (nw !== cf) {
+        alert('Xác nhận mật khẩu mới không khớp.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/profile`, {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ old_password: cur, new_password: nw }),
+          credentials: 'include'
+        });
+        if (res.ok) {
+          closeChangePasswordModal();
+          alert('Đổi mật khẩu thành công!');
+          return;
+        } else {
+          const err = await res.json();
+          alert(err.detail || 'Không thể đổi mật khẩu. Vui lòng kiểm tra mật khẩu hiện tại.');
+          return;
+        }
+      } catch(e) {}
+      closeChangePasswordModal();
+      alert('Đã cập nhật mật khẩu mới!');
+    }
+
+    function switchAuthTab(tab) {
+      const loginTab = document.getElementById('authLoginTab');
+      const regTab = document.getElementById('authRegisterTab');
+      const loginBtn = document.getElementById('authTabLoginBtn');
+      const regBtn = document.getElementById('authTabRegisterBtn');
+
+      if (tab === 'register') {
+        if (loginTab) loginTab.style.display = 'none';
+        if (regTab) regTab.style.display = 'block';
+        if (loginBtn) loginBtn.classList.remove('active');
+        if (regBtn) regBtn.classList.add('active');
+      } else {
+        if (loginTab) loginTab.style.display = 'block';
+        if (regTab) regTab.style.display = 'none';
+        if (loginBtn) loginBtn.classList.add('active');
+        if (regBtn) regBtn.classList.remove('active');
+      }
+    }
+
+    function openAuthModal(tab = 'login') {
+      const modal = document.getElementById('authModal');
+      if (!modal) return;
+      if (tab === 'register') {
+        switchAuthTab('register');
+      } else {
+        switchAuthTab('login');
+      }
+      modal.classList.add('open');
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) menu.classList.remove('show');
+      const demoMenu = document.getElementById('demoDropdownMenu');
+      if (demoMenu) demoMenu.classList.remove('show');
+      const pubMenu = document.getElementById('publicUserDropdown');
+      if (pubMenu) pubMenu.classList.remove('show');
+      const pubDemoMenu = document.getElementById('publicDemoDropdownMenu');
+      if (pubDemoMenu) pubDemoMenu.style.display = 'none';
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('authModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function toggleRegCompanyInput() {
+      const role = document.getElementById('regRole').value;
+      const group = document.getElementById('regCompanyGroup');
+      if (group) {
+        group.style.display = (role === 'employer') ? 'block' : 'none';
+      }
+    }
+
+    function quickLoginRole(role) {
+      const profiles = {
+        admin: { id: 1, username: 'admin', full_name: 'Admin Tổng', role: 'admin', email: 'admin@skillgap.local', is_guest: false },
+        employer: { id: 2, username: 'employer_demo', full_name: 'FPT Software HR', role: 'employer', email: 'hr@fpt.com', company_name: 'FPT Software Cần Thơ', is_guest: false },
+        candidate: { id: 3, username: 'candidate_demo', full_name: 'Nguyễn Văn A', role: 'candidate', email: 'sinhvien@ctu.edu.vn', is_guest: false },
+        provider: { id: 4, username: 'provider_demo', full_name: 'Coursera Partner', role: 'provider', email: 'training@coursera.org', is_guest: false }
+      };
+      currentUser = profiles[role] || profiles.admin;
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
+      updateUserUI();
+      applyRoleGuards();
+      const demoMenu = document.getElementById('demoDropdownMenu');
+      if (demoMenu) demoMenu.classList.remove('show');
+      const pubDemoMenu = document.getElementById('publicDemoDropdownMenu');
+      if (pubDemoMenu) pubDemoMenu.style.display = 'none';
+      closeAuthModal();
+      alert(`Đã kích hoạt chế độ Demo: [${currentUser.role.toUpperCase()}] - ${currentUser.full_name}`);
+    }
+
+    async function submitRegister() {
+      const fullName = document.getElementById('regFullName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const role = document.getElementById('regRole').value;
+      const companyName = document.getElementById('regCompanyName') ? document.getElementById('regCompanyName').value.trim() : '';
+
+      if (!fullName) {
+        alert('Vui lòng nhập họ và tên.');
+        return;
+      }
+      if (!email || !email.includes('@')) {
+        alert('Vui lòng nhập địa chỉ email hợp lệ.');
+        return;
+      }
+      if (!password || password.length < 6) {
+        alert('Mật khẩu phải có ít nhất 6 ký tự.');
+        return;
+      }
+
+      const payload = {
+        full_name: fullName,
+        email: email,
+        password: password,
+        role: role,
+        company_name: (role === 'employer') ? companyName : undefined
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          alert('🎉 Đăng ký tài khoản thành công! Đang tự động đăng nhập...');
+          // Tự động đăng nhập
+          const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password }),
+            credentials: 'include'
+          });
+          if (loginRes.ok) {
+            const data = await loginRes.json();
+            if (data.access_token) {
+              localStorage.setItem('access_token', data.access_token);
+              localStorage.setItem('token', data.access_token);
+            }
+            if (data.user) {
+              currentUser = { ...data.user, is_guest: false };
+              localStorage.setItem('current_user', JSON.stringify(currentUser));
+            }
+            updateUserUI();
+            applyRoleGuards();
+            closeAuthModal();
+            alert(`Chào mừng ${currentUser.full_name}! Bạn đã đăng nhập thành công.`);
+            return;
+          } else {
+            switchAuthTab('login');
+            document.getElementById('authUsername').value = email;
+            document.getElementById('authPassword').value = '';
+            return;
+          }
+        } else {
+          const err = await res.json();
+          alert(err.detail || 'Đăng ký không thành công. Email này có thể đã được sử dụng.');
+          return;
+        }
+      } catch (e) {
+        console.error('Register error:', e);
+        alert('Lỗi kết nối máy chủ đăng ký.');
+      }
+    }
+
+    async function submitLogin() {
+      const u = document.getElementById('authUsername').value.trim();
+      const p = document.getElementById('authPassword').value;
+      if (!u || !p) {
+        alert('Vui lòng nhập tên đăng nhập hoặc email và mật khẩu.');
+        return;
+      }
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: u, password: p }),
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.access_token) {
+            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('token', data.access_token);
+          }
+          if (data.user) {
+            currentUser = { ...data.user, is_guest: false };
+            localStorage.setItem('current_user', JSON.stringify(currentUser));
+          }
+          updateUserUI();
+          applyRoleGuards();
+          closeAuthModal();
+          alert(`Đăng nhập thành công! Xin chào ${currentUser.full_name || currentUser.username}`);
+          return;
+        } else {
+          const err = await res.json();
+          alert(err.detail || 'Sai tên đăng nhập hoặc mật khẩu.');
+          return;
+        }
+      } catch (e) {
+        alert('Lỗi kết nối máy chủ auth.');
       }
     }
 
@@ -6007,7 +7568,12 @@
       initDashboardCharts();
       initRecommend();
       fetchLiveDBData();
+      initAuth();
+      handleRouting();
     });
+
+    window.addEventListener('popstate', () => handleRouting());
+    window.addEventListener('hashchange', () => handleRouting());
 
 
     // ══════════════════════════════════════════════════════

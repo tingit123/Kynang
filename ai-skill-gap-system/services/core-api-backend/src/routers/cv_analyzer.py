@@ -19,8 +19,12 @@ try:
 except Exception:
     pass
 
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from src.database import get_db
+from src.core.security import get_current_user_optional, get_current_user
+from src.models.user import User
 
 logger = logging.getLogger("cv_analyzer")
 router = APIRouter()
@@ -267,9 +271,15 @@ def fallback_local_analyzer(cv_text: str, target_role: str = "auto", previous_ro
     }
 
 @router.post("/analyze")
-async def analyze_cv(payload: CVAnalyzeRequest):
+async def analyze_cv(
+    payload: CVAnalyzeRequest,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional),
+):
     """
     Tự động phân tích toàn diện CV bằng Gemini AI kết hợp ESCO Engine.
+    Hỗ trợ cả người dùng vãng lai (Public) lẫn người dùng đã đăng nhập (Candidate).
+    Nếu đã đăng nhập, tự động lưu kết quả phân tích vào hồ sơ cá nhân.
     """
     cv_text = payload.cv_text.strip()
     if not cv_text:
@@ -340,18 +350,28 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
         except Exception as e:
             logger.warning(f"Gemini client error: {e}. Falling back to ESCO NLP engine.")
 
-    if gemini_result:
-        return gemini_result
+    final_res = gemini_result if gemini_result else fallback_local_analyzer(cv_text, payload.target_role or "auto", payload.previous_role or "auto")
 
-    # 2. Fallback sang Local Intelligent Engine
-    return fallback_local_analyzer(cv_text, payload.target_role or "auto", payload.previous_role or "auto")
+    # Lưu snapshot CV cho người dùng đã đăng nhập
+    if current_user and isinstance(final_res, dict):
+        final_res["user_id"] = current_user.id
+        try:
+            current_user.latest_cv_analysis = json.dumps(final_res, ensure_ascii=False)
+            db.commit()
+            logger.info(f"Saved latest_cv_analysis for user #{current_user.id}")
+        except Exception as save_err:
+            logger.warning(f"Failed to save CV snapshot: {save_err}")
+
+    return final_res
 
 @router.post("/upload")
 async def upload_cv_file(
     file: UploadFile = File(...),
     target_role: Optional[str] = Form("auto"),
     previous_role: Optional[str] = Form("auto"),
-    cv_text: Optional[str] = Form("")
+    cv_text: Optional[str] = Form(""),
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional),
 ):
     """
     Nhận file CV tải lên (Ảnh chụp CV: PNG, JPG, JPEG, WEBP hoặc PDF, TXT) và TỰ ĐỘNG PHÂN TÍCH.
@@ -449,4 +469,25 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
     res = fallback_local_analyzer(final_text, target_role="auto", previous_role="auto")
     if is_image:
         res["ai_engine"] = "AI Vision OCR & ESCO SkillGap Engine (Tự Động Phân Tích)"
+
+    if current_user and isinstance(res, dict):
+        res["user_id"] = current_user.id
+        try:
+            current_user.latest_cv_analysis = json.dumps(res, ensure_ascii=False)
+            db.commit()
+            logger.info(f"Saved latest_cv_analysis for user #{current_user.id} from upload")
+        except Exception as save_err:
+            logger.warning(f"Failed to save CV snapshot: {save_err}")
+
     return res
+
+
+@router.get("/my-snapshot")
+def get_my_cv_snapshot(current_user: User = Depends(get_current_user)):
+    """Lấy lại kết quả phân tích CV gần nhất của ứng viên đã đăng nhập."""
+    if not current_user.latest_cv_analysis:
+        raise HTTPException(status_code=404, detail="Bạn chưa có bản lưu kết quả phân tích CV nào")
+    try:
+        return json.loads(current_user.latest_cv_analysis)
+    except Exception:
+        return {"raw": current_user.latest_cv_analysis}

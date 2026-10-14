@@ -8,13 +8,18 @@ from datetime import datetime
 
 from src.database import get_db
 from src.models.job import JobPosting
+from src.models.user import User
+from src.core.security import require_role
 
 router = APIRouter()
 
 
 @router.get("/status")
-def crawler_status(db: Session = Depends(get_db)):
-    """Trạng thái crawler và thống kê dữ liệu đã cào."""
+def crawler_status(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role(["admin"])),
+):
+    """Trạng thái crawler và thống kê dữ liệu đã cào (Yêu cầu quyền Admin)."""
     total_jobs = db.query(JobPosting).count()
     by_platform = (
         db.query(JobPosting.source_platform, func.count(JobPosting.id).label("count"))
@@ -37,9 +42,8 @@ def crawler_status(db: Session = Depends(get_db)):
 
 
 @router.post("/trigger")
-def trigger_crawl():
-    """Kích hoạt crawl thủ công (gửi signal tới data-crawler service)."""
-    # Trong production: gửi message tới queue hoặc call internal API
+def trigger_crawl(current_user: User = Depends(require_role(["admin"]))):
+    """Kích hoạt crawl thủ công (Yêu cầu quyền Admin)."""
     return {
         "message": "Crawl job đã được kích hoạt",
         "triggered_at": datetime.now().isoformat(),

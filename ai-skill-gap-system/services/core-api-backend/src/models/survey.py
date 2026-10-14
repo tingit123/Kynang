@@ -7,6 +7,7 @@ class SurveyResponse(Base):
     __tablename__ = "survey_responses"
 
     id           = Column(Integer, primary_key=True, autoincrement=True)
+    user_id      = Column(Integer, ForeignKey("users.id"), nullable=True)
     student_code = Column(String(20), unique=True, nullable=False)
     full_name    = Column(String(100), nullable=False)
     major        = Column(String(100))
