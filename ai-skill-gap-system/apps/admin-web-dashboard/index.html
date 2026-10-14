@@ -9,6 +9,7 @@
     content="Hệ thống AI phân tích khoảng cách kỹ năng lao động, gợi ý nghề nghiệp và khóa học phù hợp." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *,
@@ -77,12 +78,16 @@
     }
 
     body {
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
       font-size: 14px;
       line-height: 1.6;
       overflow-x: hidden
+    }
+
+    button, input, select, textarea {
+      font-family: 'Be Vietnam Pro', inherit;
     }
 
     ::-webkit-scrollbar {
@@ -2846,6 +2851,97 @@
       transform: translateY(-1px);
     }
 
+    /* ══════════════════════════════════════════════════════════ */
+    /* CANDIDATE TEAL THEME (Matching user's screenshots exactly) */
+    /* ══════════════════════════════════════════════════════════ */
+    body.candidate-purple-theme {
+      background: #094741 !important;
+      background: radial-gradient(ellipse at 50% 0%, #0d6e64 0%, #0a564e 35%, #073b36 70%, #052c28 100%) !important;
+      background-attachment: fixed !important;
+      color: #ffffff !important;
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
+    }
+    body.candidate-purple-theme .shell {
+      display: block !important;
+      width: 100% !important;
+    }
+    body.candidate-purple-theme .main,
+    body.candidate-purple-theme #main {
+      margin-left: 0 !important;
+      padding-top: 76px !important;
+      background: transparent !important;
+      width: 100% !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    body.candidate-purple-theme #sidebar,
+    body.candidate-purple-theme .sidebar {
+      display: none !important;
+    }
+    body.candidate-purple-theme .topbar {
+      display: none !important;
+    }
+    body.candidate-purple-theme #publicNavbar {
+      display: flex !important;
+      background: #0b5e55 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 70px !important;
+      z-index: 999 !important;
+    }
+    body.candidate-purple-theme #publicNavbar .public-logo-text {
+      color: #ffffff !important;
+    }
+    body.candidate-purple-theme #page-dashboard {
+      display: none !important;
+    }
+    body.candidate-purple-theme .page {
+      display: none !important;
+    }
+    body.candidate-purple-theme .page.active {
+      display: flex !important;
+      flex-direction: column !important;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
+    }
+    body.candidate-purple-theme #page-recommend.active {
+      display: flex !important;
+      flex-direction: column !important;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 30px 16px 80px;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
+    }
+    body.candidate-purple-theme #page-recommend .diag-card {
+      background: #ffffff !important;
+      border: none !important;
+      border-radius: 24px !important;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+      color: #0f172a !important;
+      padding: 24px !important;
+    }
+    body.candidate-purple-theme #page-recommend .diag-card div,
+    body.candidate-purple-theme #page-recommend .diag-card span {
+      color: inherit;
+    }
+    body.candidate-purple-theme #page-recommend .mini-course-card {
+      background: #f0fdfa !important;
+      border: 1px solid #ccfbf1 !important;
+      border-radius: 16px !important;
+      color: #0f172a !important;
+    }
+
     /* Micro-task 2.3: Public Authenticated User Chip & Dropdown */
     .public-user-chip {
       display: flex;
@@ -3342,267 +3438,281 @@
         </div>
       </div>
 
-      <!-- ══ PAGE: KỸ NĂNG THEO NGÀNH ══ -->
+      <!-- ══ PAGE: KHÁM PHÁ NGÀNH NGHỀ (THEME KHỚP ẢNH MẪU 100%) ══ -->
       <div class="page" id="page-industry">
-        <div class="page-header">
+        <!-- Hero Header -->
+        <div style="text-align:center;margin-bottom:28px;padding-top:14px">
+          <h1 style="font-size:36px;font-weight:800;color:#ffffff;margin-bottom:8px;letter-spacing:-0.5px;font-family:'Be Vietnam Pro', system-ui, sans-serif;line-height:1.25">
+            Khám phá <span style="color:#48e5c2">ngành nghề</span>
+          </h1>
+          <p style="color:#d1fae5;font-size:14px;max-width:680px;margin:0 auto;line-height:1.6;font-weight:500;font-family:'Be Vietnam Pro', system-ui, sans-serif">
+            Chọn ngành và chức vụ để xem kỹ năng được tuyển dụng nhiều nhất và<br>khoảng cách với nguồn cung lao động.
+          </p>
+        </div>
+
+        <!-- Card 1: Selection Filters (Bước 1 & Bước 2) -->
+        <div class="explore-filter-card" style="background:#ffffff;border-radius:24px;padding:26px 28px;box-shadow:0 16px 40px rgba(0,0,0,0.22);margin-bottom:24px;color:#0f172a;font-family:'Be Vietnam Pro', system-ui, sans-serif">
+          <!-- BƯỚC 1 -->
           <div>
-            <h1 class="page-title">Kỹ Năng Theo Ngành Nghề</h1>
-            <p class="page-sub">Chọn ngành để xem Top 10 kỹ năng quan trọng nhất</p>
+            <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">
+              BƯỚC 1 · CHỌN NGÀNH
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px" id="exploreIndustryPills">
+              <!-- Rendered by JS -->
+            </div>
           </div>
-        </div>
 
-        <!-- Industry tabs -->
-        <div class="ind-tab-row" id="industryTabs">
-          <div class="ind-tab active" onclick="selectIndustry('IT',this)"><span class="ind-emoji">💻</span> IT &amp;
-            Công nghệ</div>
-          <div class="ind-tab" onclick="selectIndustry('tourism',this)"><span class="ind-emoji">✈️</span> Du lịch &amp;
-            Khách sạn</div>
-          <div class="ind-tab" onclick="selectIndustry('logistics',this)"><span class="ind-emoji">📦</span> Logistics
-            &amp; XNK</div>
-          <div class="ind-tab" onclick="selectIndustry('economics',this)"><span class="ind-emoji">📊</span> Kinh tế
-            &amp; Tài chính</div>
-          <div class="ind-tab" onclick="selectIndustry('agriculture',this)"><span class="ind-emoji">🌾</span> Nông
-            nghiệp</div>
-        </div>
-
-        <!-- ── TOOLBAR CHỌN CHỨC VỤ CHO TỪNG NGÀNH ── -->
-        <div class="role-toolbar-card" id="roleToolbarCard">
-          <div class="role-toolbar-top">
-            <div class="role-toolbar-title-wrap">
-              <div class="role-toolbar-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
+          <!-- BƯỚC 2 -->
+          <div style="margin-top:22px;padding-top:20px;border-top:1px solid #f1f5f9">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.8px">
+                BƯỚC 2 · CHỌN CHỨC VỤ
               </div>
-              <div>
-                <div class="role-toolbar-title">Thanh Công Cụ Chức Vụ &amp; Vị Trí Việc Làm Trong Ngành</div>
-                <div class="role-toolbar-desc">Chọn chức danh chuyên môn để lọc bộ kỹ năng chuẩn hóa, phân tích Gap
-                  &amp; xem khóa học chỉ định</div>
+              <div id="exploreRoleSummaryText" style="font-size:13px;font-weight:500;color:#64748b">
+                6 vị trí chuẩn hóa · Lương 15–35 triệu/tháng
               </div>
             </div>
-            <div class="role-toolbar-quick-stat" id="roleToolbarQuickStat">
-              🎯 Đang chọn: Tất cả chức vụ
+            <div style="display:flex;flex-wrap:wrap;gap:10px" id="exploreRolePills">
+              <!-- Rendered by JS -->
             </div>
-          </div>
-
-          <!-- Role Chips -->
-          <div class="role-chips-bar" id="industryRoleChips">
-            <!-- Rendered dynamically by renderRoleToolbar() -->
-          </div>
-
-          <!-- Role Insight Panel -->
-          <div class="role-insight-panel" id="roleInsightPanel" style="display:none">
-            <!-- Filled dynamically by selectJobRole() -->
           </div>
         </div>
 
-        <!-- Industry summary -->
-        <div class="kpi-grid" id="industryKPIs" style="grid-template-columns:repeat(3,1fr)">
-          <!-- Filled by JS -->
+        <!-- Row 2: 3 KPI Cards -->
+        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:20px;margin-bottom:24px;font-family:'Be Vietnam Pro', system-ui, sans-serif">
+          <!-- KPI 1 -->
+          <div style="background:#ffffff;border-radius:20px;padding:24px 26px;box-shadow:0 12px 32px rgba(0,0,0,0.18);color:#0f172a">
+            <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">
+              TIN TUYỂN DỤNG
+            </div>
+            <div id="exploreKpiJobs" style="font-size:38px;font-weight:800;color:#0f172a;line-height:1.1">
+              385
+            </div>
+            <div style="margin-top:8px;font-size:13px;font-weight:600;color:#059669">
+              + Từ TopCV
+            </div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div style="background:#ffffff;border-radius:20px;padding:24px 26px;box-shadow:0 12px 32px rgba(0,0,0,0.18);border-top:4px solid #f59e0b;color:#0f172a">
+            <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">
+              MỨC LƯƠNG TRUNG BÌNH
+            </div>
+            <div id="exploreKpiSalary" style="font-size:38px;font-weight:800;color:#0f172a;line-height:1.1">
+              15–35tr
+            </div>
+            <div style="margin-top:8px;font-size:13px;font-weight:500;color:#64748b">
+              Triệu đồng / tháng
+            </div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div style="background:#ffffff;border-radius:20px;padding:24px 26px;box-shadow:0 12px 32px rgba(0,0,0,0.18);color:#0f172a">
+            <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px">
+              KỸ NĂNG THIẾU NHẤT
+            </div>
+            <div id="exploreKpiMissing" style="font-size:34px;font-weight:900;color:#b91c1c;line-height:1.1">
+              Python
+            </div>
+            <div style="margin-top:8px;font-size:13px;font-weight:600;color:#dc2626">
+              Gap cao nhất ngành
+            </div>
+          </div>
         </div>
 
-        <!-- 3 charts -->
-        <div class="charts-grid" style="grid-template-columns:1fr 1fr 1fr">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">🏆 Nhu Cầu Tuyển Dụng</div><span class="card-badge">Demand</span>
-            </div>
-            <div class="chart-wrap" style="height:240px"><canvas id="indDemandChart"></canvas></div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">👥 Cung Lao Động</div><span class="card-badge green">Supply</span>
-            </div>
-            <div class="chart-wrap" style="height:240px"><canvas id="indSupplyChart"></canvas></div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">⚡ Kỹ Năng Thiếu Hụt</div><span class="card-badge red">Gap</span>
-            </div>
-            <div class="chart-wrap" style="height:240px"><canvas id="indGapChart"></canvas></div>
-          </div>
-        </div>
-
-        <!-- Industry table -->
-        <div class="card">
-          <div class="card-header">
+        <!-- Row 3: 2 Comparison Cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:40px;font-family:'Be Vietnam Pro', system-ui, sans-serif">
+          <!-- Card Left: Nhu cầu so với cung -->
+          <div style="background:#ffffff;border-radius:20px;padding:24px 28px;box-shadow:0 12px 32px rgba(0,0,0,0.18);color:#0f172a;display:flex;flex-direction:column;justify-content:space-between">
             <div>
-              <div class="card-title" id="industryTableTitle">Top 10 Kỹ Năng Quan Trọng – IT &amp; Công nghệ</div>
-              <div class="card-sub">Phân cấp: Nhóm lớn → Nhóm nhỏ</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+                <div style="font-size:16px;font-weight:800;color:#0f172a">
+                  Nhu cầu so với cung lao động
+                </div>
+                <div style="display:flex;gap:14px;font-size:12px;font-weight:600;color:#475569">
+                  <span style="display:inline-flex;align-items:center;gap:6px">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#0d5f57"></span> Nhu cầu
+                  </span>
+                  <span style="display:inline-flex;align-items:center;gap:6px">
+                    <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b"></span> Cung
+                  </span>
+                </div>
+              </div>
+              <div id="exploreDemandSupplyList">
+                <!-- Rendered by JS -->
+              </div>
             </div>
+            <button type="button" onclick="openMarketDetailModal()" id="btnViewDetailDemand" style="width:100%;margin-top:22px;padding:12px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s ease;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">
+              <span>Xem chi tiết tất cả 14 kỹ năng</span> <span>→</span>
+            </button>
           </div>
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th style="width:50px">#</th>
-                  <th>Kỹ Năng</th>
-                  <th>Nhóm</th>
-                  <th>Nhu Cầu (Demand)</th>
-                  <th>Cung Hiện Có (Supply)</th>
-                  <th>Thiếu Hụt (Gap)</th>
-                  <th>Xu Hướng</th>
-                  <th>Gợi Ý Khóa Học</th>
-                </tr>
-              </thead>
-              <tbody id="industryTableBody"></tbody>
-            </table>
+
+          <!-- Card Right: Kỹ năng thiếu hụt nhất -->
+          <div style="background:#ffffff;border-radius:20px;padding:24px 28px;box-shadow:0 12px 32px rgba(0,0,0,0.18);color:#0f172a;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="margin-bottom:18px">
+                <div style="font-size:16px;font-weight:800;color:#0f172a">
+                  Kỹ năng thiếu hụt nhất
+                </div>
+              </div>
+              <div id="exploreMissingGapsList">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+            <button type="button" onclick="openMarketDetailModal()" id="btnViewDetailGap" style="width:100%;margin-top:22px;padding:12px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.15s ease;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">
+              <span>Xem chi tiết tất cả 14 kỹ năng</span> <span>→</span>
+            </button>
           </div>
         </div>
       </div>
 
       <!-- ══ PAGE: GỢI Ý NGHỀ NGHIỆP ══ -->
+      <!-- ══ PAGE: GỢI Ý NGHỀ NGHIỆP (THEME TEAL SẪM KHỚP ẢNH MẪU 100%) ══ -->
       <div class="page" id="page-recommend">
-        <div class="page-header">
-          <div>
-            <h1 class="page-title">Gợi Ý Nghề &amp; Khóa Học</h1>
-            <p class="page-sub">Chọn ngành · Tick kỹ năng bạn có · AI chẩn đoán lỗ hổng và kê đơn khóa học bù đắp ngay
-            </p>
-          </div>
-          <button class="btn btn-primary" onclick="switchPage('cv-upload', document.getElementById('nav-cv-upload'))"
-            style="display:flex;align-items:center;gap:6px">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-            </svg>
-            Tải Lên CV (AI Gemini)
-          </button>
+        <!-- Hero Header: Gợi ý nghề nghiệp & kỹ năng còn thiếu -->
+        <div style="text-align:center;margin-bottom:34px;padding-top:20px">
+          <h1 style="font-size:36px;font-weight:800;color:#ffffff;margin-bottom:10px;letter-spacing:-0.5px;font-family:'Be Vietnam Pro', system-ui, sans-serif;line-height:1.25">
+            Gợi ý nghề nghiệp &amp; <span style="color:#48e5c2">kỹ năng còn thiếu</span>
+          </h1>
+          <p style="color:#d1fae5;font-size:14px;max-width:640px;margin:0 auto;line-height:1.6;font-weight:500;font-family:'Be Vietnam Pro', system-ui, sans-serif">
+            Chọn ngành, tick kỹ năng bạn có. AI chẩn đoán lỗ hổng và kê đơn khóa học bù đắp ngay.
+          </p>
         </div>
 
-        <div style="display:grid;grid-template-columns:360px 1fr;gap:20px;align-items:start">
+        <div style="display:grid;grid-template-columns:390px 1fr;gap:24px;align-items:start">
 
-          <!-- ─── CỘT TRÁI: HỒ SƠ ─── -->
-          <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:80px">
-            <div class="card">
-              <div class="card-header" style="margin-bottom:12px">
-                <div class="card-title">📋 Hồ Sơ Của Bạn</div>
-              </div>
+          <!-- ─── CỘT TRÁI: HỒ SƠ CỦA BẠN ─── -->
+          <div style="display:flex;flex-direction:column;gap:16px;position:sticky;top:86px">
+            <div class="card" style="background:#ffffff;border-radius:24px;border:none;box-shadow:0 12px 40px rgba(0,0,0,0.2);padding:26px;color:#1e293b">
+              <div style="font-size:18px;font-weight:800;color:#0f172a;margin-bottom:14px">Hồ sơ của bạn</div>
               <div class="rec-form">
-                <div class="form-group">
-                  <label class="form-label">Họ và Tên Sinh Viên / Người Lao Động</label>
-                  <input class="form-input" id="recName" placeholder="Tên sinh viên..." type="text" />
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label" style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:6px">HỌ VÀ TÊN SINH VIÊN / NGƯỜI LAO ĐỘNG</label>
+                  <input class="form-input" id="recName" placeholder="Tên sinh viên..." type="text" value="Nguyễn Văn An" style="border-radius:20px;border:1.5px solid #e2e8f0;height:42px;padding:0 16px;font-size:13px;color:#1e293b;background:#fff;width:100%;box-sizing:border-box" />
                   <select class="form-input" id="recStudentQuick" onchange="onSelectQuickStudent(this.value)"
-                    style="margin-top:6px;font-size:11px">
+                    style="margin-top:8px;font-size:11.5px;border-radius:20px;border:1.5px solid #e2e8f0;height:38px;padding:0 14px;color:#64748b;background:#fff;cursor:pointer;width:100%;box-sizing:border-box">
                     <option value="">-- Chọn 1 trong 500 sinh viên mẫu trong CSDL --</option>
                   </select>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">CHỨC VỤ LÚC TRƯỚC / VỊ TRÍ HIỆN TẠI</label>
-                  <select class="form-input" id="recPrevRole" style="cursor:pointer">
-                    <option value="Thực tập sinh Kế toán" selected>Thực tập sinh Kế toán</option>
-                    <option value="Thực tập sinh Lập trình viên / IT">Thực tập sinh Lập trình viên / IT</option>
-                    <option value="Thực tập sinh Xuất nhập khẩu &amp; Logistics">Thực tập sinh Xuất nhập khẩu &amp;
-                      Logistics</option>
-                    <option value="Thực tập sinh Du lịch &amp; Khách sạn">Thực tập sinh Du lịch &amp; Khách sạn</option>
-                    <option value="Sinh viên mới tốt nghiệp (Chưa có kinh nghiệm)">Sinh viên mới tốt nghiệp (Chưa có
-                      kinh nghiệm)</option>
-                    <option value="Nhân viên sơ cấp (Junior 0-1 năm)">Nhân viên sơ cấp (Junior 0-1 năm)</option>
-                    <option value="Chuyên viên nghiệp vụ (1-2 năm kinh nghiệm)">Chuyên viên nghiệp vụ (1-2 năm kinh
-                      nghiệm)</option>
-                    <option value="Nhân viên trái ngành / Muốn chuyển nghề">Nhân viên trái ngành / Muốn chuyển nghề
-                    </option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">MỤC TIÊU NGÀNH NGHỀ HƯỚNG TỚI</label>
-                  <select class="form-input" id="recMajor" onchange="onMajorChange(this.value)" style="cursor:pointer">
-                    <option value="economics" selected>📊 Kế Toán &amp; Tài Chính</option>
-                    <option value="IT">💻 Công nghệ thông tin</option>
-                    <option value="tourism">✈️ Du lịch &amp; Khách sạn</option>
-                    <option value="logistics">📦 Logistics &amp; Chuỗi cung ứng</option>
-                    <option value="agriculture">🌾 Nông nghiệp công nghệ cao</option>
-                  </select>
-                </div>
-                <div class="form-group"
-                  style="background:var(--primary-glow);padding:12px;border-radius:var(--radius-sm);border:1.5px solid var(--primary);box-shadow:0 2px 10px var(--primary-glow)">
+
+                <!-- BƯỚC 1: MỤC TIÊU NGÀNH NGHỀ HƯỚNG TỚI -->
+                <div class="form-group" style="background:#f0fdfa;border:1.5px solid #ccfbf1;border-radius:18px;padding:14px;margin-bottom:14px">
                   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-                    <label class="form-label" style="color:var(--primary);font-weight:800;margin:0;font-size:12px">🎯
-                      CHỨC VỤ MỤC TIÊU CẦN ĐÁNH GIÁ GAP:</label>
-                    <span
-                      style="font-size:10px;font-weight:700;background:var(--primary);color:#fff;padding:2px 8px;border-radius:10px">Mũi
-                      tên chọn chức vụ ▼</span>
+                    <label class="form-label" style="font-weight:800;color:#0f766e;margin:0;font-size:11.5px;text-transform:uppercase">
+                      MỤC TIÊU NGÀNH NGHỀ HƯỚNG TỚI
+                    </label>
+                    <span style="font-size:10.5px;font-weight:700;color:#0f766e;background:#ccfbf1;padding:2px 8px;border-radius:10px">Bắt buộc</span>
+                  </div>
+                  <select class="form-input" id="recMajor" onchange="onMajorChange(this.value)" style="cursor:pointer;font-weight:700;background:#fff;border-radius:14px;border:1.5px solid #99f6e4;height:40px;padding:0 12px;font-size:12.5px;color:#0f172a;width:100%;box-sizing:border-box">
+                    <option value="IT" selected>Công nghệ thông tin (20 chức vụ chuyên sâu)</option>
+                    <option value="economics">Kế toán &amp; Kinh tế - Tài chính</option>
+                    <option value="tourism">Du lịch &amp; Dịch vụ khách sạn</option>
+                    <option value="logistics">Logistics &amp; Chuỗi cung ứng</option>
+                    <option value="agriculture">Nông nghiệp công nghệ cao</option>
+                  </select>
+                  <div id="industryNotice" style="font-size:11px;color:#0f766e;margin-top:6px;line-height:1.3">Ngành CNTT đã nạp <strong>20 chức vụ chuyên sâu</strong> và <strong>12 danh mục kỹ năng</strong>.</div>
+                </div>
+
+                <!-- BƯỚC 2: CHỨC VỤ MỤC TIÊU (CASCADING THEO BƯỚC 1) -->
+                <div class="form-group" id="targetRoleGroup"
+                  style="background:#f0fdfa;border:1.5px solid #5eead4;border-radius:18px;padding:14px;margin-bottom:14px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                    <label class="form-label" style="color:#0f766e;font-weight:800;margin:0;font-size:11.5px;text-transform:uppercase">
+                      CHỨC VỤ MỤC TIÊU ĐÁNH GIÁ GAP
+                    </label>
+                    <span id="targetRoleCountBadge"
+                      style="font-size:10.5px;font-weight:700;background:#ccfbf1;color:#0f766e;padding:2px 8px;border-radius:10px">
+                      20 chức vụ
+                    </span>
                   </div>
                   <select class="form-input" id="recTargetRole" onchange="onTargetRoleChange(this.value)"
-                    style="cursor:pointer;font-weight:700;color:var(--text);background:var(--bg2);border-color:var(--primary);font-size:13px">
+                    style="cursor:pointer;font-weight:700;color:#0f172a;background:#fff;border-radius:14px;border:1.5px solid #2dd4bf;font-size:12.5px;height:40px;padding:0 12px;width:100%;box-sizing:border-box">
                     <!-- Nạp động theo ngành -->
                   </select>
                   <div id="targetRoleSkillsHint"
-                    style="font-size:11px;color:var(--text2);margin-top:8px;line-height:1.4"></div>
+                    style="font-size:11.5px;color:#0f172a;margin-top:10px;line-height:1.4"></div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Năm học / Kinh nghiệm</label>
-                  <select class="form-input" id="recLevel">
-                    <option value="1">Năm 1</option>
-                    <option value="2">Năm 2</option>
-                    <option value="3">Năm 3</option>
-                    <option value="4">Năm 4</option>
-                    <option value="5">Đã tốt nghiệp &lt; 1 năm</option>
-                    <option value="6">Kinh nghiệm 1–3 năm</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">KỸ NĂNG ĐANG CÓ <small style="color:var(--text3);font-weight:400">(CLICK ĐỂ
-                      XÓA)</small></label>
-                  <div class="skill-tags" id="selectedSkillTags" style="min-height:48px"></div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">THÊM NHANH KỸ NĂNG (THEO ĐÚNG NGÀNH ĐÃ CHỌN)</label>
-                  <div style="display:flex;flex-wrap:wrap;gap:6px" id="quickSkillBtns"></div>
-                </div>
-                <button class="btn btn-primary" onclick="runRecommendation()" style="width:100%;justify-content:center">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                  </svg>
-                  ⚡ AI Chẩn Đoán &amp; Kê Đơn Khóa Học
-                </button>
-              </div>
-            </div>
 
-            <!-- Hướng dẫn -->
-            <div class="card"
-              style="background:linear-gradient(135deg,rgba(15,163,158,0.04),rgba(13,143,138,0.04));border-color:rgba(15,163,158,0.15)">
-              <div style="font-size:11px;color:var(--text2);line-height:1.7">
-                <div style="font-weight:700;color:var(--primary);margin-bottom:6px">💡 Cách đọc kết quả</div>
-                <div>✅ Kỹ năng bạn <strong>đã có</strong> so với yêu cầu</div>
-                <div>❌ Kỹ năng bạn <strong>đang thiếu</strong> (Gap)</div>
-                <div>📘 Khóa học <strong>gợi ý bù đắp</strong> trực tiếp từng Gap</div>
+                <!-- BƯỚC 3: KỸ NĂNG HIỆN CÓ (SEARCHABLE MULTI-SELECT NHÓM THEO CATEGORY) -->
+                <div class="form-group" style="margin-bottom:14px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                    <label class="form-label" style="font-weight:700;color:#64748b;margin:0;font-size:11px;text-transform:uppercase">
+                      KỸ NĂNG BẠN ĐANG CÓ <span style="font-weight:400;text-transform:none">(bấm để xóa)</span>
+                    </label>
+                    <span id="selectedSkillsCountBadge" style="font-size:10.5px;font-weight:700;background:#ccfbf1;color:#0f766e;padding:2px 8px;border-radius:10px">0 đã chọn</span>
+                  </div>
+                  <div class="skill-tags" id="selectedSkillTags" style="min-height:48px;background:#f0fdfa;padding:10px 12px;border-radius:14px;border:1.5px dashed #5eead4;margin-bottom:8px"></div>
+
+                  <!-- Ô tìm kiếm nhanh kỹ năng -->
+                  <div style="margin-bottom:8px;position:relative">
+                    <input class="form-input" id="skillSearchInput" placeholder="Gõ tên kỹ năng để lọc nhanh (VD: Python, React, SQL...)"
+                      type="text" oninput="filterSkillsByCategory(this.value)" style="font-size:11.5px;border-radius:20px;border:1.5px solid #e2e8f0;height:38px;padding:0 16px;width:100%;box-sizing:border-box" />
+                  </div>
+
+                  <!-- Khung chứa danh mục kỹ năng (12 Categories) cuộn được -->
+                  <div id="categorySkillsContainer" style="max-height:240px;overflow-y:auto;border:1px solid #f1f5f9;border-radius:14px;padding:6px;background:#fff;display:flex;flex-direction:column;gap:8px">
+                    <!-- Nạp động theo 12 nhóm kỹ năng -->
+                  </div>
+                </div>
+
+                <!-- TRƯỜNG DỜI XUỐNG DƯỚI: Chức vụ lúc trước & Năm học -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+                  <div class="form-group" style="margin:0;display:flex;flex-direction:column">
+                    <label class="form-label" style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:5px;min-height:26px;display:flex;align-items:center;text-transform:uppercase">CHỨC VỤ LÚC TRƯỚC / HIỆN TẠI</label>
+                    <input class="form-input" id="recPrevRole" placeholder="VD: Sinh viên, Intern..." type="text" value="Sinh viên CNTT / Thực tập" style="font-size:12px;height:40px;border-radius:20px;border:1.5px solid #e2e8f0;padding:0 14px;box-sizing:border-box" />
+                  </div>
+                  <div class="form-group" style="margin:0;display:flex;flex-direction:column">
+                    <label class="form-label" style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:5px;min-height:26px;display:flex;align-items:center;text-transform:uppercase">NĂM HỌC / KINH NGHIỆM</label>
+                    <select class="form-input" id="recLevel" style="font-size:12px;height:40px;border-radius:20px;border:1.5px solid #e2e8f0;padding:0 14px;box-sizing:border-box;cursor:pointer;background:#fff">
+                      <option value="1">Năm 1</option>
+                      <option value="2">Năm 2</option>
+                      <option value="3">Năm 3</option>
+                      <option value="4" selected>Năm 4</option>
+                      <option value="5">Đã tốt nghiệp &lt; 1 năm</option>
+                      <option value="6">Kinh nghiệm 1–3 năm</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- NÚT SUBMIT: THEME TEAL DARK + ARROW CIRCLE ICON -->
+                <button type="button" onclick="runRecommendation()" style="width:100%;height:48px;margin-top:18px;border-radius:9999px;border:none;background:#0d5f57;color:#ffffff;font-weight:800;font-size:13px;letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;box-shadow:0 6px 20px rgba(13,95,87,0.4);transition:all 0.2s;text-transform:uppercase">
+                  <span>AI CHẨN ĐOÁN &amp; KÊ ĐƠN KHÓA HỌC</span>
+                  <span style="background:#ffffff;color:#0d5f57;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:900">❯</span>
+                </button>
+
+                <!-- KHỐI CÁCH ĐỌC KẾT QUẢ THEO ĐÚNG ẢNH MẪU -->
+                <div style="margin-top:16px;padding:14px 16px;background:#f0fdfa;border:1px solid #ccfbf1;border-radius:16px;font-size:12px;line-height:1.6">
+                  <div style="font-weight:800;color:#0f766e;margin-bottom:5px;font-size:12px">Cách đọc kết quả</div>
+                  <div style="color:#334155"><strong style="color:#0f172a">Đã có:</strong> kỹ năng bạn đã có so với yêu cầu</div>
+                  <div style="color:#334155"><strong style="color:#0f172a">Đang thiếu (Gap):</strong> kỹ năng bạn còn thiếu</div>
+                  <div style="color:#334155"><strong style="color:#0f172a">Khóa học gợi ý:</strong> bù đắp trực tiếp từng Gap</div>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- ─── CỘT PHẢI: KẾT QUẢ ─── -->
           <div>
-            <!-- Empty state -->
-            <div id="recEmptyState" class="card">
-              <div class="empty-state" style="padding:60px 20px">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="M21 21l-4.35-4.35" />
-                </svg>
-                <div style="font-size:15px;font-weight:700;color:var(--text2);margin-bottom:6px">Chưa có kết quả phân
-                  tích</div>
-                <div style="font-size:12px">Điền hồ sơ bên trái và nhấn "Phân Tích &amp; Gợi Ý"</div>
-              </div>
+            <!-- Empty state (Theo đúng thiết kế ảnh mẫu) -->
+            <div id="recEmptyState" class="card" style="background:#ffffff;border-radius:24px;border:none;box-shadow:0 12px 40px rgba(0,0,0,0.2);padding:90px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:480px">
+              <div style="width:76px;height:76px;border:2.5px dashed #5eead4;background:#f0fdfa;border-radius:50%;margin-bottom:24px;display:flex;align-items:center;justify-content:center"></div>
+              <div style="font-size:18px;font-weight:800;color:#0f172a;margin-bottom:8px">Chưa có kết quả phân tích</div>
+              <div style="font-size:13px;color:#64748b;line-height:1.6;max-width:380px;margin:0 auto">Điền hồ sơ bên trái và bấm "AI chẩn đoán &amp; kê đơn khóa học" để xem mức phù hợp, kỹ năng còn thiếu và lộ trình học.</div>
             </div>
 
             <!-- Result header (hidden until run) -->
             <div id="recResultHeader" style="display:none;margin-bottom:12px">
               <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
                 <div>
-                  <div style="font-size:16px;font-weight:800;color:var(--text)" id="recResultName">Kết Quả Phân Tích
-                  </div>
-                  <div style="font-size:11px;color:var(--text3);margin-top:2px" id="recResultSub"></div>
+                  <div style="font-size:18px;font-weight:800;color:#ffffff" id="recResultName">Kết Quả Phân Tích</div>
+                  <div style="font-size:12px;color:#cbd5e1;margin-top:2px" id="recResultSub"></div>
                 </div>
-                <span class="card-badge" style="background:rgba(15,163,158,0.1);color:var(--primary);font-size:11px">🤖
-                  AI Skill Gap Engine</span>
+                <span class="card-badge" style="background:rgba(94,234,212,0.2);color:#5eead4;border:1px solid rgba(94,234,212,0.3);font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:9999px">🤖 AI Skill Gap Engine</span>
               </div>
             </div>
 
-            <!-- Job diagnosis cards -->
-            <div id="recJobCards"></div>
+            <!-- Container for job cards and spotlight analysis -->
+            <div id="recJobCards" style="display:flex;flex-direction:column;gap:16px"></div>
           </div>
         </div>
       </div>
@@ -4006,53 +4116,34 @@
     <!-- TopNavbar component (Fixed Top) -->
     <header class="public-top-navbar" id="publicNavbar">
       <div class="public-navbar-container">
-        <!-- Micro-task 2.1 Cụm Trái (Logo text SkillGap AI, font đậm, không dùng logo trường ĐH) -->
+        <!-- Micro-task 2.1 Cụm Trái (Logo text SkillGapAI font đậm, không dùng icon vuông) -->
         <div class="public-nav-left" id="publicNavLeft">
-          <a href="/" onclick="event.preventDefault(); navigate('/');" class="public-logo" title="SkillGap AI - Trang chủ">
-            <div class="public-logo-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <span class="public-logo-text">SkillGap<span>AI</span></span>
+          <a href="/" onclick="event.preventDefault(); navigate('/');" class="public-logo" title="SkillGapAI" style="text-decoration:none;display:flex;align-items:center;gap:4px">
+            <span style="font-size:22px;font-weight:900;color:#ffffff;letter-spacing:-0.5px">SkillGap<span style="color:#5eead4">AI</span></span>
           </a>
         </div>
 
-        <!-- Micro-task 3.x Cụm Giữa (Dynamic Role-based Menu - Prepared for Task 3) -->
+        <!-- Candidate Menu (Top Navbar ngang cho Người Tìm Việc / Sinh Viên) -->
         <nav class="public-nav-center" id="publicNavCenter">
-          <!-- Sẽ render động theo role ở Task 3 -->
+          <button class="pub-nav-link active" id="pubNavAi" onclick="navigate('/')" style="padding:7px 18px;border-radius:9999px;font-weight:700;font-size:13px;border:1px solid rgba(94,234,212,0.4);background:#06332e;color:#ffffff;cursor:pointer">Chẩn đoán &amp; Lộ trình</button>
+          <button class="pub-nav-link" id="pubNavIndustry" onclick="navigate('/explore-industries')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khám phá ngành nghề</button>
+          <button class="pub-nav-link" id="pubNavCourses" onclick="navigate('/courses')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khóa học</button>
+          <button class="pub-nav-link" id="pubNavSoft" onclick="navigate('/soft-skills')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Cẩm nang kỹ năng mềm</button>
         </nav>
 
-        <!-- Micro-task 2.x Cụm Phải (Auth / User Action - TopCV Style) -->
+        <!-- Micro-task 2.x Cụm Phải (Auth / User Action) -->
         <div class="public-nav-right" id="publicNavRight">
-          <!-- 1. Trạng thái Chưa đăng nhập (Guest) - Micro-task 2.2: 3 Nút chuẩn TopCV + Demo -->
-          <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:8px">
-            <!-- Nút 1: Đăng ký (Border xanh lá, text xanh lá, nền trắng) -->
-            <button class="btn-topcv btn-topcv-register" id="btnPublicRegister" onclick="openAuthModal('register')">
-              Đăng ký
+          <!-- 1. Trạng thái Chưa đăng nhập (Guest) -->
+          <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:10px">
+            <button onclick="openAuthModal('login')" style="background:#ffffff;color:#094741;font-weight:800;font-size:12px;padding:9px 20px;border-radius:9999px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
+              ĐĂNG NHẬP
             </button>
-            <!-- Nút 2: Đăng nhập (Nền xanh lá, text trắng) -->
-            <button class="btn-topcv btn-topcv-login" id="btnPublicLogin" onclick="openAuthModal('login')">
-              Đăng nhập
+            <button onclick="openAuthModal('register')" style="background:#06332e;color:#ffffff;border:1px solid rgba(255,255,255,0.25);font-weight:800;font-size:12px;padding:9px 22px;border-radius:9999px;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
+              ĐĂNG KÝ
             </button>
-            <!-- Nút 3: Đăng tuyển & tìm hồ sơ (Nền xám nhạt, text đen, dành cho Employer) -->
-            <button class="btn-topcv btn-topcv-employer" id="btnPublicEmployer" onclick="handleEmployerPortalClick()">
-              Đăng tuyển &amp; tìm hồ sơ
+            <button onclick="handleEmployerPortalClick()" style="background:#86efac;color:#064e3b;font-weight:800;font-size:12px;padding:9px 20px;border-radius:9999px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
+              ĐĂNG TUYỂN &amp; TÌM HỒ SƠ
             </button>
-            <!-- Quick Demo dropdown pill -->
-            <div class="demo-selector-wrap" style="position:relative">
-              <button class="demo-btn-pill" id="publicDemoBtn" onclick="togglePublicDemoDropdown(event)" title="Thử nghiệm nhanh quyền (Role) hệ thống" style="padding:6px 10px;font-size:12px;background:var(--bg3);border:1px dashed var(--border2);border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-weight:600;color:var(--text2)">
-                <span>⚡ Demo</span>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <div class="demo-dropdown-menu" id="publicDemoDropdownMenu" style="position:absolute;top:calc(100% + 6px);right:0;width:200px;background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:6px;box-shadow:var(--shadow);display:none;flex-direction:column;gap:3px;z-index:1000">
-                <div style="font-size:10px;font-weight:800;color:var(--text3);padding:4px 8px;text-transform:uppercase">Chọn Role Thử Nghiệm</div>
-                <button class="demo-item-btn" onclick="quickLoginRole('admin')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#e0f2fe;color:#0369a1;font-size:12px;cursor:pointer;font-weight:700">👑 Admin (Quản trị)</button>
-                <button class="demo-item-btn" onclick="quickLoginRole('employer')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#fef3c7;color:#b45309;font-size:12px;cursor:pointer;font-weight:700">🏢 Employer (Tuyển dụng)</button>
-                <button class="demo-item-btn" onclick="quickLoginRole('candidate')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#dcfce7;color:#15803d;font-size:12px;cursor:pointer;font-weight:700">🎓 Candidate (Ứng viên)</button>
-                <button class="demo-item-btn" onclick="quickLoginRole('provider')" style="text-align:left;padding:7px 10px;border-radius:6px;border:none;background:#f3e8ff;color:#7e22ce;font-size:12px;cursor:pointer;font-weight:700">📚 Provider (Đào tạo)</button>
-              </div>
-            </div>
           </div>
 
           <!-- 2. Trạng thái Đã đăng nhập (Authenticated) - Micro-task 2.3 -->
@@ -4150,8 +4241,137 @@
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ── MODAL: CHI TIẾT THỊ TRƯỜNG (NHU CẦU · CUNG · GAP) ── -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="marketDetailModal" onclick="if(event.target===this) closeMarketDetailModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.68);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:16px;">
+    <div style="background:#ffffff;width:min(1140px,96vw);max-height:92vh;border-radius:20px;box-shadow:0 25px 60px rgba(0,0,0,0.45);display:flex;flex-direction:column;overflow:hidden;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#0f172a;">
+      
+      <!-- Modal Header (Dark Teal) -->
+      <div style="background:#083e38;padding:22px 28px 20px;color:#ffffff;border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+          <div>
+            <div id="marketModalTag" style="font-size:11px;font-weight:800;color:#5eead4;text-transform:uppercase;letter-spacing:0.8px;">
+              IT &amp; CÔNG NGHỆ › DEVOPS &amp; CLOUD ENGINEER
+            </div>
+            <h2 id="marketModalTitle" style="font-size:24px;font-weight:800;color:#ffffff;margin:6px 0 16px;line-height:1.25;">
+              Chi Tiết Thị Trường: nhu cầu · cung · khoảng cách
+            </h2>
+          </div>
+          <button onclick="closeMarketDetailModal()" type="button" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;color:#ffffff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s ease;" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+            ✕
+          </button>
+        </div>
+
+        <!-- 5 KPI Summary Boxes -->
+        <div style="display:grid;grid-template-columns:repeat(5, 1fr);gap:12px;">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:10px;font-weight:700;color:#a7f3d0;text-transform:uppercase;letter-spacing:0.5px;">TỔNG KỸ NĂNG</div>
+            <div id="modalKpiTotalSkills" style="font-size:24px;font-weight:800;color:#ffffff;margin-top:4px;">14</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:10px;font-weight:700;color:#a7f3d0;text-transform:uppercase;letter-spacing:0.5px;">GAP TRUNG BÌNH</div>
+            <div id="modalKpiAvgGap" style="font-size:24px;font-weight:800;color:#ffffff;margin-top:4px;">24.0%</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:10px;font-weight:700;color:#a7f3d0;text-transform:uppercase;letter-spacing:0.5px;">GAP NGHIÊM TRỌNG (>30%)</div>
+            <div id="modalKpiSevereGap" style="font-size:24px;font-weight:800;color:#f87171;margin-top:4px;">5 kỹ năng</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:10px;font-weight:700;color:#a7f3d0;text-transform:uppercase;letter-spacing:0.5px;">NHU CẦU CAO NHẤT</div>
+            <div id="modalKpiTopDemand" style="font-size:22px;font-weight:800;color:#ffffff;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Python</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;">
+            <div style="font-size:10px;font-weight:700;color:#a7f3d0;text-transform:uppercase;letter-spacing:0.5px;">TIN TUYỂN DỤNG PHÂN TÍCH</div>
+            <div id="modalKpiAnalyzedJobs" style="font-size:24px;font-weight:800;color:#ffffff;margin-top:4px;">385</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Toolbar -->
+      <div style="padding:16px 28px 12px;background:#ffffff;border-bottom:1px solid #f1f5f9;">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;">
+          <!-- Category Filter Tabs -->
+          <div style="display:flex;gap:6px;" id="modalCategoryTabs">
+            <button type="button" onclick="filterMarketCategory('all')" id="modalTabAll" style="background:#0f172a;color:#ffffff;font-weight:700;border-radius:8px;padding:7px 14px;font-size:12px;border:none;cursor:pointer;">Tất cả (14)</button>
+            <button type="button" onclick="filterMarketCategory('hard')" id="modalTabHard" style="background:#f1f5f9;color:#475569;font-weight:600;border-radius:8px;padding:7px 14px;font-size:12px;border:none;cursor:pointer;">Chuyên môn (11)</button>
+            <button type="button" onclick="filterMarketCategory('soft')" id="modalTabSoft" style="background:#f1f5f9;color:#475569;font-weight:600;border-radius:8px;padding:7px 14px;font-size:12px;border:none;cursor:pointer;">Kỹ năng mềm (3)</button>
+          </div>
+
+          <!-- Select Filters & Search -->
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+            <select id="modalFilterIndustry" onchange="onMarketModalIndustryChange(this.value)" style="padding:7px 12px;border-radius:8px;border:1.5px solid #e2e8f0;font-size:12px;font-weight:600;color:#334155;background:#ffffff;outline:none;">
+              <option value="IT">IT &amp; Công nghệ</option>
+              <option value="tourism">Du lịch &amp; Khách sạn</option>
+              <option value="logistics">Logistics &amp; XNK</option>
+              <option value="economics">Kinh tế &amp; Tài chính</option>
+              <option value="agriculture">Nông nghiệp</option>
+            </select>
+            <select id="modalFilterRole" onchange="onMarketModalRoleChange(this.value)" style="padding:7px 12px;border-radius:8px;border:1.5px solid #e2e8f0;font-size:12px;font-weight:600;color:#334155;background:#ffffff;outline:none;">
+              <option value="devops_cloud">DevOps &amp; Cloud Engineer</option>
+              <option value="python_backend">Python / Backend Developer</option>
+              <option value="data_analyst">Data Analyst &amp; BI Specialist</option>
+              <option value="ai_ml_eng">AI &amp; Machine Learning Engineer</option>
+              <option value="frontend_dev">Frontend Developer (React / Web)</option>
+              <option value="cybersecurity">Chuyên Viên An Toàn Thông Tin</option>
+              <option value="all">Tất cả chức vụ</option>
+            </select>
+            <select id="modalFilterSort" onchange="renderMarketModalTable()" style="padding:7px 12px;border-radius:8px;border:1.5px solid #e2e8f0;font-size:12px;font-weight:600;color:#334155;background:#ffffff;outline:none;">
+              <option value="gap-desc">Sắp xếp: Gap giảm dần</option>
+              <option value="demand-desc">Sắp xếp: Nhu cầu cao nhất</option>
+              <option value="supply-desc">Sắp xếp: Cung cao nhất</option>
+              <option value="name-asc">Sắp xếp: Tên A-Z</option>
+            </select>
+            <input type="text" id="modalSearchSkill" oninput="renderMarketModalTable()" placeholder="🔍 Tìm kỹ năng..." style="padding:7px 14px;border-radius:8px;border:1.5px solid #e2e8f0;font-size:12px;color:#334155;background:#ffffff;outline:none;width:160px;">
+          </div>
+        </div>
+
+        <!-- Export Excel Button -->
+        <div style="margin-top:10px;">
+          <button type="button" onclick="exportMarketExcel()" style="padding:6px 14px;background:#064e3b;color:#ffffff;font-size:12px;font-weight:700;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s ease;" onmouseover="this.style.background='#043427'" onmouseout="this.style.background='#064e3b'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Xuất Excel</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable Table Content -->
+      <div style="flex:1;overflow-y:auto;padding:0 28px;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
+          <thead style="position:sticky;top:0;background:#ffffff;z-index:2;">
+            <tr style="border-bottom:1.5px solid #e2e8f0;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;">
+              <th style="padding:12px 6px;width:36px;">#</th>
+              <th style="padding:12px 12px;">KỸ NĂNG</th>
+              <th style="padding:12px 10px;">LOẠI</th>
+              <th style="padding:12px 12px;">NHU CẦU (DEMAND)</th>
+              <th style="padding:12px 12px;">CUNG (SUPPLY)</th>
+              <th style="padding:12px 12px;">KHOẢNG CÁCH (GAP)</th>
+              <th style="padding:12px 10px;">MỨC ĐỘ</th>
+              <th style="padding:12px 10px;">XU HƯỚNG</th>
+              <th style="padding:12px 10px;text-align:right;">TIN YÊU CẦU</th>
+              <th style="padding:12px 12px;text-align:center;">KHÓA HỌC</th>
+            </tr>
+          </thead>
+          <tbody id="modalMarketTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Footer Note -->
+      <div style="background:#f8fafc;padding:12px 28px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:#94a3b8;">
+        <div>
+          Nhu cầu = % tin tuyển dụng yêu cầu kỹ năng · Cung = % sinh viên tự đánh giá ≥ 65/100 · Gap = Nhu cầu – Cung
+        </div>
+        <div style="font-weight:600;color:#64748b;">
+          Cập nhật 14/10/2026
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ══ MODAL: COURSE DETAIL (DIRECT LINKS) ══ -->
-  <div class="modal-overlay" id="courseModal">
+  <div class="modal-overlay" id="courseModal" onclick="if(event.target===this) closeCourseModal()" style="z-index: 100005;">
     <div class="modal" style="width:min(760px,95vw);max-height:90vh;padding:24px 26px">
       <button class="modal-close" onclick="closeCourseModal()"><svg viewBox="0 0 24 24" fill="none">
           <line x1="18" y1="6" x2="6" y2="18" />
@@ -4333,16 +4553,20 @@
       IT: {
         label: "IT & Công nghệ", emoji: "💻", jobs: 385, avgSalary: "15–35tr", topMissing: "Python",
         skills: [
-          { skill: "Python", group: "Lập trình", demand: 91.2, supply: 32.5, gap: 58.7, trend: "+45%", courses: ["Python for Everyone – Coursera", "FastAPI – Udemy", "Python AI – DataCamp"] },
-          { skill: "Machine Learning", group: "AI/Data", demand: 78.6, supply: 18.2, gap: 60.4, trend: "+62%", courses: ["ML Crash Course – Google", "Deep Learning – Coursera", "Applied ML – edX"] },
-          { skill: "Data Analysis", group: "AI/Data", demand: 74.3, supply: 29.8, gap: 44.5, trend: "+38%", courses: ["Data Analysis – DataCamp", "Power BI – Microsoft", "SQL for DS – Mode"] },
-          { skill: "ReactJS", group: "Frontend", demand: 68.9, supply: 38.4, gap: 30.5, trend: "+28%", courses: ["React – Meta/Coursera", "ReactJS – Udemy", "Frontend Dev – FreeCodeCamp"] },
-          { skill: "Docker & DevOps", group: "Infrastructure", demand: 62.4, supply: 22.1, gap: 40.3, trend: "+35%", courses: ["Docker Mastery – Udemy", "DevOps – Linux Foundation", "K8s – CNCF"] },
-          { skill: "SQL & Database", group: "Database", demand: 58.7, supply: 44.6, gap: 14.1, trend: "+10%", courses: ["SQL for Data Science", "PostgreSQL – Udemy", "MySQL – W3Schools"] },
-          { skill: "Git & CI/CD", group: "DevOps", demand: 55.3, supply: 38.9, gap: 16.4, trend: "+12%", courses: ["Git & GitHub – Udemy", "CI/CD – Jenkins", "DevOps CI/CD – Coursera"] },
-          { skill: "Cloud (AWS/GCP)", group: "Infrastructure", demand: 52.8, supply: 15.6, gap: 37.2, trend: "+55%", courses: ["AWS Practitioner", "GCP Fundamentals", "Azure Fundamentals"] },
-          { skill: "Cybersecurity", group: "Bảo mật", demand: 48.6, supply: 12.3, gap: 36.3, trend: "+48%", courses: ["Security+ – CompTIA", "Ethical Hacking – Udemy", "Cyber Sec – Google"] },
-          { skill: "AI Ethics", group: "AI/Data", demand: 41.2, supply: 8.9, gap: 32.3, trend: "+70%", courses: ["AI Ethics – Harvard", "Responsible AI – Google", "Ethics in Tech – edX"] },
+          { skill: "Python", group: "Lập trình", type: "Chuyên môn", demand: 91.2, supply: 32.5, gap: 58.7, status: "Rất thiếu", trend: "+45%", jobs: 351, courses: ["Python for Everyone – Coursera", "FastAPI – Udemy", "Python AI – DataCamp"] },
+          { skill: "Docker & DevOps", group: "Infrastructure", type: "Chuyên môn", demand: 62.4, supply: 22.1, gap: 40.3, status: "Rất thiếu", trend: "+38%", jobs: 240, courses: ["Docker Mastery – Udemy", "DevOps – Linux Foundation", "K8s – CNCF"] },
+          { skill: "Cloud (AWS/GCP)", group: "Infrastructure", type: "Chuyên môn", demand: 52.8, supply: 15.6, gap: 37.2, status: "Rất thiếu", trend: "+41%", jobs: 203, courses: ["AWS Practitioner", "GCP Fundamentals", "Azure Fundamentals"] },
+          { skill: "Cybersecurity", group: "Bảo mật", type: "Chuyên môn", demand: 48.6, supply: 12.3, gap: 36.3, status: "Rất thiếu", trend: "+52%", jobs: 187, courses: ["Security+ – CompTIA", "Ethical Hacking – Udemy", "Cyber Sec – Google"] },
+          { skill: "Kubernetes", group: "Infrastructure", type: "Chuyên môn", demand: 44.1, supply: 10.3, gap: 33.8, status: "Rất thiếu", trend: "+47%", jobs: 170, courses: ["K8s – CNCF", "Kubernetes for DevOps"] },
+          { skill: "Terraform / IaC", group: "Infrastructure", type: "Chuyên môn", demand: 31.2, supply: 6.8, gap: 24.4, status: "Thiếu", trend: "+55%", jobs: 120, courses: ["Terraform Certified Associate"] },
+          { skill: "Tiếng Anh", group: "Kỹ năng mềm", type: "Kỹ năng mềm", demand: 60.4, supply: 42.1, gap: 18.3, status: "Thiếu", trend: "+9%", jobs: 233, courses: ["English for Tech Professionals"] },
+          { skill: "Monitoring (Prometheus)", group: "DevOps", type: "Chuyên môn", demand: 26.9, supply: 9.7, gap: 17.2, status: "Thiếu", trend: "+33%", jobs: 104, courses: ["Prometheus & Grafana Deep Dive"] },
+          { skill: "Linux", group: "Infrastructure", type: "Chuyên môn", demand: 58.0, supply: 41.5, gap: 16.5, status: "Thiếu", trend: "+8%", jobs: 223, courses: ["Linux Administration Bootcamp"] },
+          { skill: "Git & CI/CD", group: "DevOps", type: "Chuyên môn", demand: 55.3, supply: 38.9, gap: 16.4, status: "Thiếu", trend: "+12%", jobs: 213, courses: ["Git & GitHub – Udemy", "CI/CD – Jenkins", "DevOps CI/CD – Coursera"] },
+          { skill: "SQL", group: "Database", type: "Chuyên môn", demand: 49.7, supply: 36.2, gap: 13.5, status: "Ổn định", trend: "+6%", jobs: 191, courses: ["SQL for Data Science", "PostgreSQL – Udemy", "MySQL – W3Schools"] },
+          { skill: "Giải quyết vấn đề", group: "Kỹ năng mềm", type: "Kỹ năng mềm", demand: 40.2, supply: 28.9, gap: 11.3, status: "Ổn định", trend: "+5%", jobs: 155, courses: ["Problem Solving & Decision Making"] },
+          { skill: "Mạng máy tính", group: "Infrastructure", type: "Chuyên môn", demand: 28.5, supply: 21.4, gap: 7.1, status: "Ổn định", trend: "+3%", jobs: 110, courses: ["CompTIA Network+ Fundamentals"] },
+          { skill: "Làm việc nhóm", group: "Kỹ năng mềm", type: "Kỹ năng mềm", demand: 35.0, supply: 30.4, gap: 4.6, status: "Ổn định", trend: "+4%", jobs: 135, courses: ["Teamwork Skills – Coursera"] },
         ]
       },
       tourism: {
@@ -4885,6 +5109,41 @@
         { title: "Google Cybersecurity Professional Certificate", provider: "Coursera × Google", platform: "Coursera", badgeCls: "platform-coursera", duration: "6 tháng", price: "Miễn phí (Audit)", rating: 4.8, students: "500K+", url: "https://www.coursera.org/professional-certificates/google-cybersecurity" },
         { title: "The Complete Cyber Security Course: Hackers Exposed!", provider: "Udemy × Nathan House", platform: "Udemy", badgeCls: "platform-udemy", duration: "12 giờ", price: "249.000đ", rating: 4.8, students: "310K+", url: "https://www.udemy.com/course/the-complete-internet-security-privacy-course-volume-1/" }
       ],
+      "Kubernetes": [
+        { title: "Kubernetes for the Absolute Beginners – Hands-on", provider: "Udemy × Mumshad Mannambeth (KodeKloud)", platform: "Udemy", badgeCls: "platform-udemy", duration: "6 giờ", price: "249.000đ", rating: 4.8, students: "320K+", url: "https://www.udemy.com/course/learn-kubernetes/" },
+        { title: "Architecting with Google Kubernetes Engine Specialization", provider: "Coursera × Google Cloud", platform: "Coursera", badgeCls: "platform-coursera", duration: "1 tháng", price: "Miễn phí (Audit)", rating: 4.8, students: "110K+", url: "https://www.coursera.org/specializations/architecting-google-kubernetes-engine" }
+      ],
+      "Terraform / IaC": [
+        { title: "HashiCorp Certified: Terraform Associate 2026", provider: "Udemy × Zeal Vora", platform: "Udemy", badgeCls: "platform-udemy", duration: "11.5 giờ", price: "249.000đ", rating: 4.8, students: "180K+", url: "https://www.udemy.com/course/terraform-beginner-to-advanced/" },
+        { title: "Automating Infrastructure on AWS with Terraform", provider: "Coursera × AWS Partner", platform: "Coursera", badgeCls: "platform-coursera", duration: "4 tuần", price: "Miễn phí", rating: 4.7, students: "65K+", url: "https://www.coursera.org/learn/automating-infrastructure-with-terraform" }
+      ],
+      "Monitoring (Prometheus)": [
+        { title: "Prometheus Certified Associate (PCA) & Grafana Masterclass", provider: "Udemy × DevOps Master", platform: "Udemy", badgeCls: "platform-udemy", duration: "8 giờ thực hành", price: "199.000đ", rating: 4.8, students: "45K+", url: "https://www.udemy.com/course/prometheus-course/" },
+        { title: "Site Reliability Engineering: Measuring and Managing Reliability", provider: "Coursera × Google Cloud", platform: "Coursera", badgeCls: "platform-coursera", duration: "3 tuần", price: "Miễn phí", rating: 4.8, students: "140K+", url: "https://www.coursera.org/learn/site-reliability-engineering-slos" }
+      ],
+      "Linux": [
+        { title: "Linux Administration Bootcamp: Go from Beginner to Advanced", provider: "Udemy × Jason Cannon", platform: "Udemy", badgeCls: "platform-udemy", duration: "8.5 giờ video", price: "249.000đ", rating: 4.7, students: "280K+", url: "https://www.udemy.com/course/linux-administration-bootcamp/" },
+        { title: "Fundamentals of Red Hat Enterprise Linux", provider: "Coursera × Red Hat", platform: "Coursera", badgeCls: "platform-coursera", duration: "4 tuần", price: "Miễn phí", rating: 4.8, students: "90K+", url: "https://www.coursera.org/learn/fundamentals-red-hat-enterprise-linux" }
+      ],
+      "SQL": [
+        { title: "The Complete SQL Bootcamp: Go from Zero to Hero", provider: "Udemy × Jose Portilla", platform: "Udemy", badgeCls: "platform-udemy", duration: "9 giờ", price: "199.000đ", rating: 4.8, students: "750K+", url: "https://www.udemy.com/course/the-complete-sql-bootcamp/" },
+        { title: "SQL for Data Science", provider: "Coursera × UC Davis", platform: "Coursera", badgeCls: "platform-coursera", duration: "4 tuần", price: "Miễn phí", rating: 4.7, students: "650K+", url: "https://www.coursera.org/learn/sql-for-data-science" }
+      ],
+      "Tiếng Anh": [
+        { title: "English for Career Development & Technical Communication", provider: "Coursera × University of Pennsylvania", platform: "Coursera", badgeCls: "platform-coursera", duration: "5 tuần", price: "Miễn phí (Audit)", rating: 4.8, students: "1.2M+", url: "https://www.coursera.org/learn/careerdevelopment" },
+        { title: "English for Tech: Workplace Communication", provider: "British Council LearnEnglish", platform: "British Council", badgeCls: "platform-other", duration: "6 tuần", price: "Miễn phí", rating: 4.8, students: "190K+", url: "https://learnenglish.britishcouncil.org/" }
+      ],
+      "Giải quyết vấn đề": [
+        { title: "Creative Problem Solving and Critical Thinking", provider: "Coursera × University of Minnesota", platform: "Coursera", badgeCls: "platform-coursera", duration: "4 tuần", price: "Miễn phí", rating: 4.7, students: "210K+", url: "https://www.coursera.org/learn/problem-solving" },
+        { title: "Critical Thinking & Problem Solving for Engineers", provider: "edX × MIT", platform: "edX", badgeCls: "platform-edx", duration: "3 tuần", price: "Miễn phí", rating: 4.8, students: "85K+", url: "https://www.edx.org" }
+      ],
+      "Mạng máy tính": [
+        { title: "The Bits and Bytes of Networking", provider: "Coursera × Google", platform: "Coursera", badgeCls: "platform-coursera", duration: "6 tuần", price: "Miễn phí", rating: 4.8, students: "980K+", url: "https://www.coursera.org/learn/computer-networking" },
+        { title: "Computer Networks and Network Security", provider: "edX × University of Washington", platform: "edX", badgeCls: "platform-edx", duration: "5 tuần", price: "Miễn phí", rating: 4.7, students: "120K+", url: "https://www.edx.org" }
+      ],
+      "Làm việc nhóm": [
+        { title: "Teamwork Skills: Working in High-Performance Teams", provider: "Coursera × University of Colorado Boulder", platform: "Coursera", badgeCls: "platform-coursera", duration: "3 tuần", price: "Miễn phí", rating: 4.8, students: "150K+", url: "https://www.coursera.org/learn/teamwork-skills" }
+      ],
       "AI Ethics": [
         { title: "Data Science Ethics", provider: "edX × University of Michigan", platform: "edX", badgeCls: "platform-edx", duration: "4 tuần", price: "Miễn phí", rating: 4.7, students: "80K+", url: "https://www.edx.org/learn/data-ethics/university-of-michigan-data-science-ethics" },
         { title: "AI Ethics: Global Perspectives", provider: "Coursera × UNESCO", platform: "Coursera", badgeCls: "platform-coursera", duration: "3 tuần", price: "Miễn phí", rating: 4.8, students: "45K+", url: "https://www.coursera.org/learn/ai-ethics" }
@@ -5092,7 +5351,7 @@
 
     let selectedSkills = [];
     let currentIndustry = "IT";
-    let currentJobRole = "all";
+    let currentJobRole = "devops_cloud";
     let currentCourseIndustry = "all";
     let currentCourseSkill = "all";
     let currentCourseSearch = "";
@@ -5139,18 +5398,60 @@
       handleRouting(routePath, triggerPageSwitch);
     }
 
+    function updateCandidateNavLinks(path) {
+      document.querySelectorAll('.pub-nav-link').forEach(btn => {
+        btn.style.background = 'none';
+        btn.style.color = '#ffffff';
+        btn.style.fontWeight = '500';
+        btn.style.borderRadius = '9999px';
+        btn.style.padding = '7px 18px';
+        btn.style.border = 'none';
+      });
+      let activeId = 'pubNavAi';
+      if (path.includes('explore-industries') || path.includes('industry')) activeId = 'pubNavIndustry';
+      else if (path.includes('courses') || path.includes('learning')) activeId = 'pubNavCourses';
+      else if (path.includes('soft-skills') || path.includes('softskills')) activeId = 'pubNavSoft';
+
+      const el = document.getElementById(activeId);
+      if (el) {
+        el.style.background = '#07453e';
+        el.style.color = '#ffffff';
+        el.style.fontWeight = '700';
+        el.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+        el.style.padding = '7px 20px';
+        el.style.borderRadius = '9999px';
+      }
+    }
+
     function handleRouting(customPath, triggerPageSwitch = true) {
-      const currentPath = customPath || getNormalizedRoute();
-      // Micro-task 1.3: Bất kỳ route nào bắt đầu bằng /admin sẽ bọc trong AdminLayout
+      let currentPath = customPath || getNormalizedRoute();
       const isAdminRoute = currentPath === '/admin' || currentPath.startsWith('/admin/');
 
       const adminLayout = document.getElementById('adminLayout');
+      const publicNavbar = document.getElementById('publicNavbar');
+      const sidebar = document.getElementById('sidebar');
+      const adminTopbar = document.querySelector('.topbar');
+      const mainEl = document.getElementById('main');
       const publicLayout = document.getElementById('publicLayout');
 
+      // Đảm bảo publicNavbar được hiển thị đúng ở top-level body
+      if (publicNavbar && publicNavbar.parentElement && publicNavbar.parentElement.id === 'publicLayout') {
+        document.body.prepend(publicNavbar);
+      }
+
       if (isAdminRoute) {
-        // Micro-task 1.1: Hiển thị AdminLayout (Sidebar + Dashboard nguyên bản 100%)
-        if (adminLayout) adminLayout.style.display = 'block';
+        // ── 1. GIAO DIỆN ADMIN (Sidebar xanh lá + Topbar admin) ──
+        document.body.classList.remove('candidate-purple-theme');
         if (publicLayout) publicLayout.style.display = 'none';
+        if (adminLayout) adminLayout.style.display = 'block';
+        if (publicNavbar) publicNavbar.style.display = 'none';
+        if (sidebar) sidebar.style.display = 'flex';
+        if (adminTopbar) adminTopbar.style.display = 'flex';
+        if (mainEl) {
+          mainEl.style.marginLeft = '';
+          mainEl.style.paddingTop = '';
+          mainEl.style.width = '';
+        }
 
         if (triggerPageSwitch) {
           const clean = currentPath.replace(/^\/admin\/?/, '');
@@ -5164,11 +5465,33 @@
           switchPage(subPage, null, false);
         }
       } else {
-        // Micro-task 1.2 & 1.3: Tất cả route còn lại (/, /jobs, /profile...) bọc trong PublicLayout
-        if (adminLayout) adminLayout.style.display = 'none';
-        if (publicLayout) publicLayout.style.display = 'block';
+        // ── 2. GIAO DIỆN CANDIDATE / PUBLIC (THEME TEAL KHỚP ẢNH MẪU 100%) ──
+        document.body.classList.add('candidate-purple-theme');
+        if (publicLayout) publicLayout.style.display = 'none';
+        if (adminLayout) adminLayout.style.display = 'block';
+        if (publicNavbar) publicNavbar.style.display = 'flex';
+        if (sidebar) sidebar.style.display = 'none'; // BỎ HOÀN TOÀN THANH SIDEBAR XANH LÁ CÂY
+        if (adminTopbar) adminTopbar.style.display = 'none';
+        if (mainEl) {
+          mainEl.style.marginLeft = '0px';
+          mainEl.style.paddingTop = '76px';
+          mainEl.style.width = '100%';
+        }
 
-        renderPublicRoute(currentPath);
+        updateCandidateNavLinks(currentPath);
+
+        // Kích hoạt đúng trang con cho Candidate
+        if (currentPath === '/' || currentPath === '' || currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
+          switchPage('recommend', null, false);
+        } else if (currentPath.includes('explore-industries') || currentPath.includes('industry')) {
+          switchPage('industry', null, false);
+        } else if (currentPath.includes('courses') || currentPath.includes('learning')) {
+          switchPage('courses', null, false);
+        } else if (currentPath.includes('soft-skills') || currentPath.includes('softskills')) {
+          switchPage('softskills', null, false);
+        } else {
+          switchPage('recommend', null, false);
+        }
       }
     }
 
@@ -5176,48 +5499,130 @@
       const container = document.getElementById('publicPageContainer');
       if (!container) return;
 
-      if (path === '/' || path === '') {
-        container.innerHTML = `
-          <div style="background:var(--bg2);padding:44px 32px;border-radius:20px;border:1px solid var(--border);text-align:center;box-shadow:var(--shadow);max-width:920px;margin:0 auto">
-            <div style="display:inline-flex;padding:14px;border-radius:16px;background:var(--primary-glow);color:var(--primary);margin-bottom:16px">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                <line x1="8" y1="21" x2="16" y2="21"/>
-                <line x1="12" y1="17" x2="12" y2="21"/>
-              </svg>
+      if (path === '/' || path === '' || path.startsWith('/jobs')) {
+        // Trang 1: Tìm Việc Làm (Candidate)
+        const jobCards = (DB_JOBS && DB_JOBS.length > 0 ? DB_JOBS : [
+          { title: 'Frontend Developer (ReactJS)', company: 'TMA Solutions', location: 'Cần Thơ', salary: '15 - 25 Triệu', skills: ['ReactJS', 'JavaScript', 'HTML/CSS'] },
+          { title: 'Python Backend Engineer', company: 'VNG Corporation', location: 'Cần Thơ', salary: '20 - 35 Triệu', skills: ['Python', 'FastAPI', 'MySQL'] },
+          { title: 'Data Analyst', company: 'Viettel Digital Cần Thơ', location: 'Cần Thơ', salary: '14 - 22 Triệu', skills: ['SQL', 'Power BI', 'Python'] },
+          { title: 'Chuyên Viên Logistics', company: 'DHL Express Cần Thơ', location: 'Cần Thơ', salary: '10 - 18 Triệu', skills: ['Logistics', 'Tiếng Anh', 'Excel'] },
+        ]).map(j => `
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between;gap:12px;transition:all 0.2s">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:4px">ĐANG TUYỂN DỤNG</div>
+              <h3 style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px">${j.title}</h3>
+              <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px">🏢 ${j.company}</div>
+              <div style="font-size:12px;color:var(--text3);display:flex;gap:12px;margin-bottom:10px">
+                <span>📍 ${j.location || 'Cần Thơ'}</span>
+                <span>💰 ${j.salary_min ? (j.salary_min/1000000) + ' - ' + (j.salary_max/1000000) + ' Triệu' : (j.salary || 'Thỏa thuận')}</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px">
+                ${(j.skills && Array.isArray(j.skills) ? j.skills : ['Python', 'Git', 'Kỹ năng số']).map(sk => `<span class="chip blue" style="font-size:10.5px">${sk}</span>`).join('')}
+              </div>
             </div>
-            <h1 style="font-size:28px;font-weight:800;color:var(--text);margin-bottom:10px">Cổng Thông Tin Kỹ Năng &amp; Việc Làm SkillGap AI</h1>
-            <p style="color:var(--text2);font-size:15px;margin-bottom:24px;line-height:1.6;max-width:620px;margin-left:auto;margin-right:auto">
-              Bạn đang ở giao diện <strong>PublicLayout</strong> độc lập (dành cho Ứng viên, Doanh nghiệp &amp; Khách vãng lai). Giao diện Admin với Sidebar được bảo vệ nguyên bản tại <code>/admin/*</code>.
-            </p>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-              <button class="btn btn-primary" onclick="navigate('/admin')">Truy cập Trang Quản Trị (/admin) ↗</button>
-              <button class="btn" style="border:1.5px solid var(--border2);background:var(--bg3);font-weight:700" onclick="navigate('/jobs')">Khám Phá Việc Làm (/jobs)</button>
+            <button class="btn btn-primary" onclick="alert('Đã gửi hồ sơ ứng tuyển vị trí: ${j.title}!');" style="width:100%;justify-content:center;padding:8px">Ứng Tuyển Nhanh</button>
+          </div>
+        `).join('');
+
+        container.innerHTML = `
+          <div style="max-width:1160px;margin:0 auto">
+            <div style="background:linear-gradient(135deg,rgba(15,163,158,0.1),rgba(15,163,158,0.02));border:1px solid rgba(15,163,158,0.25);border-radius:18px;padding:36px 28px;text-align:center;margin-bottom:30px">
+              <span class="chip green" style="font-size:12px;padding:4px 12px;margin-bottom:12px;display:inline-block">🎓 Cổng Thông Tin Việc Làm &amp; Kỹ Năng Cần Thơ</span>
+              <h1 style="font-size:28px;font-weight:800;color:var(--text);margin-bottom:10px">Khám Phá Cơ Hội Nghề Nghiệp Dành Cho Bạn</h1>
+              <p style="color:var(--text2);font-size:14px;max-width:620px;margin:0 auto 20px;line-height:1.6">
+                Hệ thống AI phân tích yêu cầu từ hơn 1,000+ tin tuyển dụng thực tế và đối chiếu với hồ sơ của bạn để tìm ra công việc phù hợp nhất.
+              </p>
+              <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary" onclick="navigate('/cv-upload')">🤖 Tải CV Lên Để AI Phân Tích</button>
+                <button class="btn" style="border:1.5px solid var(--border2);background:var(--bg2);font-weight:700" onclick="navigate('/recommend')">🎯 Khảo Sát &amp; Lộ Trình Học</button>
+              </div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+              <div>
+                <h2 style="font-size:20px;font-weight:800;color:var(--text)">💼 Danh Sách Việc Làm Mới Nhất</h2>
+                <p style="font-size:13px;color:var(--text3)">Cập nhật liên tục từ các doanh nghiệp tại TP. Cần Thơ</p>
+              </div>
+              <button class="btn" onclick="fetchLiveDBData(); renderPublicRoute('/jobs');" style="border:1px solid var(--border2);background:var(--bg2);font-size:12px">🔄 Làm Mới</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px">
+              ${jobCards}
             </div>
           </div>
         `;
-      } else if (path.startsWith('/jobs')) {
+      } else if (path.startsWith('/cv-upload')) {
+        // Trang 2: Phân Tích CV (AI Gemini)
         container.innerHTML = `
-          <div style="background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);max-width:900px;margin:0 auto">
-            <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Danh Sách Việc Làm (Public Route: /jobs)</h2>
-            <p style="color:var(--text2);margin-bottom:16px">Trang tuyển dụng công khai hiển thị trên PublicLayout.</p>
-            <button class="btn" style="border:1px solid var(--border2)" onclick="navigate('/')">← Quay lại Trang Chủ</button>
+          <div style="max-width:960px;margin:0 auto;background:var(--bg2);padding:36px;border-radius:18px;border:1px solid var(--border);box-shadow:var(--shadow)">
+            <div style="text-align:center;margin-bottom:24px">
+              <span class="chip blue" style="font-size:12px;margin-bottom:8px;display:inline-block">🤖 Google Gemini Pro Vision</span>
+              <h2 style="font-size:24px;font-weight:800;color:var(--text)">Phân Tích CV &amp; Chẩn Đoán Kỹ Năng Thiếu Hụt</h2>
+              <p style="color:var(--text2);font-size:13.5px;max-width:580px;margin:6px auto 0">Tải ảnh chụp CV hoặc dán nội dung để AI bóc tách kỹ năng, đo tỷ lệ khớp và kê đơn khóa học bù đắp.</p>
+            </div>
+            
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div class="drop-zone" onclick="document.getElementById('cvFileInput').click()" style="border:2px dashed var(--primary);border-radius:12px;padding:36px;text-align:center;cursor:pointer;background:rgba(15,163,158,0.03)">
+                <div style="font-size:32px;margin-bottom:8px">📄</div>
+                <div style="font-weight:700;color:var(--text);font-size:14px" id="pubCvFileName">Kéo thả CV / Ảnh chụp vào đây hoặc click để chọn file</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:4px">Hỗ trợ file ảnh (PNG, JPG), PDF hoặc TXT</div>
+              </div>
+              
+              <div>
+                <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:6px">Dán nội dung CV (Văn bản):</label>
+                <textarea id="pubCvTextContent" class="form-input" rows="5" placeholder="Dán nội dung hồ sơ của bạn vào đây..." style="width:100%;font-size:12.5px"></textarea>
+              </div>
+
+              <div style="display:flex;gap:10px;justify-content:center">
+                <button class="btn btn-primary" onclick="alert('Đang gửi CV tới AI Gemini phân tích...');" style="padding:10px 24px">✨ Bắt Đầu Phân Tích Bằng AI</button>
+                <button class="btn" style="border:1px solid var(--border2);background:var(--bg3)" onclick="navigate('/jobs')">← Xem Danh Sách Việc Làm</button>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (path.startsWith('/recommend')) {
+        // Trang 3: Gợi Ý Nghề Nghiệp & Lộ Trình Học
+        container.innerHTML = `
+          <div style="max-width:960px;margin:0 auto;background:var(--bg2);padding:36px;border-radius:18px;border:1px solid var(--border);box-shadow:var(--shadow)">
+            <h2 style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px">🎯 Khảo Sát &amp; Kê Đơn Khóa Học Bù Đắp Kỹ Năng</h2>
+            <p style="color:var(--text2);font-size:13.5px;margin-bottom:20px">Hệ thống chẩn đoán các kỹ năng bạn còn thiếu và đề xuất lộ trình học từ Coursera, edX, Udemy.</p>
+            <div style="background:var(--bg3);padding:20px;border-radius:12px;border:1px solid var(--border2);margin-bottom:20px">
+              <div style="font-weight:700;color:var(--text);margin-bottom:6px">📘 Lộ trình đào tạo đề xuất cho sinh viên Cần Thơ:</div>
+              <ul style="padding-left:20px;font-size:13px;color:var(--text2);line-height:1.8">
+                <li>Giai đoạn 1: Bổ sung <strong>Kỹ năng số &amp; Phân tích dữ liệu</strong> (Python, SQL cơ bản)</li>
+                <li>Giai đoạn 2: Nâng chuẩn <strong>Tiếng Anh Giao Tiếp &amp; Đọc Hiểu Tài Liệu Kỹ Thuật</strong></li>
+                <li>Giai đoạn 3: Thực hành dự án thực tế với doanh nghiệp tuyển dụng</li>
+              </ul>
+            </div>
+            <button class="btn btn-primary" onclick="navigate('/jobs')">Tìm Việc Làm Phù Hợp →</button>
           </div>
         `;
       } else if (path.startsWith('/profile')) {
+        // Trang 4: Hồ Sơ Của Tôi
+        const rawUser = localStorage.getItem('current_user');
+        const userObj = rawUser ? JSON.parse(rawUser) : { full_name: 'Ứng Viên Demo', email: 'candidate@example.com' };
         container.innerHTML = `
-          <div style="background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);max-width:900px;margin:0 auto">
-            <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Hồ Sơ Cá Nhân (Public Route: /profile)</h2>
-            <p style="color:var(--text2);margin-bottom:16px">Trang thông tin tài khoản và CV hiển thị trên PublicLayout.</p>
-            <button class="btn" style="border:1px solid var(--border2)" onclick="navigate('/')">← Quay lại Trang Chủ</button>
+          <div style="max-width:800px;margin:0 auto;background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);box-shadow:var(--shadow)">
+            <h2 style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px">👤 Hồ Sơ Ứng Viên</h2>
+            <p style="color:var(--text2);font-size:13px;margin-bottom:20px">Thông tin snapshot hồ sơ của bạn trên hệ thống SkillGap AI</p>
+            <div style="display:flex;flex-direction:column;gap:14px;background:var(--bg3);padding:20px;border-radius:12px">
+              <div><strong>Họ và tên:</strong> ${userObj.full_name || 'Ứng viên'}</div>
+              <div><strong>Email:</strong> ${userObj.email || 'Chưa cập nhật'}</div>
+              <div><strong>Vai trò:</strong> 🎓 Ứng Viên / Người Lao Động</div>
+              <div><strong>Trạng thái CV:</strong> <span class="chip green">Đã sẵn sàng ứng tuyển</span></div>
+            </div>
+            <div style="margin-top:20px;display:flex;gap:10px">
+              <button class="btn btn-primary" onclick="openProfileModal()">✏️ Chỉnh Sửa Thông Tin</button>
+              <button class="btn" style="border:1px solid var(--border2);background:var(--bg2)" onclick="navigate('/jobs')">← Khám Phá Việc Làm</button>
+            </div>
           </div>
         `;
       } else {
         container.innerHTML = `
-          <div style="background:var(--bg2);padding:32px;border-radius:18px;border:1px solid var(--border);max-width:900px;margin:0 auto;text-align:center">
-            <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Đường dẫn: ${path}</h2>
-            <p style="color:var(--text2);margin-bottom:16px">Nội dung công khai hiển thị trên PublicLayout.</p>
-            <button class="btn btn-primary" onclick="navigate('/')">← Về Trang Chủ Public</button>
+          <div style="max-width:700px;margin:0 auto;text-align:center;padding:40px 20px">
+            <h2 style="font-size:22px;font-weight:800;margin-bottom:10px">Đường dẫn: ${path}</h2>
+            <p style="color:var(--text2);margin-bottom:16px">Nội dung đang được hiển thị trên Cổng Thông Tin Ứng Viên.</p>
+            <button class="btn btn-primary" onclick="navigate('/jobs')">← Về Danh Sách Việc Làm</button>
           </div>
         `;
       }
@@ -5235,8 +5640,17 @@
       initPage(name);
 
       if (updateRoute) {
-        const routeName = (name === 'employers' ? 'jobs' : (name === 'admin' ? 'system' : name));
-        navigate(`/admin/${routeName}`, true, false);
+        const isCandidate = (document.getElementById('sidebar') && document.getElementById('sidebar').style.display === 'none');
+        if (isCandidate) {
+          if (name === 'recommend') navigate('/', true, false);
+          else if (name === 'industry') navigate('/explore-industries', true, false);
+          else if (name === 'courses') navigate('/courses', true, false);
+          else if (name === 'softskills') navigate('/soft-skills', true, false);
+          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
+        } else {
+          const routeName = (name === 'employers' ? 'jobs' : (name === 'admin' ? 'system' : name));
+          navigate(`/admin/${routeName}`, true, false);
+        }
       }
     }
 
@@ -5375,218 +5789,408 @@
     }
 
     // ══════════════════════════════════════════════════════
-    //  INDUSTRY & JOB ROLES (TOOLBAR CHUYÊN GIA CHỨC VỤ)
+    //  INDUSTRY & JOB ROLES (KHÁM PHÁ NGÀNH NGHỀ & CHỨC VỤ)
     // ══════════════════════════════════════════════════════
+    const EXPLORE_INDUSTRIES = [
+      { key: "IT", name: "IT & Công nghệ" },
+      { key: "tourism", name: "Du lịch & Khách sạn" },
+      { key: "logistics", name: "Logistics & XNK" },
+      { key: "economics", name: "Kinh tế & Tài chính" },
+      { key: "agriculture", name: "Nông nghiệp" }
+    ];
+
     function selectIndustry(key, el) {
       currentIndustry = key;
-      currentJobRole = "all";
-      document.querySelectorAll('.ind-tab').forEach(t => t.classList.remove('active'));
-      if (el) el.classList.add('active');
-      initIndustry(key);
-    }
-
-    function renderRoleToolbar(key) {
-      const roles = INDUSTRY_ROLES[key] || [];
-      const container = document.getElementById('industryRoleChips');
-      const statEl = document.getElementById('roleToolbarQuickStat');
-      const ind = INDUSTRY_DATA[key];
-      if (!container) return;
-
-      if (statEl && ind) {
-        statEl.innerHTML = `🎯 <strong>${roles.length - 1} vị trí</strong> chuẩn hóa · Lương: <strong>${ind.avgSalary}</strong>`;
+      if (key === 'IT') {
+        currentJobRole = 'cybersecurity';
+      } else {
+        currentJobRole = 'all';
       }
-
-      container.innerHTML = roles.map(r => `
-    <div class="role-chip ${currentJobRole === r.id ? 'active' : ''}" onclick="selectJobRole('${r.id}')">
-      <span class="role-chip-icon">${r.icon}</span>
-      <span>${r.name}</span>
-      ${r.id !== 'all' ? `<span class="role-chip-badge">${r.mustSkills.length} Core</span>` : ''}
-    </div>
-  `).join('');
+      initIndustry(key);
     }
 
     function selectJobRole(roleId) {
       currentJobRole = roleId;
+      initIndustry(currentIndustry, roleId);
+    }
+
+    function initIndustry(key, roleId) {
+      const activeKey = key || currentIndustry || 'IT';
+      currentIndustry = activeKey;
+      if (roleId) currentJobRole = roleId;
+      if (!currentJobRole) {
+        currentJobRole = (activeKey === 'IT') ? 'devops_cloud' : 'all';
+      }
+
+      const ind = INDUSTRY_DATA[activeKey];
+      if (!ind) return;
+
+      const roles = INDUSTRY_ROLES[activeKey] || [];
+      const selectedRole = roles.find(r => r.id === currentJobRole) || null;
+
+      // 1. Render BƯỚC 1: Chọn ngành pills
+      const indPillsContainer = document.getElementById('exploreIndustryPills');
+      if (indPillsContainer) {
+        indPillsContainer.innerHTML = EXPLORE_INDUSTRIES.map(item => {
+          const isActive = item.key === activeKey;
+          const bgStyle = isActive
+            ? 'background:#0d5f57;color:#ffffff;border:none;font-weight:700;box-shadow:0 4px 12px rgba(13,95,87,0.25);'
+            : 'background:#ffffff;color:#1e293b;border:1.5px solid #e2e8f0;font-weight:600;';
+          return `<button type="button" onclick="selectIndustry('${item.key}')" style="${bgStyle}border-radius:10px;padding:10px 20px;font-size:13.5px;cursor:pointer;transition:all 0.15s ease;font-family:'Be Vietnam Pro', system-ui, sans-serif">${item.name}</button>`;
+        }).join('');
+      }
+
+      // 2. Render BƯỚC 2: Summary text & Chọn chức vụ pills
+      const roleSummaryEl = document.getElementById('exploreRoleSummaryText');
+      if (roleSummaryEl) {
+        const count = roles.filter(r => r.id !== 'all').length;
+        roleSummaryEl.textContent = `${count} vị trí chuẩn hóa · Lương ${ind.avgSalary} triệu/tháng`;
+      }
+
+      const rolePillsContainer = document.getElementById('exploreRolePills');
+      if (rolePillsContainer) {
+        rolePillsContainer.innerHTML = roles.map(r => {
+          const isActive = r.id === currentJobRole;
+          const bgStyle = isActive
+            ? 'background:#0d5f57;color:#ffffff;border:1.5px solid #0d5f57;font-weight:700;box-shadow:0 4px 12px rgba(13,95,87,0.25);'
+            : 'background:#ffffff;color:#334155;border:1.5px solid #e2e8f0;font-weight:600;';
+          const badgeHtml = r.id !== 'all'
+            ? `<span style="${isActive ? 'background:rgba(255,255,255,0.22);color:#ffffff;' : 'background:#f1f5f9;color:#475569;'}font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:7px">${r.mustSkills.length} Core</span>`
+            : '';
+          const displayName = r.id === 'all' ? 'Tất cả chức vụ' : r.name;
+          return `<button type="button" onclick="selectJobRole('${r.id}')" style="${bgStyle}border-radius:10px;padding:8px 16px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;transition:all 0.15s ease;font-family:'Be Vietnam Pro', system-ui, sans-serif">${displayName}${badgeHtml}</button>`;
+        }).join('');
+      }
+
+      // 3. Render Row 2: 3 KPI Cards
+      const kpiJobsEl = document.getElementById('exploreKpiJobs');
+      const kpiSalaryEl = document.getElementById('exploreKpiSalary');
+      const kpiMissingEl = document.getElementById('exploreKpiMissing');
+      if (kpiJobsEl) kpiJobsEl.textContent = ind.jobs;
+      if (kpiSalaryEl) kpiSalaryEl.textContent = ind.avgSalary;
+      if (kpiMissingEl) kpiMissingEl.textContent = ind.topMissing;
+
+      // 4. Calculate skills matching Image 1
+      const allSkills = ind.skills || [];
+
+      // 5. Render Row 3: Left Card (Nhu cầu so với cung lao động - 4 skills as in Image 1)
+      const demandSupplyList = document.getElementById('exploreDemandSupplyList');
+      if (demandSupplyList) {
+        const leftSkills = allSkills.slice(0, 4);
+        demandSupplyList.innerHTML = leftSkills.map(s => `
+          <div style="margin-top:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:13.5px;font-weight:700;color:#0f172a">${s.skill}</span>
+              <span style="font-size:12.5px;font-weight:700">
+                <span style="color:#0d5f57">${s.demand}%</span> <span style="color:#cbd5e1;font-weight:400">/</span> <span style="color:#d97706">${s.supply}%</span>
+              </span>
+            </div>
+            <div style="width:100%;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-bottom:4px">
+              <div style="width:${s.demand}%;height:100%;background:#0d5f57;border-radius:4px"></div>
+            </div>
+            <div style="width:100%;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden">
+              <div style="width:${s.supply}%;height:100%;background:#f59e0b;border-radius:4px"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // 6. Render Row 3: Right Card (Kỹ năng thiếu hụt nhất - 5 skills as in Image 1)
+      const missingGapsList = document.getElementById('exploreMissingGapsList');
+      if (missingGapsList) {
+        const sortedGaps = [...allSkills].sort((a, b) => b.gap - a.gap).slice(0, 5);
+        missingGapsList.innerHTML = sortedGaps.map((s, idx) => `
+          <div style="margin-top:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:13.5px;font-weight:700;color:#0f172a">${idx + 1}. ${s.skill}</span>
+              <span style="font-size:13.5px;font-weight:800;color:#e11d48">${s.gap.toFixed(1)}%</span>
+            </div>
+            <div style="width:100%;height:8px;background:#ffe4e6;border-radius:4px;overflow:hidden">
+              <div style="width:${Math.min(s.gap * 1.4, 100)}%;height:100%;background:#e11d48;border-radius:4px"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Update button text on both cards
+      const btnDemand = document.getElementById('btnViewDetailDemand');
+      const btnGap = document.getElementById('btnViewDetailGap');
+      const btnText = `<span>Xem chi tiết tất cả ${allSkills.length} kỹ năng</span> <span>→</span>`;
+      if (btnDemand) btnDemand.innerHTML = btnText;
+      if (btnGap) btnGap.innerHTML = btnText;
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  MODAL: CHI TIẾT THỊ TRƯỜNG (IMAGE 2)
+    // ══════════════════════════════════════════════════════
+    let marketModalCategory = 'all';
+
+    function openMarketDetailModal() {
+      const modal = document.getElementById('marketDetailModal');
+      if (!modal) return;
+      modal.classList.add('open');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+
+      if (!currentIndustry) currentIndustry = 'IT';
+      if (!currentJobRole) currentJobRole = 'devops_cloud';
+
+      // Sync modal selects with active industry & role
+      const indSelect = document.getElementById('modalFilterIndustry');
+      if (indSelect) indSelect.value = currentIndustry;
+      updateMarketModalRoleDropdown();
+
+      marketModalCategory = 'all';
+      updateMarketModalCategoryTabs();
+      renderMarketModalHeader();
+      renderMarketModalTable();
+    }
+
+    function closeMarketDetailModal() {
+      const modal = document.getElementById('marketDetailModal');
+      if (modal) {
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+      }
+      document.body.style.overflow = '';
+    }
+
+    function updateMarketModalRoleDropdown() {
+      const roleSelect = document.getElementById('modalFilterRole');
+      if (!roleSelect) return;
       const roles = INDUSTRY_ROLES[currentIndustry] || [];
+      roleSelect.innerHTML = roles.map(r => `
+        <option value="${r.id}">${r.id === 'all' ? 'Tất cả chức vụ' : r.name}</option>
+      `).join('');
+      roleSelect.value = currentJobRole;
+    }
+
+    function onMarketModalIndustryChange(newInd) {
+      currentIndustry = newInd;
+      currentJobRole = (newInd === 'IT') ? 'devops_cloud' : 'all';
+      updateMarketModalRoleDropdown();
+      initIndustry(newInd);
+      renderMarketModalHeader();
+      renderMarketModalTable();
+    }
+
+    function onMarketModalRoleChange(newRole) {
+      currentJobRole = newRole;
+      initIndustry(currentIndustry, newRole);
+      renderMarketModalHeader();
+      renderMarketModalTable();
+    }
+
+    function filterMarketCategory(cat) {
+      marketModalCategory = cat;
+      updateMarketModalCategoryTabs();
+      renderMarketModalTable();
+    }
+
+    function updateMarketModalCategoryTabs() {
+      const btnAll = document.getElementById('modalTabAll');
+      const btnHard = document.getElementById('modalTabHard');
+      const btnSoft = document.getElementById('modalTabSoft');
+
+      const ind = INDUSTRY_DATA[currentIndustry];
+      const allSkills = ind ? ind.skills : [];
+      const hardCount = allSkills.filter(s => s.type !== 'Kỹ năng mềm').length;
+      const softCount = allSkills.filter(s => s.type === 'Kỹ năng mềm').length;
+
+      if (btnAll) {
+        btnAll.textContent = `Tất cả (${allSkills.length})`;
+        btnAll.style.background = marketModalCategory === 'all' ? '#0f172a' : '#f1f5f9';
+        btnAll.style.color = marketModalCategory === 'all' ? '#ffffff' : '#475569';
+        btnAll.style.fontWeight = marketModalCategory === 'all' ? '700' : '600';
+      }
+      if (btnHard) {
+        btnHard.textContent = `Chuyên môn (${hardCount})`;
+        btnHard.style.background = marketModalCategory === 'hard' ? '#0f172a' : '#f1f5f9';
+        btnHard.style.color = marketModalCategory === 'hard' ? '#ffffff' : '#475569';
+        btnHard.style.fontWeight = marketModalCategory === 'hard' ? '700' : '600';
+      }
+      if (btnSoft) {
+        btnSoft.textContent = `Kỹ năng mềm (${softCount})`;
+        btnSoft.style.background = marketModalCategory === 'soft' ? '#0f172a' : '#f1f5f9';
+        btnSoft.style.color = marketModalCategory === 'soft' ? '#ffffff' : '#475569';
+        btnSoft.style.fontWeight = marketModalCategory === 'soft' ? '700' : '600';
+      }
+    }
+
+    function renderMarketModalHeader() {
+      const ind = INDUSTRY_DATA[currentIndustry];
+      if (!ind) return;
+      const roles = INDUSTRY_ROLES[currentIndustry] || [];
+      const roleObj = roles.find(r => r.id === currentJobRole);
+      const roleName = roleObj ? (roleObj.id === 'all' ? 'TẤT CẢ CHỨC VỤ' : roleObj.name) : 'DEVOPS & CLOUD ENGINEER';
+
+      // Breadcrumb tag
+      const tagEl = document.getElementById('marketModalTag');
+      if (tagEl) {
+        tagEl.textContent = `${ind.label.toUpperCase()} › ${roleName.toUpperCase()}`;
+      }
+
+      // Title as requested by user: "Chi Tiết Thị Trường: nhu cầu · cung · khoảng cách"
+      const titleEl = document.getElementById('marketModalTitle');
+      if (titleEl) {
+        titleEl.textContent = 'Chi Tiết Thị Trường: nhu cầu · cung · khoảng cách';
+      }
+
+      // 5 KPI summary boxes
+      const allSkills = ind.skills || [];
+      const totalSkills = allSkills.length;
+      const avgGap = (allSkills.reduce((acc, s) => acc + (s.gap || 0), 0) / (totalSkills || 1)).toFixed(1);
+      const severeCount = allSkills.filter(s => s.gap > 30).length;
+      const sortedByDemand = [...allSkills].sort((a, b) => b.demand - a.demand);
+      const topDemandName = sortedByDemand[0] ? sortedByDemand[0].skill : 'Python';
+
+      const elTotal = document.getElementById('modalKpiTotalSkills');
+      const elAvg = document.getElementById('modalKpiAvgGap');
+      const elSevere = document.getElementById('modalKpiSevereGap');
+      const elTop = document.getElementById('modalKpiTopDemand');
+      const elJobs = document.getElementById('modalKpiAnalyzedJobs');
+
+      if (elTotal) elTotal.textContent = totalSkills;
+      if (elAvg) elAvg.textContent = `${avgGap}%`;
+      if (elSevere) elSevere.textContent = `${severeCount} kỹ năng`;
+      if (elTop) elTop.textContent = topDemandName;
+      if (elJobs) elJobs.textContent = ind.jobs;
+    }
+
+    function renderMarketModalTable() {
+      const tbody = document.getElementById('modalMarketTableBody');
+      if (!tbody) return;
+
       const ind = INDUSTRY_DATA[currentIndustry];
       if (!ind) return;
 
-      // Update chips active state
-      document.querySelectorAll('#industryRoleChips .role-chip').forEach((chip, idx) => {
-        if (roles[idx] && roles[idx].id === roleId) {
-          chip.classList.add('active');
-        } else {
-          chip.classList.remove('active');
-        }
-      });
+      let skills = [...ind.skills];
 
-      const panel = document.getElementById('roleInsightPanel');
-      const selectedRole = roles.find(r => r.id === roleId);
-
-      if (!selectedRole || roleId === 'all') {
-        if (panel) panel.style.display = 'none';
-        document.getElementById('industryTableTitle').textContent = `Top 10 Kỹ Năng Quan Trọng – ${ind.label}`;
-        buildSmallBarChart('indDemandChart', ind.skills, 'demand', 'rgba(99,102,241,0.85)');
-        buildSmallBarChart('indSupplyChart', ind.skills, 'supply', 'rgba(245,158,11,0.85)');
-        buildSmallBarChart('indGapChart', ind.skills, 'gap', 'rgba(239,68,68,0.85)');
-        renderIndustryTable(ind.skills, null);
-        return;
+      // 1. Filter by category
+      if (marketModalCategory === 'hard') {
+        skills = skills.filter(s => s.type !== 'Kỹ năng mềm');
+      } else if (marketModalCategory === 'soft') {
+        skills = skills.filter(s => s.type === 'Kỹ năng mềm');
       }
 
-      // Display role insight panel
-      if (panel) {
-        panel.style.display = 'block';
-        panel.innerHTML = `
-      <div class="role-insight-header">
-        <div class="role-insight-title">
-          <span style="font-size:18px">${selectedRole.icon}</span>
-          <span>${selectedRole.name}</span>
-        </div>
-        <div class="role-insight-badges">
-          <span class="chip blue">Cấp bậc: ${selectedRole.level}</span>
-          <span class="chip green">Mức lương: ${selectedRole.salary}</span>
-          <span class="chip red">Gap TB: Cao</span>
-        </div>
-      </div>
-      <div class="role-insight-desc">
-        <strong>Mô tả chuyên môn:</strong> ${selectedRole.desc}
-      </div>
-      <div class="role-insight-skills-section">
-        <div>
-          <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:6px">🎯 Kỹ Năng Bắt Buộc (Must-Have) – Bấm để xem khóa học &amp; đăng ký ngay:</div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px">
-            ${selectedRole.mustSkills.map(sk => `
-              <span class="role-skill-pill must" onclick="openSkillCoursesModal('${sk}','${currentIndustry}')">
-                ⭐ ${sk} <span style="font-size:9.5px;opacity:0.85;margin-left:2px">↗ Khóa học</span>
-              </span>
-            `).join('')}
-          </div>
-        </div>
-        ${selectedRole.niceSkills && selectedRole.niceSkills.length > 0 ? `
-          <div style="margin-top:4px">
-            <div style="font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px">✨ Kỹ Năng Bổ Trợ &amp; Công Cụ Lợi Thế:</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px">
-              ${selectedRole.niceSkills.map(sk => `
-                <span class="role-skill-pill nice" onclick="openSkillCoursesModal('${sk}','${currentIndustry}')">
-                  ${sk} <span style="font-size:9.5px;opacity:0.85;margin-left:2px">↗ Khóa học</span>
-                </span>
-              `).join('')}
-            </div>
-          </div>
-        ` : ''}
-      </div>
-      <div class="role-insight-footer">
-        <div style="font-size:11px;color:var(--text2)">
-          💡 Đã lọc bảng kỹ năng bên dưới ưu tiên theo chuẩn chức danh <strong>${selectedRole.name}</strong>.
-        </div>
-        <button class="btn btn-primary" onclick="openSkillCoursesModal('${selectedRole.mustSkills[0]}','${currentIndustry}')" style="padding:6px 14px;font-size:11px">
-          🎓 Xem Khóa Học Trọng Điểm Cho Vị Trí Này ↗
-        </button>
-      </div>
-    `;
+      // 2. Filter by search query
+      const searchEl = document.getElementById('modalSearchSkill');
+      const query = (searchEl ? searchEl.value : '').trim().toLowerCase();
+      if (query) {
+        skills = skills.filter(s => s.skill.toLowerCase().includes(query) || (s.group && s.group.toLowerCase().includes(query)));
       }
 
-      document.getElementById('industryTableTitle').textContent = `Kỹ Năng Tiêu Chuẩn Cho Vị Trí: ${selectedRole.name}`;
+      // 3. Sort
+      const sortEl = document.getElementById('modalFilterSort');
+      const sortVal = sortEl ? sortEl.value : 'gap-desc';
+      if (sortVal === 'gap-desc') {
+        skills.sort((a, b) => b.gap - a.gap);
+      } else if (sortVal === 'demand-desc') {
+        skills.sort((a, b) => b.demand - a.demand);
+      } else if (sortVal === 'supply-desc') {
+        skills.sort((a, b) => b.supply - a.supply);
+      } else if (sortVal === 'name-asc') {
+        skills.sort((a, b) => a.skill.localeCompare(b.skill));
+      }
 
-      // Prioritize and filter skills matching this role
-      const mustSet = new Set(selectedRole.mustSkills.map(s => s.toLowerCase()));
-      const niceSet = new Set((selectedRole.niceSkills || []).map(s => s.toLowerCase()));
+      tbody.innerHTML = skills.map((s, idx) => {
+        // Rank badge: pink circle for top 5 (severe gap), subtle for others
+        const isTop = idx < 5;
+        const rankBadge = isTop
+          ? `<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:#ffe4e6;color:#e11d48;font-size:11px;font-weight:800">${idx + 1}</span>`
+          : `<span style="color:#64748b;font-weight:700;font-size:12px;padding-left:6px">${idx + 1}</span>`;
 
-      const roleSkills = [...ind.skills].sort((a, b) => {
-        const aMust = mustSet.has(a.skill.toLowerCase());
-        const bMust = mustSet.has(b.skill.toLowerCase());
-        if (aMust && !bMust) return -1;
-        if (!aMust && bMust) return 1;
-        const aNice = niceSet.has(a.skill.toLowerCase());
-        const bNice = niceSet.has(b.skill.toLowerCase());
-        if (aNice && !bNice) return -1;
-        if (!aNice && bNice) return 1;
-        return b.demand - a.demand;
-      });
+        // Type badge: Chuyên môn (blue) vs Kỹ năng mềm (purple)
+        const isSoft = s.type === 'Kỹ năng mềm' || s.group === 'Kỹ năng mềm' || s.group === 'Ngoại ngữ';
+        const typeBadge = isSoft
+          ? `<span style="background:#f3e8ff;color:#7e22ce;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap">Kỹ năng mềm</span>`
+          : `<span style="background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap">Chuyên môn</span>`;
 
-      // Filter skills for charts that relate to role
-      const chartSkills = roleSkills.filter(s => mustSet.has(s.skill.toLowerCase()) || niceSet.has(s.skill.toLowerCase()));
-      const finalChartSkills = chartSkills.length >= 3 ? chartSkills : roleSkills.slice(0, 6);
+        // Level text: Rất thiếu (red), Thiếu (amber), Ổn định (teal)
+        const levelStatus = s.gap > 30 ? 'Rất thiếu' : s.gap >= 15 ? 'Thiếu' : 'Ổn định';
+        const levelColor = s.gap > 30 ? '#dc2626' : s.gap >= 15 ? '#d97706' : '#059669';
 
-      buildSmallBarChart('indDemandChart', finalChartSkills, 'demand', 'rgba(220,38,38,0.85)');
-      buildSmallBarChart('indSupplyChart', finalChartSkills, 'supply', 'rgba(15,163,158,0.85)');
-      buildSmallBarChart('indGapChart', finalChartSkills, 'gap', 'rgba(124,58,237,0.80)');
-
-      renderIndustryTable(roleSkills, selectedRole);
+        return `
+          <tr style="border-bottom:1px solid #f1f5f9;transition:background 0.15s ease;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+            <td style="padding:12px 6px;">${rankBadge}</td>
+            <td style="padding:12px;font-weight:700;color:#0f172a;white-space:nowrap;">
+              ${s.skill}
+            </td>
+            <td style="padding:12px 10px;">${typeBadge}</td>
+            <td style="padding:12px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:70px;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden">
+                  <div style="width:${s.demand}%;height:100%;background:#0d5f57;border-radius:4px"></div>
+                </div>
+                <span style="font-weight:700;color:#0f172a;font-size:12px">${s.demand}%</span>
+              </div>
+            </td>
+            <td style="padding:12px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:70px;height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden">
+                  <div style="width:${s.supply}%;height:100%;background:#f59e0b;border-radius:4px"></div>
+                </div>
+                <span style="font-weight:700;color:#0f172a;font-size:12px">${s.supply}%</span>
+              </div>
+            </td>
+            <td style="padding:12px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="width:70px;height:7px;background:#ffe4e6;border-radius:4px;overflow:hidden">
+                  <div style="width:${Math.min(s.gap * 1.4, 100)}%;height:100%;background:#e11d48;border-radius:4px"></div>
+                </div>
+                <span style="font-weight:800;color:#e11d48;font-size:12.5px">${s.gap.toFixed(1)}%</span>
+              </div>
+            </td>
+            <td style="padding:12px 10px;font-weight:700;color:${levelColor};white-space:nowrap;font-size:12px">
+              ${levelStatus}
+            </td>
+            <td style="padding:12px 10px;font-weight:700;color:#059669;white-space:nowrap;font-size:12px">
+              ▲ ${s.trend}
+            </td>
+            <td style="padding:12px 10px;text-align:right;font-weight:700;color:#334155;font-size:12.5px">
+              ${s.jobs || Math.round(s.demand * 3.85)}
+            </td>
+            <td style="padding:10px 12px;text-align:center;">
+              <button type="button" onclick="openSkillCoursesModal('${s.skill.replace(/'/g, "\\'")}', '${currentIndustry}')"
+                style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;background:#ecfdf5;border:1.5px solid #a7f3d0;color:#065f46;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all 0.15s ease;"
+                onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">
+                🎓 <span>Xem khóa học</span>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
-    function initIndustry(key) {
-      const ind = INDUSTRY_DATA[key];
+    function exportMarketExcel() {
+      const ind = INDUSTRY_DATA[currentIndustry];
       if (!ind) return;
-      document.getElementById('industryTableTitle').textContent = `Top 10 Kỹ Năng Quan Trọng – ${ind.label}`;
+      const skills = ind.skills || [];
+      let csv = "STT,Ky Nang,Loai,Nhu Cau (Demand),Cung (Supply),Khoang Cach (Gap),Muc Do,Xu Huong,Tin Yeu Cau\n";
+      skills.forEach((s, idx) => {
+        const isSoft = s.type === 'Kỹ năng mềm' || s.group === 'Kỹ năng mềm';
+        const typeStr = isSoft ? 'Kỹ năng mềm' : 'Chuyên môn';
+        const levelStatus = s.gap > 30 ? 'Rất thiếu' : s.gap >= 15 ? 'Thiếu' : 'Ổn định';
+        const jobs = s.jobs || Math.round(s.demand * 3.85);
+        csv += `${idx + 1},"${s.skill}","${typeStr}",${s.demand}%,${s.supply}%,${s.gap.toFixed(1)}%,"${levelStatus}","${s.trend}",${jobs}\n`;
+      });
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `Chi_Tiet_Thi_Truong_${currentIndustry}_${new Date().toISOString().slice(0,10)}.csv`;
+      link.click();
+    }
 
-      // Render Job Roles Toolbar
-      renderRoleToolbar(key);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMarketDetailModal();
+    });
 
-      // KPI cards
-      const kpiEl = document.getElementById('industryKPIs');
-      if (kpiEl) kpiEl.innerHTML = `
-    <div class="kpi-card blue">
-      <div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
-      <div class="kpi-info"><div class="kpi-label">Tin Tuyển Dụng</div><div class="kpi-value">${ind.jobs}</div><div class="kpi-change up">Từ TopCV</div></div>
-    </div>
-    <div class="kpi-card amber">
-      <div class="kpi-icon amber"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-      <div class="kpi-info"><div class="kpi-label">Mức Lương TB</div><div class="kpi-value">${ind.avgSalary}</div><div class="kpi-change">Triệu đồng/tháng</div></div>
-    </div>
-    <div class="kpi-card red">
-      <div class="kpi-icon" style="background:rgba(239,68,68,0.1);color:var(--red)"><svg viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-      <div class="kpi-info"><div class="kpi-label">Kỹ Năng Thiếu Nhất</div><div class="kpi-value" style="font-size:16px;letter-spacing:-0.5px;color:var(--red)">${ind.topMissing}</div><div class="kpi-change down">Gap cao nhất ngành</div></div>
-    </div>`;
-
-      // build 3 charts
-      buildSmallBarChart('indDemandChart', ind.skills, 'demand', 'rgba(220,38,38,0.85)');
-      buildSmallBarChart('indSupplyChart', ind.skills, 'supply', 'rgba(15,163,158,0.85)');
-      buildSmallBarChart('indGapChart', ind.skills, 'gap', 'rgba(124,58,237,0.80)');
-
-      // table
-      renderIndustryTable(ind.skills, null);
+    function renderRoleToolbar(key) {
+      // Compatibility stub
     }
 
     function renderIndustryTable(skills, activeRole) {
-      const tbody = document.getElementById('industryTableBody');
-      if (!tbody) return;
-
-      const mustSet = activeRole ? new Set(activeRole.mustSkills.map(s => s.toLowerCase())) : new Set();
-      const niceSet = activeRole ? new Set((activeRole.niceSkills || []).map(s => s.toLowerCase())) : new Set();
-
-      tbody.innerHTML = skills.map((s, i) => {
-        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
-        const gapColor = s.gap > 45 ? 'red' : s.gap > 25 ? 'amber' : 'green';
-        const groupColor = s.group.includes('AI') || s.group.includes('Lập') ? 'blue' : s.group.includes('Ngoại') ? 'cyan' : 'purple';
-
-        // Role relevance tag
-        let roleBadge = '';
-        if (mustSet.has(s.skill.toLowerCase())) {
-          roleBadge = `<span class="chip red" style="font-size:9px;margin-left:6px;font-weight:700">⭐ Bắt buộc vị trí</span>`;
-        } else if (niceSet.has(s.skill.toLowerCase())) {
-          roleBadge = `<span class="chip blue" style="font-size:9px;margin-left:6px">✨ Kỹ năng bổ trợ</span>`;
-        }
-
-        const courseBtn = `<button class="action-btn" onclick="openSkillCoursesModal('${s.skill}','${currentIndustry}')" style="display:inline-flex;align-items:center;gap:4px">
-      <span>Xem khóa học</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    </button>`;
-
-        return `<tr>
-      <td class="rank-cell">${medal}</td>
-      <td class="skill-name-cell">
-        <span>${s.skill}</span>
-        ${roleBadge}
-      </td>
-      <td><span class="chip ${groupColor}">${s.group}</span></td>
-      <td><div class="pct-bar-wrap"><div class="pct-bar demand" style="width:${s.demand * 0.8}px;max-width:100px"></div><span class="pct-val">${s.demand}%</span></div></td>
-      <td><div class="pct-bar-wrap"><div class="pct-bar supply" style="width:${s.supply * 0.8}px;max-width:100px"></div><span class="pct-val">${s.supply}%</span></div></td>
-      <td><span class="chip ${gapColor}">${s.gap.toFixed(1)}%</span></td>
-      <td><span class="trend-up">🔺 ${s.trend}</span></td>
-      <td>${courseBtn}</td>
-    </tr>`;
-      }).join('');
+      // Compatibility stub
     }
 
     // ══════════════════════════════════════════════════════
@@ -5717,38 +6321,180 @@
     }
 
     // ══════════════════════════════════════════════════════
-    //  RECOMMENDATION
+    //  RECOMMENDATION (CASCADING FORM: NGÀNH -> CHỨC VỤ -> 12 NHÓM KỸ NĂNG)
     // ══════════════════════════════════════════════════════
+    const IT_SKILL_CATEGORIES_DATA = [
+      {
+        category: "Lập trình",
+        icon: "💻",
+        skills: [
+          "Python", "Java", "JavaScript", "TypeScript", "C", "C++", "C#", "PHP", "Go", "Rust",
+          "Kotlin", "Swift", "Ruby", "SQL", "Object-Oriented Programming (OOP)",
+          "Data Structures & Algorithms", "Design Patterns", "Functional Programming", "Multithreading & Concurrency"
+        ]
+      },
+      {
+        category: "Phát triển phần mềm và Web",
+        icon: "🌐",
+        skills: [
+          "HTML", "CSS", "React.js", "Angular", "Vue.js", "Node.js", "Express.js", "Next.js",
+          "Django", "Flask", "FastAPI", "Spring Boot", "ASP.NET Core", "Laravel", "REST API",
+          "GraphQL", "Microservices Architecture", "WebSocket", "Authentication & Authorization", "Software Architecture"
+        ]
+      },
+      {
+        category: "Cơ sở dữ liệu",
+        icon: "🗄️",
+        skills: [
+          "MySQL", "PostgreSQL", "Microsoft SQL Server", "Oracle Database", "MongoDB", "Redis",
+          "Elasticsearch", "Database Design", "Database Normalization", "Query Optimization",
+          "Database Indexing", "Database Replication", "Database Backup & Recovery"
+        ]
+      },
+      {
+        category: "AI và Machine Learning",
+        icon: "🤖",
+        skills: [
+          "Artificial Intelligence (AI)", "Machine Learning", "Deep Learning", "Natural Language Processing (NLP)",
+          "Computer Vision", "Generative AI", "Large Language Models (LLM)", "AI Agent Development",
+          "Prompt Engineering", "TensorFlow", "PyTorch", "Scikit-learn", "Feature Engineering",
+          "Model Training & Evaluation", "Model Deployment", "Retrieval-Augmented Generation (RAG)",
+          "Vector Databases", "MLOps"
+        ]
+      },
+      {
+        category: "Data Engineering và phân tích dữ liệu",
+        icon: "📊",
+        skills: [
+          "Data Cleaning", "Data Processing", "Data Mining", "Data Modeling", "ETL / ELT",
+          "Data Pipeline Development", "Data Warehouse", "Data Lake", "Apache Spark", "Apache Kafka",
+          "Apache Airflow", "Hadoop", "Pandas", "NumPy", "Data Visualization", "Power BI", "Tableau"
+        ]
+      },
+      {
+        category: "Kiểm thử phần mềm",
+        icon: "🧪",
+        skills: [
+          "Manual Testing", "Automated Testing", "Unit Testing", "Integration Testing",
+          "System Testing", "Regression Testing", "API Testing", "Performance Testing",
+          "Security Testing", "Selenium", "Playwright", "Cypress", "JUnit", "Pytest",
+          "Test Automation Frameworks"
+        ]
+      },
+      {
+        category: "DevOps và Cloud Computing",
+        icon: "☁️",
+        skills: [
+          "Linux Administration", "Docker", "Kubernetes", "Git", "GitHub", "GitLab CI/CD",
+          "Jenkins", "Continuous Integration / Continuous Deployment (CI/CD)",
+          "Infrastructure as Code (IaC)", "Terraform", "Ansible", "AWS", "Microsoft Azure",
+          "Google Cloud Platform (GCP)", "Cloud Architecture", "Serverless Computing",
+          "Monitoring & Logging", "Site Reliability Engineering (SRE)"
+        ]
+      },
+      {
+        category: "Mạng máy tính và hệ thống",
+        icon: "🖥️",
+        skills: [
+          "TCP/IP", "Routing & Switching", "DNS", "DHCP", "VLAN", "VPN",
+          "Firewall Configuration", "Network Troubleshooting", "Windows Server Administration",
+          "System Administration", "Virtualization", "VMware", "Proxmox", "Load Balancing",
+          "Distributed Systems"
+        ]
+      },
+      {
+        category: "An ninh mạng",
+        icon: "🔒",
+        skills: [
+          "Network Security", "Application Security", "Penetration Testing", "Vulnerability Assessment",
+          "Ethical Hacking", "Cryptography", "Identity & Access Management (IAM)",
+          "Security Information and Event Management (SIEM)", "Incident Response",
+          "Malware Analysis", "Digital Forensics", "Secure Coding", "DevSecOps"
+        ]
+      },
+      {
+        category: "Phân tích và thiết kế hệ thống",
+        icon: "📐",
+        skills: [
+          "System Analysis", "Requirements Engineering", "UML", "BPMN", "System Design",
+          "Software Design Patterns", "Domain-Driven Design (DDD)", "API Design",
+          "Enterprise Architecture", "Solution Architecture"
+        ]
+      },
+      {
+        category: "Phát triển ứng dụng di động và hệ thống nhúng",
+        icon: "📱",
+        skills: [
+          "Android Development", "iOS Development", "Flutter", "React Native", "Android SDK",
+          "SwiftUI", "Embedded Systems Programming", "Firmware Development",
+          "Internet of Things (IoT)", "Arduino", "Raspberry Pi", "RTOS"
+        ]
+      },
+      {
+        category: "Blockchain và công nghệ chuyên biệt",
+        icon: "⛓️",
+        skills: [
+          "Blockchain Development", "Smart Contract Development", "Solidity", "Web3 Development",
+          "Cryptographic Algorithms", "Unity", "Unreal Engine", "Game Development",
+          "Computer Graphics", "Augmented Reality / Virtual Reality (AR/VR)"
+        ]
+      }
+    ];
+
     function initRecommend() {
-      const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics';
-      updateTargetRoleDropdown(major);
-      renderQuickSkills(major);
+      if (selectedSkills.length === 0) {
+        selectedSkills = ['Python', 'Object-Oriented Programming (OOP)', 'Git', 'SQL'];
+      }
+      const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'IT';
+      onMajorChange(major);
+      renderSelectedTags();
     }
 
     function onMajorChange(majorVal) {
-      const major = majorVal || (document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics');
-      updateTargetRoleDropdown(major);
-      renderQuickSkills(major);
-      if (selectedSkills.length > 0) {
-        runRecommendation();
+      const major = majorVal || (document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'IT');
+      const noticeEl = document.getElementById('industryNotice');
+      const roleBadge = document.getElementById('targetRoleCountBadge');
+
+      if (major === 'IT') {
+        if (noticeEl) noticeEl.innerHTML = '✨ Ngành CNTT đã nạp <strong>20 chức vụ chuyên sâu</strong> và <strong>12 danh mục kỹ năng</strong>.';
+        if (roleBadge) roleBadge.textContent = '20 chức vụ ▼';
+      } else {
+        if (noticeEl) noticeEl.innerHTML = 'ℹ️ Dữ liệu chuyên sâu 20 chức vụ & 12 nhóm kỹ năng hiện tối ưu cho ngành CNTT.';
+        const jobs = JOB_REQUIREMENTS[major] || [];
+        if (roleBadge) roleBadge.textContent = `${jobs.length} chức vụ ▼`;
       }
+
+      updateTargetRoleDropdown(major);
+      renderCategorySkills('');
     }
 
     function updateTargetRoleDropdown(majorVal) {
-      const major = majorVal || (document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics');
+      const major = majorVal || (document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'IT');
       const jobs = JOB_REQUIREMENTS[major] || [];
       const sel = document.getElementById('recTargetRole');
       if (!sel) return;
-      sel.innerHTML = jobs.map(j => `<option value="${j.job}">${j.icon || '💼'} ${j.job} (${j.reqSkills.length} kỹ năng bắt buộc/quan trọng)</option>`).join('');
-      if (jobs.length > 0) {
-        updateTargetRoleHint(jobs[0].job);
+
+      if (jobs.length === 0) {
+        sel.innerHTML = '<option value="">-- Chưa có dữ liệu chức vụ cho ngành này --</option>';
+        sel.disabled = true;
+        updateTargetRoleHint(null);
+        return;
       }
+
+      sel.disabled = false;
+      // Chỉ giữ lại text thuần túy: Software Engineer (Kỹ sư phần mềm), không có số thứ tự hay icon
+      sel.innerHTML = jobs.map(j => `<option value="${j.job}">${j.job} (${j.nameVN || j.job})</option>`).join('');
+      updateTargetRoleHint(jobs[0].job);
     }
 
     function updateTargetRoleHint(jobName) {
       const hintEl = document.getElementById('targetRoleSkillsHint');
       if (!hintEl) return;
-      const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'economics';
+      if (!jobName) {
+        hintEl.innerHTML = '';
+        return;
+      }
+      const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'IT';
       const jobs = JOB_REQUIREMENTS[major] || [];
       const found = jobs.find(j => j.job === jobName) || jobs[0];
       if (!found) {
@@ -5756,113 +6502,369 @@
         return;
       }
       const skillsList = found.reqSkills.map(s =>
-        `<span style="display:inline-flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:2px 8px;font-size:10px;margin:2px 4px 2px 0;font-weight:600">
-      <span style="color:${s.importance === 'Bắt buộc' ? 'var(--red)' : 'var(--primary)'};margin-right:3px">•</span> ${s.name} <em style="opacity:0.75;margin-left:3px">(${s.importance})</em>
-    </span>`
+        `<span style="display:inline-flex;align-items:center;gap:4px;background:#e6fffa;border:1px solid #a7f3d0;border-radius:9999px;padding:4px 12px;font-size:11px;margin:3px;font-weight:600;color:#065f46">
+          <span>${s.name}</span>
+          <span style="color:#0d9488;font-size:10px;font-weight:500">${s.importance}</span>
+        </span>`
       ).join('');
       hintEl.innerHTML = `
-    <div style="font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:4px">
-      <span>📋 Tiêu chuẩn kỹ năng bắt buộc vị trí ${found.job}:</span>
-    </div>
-    <div style="display:flex;flex-wrap:wrap">${skillsList}</div>
-  `;
+        <div style="font-weight:700;color:#0f172a;margin-bottom:6px;font-size:12px">
+          Tiêu chuẩn kỹ năng bắt buộc vị trí ${found.job}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:2px">${skillsList}</div>
+      `;
     }
 
     function onTargetRoleChange(val) {
       updateTargetRoleHint(val);
-      if (selectedSkills.length > 0) {
-        runRecommendation();
+    }
+
+    // ── RENDER 12 NHÓM KỸ NĂNG VÀ LỌC TÌM KIẾM (KHÔNG CÓ TIỀN TỐ SỐ THỨ TỰ) ──
+    function renderCategorySkills(searchQuery = '') {
+      const container = document.getElementById('categorySkillsContainer');
+      if (!container) return;
+      const major = document.getElementById('recMajor') ? document.getElementById('recMajor').value : 'IT';
+
+      if (major !== 'IT') {
+        const skills = QUICK_SKILLS_BY_INDUSTRY[major] || QUICK_SKILLS_BY_INDUSTRY.economics;
+        container.innerHTML = `
+          <div style="padding:6px;font-size:11px;color:#64748b">
+            <div style="font-weight:700;margin-bottom:6px;color:#0f172a">Kỹ năng phổ biến trong ngành:</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              ${skills.map(sk => `
+                <div class="ind-tab ${selectedSkills.includes(sk) ? 'active' : ''}" style="padding:5px 14px;font-size:11px;cursor:pointer;border-radius:9999px;border:1px solid ${selectedSkills.includes(sk) ? '#5eead4' : '#e2e8f0'};background:${selectedSkills.includes(sk) ? '#ccfbf1' : '#ffffff'};color:${selectedSkills.includes(sk) ? '#0f766e' : '#1e293b'}" onclick="toggleCategorySkill('${sk}')">
+                  ${selectedSkills.includes(sk) ? '✓ ' : '+ '} ${sk}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        return;
       }
+
+      const q = (searchQuery || '').trim().toLowerCase();
+      let html = '';
+      let matchCount = 0;
+
+      IT_SKILL_CATEGORIES_DATA.forEach(cat => {
+        const matched = q ? cat.skills.filter(s => s.toLowerCase().includes(q)) : cat.skills;
+        if (matched.length > 0) {
+          matchCount += matched.length;
+          html += `
+            <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-bottom:4px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                <span style="font-weight:700;font-size:11.5px;color:#0f172a">
+                  ${cat.category}
+                </span>
+                <span style="font-size:10.5px;color:#64748b;font-weight:500">${matched.length} kỹ năng</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
+                ${matched.map(skill => {
+                  const isActive = selectedSkills.includes(skill);
+                  return `
+                    <button type="button" onclick="toggleCategorySkill('${skill}')"
+                      style="padding:5px 13px;font-size:11px;border-radius:9999px;border:1px solid ${isActive ? '#5eead4' : '#e2e8f0'};background:${isActive ? '#ccfbf1' : '#ffffff'};color:${isActive ? '#0f766e' : '#334155'};font-weight:${isActive ? '700' : '500'};cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:4px;box-shadow:${isActive ? '0 2px 8px rgba(13,148,136,0.15)' : 'none'}">
+                      <span>${isActive ? '✓' : '+'}</span>
+                      <span>${skill}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      if (matchCount === 0) {
+        html = `<div style="padding:16px;text-align:center;font-size:12px;color:#94a3b8;font-style:italic">Không tìm thấy kỹ năng nào khớp với "${searchQuery}"</div>`;
+      }
+
+      container.innerHTML = html;
     }
 
-    function renderQuickSkills(ind) {
-      const el = document.getElementById('quickSkillBtns');
-      if (!el) return;
-      const major = ind || document.getElementById('recMajor').value || 'economics';
-      const skills = QUICK_SKILLS_BY_INDUSTRY[major] || QUICK_SKILLS_BY_INDUSTRY.economics;
-      el.innerHTML = skills.map(sk => `
-    <div class="ind-tab ${selectedSkills.includes(sk) ? 'active' : ''}" style="padding:5px 12px;font-size:11px;cursor:pointer" onclick="addSkill('${sk}',this)">+ ${sk}</div>
-  `).join('');
+    function filterSkillsByCategory(query) {
+      renderCategorySkills(query);
     }
 
-    function addSkill(skill, el) {
+    // Chọn / bỏ chọn kỹ năng hoạt động độc lập, không tự ý chạy chẩn đoán trước
+    function toggleCategorySkill(skill) {
       if (selectedSkills.includes(skill)) {
         selectedSkills = selectedSkills.filter(s => s !== skill);
-        el.classList.remove('active');
       } else {
         selectedSkills.push(skill);
-        el.classList.add('active');
       }
       renderSelectedTags();
+      const searchVal = document.getElementById('skillSearchInput') ? document.getElementById('skillSearchInput').value : '';
+      renderCategorySkills(searchVal);
     }
 
     function renderSelectedTags() {
       const el = document.getElementById('selectedSkillTags');
+      const badge = document.getElementById('selectedSkillsCountBadge');
+      if (badge) badge.textContent = `${selectedSkills.length} đã chọn`;
       if (!el) return;
-      el.innerHTML = selectedSkills.map(s => `<span class="skill-tag" onclick="removeSkill('${s}')">${s} ✕</span>`).join('');
+
+      if (selectedSkills.length === 0) {
+        el.innerHTML = '<span style="font-size:11px;color:#0d9488;font-style:italic">Chưa có kỹ năng nào. Tìm kiếm hoặc bấm vào danh mục bên dưới để chọn.</span>';
+        return;
+      }
+
+      el.innerHTML = selectedSkills.map(s => `
+        <span class="skill-tag" style="background:#dff6f1;color:#06453f;border:1px solid #bbf2e8;font-weight:700;display:inline-flex;align-items:center;cursor:pointer;padding:4px 14px;border-radius:9999px;margin:2px;font-size:11.5px;box-shadow:0 1px 3px rgba(6,69,63,0.1)" onclick="removeSkill('${s}')" title="Bấm để xóa">
+          ${s}
+        </span>
+      `).join('');
     }
 
     function removeSkill(skill) {
       selectedSkills = selectedSkills.filter(s => s !== skill);
       renderSelectedTags();
-      document.querySelectorAll('#quickSkillBtns .ind-tab').forEach(el => {
-        if (el.textContent.trim() === skill) el.classList.remove('active');
-      });
+      const searchVal = document.getElementById('skillSearchInput') ? document.getElementById('skillSearchInput').value : '';
+      renderCategorySkills(searchVal);
     }
 
-    // ── Dữ liệu yêu cầu kỹ năng theo từng vị trí (mở rộng đầy đủ)
+    // ── Dữ liệu yêu cầu kỹ năng theo từng vị trí (ĐẦY ĐỦ 20 CHỨC VỤ IT)
     const JOB_REQUIREMENTS = {
       IT: [
         {
-          job: 'Python Developer', icon: '🐍',
+          job: 'Software Engineer', nameVN: 'Kỹ sư phần mềm', icon: '💻',
           reqSkills: [
+            { name: 'Java', importance: 'Bắt buộc' },
+            { name: 'C++', importance: 'Bắt buộc' },
             { name: 'Python', importance: 'Bắt buộc' },
-            { name: 'SQL', importance: 'Bắt buộc' },
-            { name: 'Git', importance: 'Bắt buộc' },
+            { name: 'Object-Oriented Programming (OOP)', importance: 'Bắt buộc' },
+            { name: 'Data Structures & Algorithms', importance: 'Bắt buộc' },
+            { name: 'Design Patterns', importance: 'Quan trọng' },
+            { name: 'Git', importance: 'Quan trọng' },
+            { name: 'SQL', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Frontend Developer', nameVN: 'Lập trình viên giao diện', icon: '🎨',
+          reqSkills: [
+            { name: 'HTML', importance: 'Bắt buộc' },
+            { name: 'CSS', importance: 'Bắt buộc' },
+            { name: 'JavaScript', importance: 'Bắt buộc' },
+            { name: 'TypeScript', importance: 'Quan trọng' },
+            { name: 'React.js', importance: 'Bắt buộc' },
+            { name: 'REST API', importance: 'Quan trọng' },
+            { name: 'Git', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Backend Developer', nameVN: 'Lập trình viên phía máy chủ', icon: '⚙️',
+          reqSkills: [
+            { name: 'Node.js', importance: 'Bắt buộc' },
+            { name: 'Express.js', importance: 'Bắt buộc' },
+            { name: 'Python', importance: 'Bắt buộc' },
             { name: 'FastAPI', importance: 'Quan trọng' },
-            { name: 'Docker', importance: 'Quan trọng' },
+            { name: 'MySQL', importance: 'Bắt buộc' },
+            { name: 'PostgreSQL', importance: 'Bắt buộc' },
+            { name: 'REST API', importance: 'Bắt buộc' },
+            { name: 'Authentication & Authorization', importance: 'Quan trọng' }
           ]
         },
         {
-          job: 'Data Analyst', icon: '📊',
+          job: 'Full-stack Developer', nameVN: 'Lập trình viên toàn diện', icon: '🚀',
+          reqSkills: [
+            { name: 'HTML', importance: 'Bắt buộc' },
+            { name: 'CSS', importance: 'Bắt buộc' },
+            { name: 'JavaScript', importance: 'Bắt buộc' },
+            { name: 'React.js', importance: 'Bắt buộc' },
+            { name: 'Node.js', importance: 'Bắt buộc' },
+            { name: 'MySQL', importance: 'Bắt buộc' },
+            { name: 'REST API', importance: 'Bắt buộc' },
+            { name: 'Docker', importance: 'Quan trọng' },
+            { name: 'Git', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Mobile Developer', nameVN: 'Lập trình viên ứng dụng di động', icon: '📱',
+          reqSkills: [
+            { name: 'Android Development', importance: 'Bắt buộc' },
+            { name: 'iOS Development', importance: 'Bắt buộc' },
+            { name: 'Flutter', importance: 'Bắt buộc' },
+            { name: 'React Native', importance: 'Bắt buộc' },
+            { name: 'Kotlin', importance: 'Quan trọng' },
+            { name: 'Swift', importance: 'Quan trọng' },
+            { name: 'REST API', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'AI Engineer', nameVN: 'Kỹ sư trí tuệ nhân tạo', icon: '🧠',
+          reqSkills: [
+            { name: 'Artificial Intelligence (AI)', importance: 'Bắt buộc' },
+            { name: 'Machine Learning', importance: 'Bắt buộc' },
+            { name: 'Deep Learning', importance: 'Bắt buộc' },
+            { name: 'Python', importance: 'Bắt buộc' },
+            { name: 'PyTorch', importance: 'Quan trọng' },
+            { name: 'TensorFlow', importance: 'Quan trọng' },
+            { name: 'Large Language Models (LLM)', importance: 'Quan trọng' },
+            { name: 'Prompt Engineering', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Data Analyst', nameVN: 'Chuyên viên phân tích dữ liệu', icon: '📊',
+          reqSkills: [
+            { name: 'SQL', importance: 'Bắt buộc' },
+            { name: 'Python', importance: 'Bắt buộc' },
+            { name: 'Pandas', importance: 'Bắt buộc' },
+            { name: 'NumPy', importance: 'Quan trọng' },
+            { name: 'Data Visualization', importance: 'Bắt buộc' },
+            { name: 'Power BI', importance: 'Bắt buộc' },
+            { name: 'Tableau', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Data Engineer', nameVN: 'Kỹ sư dữ liệu', icon: '🗄️',
           reqSkills: [
             { name: 'Python', importance: 'Bắt buộc' },
             { name: 'SQL', importance: 'Bắt buộc' },
-            { name: 'Power BI', importance: 'Bắt buộc' },
-            { name: 'Excel', importance: 'Quan trọng' },
-            { name: 'Statistics', importance: 'Quan trọng' },
+            { name: 'ETL / ELT', importance: 'Bắt buộc' },
+            { name: 'Data Pipeline Development', importance: 'Bắt buộc' },
+            { name: 'Data Warehouse', importance: 'Bắt buộc' },
+            { name: 'Apache Spark', importance: 'Quan trọng' },
+            { name: 'Apache Kafka', importance: 'Quan trọng' },
+            { name: 'Apache Airflow', importance: 'Quan trọng' }
           ]
         },
         {
-          job: 'Machine Learning Engineer', icon: '🤖',
+          job: 'Machine Learning Engineer', nameVN: 'Kỹ sư học máy', icon: '🤖',
           reqSkills: [
             { name: 'Python', importance: 'Bắt buộc' },
             { name: 'Machine Learning', importance: 'Bắt buộc' },
-            { name: 'TensorFlow', importance: 'Bắt buộc' },
-            { name: 'Docker', importance: 'Quan trọng' },
-            { name: 'Git', importance: 'Quan trọng' },
+            { name: 'Scikit-learn', importance: 'Bắt buộc' },
+            { name: 'Deep Learning', importance: 'Bắt buộc' },
+            { name: 'PyTorch', importance: 'Quan trọng' },
+            { name: 'TensorFlow', importance: 'Quan trọng' },
+            { name: 'MLOps', importance: 'Quan trọng' }
           ]
         },
         {
-          job: 'Frontend Developer', icon: '🎨',
+          job: 'QA Engineer / Tester', nameVN: 'Kỹ sư kiểm thử phần mềm', icon: '🧪',
           reqSkills: [
-            { name: 'ReactJS', importance: 'Bắt buộc' },
-            { name: 'JavaScript', importance: 'Bắt buộc' },
-            { name: 'CSS', importance: 'Bắt buộc' },
-            { name: 'Git', importance: 'Quan trọng' },
-            { name: 'Figma', importance: 'Hữu ích' },
+            { name: 'Manual Testing', importance: 'Bắt buộc' },
+            { name: 'Automated Testing', importance: 'Bắt buộc' },
+            { name: 'Unit Testing', importance: 'Bắt buộc' },
+            { name: 'API Testing', importance: 'Bắt buộc' },
+            { name: 'Selenium', importance: 'Quan trọng' },
+            { name: 'Playwright', importance: 'Quan trọng' },
+            { name: 'Postman', importance: 'Quan trọng' }
           ]
         },
         {
-          job: 'DevOps Engineer', icon: '⚙️',
+          job: 'Cybersecurity Engineer', nameVN: 'Kỹ sư an ninh mạng', icon: '🔒',
           reqSkills: [
+            { name: 'Network Security', importance: 'Bắt buộc' },
+            { name: 'Application Security', importance: 'Bắt buộc' },
+            { name: 'Penetration Testing', importance: 'Bắt buộc' },
+            { name: 'Vulnerability Assessment', importance: 'Bắt buộc' },
+            { name: 'Firewall Configuration', importance: 'Quan trọng' },
+            { name: 'Cryptography', importance: 'Quan trọng' },
+            { name: 'Incident Response', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Network Engineer', nameVN: 'Kỹ sư mạng máy tính', icon: '🌐',
+          reqSkills: [
+            { name: 'TCP/IP', importance: 'Bắt buộc' },
+            { name: 'Routing & Switching', importance: 'Bắt buộc' },
+            { name: 'DNS', importance: 'Bắt buộc' },
+            { name: 'DHCP', importance: 'Bắt buộc' },
+            { name: 'VLAN', importance: 'Quan trọng' },
+            { name: 'VPN', importance: 'Quan trọng' },
+            { name: 'Firewall Configuration', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'System Administrator', nameVN: 'Quản trị viên hệ thống', icon: '🖥️',
+          reqSkills: [
+            { name: 'Linux Administration', importance: 'Bắt buộc' },
+            { name: 'Windows Server Administration', importance: 'Bắt buộc' },
+            { name: 'System Administration', importance: 'Bắt buộc' },
+            { name: 'Virtualization', importance: 'Quan trọng' },
+            { name: 'VMware', importance: 'Quan trọng' },
+            { name: 'Backup & Recovery', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'DevOps Engineer', nameVN: 'Kỹ sư DevOps', icon: '⚡',
+          reqSkills: [
+            { name: 'Linux Administration', importance: 'Bắt buộc' },
             { name: 'Docker', importance: 'Bắt buộc' },
-            { name: 'Linux', importance: 'Bắt buộc' },
+            { name: 'Kubernetes', importance: 'Bắt buộc' },
             { name: 'Git', importance: 'Bắt buộc' },
-            { name: 'AWS', importance: 'Quan trọng' },
-            { name: 'CI/CD', importance: 'Quan trọng' },
+            { name: 'Continuous Integration / Continuous Deployment (CI/CD)', importance: 'Bắt buộc' },
+            { name: 'GitHub', importance: 'Quan trọng' },
+            { name: 'Jenkins', importance: 'Quan trọng' },
+            { name: 'Terraform', importance: 'Quan trọng' },
+            { name: 'AWS', importance: 'Quan trọng' }
           ]
         },
+        {
+          job: 'Cloud Engineer', nameVN: 'Kỹ sư điện toán đám mây', icon: '☁️',
+          reqSkills: [
+            { name: 'AWS', importance: 'Bắt buộc' },
+            { name: 'Microsoft Azure', importance: 'Bắt buộc' },
+            { name: 'Google Cloud Platform (GCP)', importance: 'Bắt buộc' },
+            { name: 'Cloud Architecture', importance: 'Bắt buộc' },
+            { name: 'Serverless Computing', importance: 'Quan trọng' },
+            { name: 'Terraform', importance: 'Quan trọng' },
+            { name: 'Docker', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Database Administrator', nameVN: 'Quản trị cơ sở dữ liệu', icon: '💾',
+          reqSkills: [
+            { name: 'MySQL', importance: 'Bắt buộc' },
+            { name: 'PostgreSQL', importance: 'Bắt buộc' },
+            { name: 'Microsoft SQL Server', importance: 'Bắt buộc' },
+            { name: 'Oracle Database', importance: 'Bắt buộc' },
+            { name: 'Database Design', importance: 'Bắt buộc' },
+            { name: 'Query Optimization', importance: 'Quan trọng' },
+            { name: 'Database Indexing', importance: 'Quan trọng' },
+            { name: 'Database Backup & Recovery', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Business Analyst - BA', nameVN: 'Chuyên viên phân tích nghiệp vụ', icon: '📋',
+          reqSkills: [
+            { name: 'System Analysis', importance: 'Bắt buộc' },
+            { name: 'Requirements Engineering', importance: 'Bắt buộc' },
+            { name: 'UML', importance: 'Bắt buộc' },
+            { name: 'BPMN', importance: 'Bắt buộc' },
+            { name: 'API Design', importance: 'Quan trọng' },
+            { name: 'SQL', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'UI/UX Designer', nameVN: 'Nhà thiết kế giao diện và trải nghiệm', icon: '🎨',
+          reqSkills: [
+            { name: 'HTML', importance: 'Bắt buộc' },
+            { name: 'CSS', importance: 'Bắt buộc' },
+            { name: 'System Design', importance: 'Bắt buộc' },
+            { name: 'Requirements Engineering', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'Project Manager', nameVN: 'Quản lý dự án', icon: '🎯',
+          reqSkills: [
+            { name: 'Continuous Integration / Continuous Deployment (CI/CD)', importance: 'Quan trọng' },
+            { name: 'System Analysis', importance: 'Bắt buộc' },
+            { name: 'Requirements Engineering', importance: 'Bắt buộc' },
+            { name: 'Git', importance: 'Quan trọng' }
+          ]
+        },
+        {
+          job: 'IT Manager', nameVN: 'Quản lý CNTT', icon: '👔',
+          reqSkills: [
+            { name: 'Enterprise Architecture', importance: 'Bắt buộc' },
+            { name: 'Cloud Architecture', importance: 'Bắt buộc' },
+            { name: 'Solution Architecture', importance: 'Bắt buộc' },
+            { name: 'Network Security', importance: 'Quan trọng' },
+            { name: 'System Administration', importance: 'Quan trọng' }
+          ]
+        }
       ],
       tourism: [
         {
