@@ -9,17 +9,43 @@ import { NavLink, Outlet, Link, useNavigate } from 'react-router-dom';
  */
 export default function CandidateLayout() {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const raw = localStorage.getItem('current_user');
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  });
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
+  // Bảo vệ Route Sinh viên / Ứng viên:
+  // Nếu phát hiện user đăng nhập có role khác 'candidate', đẩy ngay về portal tương ứng
   useEffect(() => {
     try {
       const raw = localStorage.getItem('current_user');
-      if (raw) setCurrentUser(JSON.parse(raw));
+      if (raw) {
+        const user = JSON.parse(raw);
+        setCurrentUser(user);
+
+        if (user?.role === 'employer') {
+          navigate('/employer', { replace: true });
+        } else if (user?.role === 'admin') {
+          navigate('/admin', { replace: true });
+        } else if (user?.role === 'provider') {
+          navigate('/provider', { replace: true });
+        }
+      }
     } catch (e) {
+      console.error('Lỗi khi đọc thông tin current_user trong CandidateLayout:', e);
       setCurrentUser(null);
     }
-  }, []);
+  }, [navigate]);
+
+  // Ngăn chặn render nhấp nháy giao diện ứng viên nếu là Doanh nghiệp/Admin/Provider
+  if (currentUser?.role && currentUser.role !== 'candidate') {
+    return null;
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+// ── 0. PUBLIC AUTH PAGES ──
+import LoginPage from '../pages/LoginPage';
+import RegisterPage from '../pages/RegisterPage';
+
 // ── 1. LAYOUTS ──
 import CandidateLayout from '../layouts/CandidateLayout';
 import AdminLayout from '../layouts/AdminLayout';
@@ -12,12 +16,25 @@ import AiDiagnosisPage from '../pages/candidate/AiDiagnosisPage';
 import IndustryExplorePage from '../pages/candidate/IndustryExplorePage';
 import SoftSkillsGuidePage from '../pages/candidate/SoftSkillsGuidePage';
 
+// ── 2.2 EMPLOYER PAGES (Cổng Nhà Tuyển Dụng) ──
+import EmployerDashboardPage from '../pages/employer/EmployerDashboardPage';
+import EmployerMarketSkillsPage from '../pages/employer/EmployerMarketSkillsPage';
+import EmployerJobsPage from '../pages/employer/EmployerJobsPage';
+import EmployerCandidatesPage from '../pages/employer/EmployerCandidatesPage';
+import EmployerProfilePage from '../pages/employer/EmployerProfilePage';
+
 // ── 3. ROLE PROTECTION GUARD ──
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function AppRouter() {
   return (
     <Routes>
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* 0. PUBLIC AUTH ROUTES (Không bị bọc bởi Layout hay Guard)         */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* 1. CANDIDATE PORTAL (Route: /)                                    */}
       {/* Giao diện Top Navbar ngang dành riêng cho Người Lao Động/Sinh Viên */}
@@ -66,11 +83,11 @@ export default function AppRouter() {
         }
       >
         <Route index element={<Navigate to="/employer/dashboard" replace />} />
-        <Route path="dashboard" element={<div className="p-6 bg-white rounded-xl shadow-xs">📈 Tổng Quan Tuyển Dụng Doanh Nghiệp</div>} />
-        <Route path="market-skills" element={<div className="p-6 bg-white rounded-xl shadow-xs">🌐 Kỹ Năng Thị Trường Theo Ngành</div>} />
-        <Route path="jobs" element={<div className="p-6 bg-white rounded-xl shadow-xs">📝 Quản Lý Tin Tuyển Dụng</div>} />
-        <Route path="candidates" element={<div className="p-6 bg-white rounded-xl shadow-xs">📑 Quản Lý Ứng Viên Ứng Tuyển</div>} />
-        <Route path="profile" element={<div className="p-6 bg-white rounded-xl shadow-xs">🏛️ Hồ Sơ Công Ty</div>} />
+        <Route path="dashboard" element={<EmployerDashboardPage />} />
+        <Route path="market-skills" element={<EmployerMarketSkillsPage />} />
+        <Route path="jobs" element={<EmployerJobsPage />} />
+        <Route path="candidates" element={<EmployerCandidatesPage />} />
+        <Route path="profile" element={<EmployerProfilePage />} />
       </Route>
 
       {/* ══════════════════════════════════════════════════════════════════ */}

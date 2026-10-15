@@ -22,7 +22,7 @@ export default function HeaderUserMenu({ roleBadgeText = 'Quản trị viên', d
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('current_user');
-    navigate('/login');
+    navigate('/');
   };
 
   const initialLetter = (currentUser.full_name || 'U').charAt(0).toUpperCase();
