@@ -5425,7 +5425,60 @@
 
     function handleRouting(customPath, triggerPageSwitch = true) {
       let currentPath = customPath || getNormalizedRoute();
+      
+      const userRole = String(currentUser?.role || 'guest').toLowerCase().trim().replace('userrole.', '');
+      const isGuest = !currentUser || currentUser.is_guest || userRole === 'guest';
+
       const isAdminRoute = currentPath === '/admin' || currentPath.startsWith('/admin/');
+      const isEmployerRoute = currentPath === '/employer' || currentPath.startsWith('/employer/');
+      const isProviderRoute = currentPath === '/provider' || currentPath.startsWith('/provider/');
+
+      // ── 1. GUEST / ROLE GUARD: BẢO VỆ ROUTE ỨNG VIÊN (/) ──
+      // Nếu user là Employer, Admin, Provider mà truy cập vào route '/', tự động chuyển về đúng Dashboard của họ
+      if (!isAdminRoute && !isEmployerRoute && !isProviderRoute && (currentPath === '/' || currentPath === '')) {
+        if (userRole === 'admin') {
+          navigate('/admin/dashboard', true, true);
+          return;
+        }
+        if (userRole === 'employer') {
+          navigate('/employer/dashboard', true, true);
+          return;
+        }
+        if (userRole === 'provider') {
+          navigate('/provider/gap-analytics', true, true);
+          return;
+        }
+      }
+
+      // ── 2. AUTH GUARD: BẢO VỆ ROUTE QUẢN TRỊ ADMIN (/admin) ──
+      if (isAdminRoute && userRole !== 'admin') {
+        if (isGuest) {
+          openAuthModal('login');
+          navigate('/', true, true);
+          return;
+        } else if (userRole === 'employer') {
+          navigate('/employer/dashboard', true, true);
+          return;
+        } else if (userRole === 'provider') {
+          navigate('/provider/gap-analytics', true, true);
+          return;
+        } else {
+          navigate('/', true, true);
+          return;
+        }
+      }
+
+      // ── 3. AUTH GUARD: BẢO VỆ ROUTE DOANH NGHIỆP (/employer) ──
+      if (isEmployerRoute && userRole !== 'employer' && userRole !== 'admin') {
+        if (isGuest) {
+          openAuthModal('login');
+          navigate('/', true, true);
+          return;
+        } else {
+          navigate('/', true, true);
+          return;
+        }
+      }
 
       const adminLayout = document.getElementById('adminLayout');
       const publicNavbar = document.getElementById('publicNavbar');
@@ -5439,8 +5492,8 @@
         document.body.prepend(publicNavbar);
       }
 
-      if (isAdminRoute) {
-        // ── 1. GIAO DIỆN ADMIN (Sidebar xanh lá + Topbar admin) ──
+      if (isAdminRoute || isEmployerRoute || isProviderRoute) {
+        // ── GIAO DIỆN QUẢN TRỊ / DOANH NGHIỆP / ĐÀO TẠO (Sidebar + Topbar) ──
         document.body.classList.remove('candidate-purple-theme');
         if (publicLayout) publicLayout.style.display = 'none';
         if (adminLayout) adminLayout.style.display = 'block';
@@ -5454,18 +5507,29 @@
         }
 
         if (triggerPageSwitch) {
-          const clean = currentPath.replace(/^\/admin\/?/, '');
-          const parts = clean.split('/').filter(Boolean);
-          let subPage = parts[0] || 'dashboard';
-          if (subPage === 'jobs') subPage = 'employers';
-          if (subPage === 'system') subPage = 'admin';
-          if (subPage === 'learning') subPage = 'courses';
-          if (!PAGE_LABELS[subPage]) subPage = 'dashboard';
+          let subPage = 'dashboard';
+          if (isEmployerRoute) {
+            const cleanEmp = currentPath.replace(/^\/employer\/?/, '');
+            const empPart = cleanEmp.split('/').filter(Boolean)[0] || 'jobs';
+            if (empPart === 'jobs' || empPart === 'candidates' || empPart === 'dashboard') subPage = 'employers';
+            else if (empPart === 'market-skills') subPage = 'industry';
+            else subPage = 'employers';
+          } else if (isProviderRoute) {
+            subPage = 'courses';
+          } else {
+            const clean = currentPath.replace(/^\/admin\/?/, '');
+            const parts = clean.split('/').filter(Boolean);
+            subPage = parts[0] || 'dashboard';
+            if (subPage === 'jobs') subPage = 'employers';
+            if (subPage === 'system') subPage = 'admin';
+            if (subPage === 'learning') subPage = 'courses';
+            if (!PAGE_LABELS[subPage]) subPage = 'dashboard';
+          }
 
           switchPage(subPage, null, false);
         }
       } else {
-        // ── 2. GIAO DIỆN CANDIDATE / PUBLIC (THEME TEAL KHỚP ẢNH MẪU 100%) ──
+        // ── GIAO DIỆN CANDIDATE / PUBLIC (THEME TEAL KHỚP ẢNH MẪU 100%) ──
         document.body.classList.add('candidate-purple-theme');
         if (publicLayout) publicLayout.style.display = 'none';
         if (adminLayout) adminLayout.style.display = 'block';
@@ -8154,11 +8218,12 @@
 
     function applyRoleGuards() {
       const isGuest = !currentUser || currentUser.is_guest || currentUser.role === 'guest' || currentUser.id === 0;
+      const userRole = String(currentUser?.role || 'guest').toLowerCase().trim().replace('userrole.', '');
 
       // 1. Nút "+ Đăng Tin Mới" ở Cổng Nhà Tuyển Dụng phải bị ẩn nếu role là 'candidate' HOẶC 'guest'
       const btnCreateJob = document.getElementById('btnCreateJobPosting');
       if (btnCreateJob) {
-        if (isGuest || (currentUser && currentUser.role === 'candidate')) {
+        if (isGuest || userRole === 'candidate') {
           btnCreateJob.style.display = 'none';
         } else {
           btnCreateJob.style.display = 'inline-flex';
@@ -8168,11 +8233,39 @@
       // 2. Menu "Hồ sơ của tôi" (ẩn nếu là admin hoặc guest)
       const menuMyProfile = document.getElementById('menuMyProfile');
       if (menuMyProfile) {
-        if (isGuest || (currentUser && currentUser.role === 'admin')) {
+        if (isGuest || userRole === 'admin') {
           menuMyProfile.style.display = 'none';
         } else {
           menuMyProfile.style.display = 'flex';
         }
+      }
+
+      // 3. Phân quyền các mục trên thanh Sidebar Quản Trị theo Role
+      const navWorkers = document.getElementById('nav-workers');
+      const navAdmin = document.getElementById('nav-admin');
+      const navEmployers = document.getElementById('nav-employers');
+      const navCourses = document.getElementById('nav-courses');
+      const navDashboard = document.getElementById('nav-dashboard');
+
+      if (userRole === 'employer') {
+        if (navWorkers) navWorkers.style.display = 'none';
+        if (navAdmin) navAdmin.style.display = 'none';
+        if (navEmployers) navEmployers.style.display = 'flex';
+        if (navCourses) navCourses.style.display = 'flex';
+        if (navDashboard) navDashboard.style.display = 'flex';
+      } else if (userRole === 'provider') {
+        if (navWorkers) navWorkers.style.display = 'none';
+        if (navAdmin) navAdmin.style.display = 'none';
+        if (navEmployers) navEmployers.style.display = 'none';
+        if (navCourses) navCourses.style.display = 'flex';
+        if (navDashboard) navDashboard.style.display = 'flex';
+      } else {
+        // Admin hoặc mặc định
+        if (navWorkers) navWorkers.style.display = 'flex';
+        if (navAdmin) navAdmin.style.display = 'flex';
+        if (navEmployers) navEmployers.style.display = 'flex';
+        if (navCourses) navCourses.style.display = 'flex';
+        if (navDashboard) navDashboard.style.display = 'flex';
       }
     }
 
@@ -8217,7 +8310,7 @@
           toggleRegCompanyInput();
         }
       } else if (currentUser.role === 'employer' || currentUser.role === 'admin') {
-        navigate('/admin/employers');
+        navigate('/employer/dashboard');
       } else {
         alert(`Tài khoản của bạn hiện là [${currentUser.role.toUpperCase()}]. Vui lòng sử dụng tài khoản Nhà tuyển dụng để đăng tin.`);
       }
@@ -8265,6 +8358,7 @@
       if (menu) menu.classList.remove('show');
       const pubMenu = document.getElementById('publicUserDropdown');
       if (pubMenu) pubMenu.classList.remove('show');
+      navigate('/');
       alert('Đã đăng xuất tài khoản thành công!');
     }
 
@@ -8448,7 +8542,17 @@
       const pubDemoMenu = document.getElementById('publicDemoDropdownMenu');
       if (pubDemoMenu) pubDemoMenu.style.display = 'none';
       closeAuthModal();
-      alert(`Đã kích hoạt chế độ Demo: [${currentUser.role.toUpperCase()}] - ${currentUser.full_name}`);
+
+      const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
+      if (userRole === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (userRole === 'employer') {
+        navigate('/employer/dashboard');
+      } else if (userRole === 'provider') {
+        navigate('/provider/gap-analytics');
+      } else {
+        navigate('/');
+      }
     }
 
     async function submitRegister() {
@@ -8509,6 +8613,17 @@
             applyRoleGuards();
             closeAuthModal();
             alert(`Chào mừng ${currentUser.full_name}! Bạn đã đăng nhập thành công.`);
+
+            const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
+            if (userRole === 'admin') {
+              navigate('/admin/dashboard');
+            } else if (userRole === 'employer') {
+              navigate('/employer/dashboard');
+            } else if (userRole === 'provider') {
+              navigate('/provider/gap-analytics');
+            } else {
+              navigate('/');
+            }
             return;
           } else {
             switchAuthTab('login');
@@ -8555,6 +8670,17 @@
           applyRoleGuards();
           closeAuthModal();
           alert(`Đăng nhập thành công! Xin chào ${currentUser.full_name || currentUser.username}`);
+
+          const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
+          if (userRole === 'admin') {
+            navigate('/admin/dashboard');
+          } else if (userRole === 'employer') {
+            navigate('/employer/dashboard');
+          } else if (userRole === 'provider') {
+            navigate('/provider/gap-analytics');
+          } else {
+            navigate('/');
+          }
           return;
         } else {
           const err = await res.json();

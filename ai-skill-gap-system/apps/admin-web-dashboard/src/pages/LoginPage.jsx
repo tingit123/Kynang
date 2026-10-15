@@ -49,21 +49,20 @@ export default function LoginPage() {
           localStorage.setItem('access_token', data.access_token);
         }
 
-        // 2. Lưu thông tin user
-        if (data.user) {
-          localStorage.setItem('current_user', JSON.stringify(data.user));
-        }
+        // 2. Làm sạch data trước khi lưu vào localStorage (loại bỏ tiền tố Python Enum)
+        const safeRole = String(data?.user?.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
+        const safeUser = { ...data.user, role: safeRole };
+        localStorage.setItem('current_user', JSON.stringify(safeUser));
 
-        // 3. Logic chuyển hướng (REDIRECT BẮT BUỘC CHÍNH XÁC theo role):
-        const userRole = data?.user?.role;
-        if (userRole === 'admin') {
-          navigate('/admin', { replace: true });
-        } else if (userRole === 'employer') {
-          navigate('/employer', { replace: true });
-        } else if (userRole === 'provider') {
-          navigate('/provider', { replace: true });
+        // 3. Logic chuyển hướng dựa trên safeRole
+        if (safeRole === 'admin') {
+          navigate('/admin/dashboard', { replace: true });
+        } else if (safeRole === 'employer') {
+          navigate('/employer/dashboard', { replace: true });
+        } else if (safeRole === 'provider') {
+          navigate('/provider/gap-analytics', { replace: true });
         } else {
-          navigate('/', { replace: true }); // Dành cho candidate
+          navigate('/', { replace: true });
         }
       } else {
         // Xử lý thông báo lỗi (ví dụ 401: Sai mật khẩu / email)

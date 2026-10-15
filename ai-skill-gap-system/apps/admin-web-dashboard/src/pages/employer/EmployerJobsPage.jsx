@@ -5,11 +5,17 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const INDUSTRIES = [
   'IT & Công nghệ',
   'Du lịch & Khách sạn',
-  'Logistics & XNK',
+  'Logistics & Xuất nhập khẩu',
   'Kinh tế & Tài chính',
   'Nông nghiệp công nghệ cao'
 ];
 
+/**
+ * TASK 2: Quản Lý Tin Tuyển Dụng (EmployerJobsPage.jsx)
+ * - Read: Gọi GET /api/jobs/my-jobs, render danh sách tin, hiển thị ngành, lương, tags kỹ năng.
+ * - Create: Modal đăng tin, pre-fill công ty, xử lý nhập tag kỹ năng bằng phím Enter, gọi POST /api/jobs/ và tự động load lại.
+ * - Delete: Nút xóa kèm confirm alert, gọi DELETE /api/jobs/{id}, cập nhật state bằng .filter().
+ */
 export default function EmployerJobsPage() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +29,7 @@ export default function EmployerJobsPage() {
   // Form Fields
   const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
-  const [location, setLocation] = useState('Cần Thơ');
+  const [location, setLocation] = useState('TP. Cần Thơ');
   const [industry, setIndustry] = useState('IT & Công nghệ');
   const [salaryMin, setSalaryMin] = useState('');
   const [salaryMax, setSalaryMax] = useState('');
@@ -33,15 +39,18 @@ export default function EmployerJobsPage() {
   const [skillInput, setSkillInput] = useState('');
   const [skills, setSkills] = useState([]);
 
-  // Lấy tên công ty từ current_user nếu có
+  // Lấy sẵn tên công ty từ localStorage khi mở trang
   useEffect(() => {
     try {
-      const userRaw = localStorage.getItem('current_user');
-      if (userRaw) {
-        const u = JSON.parse(userRaw);
-        if (u.company_name) setCompany(u.company_name);
+      const rawUser = localStorage.getItem('current_user');
+      if (rawUser) {
+        const parsed = JSON.parse(rawUser);
+        const defaultCompany = parsed.company_name || parsed.full_name || '';
+        setCompany(defaultCompany);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error('Lỗi đọc localStorage:', e);
+    }
   }, []);
 
   const getAuthHeaders = () => {
@@ -52,7 +61,7 @@ export default function EmployerJobsPage() {
     };
   };
 
-  // 1. Gọi API Lấy danh sách tin
+  // 2.1. Đọc danh sách tin tuyển dụng của công ty (Read)
   const fetchMyJobs = async () => {
     setLoading(true);
     setErrorMsg('');
@@ -60,17 +69,18 @@ export default function EmployerJobsPage() {
       const res = await fetch(`${API_BASE}/api/jobs/my-jobs`, {
         headers: getAuthHeaders()
       });
+
       if (res.ok) {
         const data = await res.json();
         setJobs(Array.isArray(data) ? data : []);
       } else if (res.status === 401) {
         setErrorMsg('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
       } else {
-        setErrorMsg('Không thể tải danh sách tin tuyển dụng.');
+        setErrorMsg('Không thể tải danh sách tin tuyển dụng của công ty.');
       }
     } catch (err) {
-      console.error(err);
-      setErrorMsg('Lỗi kết nối máy chủ khi tải danh sách tin.');
+      console.error('Lỗi kết nối my-jobs:', err);
+      setErrorMsg('Lỗi kết nối máy chủ API backend khi tải danh sách tin.');
     } finally {
       setLoading(false);
     }
@@ -80,15 +90,19 @@ export default function EmployerJobsPage() {
     fetchMyJobs();
   }, []);
 
-  // Xử lý thêm tag kỹ năng
+  // 2.3. Xử lý Tags Kỹ năng (Nhấn Enter hoặc bấm Thêm để đưa vào mảng skills)
   const handleAddSkill = (e) => {
-    if (e.key === 'Enter' || e.type === 'click') {
+    if (e.key === 'Enter') {
       e.preventDefault();
-      const trimmed = skillInput.trim();
-      if (trimmed && !skills.includes(trimmed)) {
-        setSkills([...skills, trimmed]);
-        setSkillInput('');
-      }
+      addCurrentSkill();
+    }
+  };
+
+  const addCurrentSkill = () => {
+    const trimmed = skillInput.trim();
+    if (trimmed && !skills.includes(trimmed)) {
+      setSkills([...skills, trimmed]);
+      setSkillInput('');
     }
   };
 
@@ -96,24 +110,26 @@ export default function EmployerJobsPage() {
     setSkills(skills.filter(s => s !== skillToRemove));
   };
 
-  // 2. Gọi API Tạo tin mới
+  // 2.4. Submit tin mới (Create)
   const handleSubmitJob = async (e) => {
     e.preventDefault();
+
     if (!title.trim() || !company.trim()) {
-      alert('Vui lòng nhập tiêu đề và tên công ty.');
+      alert('Vui lòng nhập đầy đủ tiêu đề tin và tên công ty.');
       return;
     }
 
     setSubmitting(true);
+
     const payload = {
       title: title.trim(),
       company: company.trim(),
-      location: location.trim() || 'Cần Thơ',
+      location: location.trim() || 'TP. Cần Thơ',
       industry,
       description: description.trim(),
       salary_min: salaryMin ? parseInt(salaryMin, 10) : null,
       salary_max: salaryMax ? parseInt(salaryMax, 10) : null,
-      skills
+      skills: skills
     };
 
     try {
@@ -124,32 +140,36 @@ export default function EmployerJobsPage() {
       });
 
       if (res.ok) {
-        setSuccessMsg('🎉 Đã đăng tin tuyển dụng thành công!');
+        setSuccessMsg('🎉 Đăng tin tuyển dụng thành công!');
         setIsModalOpen(false);
-        // Reset form
+
+        // Reset form (giữ lại công ty)
         setTitle('');
         setSalaryMin('');
         setSalaryMax('');
         setDescription('');
         setSkills([]);
-        // Tự động fetch lại danh sách
+        setSkillInput('');
+
+        // Tự động load lại danh sách mà không cần F5
         fetchMyJobs();
+
         setTimeout(() => setSuccessMsg(''), 4000);
       } else {
-        const err = await res.json().catch(() => ({}));
-        alert(err.detail || 'Không thể tạo tin tuyển dụng.');
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.detail || 'Không thể đăng tin tuyển dụng. Vui lòng thử lại.');
       }
     } catch (err) {
-      console.error(err);
-      alert('Lỗi kết nối khi gửi thông tin đăng tin.');
+      console.error('Lỗi khi gửi POST job:', err);
+      alert('Lỗi kết nối máy chủ khi tạo tin tuyển dụng.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  // 3. Gọi API Xóa tin
+  // 2.5. Xóa tin tuyển dụng (Delete)
   const handleDeleteJob = async (jobId, jobTitle) => {
-    const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa tin tuyển dụng "${jobTitle}" không?`);
+    const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn tin tuyển dụng: "${jobTitle}"?`);
     if (!confirmed) return;
 
     try {
@@ -159,44 +179,57 @@ export default function EmployerJobsPage() {
       });
 
       if (res.ok) {
-        setSuccessMsg('🗑️ Đã xóa tin tuyển dụng thành công.');
-        setJobs(jobs.filter(j => j.id !== jobId));
-        setTimeout(() => setSuccessMsg(''), 3000);
+        setSuccessMsg(`🗑️ Đã xóa thành công tin tuyển dụng #${jobId}.`);
+        // Dùng .filter() để loại Job đó khỏi State ngay lập tức
+        setJobs(prevJobs => prevJobs.filter(j => j.id !== jobId));
+        setTimeout(() => setSuccessMsg(''), 3500);
       } else {
-        alert('Không thể xóa tin tuyển dụng này.');
+        const errData = await res.json().catch(() => ({}));
+        alert(errData.detail || 'Không thể xóa tin tuyển dụng này.');
       }
     } catch (err) {
-      console.error(err);
-      alert('Lỗi kết nối khi xóa tin.');
+      console.error('Lỗi khi gọi DELETE job:', err);
+      alert('Lỗi mạng khi xóa tin tuyển dụng.');
     }
+  };
+
+  const formatSalary = (min, max) => {
+    if (!min && !max) return 'Thỏa thuận';
+    if (min && !max) return `Từ ${(min / 1000000).toFixed(0)} triệu VNĐ`;
+    if (!min && max) return `Lên tới ${(max / 1000000).toFixed(0)} triệu VNĐ`;
+    return `${(min / 1000000).toFixed(0)} - ${(max / 1000000).toFixed(0)} triệu VNĐ`;
   };
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
+      {/* ── HEADER TRANG VÀ NÚT TẠO TIN ── */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-800 flex items-center gap-2">
-            <span>📝</span> Quản Lý Tin Tuyển Dụng
-          </h1>
+          <div className="flex items-center gap-2">
+            <span className="p-2 bg-sky-50 text-[#0284c7] rounded-xl text-xl">📝</span>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
+              Quản Lý Tin Tuyển Dụng
+            </h1>
+          </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Đăng tin tìm kiếm nhân sự chất lượng cao và đồng bộ yêu cầu kỹ năng với hệ thống AI
+            Đăng tin tuyển dụng và thiết lập các kỹ năng trọng tâm để AI so khớp với ứng viên tiềm năng
           </p>
         </div>
+
         <button
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold text-sm shadow-md shadow-sky-600/20 active:scale-95 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold text-sm shadow-md shadow-sky-600/20 active:scale-98 transition-all cursor-pointer"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
           </svg>
-          <span>Đăng tin mới</span>
+          <span>+ Đăng Tin Mới</span>
         </button>
       </div>
 
-      {/* Notifications */}
+      {/* Thông báo Thành công / Thất bại */}
       {successMsg && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold rounded-xl flex items-center gap-2 animate-in fade-in">
+        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold rounded-xl flex items-center gap-2">
           <span>{successMsg}</span>
         </div>
       )}
@@ -206,22 +239,24 @@ export default function EmployerJobsPage() {
         </div>
       )}
 
-      {/* Danh sách Tin Tuyển Dụng */}
+      {/* ── DANH SÁCH TIN TUYỂN DỤNG (READ) ── */}
       {loading ? (
-        <div className="p-12 text-center bg-white rounded-2xl border border-slate-200/80">
+        <div className="p-16 text-center bg-white rounded-2xl border border-slate-200 shadow-xs">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-sky-500 border-t-transparent mb-3" />
-          <p className="text-sm font-medium text-slate-500">Đang tải danh sách tin tuyển dụng...</p>
+          <p className="text-sm font-semibold text-slate-500">Đang tải danh sách tin tuyển dụng...</p>
         </div>
       ) : jobs.length === 0 ? (
-        <div className="p-12 text-center bg-white rounded-2xl border border-slate-200/80">
-          <div className="text-4xl mb-3">📭</div>
-          <h3 className="text-base font-bold text-slate-700">Chưa có tin tuyển dụng nào</h3>
-          <p className="text-xs text-slate-400 mt-1 mb-4">Hãy bắt đầu tạo tin tuyển dụng đầu tiên của doanh nghiệp bạn.</p>
+        <div className="p-16 text-center bg-white rounded-2xl border border-slate-200 shadow-xs">
+          <div className="text-5xl mb-3">📭</div>
+          <h3 className="text-base font-extrabold text-slate-700">Chưa có tin tuyển dụng nào được đăng</h3>
+          <p className="text-xs text-slate-400 mt-1 mb-5">
+            Hãy bắt đầu đăng tin để tiếp cận mạng lưới ứng viên và kích hoạt chẩn đoán AI.
+          </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-[#0284c7] text-white text-xs font-bold rounded-lg hover:bg-[#0369a1] transition-colors"
+            className="px-5 py-2.5 bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-bold rounded-xl shadow-xs transition-colors"
           >
-            + Đăng tin ngay
+            + Đăng Tin Đầu Tiên
           </button>
         </div>
       ) : (
@@ -229,18 +264,18 @@ export default function EmployerJobsPage() {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="bg-white rounded-2xl p-5 border border-slate-200/80 hover:border-sky-300 hover:shadow-lg transition-all flex flex-col justify-between group"
+              className="bg-white rounded-2xl p-5 border border-slate-200 hover:border-sky-300 hover:shadow-lg transition-all duration-200 flex flex-col justify-between group"
             >
               <div>
-                {/* Header Card */}
-                <div className="flex items-start justify-between gap-2 mb-2">
+                {/* Header Card: Ngành nghề & Nút Xóa */}
+                <div className="flex items-start justify-between gap-2 mb-3">
                   <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 bg-sky-50 text-sky-700 rounded-lg border border-sky-100">
                     {job.industry || 'Ngành nghề'}
                   </span>
                   <button
                     onClick={() => handleDeleteJob(job.id, job.title)}
-                    className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
-                    title="Xóa tin này"
+                    className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                    title="Xóa tin tuyển dụng này"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -248,83 +283,90 @@ export default function EmployerJobsPage() {
                   </button>
                 </div>
 
-                {/* Title & Company */}
-                <h3 className="text-base font-extrabold text-slate-800 group-hover:text-sky-700 transition-colors line-clamp-2">
+                {/* Tiêu đề & Công ty */}
+                <h3 className="text-base font-extrabold text-slate-800 group-hover:text-[#0284c7] transition-colors line-clamp-2">
                   {job.title}
                 </h3>
-                <p className="text-xs text-slate-500 font-medium mt-1 flex items-center gap-1.5">
-                  <span>🏢 {job.company}</span>
+                <div className="text-xs text-slate-500 font-medium mt-1.5 flex items-center gap-1.5">
+                  <span className="truncate">🏢 {job.company}</span>
                   <span>•</span>
-                  <span>📍 {job.location || 'Cần Thơ'}</span>
-                </p>
-
-                {/* Salary */}
-                <div className="mt-3 text-xs font-bold text-emerald-700 bg-emerald-50/70 border border-emerald-100 px-3 py-1.5 rounded-lg inline-block">
-                  💰 {job.salary_min && job.salary_max
-                    ? `${(job.salary_min / 1000000).toFixed(0)} - ${(job.salary_max / 1000000).toFixed(0)} triệu VNĐ`
-                    : 'Thỏa thuận'}
+                  <span className="shrink-0">📍 {job.location || 'TP. Cần Thơ'}</span>
                 </div>
 
-                {/* Description snippet */}
+                {/* Mức lương */}
+                <div className="mt-3 text-xs font-bold text-emerald-700 bg-emerald-50/80 border border-emerald-100 px-3 py-1.5 rounded-lg inline-block">
+                  💰 {formatSalary(job.salary_min, job.salary_max)}
+                </div>
+
+                {/* Mô tả tóm tắt */}
                 {job.description && (
                   <p className="mt-3 text-xs text-slate-600 line-clamp-3 leading-relaxed">
                     {job.description}
                   </p>
                 )}
 
-                {/* Skills Tags */}
+                {/* Thẻ Kỹ năng yêu cầu (Tags) */}
                 <div className="mt-4 pt-3 border-t border-slate-100">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
                     Kỹ năng yêu cầu:
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {job.skills && job.skills.length > 0 ? (
-                      job.skills.map((s, idx) => (
+                      job.skills.map((skill, idx) => (
                         <span
                           key={idx}
                           className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200"
                         >
-                          {s}
+                          {skill}
                         </span>
                       ))
                     ) : (
-                      <span className="text-[11px] text-slate-400 italic">Chưa gắn tag kỹ năng</span>
+                      <span className="text-[11px] text-slate-400 italic">Chưa gắn thẻ kỹ năng</span>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* Footer */}
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+              {/* Footer Thẻ */}
+              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Mã tin: #{job.id}</span>
-                <span className="font-semibold text-sky-600">Đang tuyển</span>
+                <span className="font-bold text-emerald-600 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Đang mở tuyển
+                </span>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* ── MODAL ĐĂNG TIN MỚI ── */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* ── MODAL FORM ĐĂNG TIN MỚI (CREATE) ──                    */}
+      {/* ══════════════════════════════════════════════════════════ */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-100 p-6 sm:p-8">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto border border-slate-100 p-6 sm:p-8">
+            {/* Header Modal */}
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-6">
               <div>
                 <h2 className="text-xl font-black text-slate-800">
                   ✨ Đăng Tin Tuyển Dụng Mới
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">Điền chi tiết yêu cầu công việc để ứng viên nộp hồ sơ</p>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Điền các thông số công việc để hệ thống AI hỗ trợ tìm kiếm ứng viên chuẩn xác
+                </p>
               </div>
               <button
+                type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 flex items-center justify-center transition-colors cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
             <form onSubmit={handleSubmitJob} className="space-y-4">
-              {/* Tiêu đề */}
+              {/* Tiêu đề tin */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
                   Tiêu đề công việc <span className="text-rose-500">*</span>
@@ -332,14 +374,14 @@ export default function EmployerJobsPage() {
                 <input
                   type="text"
                   required
-                  placeholder="Ví dụ: Kỹ sư Lập trình Backend Python (FastAPI/Django)"
+                  placeholder="Ví dụ: Lập trình viên Backend Python (FastAPI/Django)"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                 />
               </div>
 
-              {/* Công ty & Địa điểm */}
+              {/* Tên công ty & Địa điểm */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
@@ -351,7 +393,7 @@ export default function EmployerJobsPage() {
                     placeholder="Tên doanh nghiệp của bạn"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                   />
                 </div>
                 <div>
@@ -360,40 +402,43 @@ export default function EmployerJobsPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Ví dụ: Ninh Kiều, Cần Thơ"
+                    placeholder="Ví dụ: TP. Cần Thơ / Hybrid"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                   />
                 </div>
               </div>
 
-              {/* Ngành nghề & Mức lương */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
-                    Ngành nghề <span className="text-rose-500">*</span>
-                  </label>
-                  <select
-                    value={industry}
-                    onChange={(e) => setIndustry(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15 bg-white"
-                  >
-                    {INDUSTRIES.map((ind, idx) => (
-                      <option key={idx} value={ind}>{ind}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* Ngành nghề */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  Ngành nghề trọng tâm <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm font-medium focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15 bg-white cursor-pointer"
+                >
+                  {INDUSTRIES.map((ind) => (
+                    <option key={ind} value={ind}>{ind}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Mức lương (Min/Max) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
                     Lương tối thiểu (VNĐ)
                   </label>
                   <input
                     type="number"
-                    placeholder="10000000"
+                    step="1000000"
+                    placeholder="Ví dụ: 10000000"
                     value={salaryMin}
                     onChange={(e) => setSalaryMin(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                   />
                 </div>
                 <div>
@@ -402,88 +447,89 @@ export default function EmployerJobsPage() {
                   </label>
                   <input
                     type="number"
-                    placeholder="25000000"
+                    step="1000000"
+                    placeholder="Ví dụ: 25000000"
                     value={salaryMax}
                     onChange={(e) => setSalaryMax(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                   />
                 </div>
               </div>
 
-              {/* Input Kỹ năng dạng Tags */}
+              {/* Kỹ năng yêu cầu (Tag Input với phím Enter) */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
-                  Kỹ năng yêu cầu (Nhập và nhấn Enter để thêm)
+                  Kỹ năng yêu cầu (Gõ và nhấn Enter để thêm)
                 </label>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                   <input
                     type="text"
-                    placeholder="Ví dụ: Python, Docker, SQL, Tiếng Anh..."
+                    placeholder="Ví dụ: Python, Docker, SQL, Giao tiếp..."
                     value={skillInput}
                     onChange={(e) => setSkillInput(e.target.value)}
                     onKeyDown={handleAddSkill}
-                    className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                    className="flex-1 px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                   />
                   <button
                     type="button"
-                    onClick={handleAddSkill}
-                    className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-colors"
+                    onClick={addCurrentSkill}
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-colors cursor-pointer"
                   >
                     + Thêm
                   </button>
                 </div>
+
                 {/* Danh sách Tags đã thêm */}
-                <div className="flex flex-wrap gap-1.5 mt-2.5">
-                  {skills.map((s, idx) => (
-                    <span
-                      key={idx}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 text-sky-800 text-xs font-bold rounded-full border border-sky-200"
-                    >
-                      {s}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveSkill(s)}
-                        className="text-sky-500 hover:text-rose-600 font-bold"
+                {skills.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2.5 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                    {skills.map((skill, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-[#0284c7] text-white shadow-2xs"
                       >
-                        ✕
-                      </button>
-                    </span>
-                  ))}
-                  {skills.length === 0 && (
-                    <span className="text-xs text-slate-400 italic">Chưa có kỹ năng nào được gắn</span>
-                  )}
-                </div>
+                        <span>{skill}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveSkill(skill)}
+                          className="hover:text-rose-200 font-black text-xs leading-none"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Mô tả công việc */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
-                  Mô tả công việc & Yêu cầu chi tiết
+                  Mô tả công việc chi tiết
                 </label>
                 <textarea
-                  rows={4}
-                  placeholder="Mô tả các trách nhiệm chính, quyền lợi, chế độ đãi ngộ..."
+                  rows="4"
+                  placeholder="Mô tả trách nhiệm công việc, quyền lợi, chế độ đãi ngộ..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-sky-500 focus:ring-3 focus:ring-sky-500/15"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0284c7] focus:ring-3 focus:ring-sky-500/15"
                 />
               </div>
 
-              {/* Actions */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+              {/* Nút hành động Submit */}
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition-colors"
+                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 transition-colors cursor-pointer"
                 >
-                  Hủy
+                  Hủy bỏ
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-sm font-bold shadow-md shadow-sky-600/20 active:scale-95 transition-all disabled:opacity-60"
+                  className="px-6 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold text-xs shadow-md shadow-sky-600/20 active:scale-98 transition-all cursor-pointer disabled:opacity-60 flex items-center gap-2"
                 >
-                  {submitting ? 'Đang tạo tin...' : 'Đăng Tin Ngay'}
+                  {submitting ? 'Đang đăng tin...' : 'Hoàn Tất Đăng Tin'}
                 </button>
               </div>
             </form>

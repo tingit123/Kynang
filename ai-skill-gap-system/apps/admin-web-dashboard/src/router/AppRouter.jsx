@@ -11,55 +11,80 @@ import AdminLayout from '../layouts/AdminLayout';
 import EmployerLayout from '../layouts/EmployerLayout';
 import ProviderLayout from '../layouts/ProviderLayout';
 
-// ── 2. CANDIDATE PAGES (3 Trang Bóc Tách Chuyên Biệt) ──
+// ── 2. CANDIDATE PAGES (Các trang chức năng Ứng viên / Sinh viên) ──
 import AiDiagnosisPage from '../pages/candidate/AiDiagnosisPage';
 import IndustryExplorePage from '../pages/candidate/IndustryExplorePage';
 import SoftSkillsGuidePage from '../pages/candidate/SoftSkillsGuidePage';
 
-// ── 2.2 EMPLOYER PAGES (Cổng Nhà Tuyển Dụng) ──
+// ── 3. EMPLOYER PAGES (Cổng Nhà Tuyển Dụng) ──
 import EmployerDashboardPage from '../pages/employer/EmployerDashboardPage';
 import EmployerMarketSkillsPage from '../pages/employer/EmployerMarketSkillsPage';
 import EmployerJobsPage from '../pages/employer/EmployerJobsPage';
 import EmployerCandidatesPage from '../pages/employer/EmployerCandidatesPage';
 import EmployerProfilePage from '../pages/employer/EmployerProfilePage';
 
-// ── 3. ROLE PROTECTION GUARD ──
-import ProtectedRoute from '../components/ProtectedRoute';
+// ── 4. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
+import AuthGuard from '../components/guards/AuthGuard';
+import GuestGuard from '../components/guards/GuestGuard';
 
 export default function AppRouter() {
   return (
     <Routes>
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* 0. PUBLIC AUTH ROUTES (Không bị bọc bởi Layout hay Guard)         */}
+      {/* CỤM 1: PUBLIC AUTH ROUTES (Không bị bọc bởi bất kỳ Guard nào)      */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* 1. CANDIDATE PORTAL (Route: /)                                    */}
-      {/* Giao diện Top Navbar ngang dành riêng cho Người Lao Động/Sinh Viên */}
+      {/* CỤM 2: CANDIDATE PORTAL (Dành cho Sinh viên/Người lao động/Khách)  */}
+      {/* Bọc bởi GuestGuard: Nếu Admin/Employer/Provider cố tình truy cập   */}
+      {/* sẽ lập tức bị đá về đúng Dashboard của họ                          */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <Route path="/" element={<CandidateLayout />}>
-        {/* Trang 1: Chẩn đoán AI & Lộ trình (Trang chủ ứng viên) */}
+      <Route
+        path="/"
+        element={
+          <GuestGuard>
+            <CandidateLayout />
+          </GuestGuard>
+        }
+      >
         <Route index element={<AiDiagnosisPage />} />
         <Route path="ai-diagnosis" element={<AiDiagnosisPage />} />
-
-        {/* Trang 2: Khám Phá Ngành Nghề (Lương & Kỹ năng yêu cầu) */}
         <Route path="explore-industries" element={<IndustryExplorePage />} />
-
-        {/* Trang 3: Cẩm Nang Kỹ Năng Mềm (Top 10 Soft Skills & Biểu đồ Gap) */}
         <Route path="soft-skills" element={<SoftSkillsGuidePage />} />
       </Route>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* 2. ADMIN PORTAL (Route: /admin/*)                                  */}
+      {/* CỤM 3: EMPLOYER PORTAL (Route: /employer/*)                        */}
+      {/* Bọc bởi AuthGuard: Chỉ cho phép role 'employer' (hoặc 'admin')     */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <Route
+        path="/employer"
+        element={
+          <AuthGuard allowedRoles={['employer', 'admin']}>
+            <EmployerLayout />
+          </AuthGuard>
+        }
+      >
+        <Route index element={<Navigate to="/employer/dashboard" replace />} />
+        <Route path="dashboard" element={<EmployerDashboardPage />} />
+        <Route path="market-skills" element={<EmployerMarketSkillsPage />} />
+        <Route path="jobs" element={<EmployerJobsPage />} />
+        <Route path="candidates" element={<EmployerCandidatesPage />} />
+        <Route path="profile" element={<EmployerProfilePage />} />
+      </Route>
+
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* CỤM 4: ADMIN PORTAL (Route: /admin/*)                              */}
+      {/* Bọc bởi AuthGuard: Chỉ cho phép duy nhất role 'admin'              */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <Route
         path="/admin"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <AuthGuard allowedRoles={['admin']}>
             <AdminLayout />
-          </ProtectedRoute>
+          </AuthGuard>
         }
       >
         <Route index element={<Navigate to="/admin/dashboard" replace />} />
@@ -72,33 +97,15 @@ export default function AppRouter() {
       </Route>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* 3. EMPLOYER PORTAL (Route: /employer/*)                            */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <Route
-        path="/employer"
-        element={
-          <ProtectedRoute allowedRoles={['employer', 'admin']}>
-            <EmployerLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Navigate to="/employer/dashboard" replace />} />
-        <Route path="dashboard" element={<EmployerDashboardPage />} />
-        <Route path="market-skills" element={<EmployerMarketSkillsPage />} />
-        <Route path="jobs" element={<EmployerJobsPage />} />
-        <Route path="candidates" element={<EmployerCandidatesPage />} />
-        <Route path="profile" element={<EmployerProfilePage />} />
-      </Route>
-
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* 4. PROVIDER PORTAL (Route: /provider/*)                            */}
+      {/* CỤM 5: PROVIDER PORTAL (Route: /provider/*)                        */}
+      {/* Bọc bởi AuthGuard: Chỉ cho phép role 'provider' (hoặc 'admin')     */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <Route
         path="/provider"
         element={
-          <ProtectedRoute allowedRoles={['provider', 'admin']}>
+          <AuthGuard allowedRoles={['provider', 'admin']}>
             <ProviderLayout />
-          </ProtectedRoute>
+          </AuthGuard>
         }
       >
         <Route index element={<Navigate to="/provider/gap-analytics" replace />} />
@@ -107,7 +114,7 @@ export default function AppRouter() {
         <Route path="analytics" element={<div className="p-6 bg-white rounded-xl shadow-xs">🖱️ Thống Kê Lượt Click &amp; Quan Tâm</div>} />
       </Route>
 
-      {/* Fallback */}
+      {/* Fallback điều hướng về trang chủ */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
