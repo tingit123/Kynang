@@ -5,6 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>SkillGap AI – Hệ Thống Phân Tích Kỹ Năng Lao Động | Cần Thơ</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <meta name="description"
     content="Hệ thống AI phân tích khoảng cách kỹ năng lao động, gợi ý nghề nghiệp và khóa học phù hợp." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1830,7 +1833,25 @@
     }
 
     .modal-overlay.open {
-      display: flex
+      display: flex;
+    }
+
+    #authModal {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 100020 !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      backdrop-filter: blur(4px) !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    #authModal:not(.open) {
+      display: none !important;
+    }
+    #authModal.open {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
 
     .modal {
@@ -5884,6 +5905,8 @@
         </div>
       </div>
     </main>
+  </div>
+
   <!-- ══ MODAL: CANDIDATE APPLY JOB ══ -->
   <div class="modal-overlay" id="candidateApplyModal" onclick="if(event.target===this) closeCandidateApplyModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:16px">
     <div style="background:#ffffff;border-radius:24px;max-width:540px;width:100%;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,0.3);position:relative">
@@ -6283,17 +6306,11 @@
     </div>
   </div>
 
-  <!-- ══ GIAO DIỆN HALLOWEEN AUTH MODAL (ĐĂNG NHẬP & ĐĂNG KÝ HALLOWEEN) ══ -->
-  <div id="halloweenAuthModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;background:rgba(5,15,15,0.95);backdrop-filter:blur(8px);align-items:center;justify-content:center;transition:all 0.3s ease">
-    <!-- Nút Đóng Modal Halloween (✕) góc trên bên phải -->
-    <button onclick="closeHalloweenAuthModal()" title="Đóng giao diện Halloween và quay lại Dashboard" style="position:fixed;top:18px;right:24px;z-index:1000000;background:rgba(20,20,30,0.85);border:2px solid rgba(255,165,0,0.6);color:#ffffff;width:44px;height:44px;border-radius:50%;font-size:22px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.7);transition:all 0.25s ease" onmouseover="this.style.background='rgba(239,68,68,0.9)';this.style.transform='scale(1.1) rotate(90deg)'" onmouseout="this.style.background='rgba(20,20,30,0.85)';this.style.transform='scale(1) rotate(0deg)'">
-      ✕
-    </button>
-    <iframe id="halloweenAuthFrame" src="about:blank" style="width:100vw;height:100vh;border:none;display:block"></iframe>
-  </div>
+  <!-- ══ GIAO DIỆN HALLOWEEN AUTH MODAL (ĐÃ VÔ HIỆU HÓA HOÀN TOÀN ĐỂ SỬ DỤNG AUTH MODAL CHUẨN CỦA HỆ THỐNG) ══ -->
+  <div id="halloweenAuthModal" style="display:none !important;pointer-events:none !important;width:0 !important;height:0 !important;overflow:hidden;position:fixed;top:0;left:0;z-index:-1"></div>
 
   <!-- ══ MODAL: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ / SWITCH ROLE) ══ -->
-  <div class="modal-overlay" id="authModal" style="z-index: 100020;">
+  <div class="modal-overlay" id="authModal" onclick="if(event.target===this) closeAuthModal()" style="z-index: 100020;">
     <div class="modal" style="width:min(460px,95vw);padding:24px 26px">
       <button class="modal-close" onclick="closeAuthModal()"><svg viewBox="0 0 24 24" fill="none">
           <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -13329,7 +13346,6 @@
     }
 
     function openAuthModal(tab = 'login', role = '') {
-      // Đóng modal Halloween nếu đang mở và khôi phục thanh cuộn
       closeHalloweenAuthModal();
 
       const modal = document.getElementById('authModal');
@@ -13347,6 +13363,7 @@
           switchAuthTab('login');
         }
         modal.classList.add('open');
+        modal.style.display = 'flex';
       }
       document.body.style.overflow = '';
       const menu = document.getElementById('userDropdownMenu');
@@ -13360,15 +13377,7 @@
     }
 
     function openHalloweenAuthModal(tab = 'login', role = '') {
-      const halloweenModal = document.getElementById('halloweenAuthModal');
-      const frame = document.getElementById('halloweenAuthFrame');
-      if (halloweenModal && frame) {
-        const viewParam = (tab === 'register') ? 'register' : 'login';
-        const roleParam = role ? `&role=${encodeURIComponent(role)}` : '';
-        frame.src = `http://localhost:8081/?view=${viewParam}${roleParam}&t=${Date.now()}`;
-        halloweenModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      }
+      openAuthModal(tab, role);
     }
 
     function closeHalloweenAuthModal() {
@@ -13382,7 +13391,11 @@
     function closeAuthModal() {
       closeHalloweenAuthModal();
       const modal = document.getElementById('authModal');
-      if (modal) modal.classList.remove('open');
+      if (modal) {
+        modal.classList.remove('open');
+        modal.style.display = 'none';
+      }
+      document.body.style.overflow = '';
     }
 
     // Lắng nghe sự kiện đăng nhập / đăng ký thành công từ Giao diện Halloween
