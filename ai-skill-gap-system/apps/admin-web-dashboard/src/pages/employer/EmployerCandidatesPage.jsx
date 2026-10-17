@@ -52,10 +52,41 @@ const CANDIDATES_DATA = [
 ];
 
 export default function EmployerCandidatesPage() {
+  const [candidatesList, setCandidatesList] = useState(CANDIDATES_DATA);
   const [selectedJob, setSelectedJob] = useState('Python Backend Developer · 34 hồ sơ');
   const [selectedCandidate, setSelectedCandidate] = useState(CANDIDATES_DATA[1]); // Default Nguyen Van An as in mockup
   const [invitedList, setInvitedList] = useState([]);
   const [rejectedList, setRejectedList] = useState([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('global_job_applications');
+      if (raw) {
+        const apps = JSON.parse(raw);
+        if (Array.isArray(apps) && apps.length > 0) {
+          const formatted = apps.map((a, idx) => ({
+            id: a.id || `app_${idx}`,
+            name: a.candidate_name,
+            email: a.candidate_email,
+            appliedDate: a.applied_date || 'Hôm nay',
+            matchScore: a.match_score || 67,
+            title: 'Sinh viên CNTT năm 4 · Đại học Cần Thơ',
+            skillsOwned: a.skills_owned || ['Python', 'SQL', 'Git', 'REST API'],
+            skillsMissing: a.skills_missing || ['FastAPI', 'Docker'],
+            aiComment: a.note
+              ? `Lời nhắn từ ứng viên: "${a.note}". Hệ thống đánh giá độ khớp kỹ năng đạt ${a.match_score}%.`
+              : 'Ứng viên nắm chắc nền tảng kỹ năng cốt lõi. Hồ sơ được AI đối soát trực tiếp.'
+          }));
+
+          const existingEmails = new Set(formatted.map((c) => c.email));
+          const remaining = CANDIDATES_DATA.filter((c) => !existingEmails.has(c.email));
+          const merged = [...formatted, ...remaining];
+          setCandidatesList(merged);
+          setSelectedCandidate(merged[0]);
+        }
+      }
+    } catch (e) {}
+  }, [selectedJob]);
 
   const handleInvite = (candidate) => {
     setInvitedList((prev) => [...prev, candidate.id]);
@@ -114,7 +145,7 @@ export default function EmployerCandidatesPage() {
           </div>
 
           <div className="space-y-3">
-            {CANDIDATES_DATA.map((c) => {
+            {candidatesList.map((c) => {
               const isSelected = selectedCandidate.id === c.id;
               const isInvited = invitedList.includes(c.id);
               const isRejected = rejectedList.includes(c.id);

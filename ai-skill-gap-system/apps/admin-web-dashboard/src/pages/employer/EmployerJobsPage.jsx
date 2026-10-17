@@ -166,16 +166,24 @@ export default function EmployerJobsPage() {
         const newJob = await res.json();
         setSuccessMsg('Đăng tin tuyển dụng mới thành công!');
         setJobs([newJob, ...jobs]);
-        // Reset or scroll
+        try {
+          const raw = localStorage.getItem('global_job_postings');
+          const list = raw ? JSON.parse(raw) : [];
+          list.unshift(newJob);
+          localStorage.setItem('global_job_postings', JSON.stringify(list));
+        } catch (e) {}
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         // Mock fallback insertion if demo mode
         const mockNewJob = {
           id: Date.now(),
           title: payload.title,
+          company_name: payload.company,
           location: payload.location,
+          industry: payload.industry,
           salary_min: payload.salary_min,
           salary_max: payload.salary_max,
+          description: payload.description,
           posted_date: new Date().toLocaleDateString('vi-VN'),
           status: 'open',
           statusLabel: 'Đang mở',
@@ -183,15 +191,24 @@ export default function EmployerJobsPage() {
           applications_count: 0
         };
         setJobs([mockNewJob, ...jobs]);
+        try {
+          const raw = localStorage.getItem('global_job_postings');
+          const list = raw ? JSON.parse(raw) : [];
+          list.unshift(mockNewJob);
+          localStorage.setItem('global_job_postings', JSON.stringify(list));
+        } catch (e) {}
         setSuccessMsg('Đăng tin tuyển dụng mới thành công!');
       }
     } catch (err) {
       const mockNewJob = {
         id: Date.now(),
         title: payload.title,
+        company_name: payload.company,
         location: payload.location,
+        industry: payload.industry,
         salary_min: payload.salary_min,
         salary_max: payload.salary_max,
+        description: payload.description,
         posted_date: new Date().toLocaleDateString('vi-VN'),
         status: 'open',
         statusLabel: 'Đang mở',
@@ -199,6 +216,12 @@ export default function EmployerJobsPage() {
         applications_count: 0
       };
       setJobs([mockNewJob, ...jobs]);
+      try {
+        const raw = localStorage.getItem('global_job_postings');
+        const list = raw ? JSON.parse(raw) : [];
+        list.unshift(mockNewJob);
+        localStorage.setItem('global_job_postings', JSON.stringify(list));
+      } catch (e) {}
       setSuccessMsg('Đăng tin tuyển dụng mới thành công!');
     } finally {
       setSubmitting(false);
@@ -212,6 +235,13 @@ export default function EmployerJobsPage() {
         method: 'DELETE',
         headers: getAuthHeaders()
       });
+    } catch (e) {}
+    try {
+      const raw = localStorage.getItem('global_job_postings');
+      if (raw) {
+        const list = JSON.parse(raw);
+        localStorage.setItem('global_job_postings', JSON.stringify(list.filter((j) => j.id !== id)));
+      }
     } catch (e) {}
     setJobs(jobs.filter((j) => j.id !== id));
   };

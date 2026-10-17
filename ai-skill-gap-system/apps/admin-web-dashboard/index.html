@@ -3606,6 +3606,159 @@
             <div class="chart-wrap"><canvas id="industryPieChart"></canvas></div>
           </div>
         </div>
+
+        <!-- ══ SECTION: XU HƯỚNG CHUYỂN DỊCH NGÀNH NGHỀ QUA CÁC NĂM (2024 - 2027) ══ -->
+        <div class="card" id="cardYearShiftTrend" style="margin-top:24px; padding:28px">
+          <!-- Header with Title, Subtitle and Year Selector Pills -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:16px">
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px">
+                <span style="font-size:22px">📈</span>
+                <h2 style="font-size:18px; font-weight:800; color:var(--text); margin:0">
+                  Xu Hướng Chuyển Dịch Ngành Nghề Qua Các Năm
+                </h2>
+                <span class="chip green" style="font-size:11px; padding:3px 10px; font-weight:700">AI Shift Analytics</span>
+              </div>
+              <p style="font-size:13px; color:var(--text2); margin:0">
+                Phân tích động thái dịch chuyển thị phần tuyển dụng &amp; nhu cầu nhân lực tại Cần Thơ &amp; ĐBSCL
+              </p>
+            </div>
+
+            <!-- Time Period Selector Pills -->
+            <div style="display:flex; align-items:center; gap:6px; background:var(--bg3); padding:4px; border-radius:9999px; border:1px solid var(--border)">
+              <button class="shift-period-pill" onclick="selectShiftPeriod('2024-2025', this)" style="padding:6px 14px; border-radius:9999px; border:none; font-size:12px; font-weight:600; cursor:pointer; background:none; color:var(--text2); transition:all 0.15s">
+                2024 – 2025
+              </button>
+              <button class="shift-period-pill active" onclick="selectShiftPeriod('2025-2026', this)" style="padding:6px 18px; border-radius:9999px; border:none; font-size:12px; font-weight:800; cursor:pointer; background:var(--primary); color:#ffffff; box-shadow:0 2px 8px rgba(15,163,158,0.3); transition:all 0.15s">
+                2025 – 2026 (Hiện tại)
+              </button>
+              <button class="shift-period-pill" onclick="selectShiftPeriod('2026-2027', this)" style="padding:6px 14px; border-radius:9999px; border:none; font-size:12px; font-weight:600; cursor:pointer; background:none; color:var(--text2); transition:all 0.15s">
+                2026 – 2027 (Dự báo)
+              </button>
+            </div>
+          </div>
+
+          <!-- AI Shift Summary Banner (Headline Alert) -->
+          <div id="shiftAiSummaryBanner" style="background:linear-gradient(135deg, rgba(15,163,158,0.08) 0%, rgba(16,185,129,0.04) 100%); border:1.5px solid rgba(15,163,158,0.25); border-radius:18px; padding:18px 22px; margin-bottom:24px">
+            <div style="display:flex; align-items:flex-start; gap:12px">
+              <span style="font-size:24px; line-height:1">💡</span>
+              <div style="flex:1">
+                <div style="font-size:12.5px; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:4px">
+                  KẾT LUẬN CHUYỂN DỊCH TỪ HỆ THỐNG AI (<span id="shiftBannerPeriodText">Giai đoạn 2025 – 2026</span>)
+                </div>
+                <div id="shiftBannerDescription" style="font-size:13.5px; color:var(--text); line-height:1.6; font-weight:500">
+                  Thị trường lao động TP. Cần Thơ &amp; ĐBSCL đang chuyển dịch mạnh mẽ sang <strong>IT &amp; Công nghệ số (+35.1%)</strong> và <strong>Logistics (+26.8%)</strong>. Ngược lại, ngành <strong>Kinh tế &amp; Kế toán truyền thống sụt giảm tỷ trọng (-42.2%)</strong> do tác động của tự động hóa và AI.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Highlight Stat Cards -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:14px; margin-bottom:26px" id="shiftStatCardsGrid">
+            <!-- Card 1: Ngành chuyển dịch mạnh nhất -->
+            <div style="background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:16px; display:flex; flex-direction:column; justify-content:space-between">
+              <div style="font-size:11px; font-weight:700; color:#059669; text-transform:uppercase; margin-bottom:4px">🚀 DẪN ĐẦU CHUYỂN DỊCH</div>
+              <div style="font-size:16px; font-weight:800; color:var(--text); margin-bottom:4px" id="shiftStatTopWinnerName">IT &amp; Công nghệ</div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:6px">
+                <span style="font-size:24px; font-weight:900; color:#059669" id="shiftStatTopWinnerGrowth">+35.1%</span>
+                <span style="font-size:12px; color:var(--text3)">tăng trưởng việc làm</span>
+              </div>
+              <div style="font-size:11.5px; color:var(--text2)" id="shiftStatTopWinnerSub">Tỷ trọng tăng từ 28.5% → 38.5%</div>
+            </div>
+
+            <!-- Card 2: Ngành tăng tốc thứ 2 -->
+            <div style="background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:16px; display:flex; flex-direction:column; justify-content:space-between">
+              <div style="font-size:11px; font-weight:700; color:#d97706; text-transform:uppercase; margin-bottom:4px">🚢 ĐÓN SÓNG HẠ TẦNG</div>
+              <div style="font-size:16px; font-weight:800; color:var(--text); margin-bottom:4px" id="shiftStatRunnerUpName">Logistics &amp; XNK</div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:6px">
+                <span style="font-size:24px; font-weight:900; color:#d97706" id="shiftStatRunnerUpGrowth">+26.8%</span>
+                <span style="font-size:12px; color:var(--text3)">tăng trưởng</span>
+              </div>
+              <div style="font-size:11.5px; color:var(--text2)" id="shiftStatRunnerUpSub">Tỷ trọng tăng từ 19.0% → 24.1%</div>
+            </div>
+
+            <!-- Card 3: Ngành đột phá công nghệ mới -->
+            <div style="background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:16px; display:flex; flex-direction:column; justify-content:space-between">
+              <div style="font-size:11px; font-weight:700; color:#7c3aed; text-transform:uppercase; margin-bottom:4px">🌱 BỨT PHÁ CÔNG NGHỆ CAO</div>
+              <div style="font-size:16px; font-weight:800; color:var(--text); margin-bottom:4px" id="shiftStatAgriName">Nông nghiệp CNC</div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:6px">
+                <span style="font-size:24px; font-weight:900; color:#7c3aed" id="shiftStatAgriGrowth">+73.3%</span>
+                <span style="font-size:12px; color:var(--text3)">tốc độ cao nhất</span>
+              </div>
+              <div style="font-size:11.5px; color:var(--text2)" id="shiftStatAgriSub">Thị phần tăng từ 4.5% → 7.8%</div>
+            </div>
+
+            <!-- Card 4: Ngành thu hẹp tỷ trọng -->
+            <div style="background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:16px; display:flex; flex-direction:column; justify-content:space-between">
+              <div style="font-size:11px; font-weight:700; color:#dc2626; text-transform:uppercase; margin-bottom:4px">📉 THU HẸP DO TỰ ĐỘNG HÓA</div>
+              <div style="font-size:16px; font-weight:800; color:var(--text); margin-bottom:4px" id="shiftStatDeclinerName">Kinh tế &amp; Kế toán</div>
+              <div style="display:flex; align-items:baseline; gap:6px; margin-bottom:6px">
+                <span style="font-size:24px; font-weight:900; color:#dc2626" id="shiftStatDeclinerGrowth">-42.2%</span>
+                <span style="font-size:12px; color:var(--text3)">sụt giảm tỷ trọng</span>
+              </div>
+              <div style="font-size:11.5px; color:var(--text2)" id="shiftStatDeclinerSub">Thị phần giảm từ 27.0% → 15.6%</div>
+            </div>
+          </div>
+
+          <!-- Charts Row: Left Trend Over Years (2023-2027) + Right Share Comparison Donut/Bar -->
+          <div style="display:grid; grid-template-columns:7fr 5fr; gap:20px; margin-bottom:28px">
+            <!-- Left Chart: Multi-year Line Chart (2023 - 2027) -->
+            <div style="background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:20px">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px">
+                <div>
+                  <h3 style="font-size:15px; font-weight:800; color:var(--text); margin:0 0 2px">Đường Đi Chuyển Dịch Nhu Cầu Việc Làm (2023 – 2027)</h3>
+                  <div style="font-size:12px; color:var(--text3)">Số lượng tin tuyển dụng theo từng ngành qua các mốc thời gian</div>
+                </div>
+              </div>
+              <div style="height:280px; position:relative">
+                <canvas id="industryTrendLineChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Right Chart: Share Shift Comparison (2025 vs 2026) -->
+            <div style="background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:20px">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px">
+                <div>
+                  <h3 style="font-size:15px; font-weight:800; color:var(--text); margin:0 0 2px" id="shiftCompareChartTitle">So Sánh Cơ Cấu Tỷ Trọng (2025 vs 2026)</h3>
+                  <div style="font-size:12px; color:var(--text3)">Dòng dịch chuyển thị phần giữa các ngành kinh tế trọng điểm</div>
+                </div>
+              </div>
+              <div style="height:280px; position:relative">
+                <canvas id="industryShiftCompareChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Comparison Table -->
+          <div style="background:var(--bg2); border:1px solid var(--border); border-radius:18px; padding:20px">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border)">
+              <div>
+                <h3 style="font-size:15px; font-weight:800; color:var(--text); margin:0 0 2px">Bảng Chi Tiết Mức Độ Dịch Chuyển &amp; Nguyên Nhân Tác Động</h3>
+                <div style="font-size:12px; color:var(--text3)" id="shiftTableSubText">So sánh đối chiếu chi tiết giữa năm 2025 và năm 2026</div>
+              </div>
+              <span class="chip blue" style="font-size:11px; font-weight:700">Dữ liệu chuẩn hóa 1,000+ Job Postings</span>
+            </div>
+
+            <div style="overflow-x:auto">
+              <table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px">
+                <thead>
+                  <tr style="border-bottom:1.5px solid var(--border); font-size:11px; font-weight:800; color:var(--text3); text-transform:uppercase; letter-spacing:0.6px">
+                    <th style="padding:10px 12px">NGÀNH NGHỀ</th>
+                    <th style="padding:10px 12px; text-align:center" id="thYearFrom">NĂM 2025</th>
+                    <th style="padding:10px 12px; text-align:center" id="thYearTo">NĂM 2026</th>
+                    <th style="padding:10px 12px; text-align:center">BIẾN ĐỘNG (Δ)</th>
+                    <th style="padding:10px 12px">TRỰC QUAN DỊCH CHUYỂN TỶ TRỌNG</th>
+                    <th style="padding:10px 12px">XU HƯỚNG</th>
+                    <th style="padding:10px 12px">KỸ NĂNG &amp; ĐỘNG LỰC DỊCH CHUYỂN</th>
+                  </tr>
+                </thead>
+                <tbody id="industryShiftTableBody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- ══ PAGE: KỸ NĂNG MỀM ══ -->
@@ -3617,28 +3770,74 @@
           </div>
         </div>
 
-        <!-- 3 bảng xếp hạng -->
-        <div class="charts-grid" style="grid-template-columns:1fr 1fr 1fr">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">🏆 Top Nhu Cầu Thị Trường</div>
-              <span class="card-badge">Demand %</span>
+        <!-- ══ GỘP 3 BIỂU ĐỒ THÀNH 1 BIỂU ĐỒ CỘT + 1 BIỂU ĐỒ ĐƯỜNG XU HƯỚNG ══ -->
+        <div class="charts-grid" style="grid-template-columns:1.2fr 0.8fr;gap:20px;margin-bottom:24px">
+          <!-- CARD 1: BIỂU ĐỒ CỘT GỘP ĐỐI SÁNH 3 CHỈ SỐ -->
+          <div class="card" style="box-shadow:0 4px 20px rgba(0,0,0,0.06);border-radius:16px;border:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:16px 20px 12px;border-bottom:1px solid #f1f5f9">
+                <div>
+                  <div class="card-title" style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0f172a">
+                    <span>📊</span> Đối Sánh Kỹ Năng Nghề Theo Ngành
+                  </div>
+                  <div class="card-sub" id="softBarChartSubTitle" style="font-size:12px;color:#64748b;margin-top:2px">
+                    Đang xem Top 5 kỹ năng nghề trọng điểm · Hiện rõ tên ngành tương ứng bên dưới
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                  <!-- Nút chuyển đổi nhanh Top 5 vs Tất cả -->
+                  <button type="button" id="btnToggleSoftInline" onclick="toggleSoftSkillsInlineCount()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:8px;border:1px solid #cbd5e1;background:#f8fafc;color:#0f172a;font-size:11px;font-weight:700;cursor:pointer">
+                    <span id="btnToggleSoftInlineText">⭐ Xem Top 5 (Mặc định)</span>
+                  </button>
+                  <!-- Nút xem chi tiết mở modal rộng rãi -->
+                  <button type="button" onclick="openSoftSkillsDetailModal()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:8px;background:#0fa39e;color:#ffffff;font-size:11px;font-weight:700;border:none;cursor:pointer;box-shadow:0 2px 6px rgba(15,163,158,0.25)">
+                    <span>🔍 Xem Chi Tiết Toàn Bộ</span>
+                  </button>
+                  <!-- Nút xoay trục Cột dọc / Thanh ngang -->
+                  <button type="button" id="btnSoftBarAxis" onclick="toggleSoftBarAxis()" style="display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:8px;border:1px solid #cbd5e1;background:#ffffff;color:#475569;font-size:11px;font-weight:600;cursor:pointer">
+                    <span id="softBarAxisIcon">📊 Cột Dọc</span>
+                  </button>
+                </div>
+              </div>
+              <div class="chart-wrap" style="height:330px;padding:12px 14px 6px">
+                <canvas id="softCombinedBarChart"></canvas>
+              </div>
             </div>
-            <div class="chart-wrap" style="height:240px"><canvas id="softDemandChart"></canvas></div>
+            <!-- Thanh thông báo trạng thái dưới biểu đồ -->
+            <div style="margin:4px 16px 14px;padding:8px 12px;background:#f0fdfa;border:1px solid #ccfbf1;border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+              <div style="font-size:11.5px;color:#0f766e;font-weight:600;display:flex;align-items:center;gap:6px">
+                <span>🏷️</span>
+                <span id="softBarStatusNote">Hiển thị thoáng <strong>Top 5 kỹ năng</strong> để đọc rõ tên nghề &amp; ngành. Bấm <strong>"Xem Chi Tiết"</strong> để mở toàn cảnh 10 skill.</span>
+              </div>
+              <button type="button" onclick="openSoftSkillsDetailModal()" style="font-size:11px;font-weight:700;color:#0d9488;background:transparent;border:none;cursor:pointer;text-decoration:underline">
+                Mở rộng toàn màn hình ↗
+              </button>
+            </div>
           </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">👥 Lao Động Đang Có</div>
-              <span class="card-badge green">Supply %</span>
+
+          <!-- CARD 2: BIỂU ĐỒ ĐƯỜNG XU HƯỚNG BIẾN ĐỘNG THEO THỜI GIAN -->
+          <div class="card" style="box-shadow:0 4px 20px rgba(0,0,0,0.06);border-radius:16px;border:1px solid rgba(0,0,0,0.06)">
+            <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:16px 20px 12px;border-bottom:1px solid #f1f5f9">
+              <div>
+                <div class="card-title" style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#0f172a">
+                  <span>📈</span> Xu Hướng Biến Động Theo Quý (2025 – 2026)
+                </div>
+                <div class="card-sub" id="softTrendSubTitle" style="font-size:12px;color:#64748b;margin-top:2px">
+                  Quỹ đạo biến động độ thiếu hụt (Gap %) qua 7 quý gần nhất
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:4px">
+                <button type="button" id="btnSoftTrendGap" onclick="switchSoftTrendMetric('gap')" style="padding:4px 10px;font-size:11px;font-weight:700;border-radius:20px;border:1px solid #7c3aed;background:#7c3aed;color:#ffffff;cursor:pointer;transition:all 0.2s">
+                  Thiếu Hụt (Gap %)
+                </button>
+                <button type="button" id="btnSoftTrendDemand" onclick="switchSoftTrendMetric('demand')" style="padding:4px 10px;font-size:11px;font-weight:700;border-radius:20px;border:1px solid #cbd5e1;background:#ffffff;color:#64748b;cursor:pointer;transition:all 0.2s">
+                  Nhu Cầu (Demand %)
+                </button>
+              </div>
             </div>
-            <div class="chart-wrap" style="height:240px"><canvas id="softSupplyChart"></canvas></div>
-          </div>
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">⚡ Kỹ Năng Thiếu Hụt</div>
-              <span class="card-badge red">Gap %</span>
+            <div class="chart-wrap" style="height:330px;padding:12px 16px 14px">
+              <canvas id="softTrendLineChart"></canvas>
             </div>
-            <div class="chart-wrap" style="height:240px"><canvas id="softGapChart"></canvas></div>
           </div>
         </div>
 
@@ -3646,15 +3845,15 @@
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">Bảng Xếp Hạng Chi Tiết – Kỹ Năng Mềm</div>
-              <div class="card-sub">Sắp xếp theo Demand giảm dần</div>
+              <div class="card-title">Bảng Xếp Hạng Chi Tiết – Kỹ Năng Mềm Theo Ngành</div>
+              <div class="card-sub">Sắp xếp theo Demand giảm dần · Gắn liền với các ngành nghề trọng điểm</div>
             </div>
             <div class="search-box">
               <svg viewBox="0 0 24 24" fill="none">
                 <circle cx="11" cy="11" r="8" />
                 <path d="M21 21l-4.35-4.35" />
               </svg>
-              <input type="text" placeholder="Tìm kỹ năng..." oninput="filterSoftTable(this.value)" />
+              <input type="text" placeholder="Tìm kỹ năng hoặc ngành..." oninput="filterSoftTable(this.value)" />
             </div>
           </div>
           <div class="table-wrap">
@@ -3663,6 +3862,7 @@
                 <tr>
                   <th style="width:50px">#</th>
                   <th>Kỹ Năng Mềm</th>
+                  <th>Ngành Nghề Áp Dụng</th>
                   <th>Nhu Cầu (Demand)</th>
                   <th>Cung Hiện Có (Supply)</th>
                   <th>Thiếu Hụt (Gap)</th>
@@ -3951,6 +4151,107 @@
 
             <!-- Container for job cards and spotlight analysis -->
             <div id="recJobCards" style="display:flex;flex-direction:column;gap:16px"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ══ PAGE: VIỆC LÀM & ĐỐI CHIẾU KỸ NĂNG (THEME TEAL SẪM KHỚP 100% MOCKUP) ══ -->
+      <div class="page" id="page-candidate-jobs">
+        <!-- Hero Header -->
+        <div style="text-align:center;margin-bottom:28px;padding-top:10px">
+          <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(94,234,212,0.15);border:1px solid rgba(94,234,212,0.3);color:#5eead4;padding:4px 14px;border-radius:9999px;font-size:11.5px;font-weight:700;margin-bottom:12px">
+            ✨ AI Skill Gap Matching Engine
+          </div>
+          <h1 style="font-size:36px;font-weight:800;color:#ffffff;margin-bottom:8px;letter-spacing:-0.5px;font-family:'Be Vietnam Pro', system-ui, sans-serif;line-height:1.25">
+            Việc làm tại <span style="color:#48e5c2">Cần Thơ &amp; ĐBSCL</span>
+          </h1>
+          <p style="color:#d1fae5;font-size:14px;max-width:640px;margin:0 auto;line-height:1.6;font-weight:500;font-family:'Be Vietnam Pro', system-ui, sans-serif">
+            Khám phá hàng trăm cơ hội việc làm thực tế được đối chiếu kỹ năng với hồ sơ của bạn bởi AI.
+          </p>
+        </div>
+
+        <!-- Floating Search & Filter Bar (White rounded card with shadow) -->
+        <div style="background:#ffffff;border-radius:22px;padding:18px 24px;box-shadow:0 12px 36px rgba(0,0,0,0.22);max-width:1080px;margin:0 auto 20px;width:100%;box-sizing:border-box">
+          <div style="display:grid;grid-template-columns:2fr 1.3fr 1.3fr auto;gap:16px;align-items:flex-end">
+            <!-- Keyword -->
+            <div>
+              <label style="display:block;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">TỪ KHÓA</label>
+              <div style="position:relative;display:flex;align-items:center">
+                <span style="position:absolute;left:14px;color:#94a3b8;font-size:15px">🔍</span>
+                <input id="candSearchKeyword" oninput="filterCandidateJobs()" type="text" placeholder="Vị trí, kỹ năng, công ty..." style="width:100%;height:44px;padding:0 14px 0 38px;border-radius:12px;border:1.5px solid #e2e8f0;font-size:13px;color:#0f172a;box-sizing:border-box;outline:none" />
+              </div>
+            </div>
+
+            <!-- Industry -->
+            <div>
+              <label style="display:block;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">NGÀNH</label>
+              <select id="candSearchIndustry" onchange="filterCandidateJobs()" style="width:100%;height:44px;padding:0 14px;border-radius:12px;border:1.5px solid #e2e8f0;font-size:13px;color:#0f172a;background:#fff;box-sizing:border-box;cursor:pointer;outline:none">
+                <option value="all">Tất cả ngành nghề</option>
+                <option value="IT">IT &amp; Công nghệ</option>
+                <option value="tourism">Du lịch &amp; Khách sạn</option>
+                <option value="logistics">Logistics &amp; XNK</option>
+                <option value="economics">Kinh tế &amp; Tài chính</option>
+                <option value="agriculture">Nông nghiệp</option>
+              </select>
+            </div>
+
+            <!-- Location -->
+            <div>
+              <label style="display:block;font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">ĐỊA ĐIỂM</label>
+              <select id="candSearchLocation" onchange="filterCandidateJobs()" style="width:100%;height:44px;padding:0 14px;border-radius:12px;border:1.5px solid #e2e8f0;font-size:13px;color:#0f172a;background:#fff;box-sizing:border-box;cursor:pointer;outline:none">
+                <option value="all">Cần Thơ &amp; ĐBSCL</option>
+                <option value="Ninh Kiều">Quận Ninh Kiều</option>
+                <option value="Cái Răng">Quận Cái Răng</option>
+                <option value="Bình Thủy">Quận Bình Thủy</option>
+                <option value="Toàn quốc">Toàn quốc</option>
+              </select>
+            </div>
+
+            <!-- Button -->
+            <div>
+              <button onclick="filterCandidateJobs()" style="height:44px;padding:0 24px;border-radius:12px;background:#0d9488;color:#ffffff;font-size:13px;font-weight:800;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all 0.15s" onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='#0d9488'">
+                TÌM VIỆC NGAY
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Category Pills -->
+        <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:30px" id="candCategoryPillsContainer">
+          <button onclick="selectCandidateCategoryPill('all')" class="cand-cat-pill active" data-cat="all" style="background:#042f2e;color:#ffffff;border:1px solid rgba(255,255,255,0.3);padding:6px 16px;border-radius:9999px;font-size:12.5px;font-weight:700;cursor:pointer">Tất cả</button>
+          <button onclick="selectCandidateCategoryPill('IT')" class="cand-cat-pill" data-cat="IT" style="background:rgba(255,255,255,0.08);color:#d1fae5;border:1px solid rgba(255,255,255,0.15);padding:6px 16px;border-radius:9999px;font-size:12.5px;font-weight:500;cursor:pointer">IT &amp; Công nghệ</button>
+          <button onclick="selectCandidateCategoryPill('tourism')" class="cand-cat-pill" data-cat="tourism" style="background:rgba(255,255,255,0.08);color:#d1fae5;border:1px solid rgba(255,255,255,0.15);padding:6px 16px;border-radius:9999px;font-size:12.5px;font-weight:500;cursor:pointer">Du lịch &amp; Khách sạn</button>
+          <button onclick="selectCandidateCategoryPill('logistics')" class="cand-cat-pill" data-cat="logistics" style="background:rgba(255,255,255,0.08);color:#d1fae5;border:1px solid rgba(255,255,255,0.15);padding:6px 16px;border-radius:9999px;font-size:12.5px;font-weight:500;cursor:pointer">Logistics &amp; XNK</button>
+          <button onclick="selectCandidateCategoryPill('economics')" class="cand-cat-pill" data-cat="economics" style="background:rgba(255,255,255,0.08);color:#d1fae5;border:1px solid rgba(255,255,255,0.15);padding:6px 16px;border-radius:9999px;font-size:12.5px;font-weight:500;cursor:pointer">Kinh tế &amp; Tài chính</button>
+          <button onclick="selectCandidateCategoryPill('agriculture')" class="cand-cat-pill" data-cat="agriculture" style="background:rgba(255,255,255,0.08);color:#d1fae5;border:1px solid rgba(255,255,255,0.15);padding:6px 16px;border-radius:9999px;font-size:12.5px;font-weight:500;cursor:pointer">Nông nghiệp</button>
+        </div>
+
+        <!-- Main Body: Clean White Section for 2 Columns -->
+        <div style="background:#f8fafc;border-radius:28px;padding:30px;box-shadow:0 12px 36px rgba(0,0,0,0.15);color:#0f172a">
+          <!-- Meta row -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #e2e8f0;flex-wrap:wrap;gap:12px">
+            <div>
+              <span id="candJobsCount" style="font-size:15px;font-weight:800;color:#0f172a">5 việc làm</span>
+              <span style="font-size:13px;color:#64748b"> · sắp xếp theo mức độ phù hợp với hồ sơ của bạn</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:12px;color:#64748b;font-weight:600">Hồ sơ ứng viên:</span>
+              <span id="candProfileBadge" style="font-size:12px;font-weight:800;color:#0d9488;background:#ecfdf5;border:1px solid #a7f3d0;padding:4px 12px;border-radius:9999px">🎓 Nguyễn Văn An (6 kỹ năng)</span>
+            </div>
+          </div>
+
+          <!-- 2 Columns Grid -->
+          <div style="display:grid;grid-template-columns:520px 1fr;gap:24px;align-items:start">
+            <!-- Left: Job Cards List -->
+            <div id="candJobsList" style="display:flex;flex-direction:column;gap:14px">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Right: Sticky Job Detail Panel -->
+            <div id="candJobDetailPanel" style="position:sticky;top:90px;background:#ffffff;border-radius:22px;border:1px solid #e2e8f0;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,0.03)">
+              <!-- Rendered dynamically -->
+            </div>
           </div>
         </div>
       </div>
@@ -5094,9 +5395,10 @@
         </div>
       </div>
 
-      <!-- ── TAB 2: QUẢN LÝ KHÓA HỌC (KHỚP 100% MOCKUP IMAGE 1) ── -->
+      <!-- ── TAB 2: QUẢN LÝ KHÓA HỌC (KHỚP 100% MOCKUP IMAGE 1 & 2) ── -->
       <div id="provTabCourses" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px">
+        <!-- Header -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px">
           <div>
             <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
               Quản lý khóa học
@@ -5105,13 +5407,58 @@
               Đăng khóa học và gắn kỹ năng để hệ thống AI gợi ý đúng người cần.
             </p>
           </div>
-          <button onclick="provOpenAddCourseModal()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.12)">
+          <button onclick="provOpenAddCourseModal()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:12px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 3px 10px rgba(10,81,70,0.2); transition:all 0.15s" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">
             THÊM KHÓA HỌC
           </button>
         </div>
 
-        <!-- Table Card: Khóa học đã đăng -->
-        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+        <!-- Filter Row (Matching Image 1) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px">
+          <!-- Left: Status Filter Tabs -->
+          <div style="display:flex; align-items:center; gap:10px">
+            <button id="provFilterBtnAll" onclick="provSetStatusFilter('all')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:none; background:#0d5f57; color:#ffffff; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.15s">
+              <span>Tất cả</span>
+              <span id="provBadgeAll" style="background:#073d35; color:#ffffff; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px">6</span>
+            </button>
+            <button id="provFilterBtnActive" onclick="provSetStatusFilter('active')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s">
+              <span>Đang phân phối</span>
+              <span id="provBadgeActive" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px">4</span>
+            </button>
+            <button id="provFilterBtnPending" onclick="provSetStatusFilter('pending')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s">
+              <span>Chờ duyệt</span>
+              <span id="provBadgePending" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px">2</span>
+            </button>
+          </div>
+
+          <!-- Right: Skill Dropdown & View Mode Switcher -->
+          <div style="display:flex; align-items:center; gap:12px">
+            <select id="provCourseSkillFilter" onchange="provSetSkillFilter(this.value)" style="padding:9px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:160px">
+              <option value="all">Mọi kỹ năng</option>
+              <option value="Python">Python</option>
+              <option value="Machine Learning">Machine Learning</option>
+              <option value="Data Analysis">Data Analysis</option>
+              <option value="Docker & DevOps">Docker &amp; DevOps</option>
+              <option value="English">English</option>
+              <option value="Communication">Communication</option>
+            </select>
+            <div style="display:inline-flex; background:#f1f5f9; padding:3px; border-radius:9999px">
+              <button id="provViewModeGrid" onclick="provSetViewMode('grid')" title="Dạng thẻ" style="padding:6px 12px; border-radius:9999px; border:none; background:#ffffff; color:#0d5f57; font-weight:800; font-size:12px; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.06)">
+                ▦ Thẻ
+              </button>
+              <button id="provViewModeTable" onclick="provSetViewMode('table')" title="Dạng bảng" style="padding:6px 12px; border-radius:9999px; border:none; background:transparent; color:#64748b; font-weight:700; font-size:12px; cursor:pointer">
+                ☰ Bảng
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. GRID VIEW (Matching Image 1: 3 Columns of Cards) -->
+        <div id="provCoursesGridContainer" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; margin-bottom:30px">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- 2. TABLE VIEW (Matching Image 2: Table Card) -->
+        <div id="provCoursesTableContainer" style="display:none; background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
             <h2 style="font-size:17px; font-weight:800; color:#0f172a">
               Khóa học đã đăng
@@ -5440,6 +5787,7 @@
         <!-- Candidate Menu (Top Navbar ngang cho Người Tìm Việc / Sinh Viên) -->
         <nav class="public-nav-center" id="publicNavCenter">
           <button class="pub-nav-link active" id="pubNavAi" onclick="navigate('/')" style="padding:7px 18px;border-radius:9999px;font-weight:700;font-size:13px;border:1px solid rgba(94,234,212,0.4);background:#06332e;color:#ffffff;cursor:pointer">Chẩn đoán &amp; Lộ trình</button>
+          <button class="pub-nav-link" id="pubNavJobs" onclick="navigate('/jobs')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Việc làm</button>
           <button class="pub-nav-link" id="pubNavIndustry" onclick="navigate('/explore-industries')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khám phá ngành nghề</button>
           <button class="pub-nav-link" id="pubNavCourses" onclick="navigate('/courses')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khóa học</button>
           <button class="pub-nav-link" id="pubNavSoft" onclick="navigate('/soft-skills')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Cẩm nang kỹ năng mềm</button>
@@ -5449,6 +5797,9 @@
         <div class="public-nav-right" id="publicNavRight">
           <!-- 1. Trạng thái Chưa đăng nhập (Guest) -->
           <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:10px">
+            <button onclick="openAppliedDrawer()" style="background:rgba(94,234,212,0.18);color:#5eead4;border:1px solid rgba(94,234,212,0.4);font-weight:800;font-size:11px;padding:8px 14px;border-radius:9999px;cursor:pointer;letter-spacing:0.3px;display:inline-flex;align-items:center;gap:5px">
+              📋 VIỆC ĐÃ ỨNG TUYỂN
+            </button>
             <button onclick="openAuthModal('login')" style="background:#ffffff;color:#094741;font-weight:800;font-size:12px;padding:9px 20px;border-radius:9999px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
               ĐĂNG NHẬP
             </button>
@@ -5461,7 +5812,11 @@
           </div>
 
           <!-- 2. Trạng thái Đã đăng nhập (Authenticated) - Micro-task 2.3 -->
-          <div class="public-auth-user" id="publicAuthUser" style="display:none;position:relative">
+          <div class="public-auth-user" id="publicAuthUser" style="display:none;align-items:center;gap:10px;position:relative">
+            <button id="pubBtnAppliedJobs" onclick="openAppliedDrawer()" style="background:#5eead4;color:#042f2e;border:none;border-radius:9999px;padding:7px 18px;font-size:11.5px;font-weight:800;letter-spacing:0.4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s">
+              <span>📋</span> VIỆC ĐÃ ỨNG TUYỂN
+              <span id="pubAppliedBadge" style="background:#0f766e;color:#ffffff;border-radius:9999px;padding:1px 7px;font-size:10.5px;font-weight:900;margin-left:2px">1</span>
+            </button>
             <div class="public-user-chip" id="publicUserChip" onclick="togglePublicUserDropdown(event)" title="Tài khoản của bạn">
               <div class="public-user-avatar" id="publicUserAvatar">U</div>
               <div class="public-user-name" id="publicUserName">User</div>
@@ -5521,6 +5876,79 @@
         </div>
       </div>
     </main>
+  <!-- ══ MODAL: CANDIDATE APPLY JOB ══ -->
+  <div class="modal-overlay" id="candidateApplyModal" onclick="if(event.target===this) closeCandidateApplyModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:16px">
+    <div style="background:#ffffff;border-radius:24px;max-width:540px;width:100%;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,0.3);position:relative">
+      <button onclick="closeCandidateApplyModal()" style="position:absolute;top:20px;right:20px;background:none;border:none;font-size:20px;cursor:pointer;color:#94a3b8">✕</button>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+        <div id="candApplyAvatar" style="width:44px;height:44px;border-radius:12px;background:#0d9488;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800">M</div>
+        <div>
+          <h3 id="candApplyJobTitle" style="font-size:17px;font-weight:800;color:#0f172a;margin:0">Python Backend Developer</h3>
+          <div id="candApplyCompany" style="font-size:13px;color:#64748b">Mekong Tech · Cần Thơ</div>
+        </div>
+      </div>
+
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:12px;color:#166534;font-weight:700">Độ phù hợp kỹ năng AI:</div>
+          <div id="candApplyMatchScore" style="font-size:16px;font-weight:900;color:#047857">Phù hợp 67%</div>
+        </div>
+        <span style="font-size:11px;font-weight:800;background:#dcfce7;color:#065f46;padding:4px 10px;border-radius:9999px">CV Đã tối ưu AI</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
+        <div>
+          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">HỌ VÀ TÊN</label>
+          <input id="candApplyName" type="text" value="Nguyễn Văn An" style="width:100%;height:40px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;background:#f8fafc;box-sizing:border-box" readonly />
+        </div>
+        <div>
+          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">EMAIL ỨNG VIÊN</label>
+          <input id="candApplyEmail" type="text" value="sinhvien@ctu.edu.vn" style="width:100%;height:40px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;background:#f8fafc;box-sizing:border-box" readonly />
+        </div>
+        <div>
+          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">SỐ ĐIỆN THOẠI</label>
+          <input id="candApplyPhone" type="text" value="0912 345 678" style="width:100%;height:40px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;background:#f8fafc;box-sizing:border-box" />
+        </div>
+        <div>
+          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">CV ĐÍNH KÈM (BẢN CHUẨN ĐÃ PHÂN TÍCH)</label>
+          <div style="display:flex;align-items:center;gap:10px;border:1.5px dashed #0d9488;border-radius:12px;padding:10px 14px;background:#f0fdfa">
+            <span style="font-size:22px">📄</span>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:800;color:#0f766e">CV_NguyenVanAn_IT_Backend.pdf</div>
+              <div style="font-size:11px;color:#64748b">Cập nhật 14/10/2026 · Đính kèm hồ sơ kỹ năng AI</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">LỜI NHẮN GỬI NHÀ TUYỂN DỤNG</label>
+          <textarea id="candApplyNote" rows="3" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;font-size:13px;font-family:inherit;box-sizing:border-box">Tôi rất hào hứng với cơ hội việc làm này và tự tin các kỹ năng Python, SQL, REST API của tôi sẽ đóng góp hiệu quả cho công ty.</textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button onclick="closeCandidateApplyModal()" style="padding:10px 20px;border-radius:12px;border:1.5px solid #cbd5e1;background:#fff;font-weight:700;font-size:13px;color:#475569;cursor:pointer">Hủy</button>
+        <button id="btnConfirmSubmitApply" onclick="confirmSubmitApply()" style="padding:10px 24px;border-radius:12px;border:none;background:#0d9488;color:#fff;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+          <span>XÁC NHẬN NỘP HỒ SƠ</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: CANDIDATE APPLIED JOBS DRAWER ══ -->
+  <div class="modal-overlay" id="candidateAppliedDrawer" onclick="if(event.target===this) closeAppliedDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:16px">
+    <div style="background:#ffffff;border-radius:24px;max-width:680px;width:100%;max-height:85vh;overflow-y:auto;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,0.3);position:relative">
+      <button onclick="closeAppliedDrawer()" style="position:absolute;top:20px;right:20px;background:none;border:none;font-size:20px;cursor:pointer;color:#94a3b8">✕</button>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <span style="font-size:22px">📋</span>
+        <h2 style="font-size:20px;font-weight:900;color:#0f172a;margin:0">Việc Làm Đã Ứng Tuyển</h2>
+      </div>
+      <p style="font-size:13px;color:#64748b;margin-bottom:20px">Theo dõi tiến độ xét duyệt hồ sơ của bạn từ các nhà tuyển dụng tại Cần Thơ</p>
+
+      <div id="candidateAppliedList" style="display:flex;flex-direction:column;gap:12px">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
   </div>
 
   <!-- ══ MODAL: POST JOB ══ -->
@@ -5704,6 +6132,87 @@
     </div>
   </div>
 
+  <!-- ══ MODAL: CHI TIẾT TỔNG QUAN TẤT CẢ KỸ NĂNG & NGÀNH NGHỀ ══ -->
+  <div class="modal-overlay" id="modalSoftSkillsDetail" onclick="if(event.target===this) closeSoftSkillsDetailModal()" style="z-index: 100008;display:none;">
+    <div class="modal" style="width:min(1100px,96vw);max-height:92vh;padding:26px 28px;display:flex;flex-direction:column;gap:16px;background:#ffffff;border-radius:24px;box-shadow:0 25px 60px rgba(0,0,0,0.35);overflow:hidden">
+      <!-- Modal Header -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid #f1f5f9;padding-bottom:14px">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="font-size:24px">📋</span>
+            <h2 style="font-size:20px;font-weight:800;color:#0f172a;margin:0">
+              Tổng Quan Chi Tiết Tất Cả Kỹ Năng &amp; Phân Bổ Theo Ngành Nghề
+            </h2>
+            <span style="font-size:11px;font-weight:700;padding:3px 10px;background:#f0fdfa;color:#0f766e;border:1px solid #99f6e4;border-radius:20px">
+              Toàn Bộ 10 Kỹ Năng Nghề
+            </span>
+          </div>
+          <p style="font-size:13px;color:#64748b;margin-top:4px;line-height:1.5">
+            Không gian mở rộng hiển thị rõ ràng từng kỹ năng, tên ngành đào tạo tương ứng và đối sánh trực tiếp [Nhu cầu - Cung - Khoảng cách thiếu hụt].
+          </p>
+        </div>
+        <button class="modal-close" onclick="closeSoftSkillsDetailModal()" style="position:static;padding:6px 14px;border-radius:10px;background:#f1f5f9;border:1px solid #cbd5e1;cursor:pointer;font-size:13px;font-weight:700;color:#475569;display:inline-flex;align-items:center;gap:6px">
+          <span>✕ Đóng</span>
+        </button>
+      </div>
+
+      <!-- Filter by Industry Pills inside modal -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:8px 12px;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#475569">
+          <span>Lọc theo ngành:</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap" id="modalSoftIndustryPills">
+          <button type="button" class="btn-soft-filter" onclick="filterModalSoftSkills('all', this)" style="padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:700;border:1px solid #0fa39e;background:#0fa39e;color:#ffffff;cursor:pointer">Tất Cả (10 Skill)</button>
+          <button type="button" class="btn-soft-filter" onclick="filterModalSoftSkills('Du lịch', this)" style="padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;border:1px solid #cbd5e1;background:#ffffff;color:#475569;cursor:pointer">✈️ Du Lịch &amp; Dịch Vụ</button>
+          <button type="button" class="btn-soft-filter" onclick="filterModalSoftSkills('CNTT', this)" style="padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;border:1px solid #cbd5e1;background:#ffffff;color:#475569;cursor:pointer">💻 CNTT &amp; Kỹ Thuật</button>
+          <button type="button" class="btn-soft-filter" onclick="filterModalSoftSkills('Logistics', this)" style="padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;border:1px solid #cbd5e1;background:#ffffff;color:#475569;cursor:pointer">📦 IT &amp; Logistics</button>
+          <button type="button" class="btn-soft-filter" onclick="filterModalSoftSkills('Fintech', this)" style="padding:4px 12px;border-radius:20px;font-size:11.5px;font-weight:600;border:1px solid #cbd5e1;background:#ffffff;color:#475569;cursor:pointer">📊 Fintech &amp; AI</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button type="button" onclick="toggleModalSoftBarAxis()" style="padding:4px 10px;border-radius:8px;border:1px solid #cbd5e1;background:#ffffff;font-size:11px;font-weight:600;color:#334155;cursor:pointer">
+            <span id="modalSoftBarAxisIcon">📊 Chuyển Cột Dọc</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Large Spacious Chart Area inside modal -->
+      <div style="background:#ffffff;border:1px solid #f1f5f9;border-radius:16px;padding:12px 16px;position:relative">
+        <div style="height:320px">
+          <canvas id="modalSoftFullBarChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Quick Summary Table of Skills & Industries inside modal -->
+      <div style="overflow-x:auto;max-height:190px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:12px">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;text-align:left">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:2;border-bottom:1.5px solid #e2e8f0">
+            <tr style="color:#64748b;font-weight:700;text-transform:uppercase;font-size:10.5px">
+              <th style="padding:8px 12px">Kỹ Năng</th>
+              <th style="padding:8px 12px">Ngành Nghề Áp Dụng</th>
+              <th style="padding:8px 12px">Nhu Cầu (Demand)</th>
+              <th style="padding:8px 12px">Cung Ứng (Supply)</th>
+              <th style="padding:8px 12px">Thiếu Hụt (Gap)</th>
+              <th style="padding:8px 12px">Xu Hướng</th>
+            </tr>
+          </thead>
+          <tbody id="modalSoftTableBody">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid #f1f5f9">
+        <div style="font-size:12px;color:#94a3b8">
+          Hệ thống SkillGapAI · Dữ liệu chuẩn hóa theo Danh mục nghề nghiệp TP. Cần Thơ 2026
+        </div>
+        <button type="button" onclick="closeSoftSkillsDetailModal()" style="padding:8px 24px;border-radius:10px;background:#334155;color:#ffffff;font-size:13px;font-weight:700;border:none;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='#334155'">
+          Đóng Chi Tiết
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ══ MODAL: PROFILE MODAL ══ -->
   <div class="modal-overlay" id="profileModal">
     <div class="modal" style="width:min(480px,95vw);padding:24px">
@@ -5767,7 +6276,7 @@
   </div>
 
   <!-- ══ MODAL: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ / SWITCH ROLE) ══ -->
-  <div class="modal-overlay" id="authModal">
+  <div class="modal-overlay" id="authModal" style="z-index: 100020;">
     <div class="modal" style="width:min(460px,95vw);padding:24px 26px">
       <button class="modal-close" onclick="closeAuthModal()"><svg viewBox="0 0 24 24" fill="none">
           <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -5784,11 +6293,11 @@
         <div class="rec-form">
           <div class="form-group">
             <label class="form-label">Tên đăng nhập hoặc Email</label>
-            <input class="form-input" id="authUsername" placeholder="VD: admin hoặc admin@skillgap.local" />
+            <input class="form-input" id="authUsername" placeholder="VD: admin hoặc admin@skillgap.com" />
           </div>
           <div class="form-group">
             <label class="form-label">Mật khẩu</label>
-            <input type="password" class="form-input" id="authPassword" placeholder="Nhập mật khẩu (VD: admin123)" onkeydown="if(event.key==='Enter') submitLogin()" />
+            <input type="password" class="form-input" id="authPassword" placeholder="Nhập mật khẩu (VD: admin123 hoặc 123456)" onkeydown="if(event.key==='Enter') submitLogin()" />
           </div>
           <button class="btn btn-primary" style="width:100%;margin-top:6px;padding:11px" onclick="submitLogin()">Đăng Nhập Ngay</button>
         </div>
@@ -5851,16 +6360,16 @@
     //  MOCK DATA
     // ══════════════════════════════════════════════════════
     const SOFT_SKILLS = [
-      { skill: "Giao tiếp (Communication)", demand: 88.4, supply: 52.1, gap: 36.3, trend: "+8%", courses: ["Business Communication – Coursera", "Public Speaking – Toastmasters", "Kỹ năng thuyết trình – PACE"] },
-      { skill: "Giải quyết vấn đề", demand: 82.6, supply: 48.3, gap: 34.3, trend: "+12%", courses: ["Design Thinking – IDEO", "Critical Thinking – edX", "Problem Solving – LinkedIn Learning"] },
-      { skill: "Tiếng Anh", demand: 79.8, supply: 39.2, gap: 40.6, trend: "+15%", courses: ["IELTS Academic – British Council", "TOEIC 750+ – Language Link", "English for Work – Coursera"] },
-      { skill: "Làm việc nhóm", demand: 76.5, supply: 55.8, gap: 20.7, trend: "+5%", courses: ["Team Leadership – Coursera", "Agile Teamwork – LinkedIn", "Collaboration Skills – edX"] },
-      { skill: "Tư duy phản biện", demand: 71.3, supply: 34.6, gap: 36.7, trend: "+18%", courses: ["Critical Thinking – edX", "Logic & Reasoning – Coursera", "Tư duy hệ thống – FUNiX"] },
-      { skill: "Quản lý thời gian", demand: 68.9, supply: 44.7, gap: 24.2, trend: "+6%", courses: ["Time Management – Udemy", "Getting Things Done – Coursera", "Productivity – LinkedIn Learning"] },
-      { skill: "Sáng tạo", demand: 64.2, supply: 38.9, gap: 25.3, trend: "+22%", courses: ["Creative Thinking – MIT", "Innovation – Stanford Online", "Design Thinking – IDEO"] },
-      { skill: "Lãnh đạo", demand: 58.7, supply: 29.4, gap: 29.3, trend: "+10%", courses: ["Leadership Skills – Harvard", "Management 101 – Coursera", "Leadership – edX"] },
-      { skill: "Thích nghi thay đổi", demand: 55.4, supply: 41.2, gap: 14.2, trend: "+25%", courses: ["Change Management – Prosci", "Adaptability – LinkedIn", "Agile Mindset – Udemy"] },
-      { skill: "Dịch vụ khách hàng", demand: 52.1, supply: 42.8, gap: 9.3, trend: "+4%", courses: ["Customer Experience – Zendesk", "Service Excellence – Coursera", "Hospitality Mgmt – edX"] },
+      { skill: "Giao tiếp (Communication)", industry: "Du lịch, Khách sạn & Dịch vụ", shortIndustry: "Du lịch & Dịch vụ", demand: 88.4, supply: 52.1, gap: 36.3, trend: "+8%", courses: ["Business Communication – Coursera", "Public Speaking – Toastmasters", "Kỹ năng thuyết trình – PACE"] },
+      { skill: "Giải quyết vấn đề", industry: "CNTT, Kỹ thuật & Quản trị", shortIndustry: "CNTT & Kỹ thuật", demand: 82.6, supply: 48.3, gap: 34.3, trend: "+12%", courses: ["Design Thinking – IDEO", "Critical Thinking – edX", "Problem Solving – LinkedIn Learning"] },
+      { skill: "Tiếng Anh", industry: "IT, Logistics & Thương mại QT", shortIndustry: "IT & Logistics", demand: 79.8, supply: 39.2, gap: 40.6, trend: "+15%", courses: ["IELTS Academic – British Council", "TOEIC 750+ – Language Link", "English for Work – Coursera"] },
+      { skill: "Làm việc nhóm", industry: "Sản xuất, Nhà máy & Đa ngành", shortIndustry: "Sản xuất & Đa ngành", demand: 76.5, supply: 55.8, gap: 20.7, trend: "+5%", courses: ["Team Leadership – Coursera", "Agile Teamwork – LinkedIn", "Collaboration Skills – edX"] },
+      { skill: "Tư duy phản biện", industry: "Fintech, AI & Phân tích Dữ liệu", shortIndustry: "Fintech & AI", demand: 71.3, supply: 34.6, gap: 36.7, trend: "+18%", courses: ["Critical Thinking – edX", "Logic & Reasoning – Coursera", "Tư duy hệ thống – FUNiX"] },
+      { skill: "Quản lý thời gian", industry: "Kinh tế & Quản trị Dự án", shortIndustry: "Kinh tế - Dự án", demand: 68.9, supply: 44.7, gap: 24.2, trend: "+6%", courses: ["Time Management – Udemy", "Getting Things Done – Coursera", "Productivity – LinkedIn Learning"] },
+      { skill: "Sáng tạo & Đổi mới", industry: "Marketing số & Thiết kế Media", shortIndustry: "Marketing & Media", demand: 64.2, supply: 38.9, gap: 25.3, trend: "+22%", courses: ["Creative Thinking – MIT", "Innovation – Stanford Online", "Design Thinking – IDEO"] },
+      { skill: "Lãnh đạo & Tạo ảnh hưởng", industry: "Quản trị Doanh nghiệp & Vận hành", shortIndustry: "Quản trị & Vận hành", demand: 58.7, supply: 29.4, gap: 29.3, trend: "+10%", courses: ["Leadership Skills – Harvard", "Management 101 – Coursera", "Leadership – edX"] },
+      { skill: "Thích nghi thay đổi", industry: "Công nghệ mới & Ứng dụng AI", shortIndustry: "Tech & GenAI Mới", demand: 55.4, supply: 41.2, gap: 14.2, trend: "+25%", courses: ["Change Management – Prosci", "Adaptability – LinkedIn", "Agile Mindset – Udemy"] },
+      { skill: "Dịch vụ khách hàng", industry: "Bán lẻ & Thương mại Điện tử", shortIndustry: "Bán lẻ & E-commerce", demand: 52.1, supply: 42.8, gap: 9.3, trend: "+4%", courses: ["Customer Experience – Zendesk", "Service Excellence – Coursera", "Hospitality Mgmt – edX"] },
     ];
 
     const INDUSTRY_DATA = {
@@ -6684,7 +7193,7 @@
     // ══════════════════════════════════════════════════════
     const PAGE_LABELS = {
       dashboard: "Tổng Quan", softskills: "Kỹ Năng Mềm Chung",
-      industry: "Kỹ Năng Theo Ngành", recommend: "Gợi Ý Nghề & Khóa Học", "cv-upload": "Phân Tích CV (AI Gemini)", cv_upload: "Phân Tích CV (AI Gemini)",
+      industry: "Kỹ Năng Theo Ngành", recommend: "Gợi Ý Nghề & Khóa Học", "candidate-jobs": "Việc Làm & Tuyển Dụng", "cv-upload": "Phân Tích CV (AI Gemini)", cv_upload: "Phân Tích CV (AI Gemini)",
       workers: "Người Lao Động", employers: "Nhà Tuyển Dụng",
       courses: "Khóa Học", admin: "Quản Trị"
     };
@@ -6722,9 +7231,11 @@
         btn.style.border = 'none';
       });
       let activeId = 'pubNavAi';
-      if (path.includes('explore-industries') || path.includes('industry')) activeId = 'pubNavIndustry';
+      if (path === '/jobs' || path.startsWith('/jobs')) activeId = 'pubNavJobs';
+      else if (path.includes('explore-industries') || path.includes('industry')) activeId = 'pubNavIndustry';
       else if (path.includes('courses') || path.includes('learning')) activeId = 'pubNavCourses';
       else if (path.includes('soft-skills') || path.includes('softskills')) activeId = 'pubNavSoft';
+      else if (path === '/' || path === '' || path.includes('ai-diagnosis') || path.includes('recommend')) activeId = 'pubNavAi';
 
       const el = document.getElementById(activeId);
       if (el) {
@@ -6905,7 +7416,9 @@
         updateCandidateNavLinks(currentPath);
 
         // Kích hoạt đúng trang con cho Candidate
-        if (currentPath === '/' || currentPath === '' || currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
+        if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
+          switchPage('candidate-jobs', null, false);
+        } else if (currentPath === '/' || currentPath === '' || currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
           switchPage('recommend', null, false);
         } else if (currentPath.includes('explore-industries') || currentPath.includes('industry')) {
           switchPage('industry', null, false);
@@ -7067,6 +7580,7 @@
         const isCandidate = (document.getElementById('sidebar') && document.getElementById('sidebar').style.display === 'none');
         if (isCandidate) {
           if (name === 'recommend') navigate('/', true, false);
+          else if (name === 'candidate-jobs') navigate('/jobs', true, false);
           else if (name === 'industry') navigate('/explore-industries', true, false);
           else if (name === 'courses') navigate('/courses', true, false);
           else if (name === 'softskills') navigate('/soft-skills', true, false);
@@ -7083,11 +7597,762 @@
       if (name === 'softskills') initSoftSkills();
       if (name === 'industry') initIndustry(currentIndustry);
       if (name === 'recommend') initRecommend();
+      if (name === 'candidate-jobs') initCandidateJobs();
       if (name === 'cv-upload') initCvUpload();
       if (name === 'workers') renderWorkers();
       if (name === 'employers') renderEmployers();
       if (name === 'courses') renderCourses();
       if (name === 'admin') renderAdmin();
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  CANDIDATE JOB BOARD & AI SKILL GAP MATCHING (KHỚP 100% MOCKUP)
+    // ══════════════════════════════════════════════════════
+    const CANDIDATE_SEED_JOBS = [
+      {
+        id: 1,
+        title: 'Python Backend Developer',
+        company: 'Mekong Tech',
+        companyFull: 'Công ty Cổ phần Công nghệ Mekong',
+        avatar: 'M',
+        avatarBg: '#0d9488',
+        salary: '15–25 triệu',
+        salaryDetail: '15–25 triệu / tháng',
+        location: 'Quận Ninh Kiều, Cần Thơ',
+        postedTime: '3 ngày trước',
+        postedDate: '14/10/2026',
+        industry: 'IT',
+        industryLabel: 'IT & Công nghệ',
+        jobType: 'Toàn thời gian',
+        skills: ['Python', 'FastAPI', 'Docker', 'SQL', 'Git', 'REST API'],
+        description: 'Phát triển và bảo trì các dịch vụ backend bằng Python, làm việc cùng nhóm frontend và DevOps. Thiết kế REST API, tối ưu truy vấn cơ sở dữ liệu và triển khai bằng Docker.',
+        requirements: [
+          'Thành thạo lập trình Python (3+ năm kinh nghiệm hoặc sinh viên giỏi có đồ án thực tế)',
+          'Nắm chắc kiến thức thiết kế RESTful API, tối ưu hóa truy vấn SQL (MySQL, PostgreSQL)',
+          'Có kinh nghiệm hoặc hiểu biết cơ bản về FastAPI, Docker và Git flow',
+          'Tư duy logic tốt, khả năng làm việc nhóm và giao tiếp hiệu quả'
+        ],
+        benefits: [
+          'Mức lương cạnh tranh 15–25 triệu/tháng + thưởng hiệu suất quý/năm',
+          'Được đào tạo bài bản và hỗ trợ kinh phí thi chứng chỉ quốc tế (AWS, Docker, CKA)',
+          'Bảo hiểm sức khỏe cao cấp Bảo Việt Care, khám sức khỏe định kỳ hàng năm',
+          'Du lịch công ty hàng năm, chế độ làm việc linh hoạt (hybrid work)'
+        ],
+        companyAbout: 'Mekong Tech là công ty công nghệ tiên phong tại Cần Thơ với hơn 80 kỹ sư phần mềm, tập trung xây dựng các giải pháp số và nền tảng thông minh cho vùng ĐBSCL.',
+        companyAddress: 'Đường 3/2, Phường Xuân Khánh, Quận Ninh Kiều, TP. Cần Thơ',
+        companyWebsite: 'https://mekongtech.example.vn'
+      },
+      {
+        id: 2,
+        title: 'Data Analyst / BI Specialist',
+        company: 'Viettel Digital Cần Thơ',
+        companyFull: 'Tổng Công ty Dịch vụ Số Viettel – Chi nhánh Cần Thơ',
+        avatar: 'V',
+        avatarBg: '#0f766e',
+        salary: '12–20 triệu',
+        salaryDetail: '12–20 triệu / tháng',
+        location: 'Quận Cái Răng, Cần Thơ',
+        postedTime: '5 ngày trước',
+        postedDate: '12/10/2026',
+        industry: 'IT',
+        industryLabel: 'IT & Công nghệ',
+        jobType: 'Toàn thời gian',
+        skills: ['SQL', 'Power BI', 'Python', 'Excel'],
+        description: 'Xây dựng các dashboard trực quan hóa dữ liệu kinh doanh, phân tích xu hướng tiêu dùng và chuẩn bị báo cáo định kỳ cho ban giám đốc.',
+        requirements: [
+          'Thành thạo SQL và công cụ trực quan hóa Power BI hoặc Tableau',
+          'Có khả năng sử dụng Python phân tích dữ liệu cơ bản (Pandas, Numpy)',
+          'Tư duy phân tích số liệu sắc bén, khả năng thuyết trình báo cáo dữ liệu'
+        ],
+        benefits: [
+          'Lương cứng 12–20 triệu + phụ cấp ăn trưa, điện thoại, máy tính',
+          'Môi trường làm việc tập đoàn viễn thông hàng đầu Việt Nam',
+          'Thưởng lễ tết, thưởng kinh doanh và chế độ đãi ngộ xuất sắc'
+        ],
+        companyAbout: 'Viettel Digital Cần Thơ dẫn đầu về các giải pháp số, thanh toán điện tử và phân tích dữ liệu cho các doanh nghiệp vùng Tây Nam Bộ.',
+        companyAddress: 'Đại lộ Hòa Bình, Quận Ninh Kiều, TP. Cần Thơ',
+        companyWebsite: 'https://vietteltelecom.vn'
+      },
+      {
+        id: 3,
+        title: 'DevOps & Cloud Engineer',
+        company: 'FPT Software Cần Thơ',
+        companyFull: 'Công ty TNHH Phần mềm FPT Cần Thơ',
+        avatar: 'F',
+        avatarBg: '#0d9488',
+        salary: '20–35 triệu',
+        salaryDetail: '20–35 triệu / tháng',
+        location: 'KCN Trà Nóc, Cần Thơ',
+        postedTime: '1 tuần trước',
+        postedDate: '10/10/2026',
+        industry: 'IT',
+        industryLabel: 'IT & Công nghệ',
+        jobType: 'Toàn thời gian',
+        skills: ['Docker', 'Linux', 'CI/CD', 'AWS', 'Kubernetes'],
+        description: 'Vận hành hệ thống CI/CD trên nền tảng đám mây, tự động hóa quy trình triển khai phần mềm và đảm bảo độ sẵn sàng cao của hệ thống.',
+        requirements: [
+          'Hiểu sâu về Linux system administration và containerization với Docker',
+          'Kinh nghiệm thiết lập pipeline CI/CD (GitHub Actions, GitLab CI hoặc Jenkins)',
+          'Kiến thức về cloud AWS hoặc GCP, tinh thần chịu trách nhiệm cao'
+        ],
+        benefits: [
+          'Thu nhập hấp dẫn 20–35 triệu/tháng, xét tăng lương 2 lần/năm',
+          'Cơ hội đi on-site ngắn hạn tại Nhật Bản, Singapore, Châu Âu',
+          'Gói chăm sóc y tế toàn diện FPT Care cho bản thân và gia đình'
+        ],
+        companyAbout: 'FPT Software Cần Thơ là trung tâm phần mềm chiến lược vùng Tây Nam Bộ với hơn 500 nhân sự kỹ thuật cao.',
+        companyAddress: 'Khu Công nghiệp Trà Nóc, Quận Bình Thủy, TP. Cần Thơ',
+        companyWebsite: 'https://fpt-software.com'
+      },
+      {
+        id: 4,
+        title: 'Frontend Developer (React)',
+        company: 'TMA Solutions Cần Thơ',
+        companyFull: 'Công ty Công nghệ TMA Solutions – Trung tâm ĐBSCL',
+        avatar: 'T',
+        avatarBg: '#0f766e',
+        salary: '15–30 triệu',
+        salaryDetail: '15–30 triệu / tháng',
+        location: 'Khu Công Nghệ Cao, Cần Thơ',
+        postedTime: '1 tuần trước',
+        postedDate: '08/10/2026',
+        industry: 'IT',
+        industryLabel: 'IT & Công nghệ',
+        jobType: 'Toàn thời gian',
+        skills: ['ReactJS', 'TypeScript', 'Git', 'Tailwind', 'REST API'],
+        description: 'Phát triển các ứng dụng Web SPA hiện đại sử dụng ReactJS và TailwindCSS, tối ưu trải nghiệm người dùng và hiệu năng trình duyệt.',
+        requirements: [
+          'Kinh nghiệm vững chắc về React, React Hooks, TypeScript',
+          'Thành thạo HTML5, CSS3, TailwindCSS hoặc CSS modules',
+          'Hiểu biết sâu về tối ưu web performance và responsive design'
+        ],
+        benefits: [
+          'Lương 15–30 triệu, lương tháng 13 đảm bảo + thưởng dự án',
+          'Trang bị máy Macbook Pro/Dell Precision cấu hình cao',
+          'Các câu lạc bộ thể thao: bóng đá, cầu lông, bơi lội, yoga tài trợ 100%'
+        ],
+        companyAbout: 'TMA Solutions là một trong những công ty gia công xuất khẩu phần mềm lớn nhất Việt Nam với hơn 4,000 kỹ sư.',
+        companyAddress: 'Đường Nguyễn Văn Cừ, Quận Ninh Kiều, TP. Cần Thơ',
+        companyWebsite: 'https://tmasolutions.com'
+      },
+      {
+        id: 5,
+        title: 'Chuyên viên Xuất nhập khẩu & Logistics',
+        company: 'Cảng Cái Cui Logistics',
+        companyFull: 'Công ty Cổ phần Cảng Cần Thơ – Chi nhánh Cảng Cái Cui',
+        avatar: 'C',
+        avatarBg: '#0d9488',
+        salary: '10–18 triệu',
+        salaryDetail: '10–18 triệu / tháng',
+        location: 'Quận Cái Răng, Cần Thơ',
+        postedTime: '2 tuần trước',
+        postedDate: '01/10/2026',
+        industry: 'logistics',
+        industryLabel: 'Logistics & XNK',
+        jobType: 'Toàn thời gian',
+        skills: ['Customs Compliance', 'English', 'Logistics Operations', 'Documentation'],
+        description: 'Thực hiện thủ tục hải quan xuất nhập khẩu hàng hóa, theo dõi lịch tàu và phối hợp với các hãng vận tải quốc tế.',
+        requirements: [
+          'Tốt nghiệp Cao đẳng/Đại học chuyên ngành Logistics, Kinh tế đối ngoại',
+          'Nắm vững quy trình khai báo hải quan điện tử VNACCS/VCIS',
+          'Tiếng Anh giao tiếp và đọc hiểu chứng từ vận tải quốc tế tốt'
+        ],
+        benefits: [
+          'Thu nhập 10–18 triệu/tháng + thưởng theo sản lượng hàng hóa qua cảng',
+          'Môi trường làm việc năng động, cơ hội thăng tiến lên Trưởng bộ phận',
+          'Đầy đủ chế độ BHXH, BHYT, BHTN theo Luật Lao động'
+        ],
+        companyAbout: 'Cảng Cái Cui là cảng biển nước sâu trọng điểm của ĐBSCL, cửa ngõ giao thương xuất nhập khẩu nông thủy sản ra quốc tế.',
+        companyAddress: 'Phường Tân Phú, Quận Cái Răng, TP. Cần Thơ',
+        companyWebsite: 'https://canthoport.com.vn'
+      }
+    ];
+
+    const CANDIDATE_PROFILE = {
+      name: 'Nguyễn Văn An',
+      email: 'sinhvien@ctu.edu.vn',
+      phone: '0912 345 678',
+      university: 'Sinh viên CNTT năm 4 · Đại học Cần Thơ',
+      skills: ['Python', 'SQL', 'Git', 'REST API', 'JavaScript', 'HTML/CSS']
+    };
+
+    const SKILL_COURSE_RECOMMENDATIONS = {
+      'FastAPI': { title: 'Lập trình RESTful API chuyên sâu với FastAPI', provider: 'Đại học Cần Thơ', duration: '6 tuần' },
+      'Docker': { title: 'Docker & Containerization Thực chiến cho Backend Developer', provider: 'FPT Software Academy', duration: '4 tuần' },
+      'Kubernetes': { title: 'Kubernetes từ cơ bản đến quản trị cụm ứng dụng', provider: 'Viettel Academy', duration: '8 tuần' },
+      'CI/CD': { title: 'Tự động hóa CI/CD với GitHub Actions & GitLab', provider: 'Mekong Tech Institute', duration: '4 tuần' },
+      'AWS': { title: 'Điện toán đám mây AWS Cloud Practitioner & Solutions Architect', provider: 'AWS Authorized Center', duration: '10 tuần' },
+      'Linux': { title: 'Quản trị hệ thống Linux căn bản & nâng cao', provider: 'Trung tâm Tin học ĐH Cần Thơ', duration: '5 tuần' },
+      'TypeScript': { title: 'TypeScript nâng cao cho React/Vue Developer', provider: 'TechHub Cần Thơ', duration: '4 tuần' },
+      'Tailwind': { title: 'Thiết kế giao diện hiện đại với TailwindCSS', provider: 'SkillGap AI Academy', duration: '3 tuần' },
+      'Power BI': { title: 'Phân tích & Trực quan hóa dữ liệu chuyên nghiệp với Power BI', provider: 'Viettel Digital', duration: '6 tuần' },
+      'Customs Compliance': { title: 'Nghiệp vụ Khai báo Hải quan Điện tử VNACCS', provider: 'Hiệp hội Logistics ĐBSCL', duration: '6 tuần' }
+    };
+
+    let currentSelectedJobId = 1;
+    let currentCandidateCategory = 'all';
+    let candidateSavedJobIds = [];
+    let applyingJobId = null;
+
+    function getCandidateSkills() {
+      try {
+        const raw = localStorage.getItem('current_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          if (u.skills && Array.isArray(u.skills) && u.skills.length > 0) return u.skills;
+        }
+      } catch (e) {}
+      return CANDIDATE_PROFILE.skills;
+    }
+
+    function calculateJobMatch(jobSkills) {
+      const candidateSkills = getCandidateSkills();
+      const cSkillsLower = candidateSkills.map(s => (s || '').toLowerCase());
+      const owned = [];
+      const missing = [];
+      (jobSkills || []).forEach(s => {
+        if (cSkillsLower.includes((s || '').toLowerCase())) {
+          owned.push(s);
+        } else {
+          missing.push(s);
+        }
+      });
+      const total = (jobSkills || []).length || 1;
+      const matchPct = Math.round((owned.length / total) * 100);
+      return { owned, missing, matchPct, total };
+    }
+
+    function getAllCandidateJobs() {
+      let list = [...CANDIDATE_SEED_JOBS];
+      try {
+        const raw = localStorage.getItem('global_job_postings');
+        if (raw) {
+          const extra = JSON.parse(raw);
+          if (Array.isArray(extra)) {
+            extra.forEach(ej => {
+              const exists = list.find(x => x.id === ej.id);
+              if (!exists) {
+                list.unshift({
+                  id: ej.id,
+                  title: ej.title,
+                  company: ej.company || 'Doanh nghiệp Cần Thơ',
+                  companyFull: ej.companyFull || ej.company || 'Doanh nghiệp Cần Thơ',
+                  avatar: (ej.company || 'D').charAt(0).toUpperCase(),
+                  avatarBg: '#0d9488',
+                  salary: ej.salary_text || (ej.salary_min && ej.salary_max ? `${(ej.salary_min/1000000).toFixed(0)}–${(ej.salary_max/1000000).toFixed(0)} triệu` : 'Thỏa thuận'),
+                  salaryDetail: ej.salary_text ? `${ej.salary_text} / tháng` : 'Thỏa thuận theo năng lực',
+                  location: ej.location || 'TP. Cần Thơ',
+                  postedTime: 'Mới đăng',
+                  postedDate: ej.posted_date || new Date().toLocaleDateString('vi-VN'),
+                  industry: ej.industry || 'IT',
+                  industryLabel: ej.industry || 'IT & Công nghệ',
+                  jobType: 'Toàn thời gian',
+                  skills: Array.isArray(ej.skills) && ej.skills.length ? ej.skills : ['Kỹ năng số', 'Làm việc nhóm'],
+                  description: ej.description || 'Chúng tôi đang tìm kiếm nhân tài gia nhập đội ngũ phát triển sản phẩm.',
+                  requirements: [
+                    'Có tinh thần trách nhiệm cao, chủ động trong công việc',
+                    'Nắm vững các kỹ năng chuyên môn yêu cầu cho vị trí tuyển dụng',
+                    'Khả năng làm việc độc lập và phối hợp tốt với đội ngũ'
+                  ],
+                  benefits: [
+                    'Mức lương cạnh tranh theo thỏa thuận và năng lực thực tế',
+                    'Đầy đủ chế độ bảo hiểm xã hội, thưởng lễ tết và du lịch công ty',
+                    'Môi trường làm việc cởi mở, khuyến khích sáng tạo và phát triển'
+                  ],
+                  companyAbout: `${ej.company || 'Doanh nghiệp'} là đơn vị uy tín hoạt động tại TP. Cần Thơ.`,
+                  companyAddress: ej.location || 'TP. Cần Thơ',
+                  companyWebsite: 'https://example.com'
+                });
+              }
+            });
+          }
+        }
+      } catch (e) {}
+      return list;
+    }
+
+    function getCandidateAppliedJobIds() {
+      let ids = [3]; // Seed applied job as in mockup
+      try {
+        const raw = localStorage.getItem('global_job_applications');
+        if (raw) {
+          const apps = JSON.parse(raw);
+          if (Array.isArray(apps)) {
+            apps.forEach(a => {
+              if (a.jobId && !ids.includes(a.jobId)) ids.push(a.jobId);
+            });
+          }
+        }
+      } catch (e) {}
+      return ids;
+    }
+
+    function initCandidateJobs() {
+      updateAppliedCountBadge();
+      renderCandidateJobs();
+    }
+
+    function filterCandidateJobs() {
+      renderCandidateJobs();
+    }
+
+    function selectCandidateCategoryPill(cat) {
+      currentCandidateCategory = cat;
+      document.querySelectorAll('#candCategoryPillsContainer .cand-cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.style.background = '#042f2e';
+          btn.style.color = '#ffffff';
+          btn.style.border = '1px solid rgba(255,255,255,0.3)';
+          btn.style.fontWeight = '700';
+        } else {
+          btn.style.background = 'rgba(255,255,255,0.08)';
+          btn.style.color = '#d1fae5';
+          btn.style.border = '1px solid rgba(255,255,255,0.15)';
+          btn.style.fontWeight = '500';
+        }
+      });
+      renderCandidateJobs();
+    }
+
+    function renderCandidateJobs() {
+      const listEl = document.getElementById('candJobsList');
+      const detailEl = document.getElementById('candJobDetailPanel');
+      if (!listEl) return;
+
+      const keyword = (document.getElementById('candSearchKeyword')?.value || '').toLowerCase().trim();
+      const industry = document.getElementById('candSearchIndustry')?.value || 'all';
+      const location = document.getElementById('candSearchLocation')?.value || 'all';
+
+      let allJobs = getAllCandidateJobs();
+      const appliedIds = getCandidateAppliedJobIds();
+
+      // Filter
+      let filtered = allJobs.filter(j => {
+        if (currentCandidateCategory !== 'all' && j.industry !== currentCandidateCategory) return false;
+        if (industry !== 'all' && j.industry !== industry) return false;
+        if (location !== 'all' && !j.location.toLowerCase().includes(location.toLowerCase())) return false;
+        if (keyword) {
+          const matchTitle = j.title.toLowerCase().includes(keyword);
+          const matchComp = j.company.toLowerCase().includes(keyword);
+          const matchSkills = (j.skills || []).some(s => s.toLowerCase().includes(keyword));
+          if (!matchTitle && !matchComp && !matchSkills) return false;
+        }
+        return true;
+      });
+
+      // Update counter
+      const countEl = document.getElementById('candJobsCount');
+      if (countEl) countEl.textContent = `${filtered.length} việc làm`;
+
+      // Check current selection
+      if (filtered.length > 0 && !filtered.some(j => j.id === currentSelectedJobId)) {
+        currentSelectedJobId = filtered[0].id;
+      }
+
+      // Render Left Cards
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div style="background:#fff;border-radius:18px;border:1.5px dashed #cbd5e1;padding:40px 20px;text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">🔍</div>
+            <div style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px">Không tìm thấy việc làm phù hợp</div>
+            <div style="font-size:13px;color:#64748b">Hãy thử thay đổi từ khóa tìm kiếm hoặc chọn ngành nghề khác</div>
+          </div>
+        `;
+      } else {
+        listEl.innerHTML = filtered.map(j => {
+          const isSelected = j.id === currentSelectedJobId;
+          const isApplied = appliedIds.includes(j.id);
+          const match = calculateJobMatch(j.skills);
+
+          return `
+            <div onclick="selectCandidateJob(${j.id})" id="candJobCard-${j.id}" style="background:#ffffff;border-radius:20px;padding:20px;cursor:pointer;transition:all 0.18s;border:${isSelected ? '2px solid #0a5146' : '1.5px solid #e2e8f0'};box-shadow:${isSelected ? '0 10px 28px rgba(10,81,70,0.14)' : '0 1px 4px rgba(0,0,0,0.03)'}">
+              <!-- Top Row: Avatar + Title + Match Badge -->
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:42px;height:42px;border-radius:12px;background:${j.avatarBg || '#0d9488'};color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex-shrink:0">
+                    ${j.avatar || j.company.charAt(0)}
+                  </div>
+                  <div>
+                    <h3 style="font-size:15.5px;font-weight:800;color:#0f172a;margin:0 0 2px">${j.title}</h3>
+                    <div style="font-size:13px;color:#64748b;font-weight:500">${j.company}</div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+                  <span style="background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:9999px;white-space:nowrap">
+                    Phù hợp ${match.matchPct}%
+                  </span>
+                  ${isApplied ? `<span style="background:#e0f2fe;color:#0369a1;font-size:10px;font-weight:800;padding:2px 8px;border-radius:9999px;white-space:nowrap">Đã ứng tuyển</span>` : ''}
+                </div>
+              </div>
+
+              <!-- Metadata Row -->
+              <div style="display:flex;align-items:center;gap:14px;font-size:12px;color:#64748b;margin-bottom:12px;flex-wrap:wrap">
+                <span>📍 ${j.location}</span>
+                <span>💰 ${j.salary}</span>
+                <span>🕒 ${j.postedTime}</span>
+              </div>
+
+              <!-- AI Match Progress Bar -->
+              <div style="background:#f8fafc;border:1px solid #f1f5f9;border-radius:12px;padding:10px 12px;margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <span style="font-size:11.5px;font-weight:800;color:#0f172a">Bạn có ${match.owned.length} / ${j.skills.length} kỹ năng yêu cầu</span>
+                  <span style="font-size:11px;font-weight:700;color:#059669">${match.matchPct}%</span>
+                </div>
+                <div style="height:7px;border-radius:9999px;background:#e2e8f0;display:flex;overflow:hidden">
+                  <div style="width:${match.matchPct}%;background:#10b981;border-radius:9999px 0 0 9999px"></div>
+                  <div style="width:${100 - match.matchPct}%;background:#fda4af;border-radius:0 9999px 9999px 0"></div>
+                </div>
+              </div>
+
+              <!-- Skills Tags -->
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                ${match.owned.map(s => `
+                  <span style="background:#ecfdf5;color:#047857;font-size:11px;font-weight:700;padding:3px 9px;border-radius:9999px;display:inline-flex;align-items:center;gap:3px">
+                    <span style="font-weight:900">✓</span> ${s}
+                  </span>
+                `).join('')}
+                ${match.missing.map(s => `
+                  <span style="background:#fef2f2;color:#b91c1c;font-size:11px;font-weight:700;padding:3px 9px;border-radius:9999px;display:inline-flex;align-items:center;gap:3px">
+                    <span style="font-weight:900">!</span> ${s} - chưa có
+                  </span>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Render Right Detail Panel
+      const selectedJob = allJobs.find(j => j.id === currentSelectedJobId) || filtered[0] || allJobs[0];
+      if (selectedJob && detailEl) {
+        renderCandidateJobDetail(selectedJob, appliedIds.includes(selectedJob.id));
+      }
+    }
+
+    function selectCandidateJob(id) {
+      currentSelectedJobId = id;
+      const allJobs = getAllCandidateJobs();
+      const appliedIds = getCandidateAppliedJobIds();
+      const selectedJob = allJobs.find(j => j.id === id);
+
+      // Update card active classes
+      document.querySelectorAll('#candJobsList > div').forEach(card => {
+        card.style.border = '1.5px solid #e2e8f0';
+        card.style.boxShadow = '0 1px 4px rgba(0,0,0,0.03)';
+      });
+      const activeCard = document.getElementById(`candJobCard-${id}`);
+      if (activeCard) {
+        activeCard.style.border = '2px solid #0a5146';
+        activeCard.style.boxShadow = '0 10px 28px rgba(10,81,70,0.14)';
+      }
+
+      if (selectedJob) {
+        renderCandidateJobDetail(selectedJob, appliedIds.includes(selectedJob.id));
+      }
+    }
+
+    function renderCandidateJobDetail(job, isApplied) {
+      const detailEl = document.getElementById('candJobDetailPanel');
+      if (!detailEl) return;
+
+      const match = calculateJobMatch(job.skills);
+      const isSaved = candidateSavedJobIds.includes(job.id);
+
+      detailEl.innerHTML = `
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:14px">
+            <div style="width:48px;height:48px;border-radius:14px;background:${job.avatarBg || '#0d9488'};color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0">
+              ${job.avatar || job.company.charAt(0)}
+            </div>
+            <div>
+              <h2 style="font-size:20px;font-weight:900;color:#0f172a;margin:0 0 4px">${job.title}</h2>
+              <div style="font-size:13.5px;color:#64748b;font-weight:600">${job.companyFull || job.company}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Specs Row -->
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px">
+          <span style="background:#f1f5f9;color:#334155;font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:10px">💰 ${job.salaryDetail || job.salary}</span>
+          <span style="background:#f1f5f9;color:#334155;font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:10px">📍 ${job.location}</span>
+          <span style="background:#f1f5f9;color:#334155;font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:10px">🕒 ${job.postedTime}</span>
+          <span style="background:#f1f5f9;color:#334155;font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:10px">💼 ${job.jobType || 'Toàn thời gian'}</span>
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #e2e8f0">
+          ${isApplied ? `
+            <button disabled style="background:#ccfbf1;color:#0f766e;border:1.5px solid #99f6e4;font-size:13.5px;font-weight:800;padding:12px 28px;border-radius:14px;cursor:default;display:inline-flex;align-items:center;gap:6px">
+              <span>✓</span> ĐÃ ỨNG TUYỂN
+            </button>
+          ` : `
+            <button onclick="openCandidateApplyModal(${job.id})" style="background:#094741;color:#ffffff;border:none;font-size:13.5px;font-weight:800;padding:12px 30px;border-radius:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all 0.15s" onmouseover="this.style.background='#06332e'" onmouseout="this.style.background='#094741'">
+              <span>ỨNG TUYỂN NGAY</span>
+              <span style="font-size:15px">&gt;</span>
+            </button>
+          `}
+          <button onclick="toggleSaveJob(${job.id})" id="btnCandSave-${job.id}" style="background:#ffffff;border:1.5px solid #cbd5e1;color:#334155;font-size:13px;font-weight:700;padding:12px 20px;border-radius:14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+            <span>${isSaved ? '★' : '☆'}</span>
+            <span>${isSaved ? 'ĐÃ LƯU' : 'LƯU TIN'}</span>
+          </button>
+        </div>
+
+        <!-- AI SKILL GAP MATCH BOX -->
+        <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:18px;padding:22px;margin-bottom:24px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div>
+              <div style="font-size:11px;font-weight:900;color:#166534;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px">ĐỐI CHIẾU KỸ NĂNG VỚI AI</div>
+              <div style="font-size:16px;font-weight:900;color:#0f172a">Độ phù hợp: <span style="color:#059669">${match.matchPct}%</span> (Khớp ${match.owned.length} / ${job.skills.length} kỹ năng)</div>
+            </div>
+            <span style="background:#dcfce7;color:#065f46;border:1px solid #86efac;font-size:11.5px;font-weight:800;padding:4px 12px;border-radius:9999px">AI Verified</span>
+          </div>
+
+          <!-- Dual Progress Bar -->
+          <div style="height:9px;border-radius:9999px;background:#e2e8f0;display:flex;overflow:hidden;margin-bottom:18px">
+            <div style="width:${match.matchPct}%;background:#10b981;border-radius:9999px 0 0 9999px"></div>
+            <div style="width:${100 - match.matchPct}%;background:#f87171;border-radius:0 9999px 9999px 0"></div>
+          </div>
+
+          <!-- Section 1: Owned Skills -->
+          <div style="margin-bottom:16px">
+            <div style="font-size:12px;font-weight:800;color:#166534;margin-bottom:8px">
+              ✓ KỸ NĂNG BẠN ĐÃ CÓ (${match.owned.length}):
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              ${match.owned.map(s => `
+                <span style="background:#dcfce7;color:#0f766e;border:1px solid #a7f3d0;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:9999px">✓ ${s}</span>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Section 2: Missing Skills with Recommendations -->
+          <div>
+            <div style="font-size:12px;font-weight:800;color:#991b1b;margin-bottom:8px">
+              ⚠️ KỸ NĂNG CẦN BỔ SUNG (${match.missing.length}):
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              ${match.missing.length === 0 ? `
+                <div style="font-size:12px;color:#166534">🎉 Bạn đã đáp ứng đầy đủ 100% kỹ năng theo yêu cầu tuyển dụng!</div>
+              ` : match.missing.map(s => {
+                const rec = SKILL_COURSE_RECOMMENDATIONS[s] || { title: `Khóa học chuyên sâu về ${s}`, provider: 'SkillGap AI Academy', duration: '4 tuần' };
+                return `
+                  <div style="background:#ffffff;border:1px solid #fecdd3;border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+                    <div>
+                      <span style="background:#ffe4e6;color:#e11d48;font-size:11px;font-weight:800;padding:2px 8px;border-radius:9999px;margin-right:6px">✕ ${s}</span>
+                      <span style="font-size:12px;color:#475569">Khóa đề xuất: <strong>${rec.title}</strong> (${rec.provider})</span>
+                    </div>
+                    <button onclick="navigate('/courses')" style="background:#f0fdfa;color:#0d9488;border:1px solid #99f6e4;font-size:11px;font-weight:800;padding:4px 10px;border-radius:8px;cursor:pointer;white-space:nowrap">
+                      Xem khóa học →
+                    </button>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Section -->
+        <div style="margin-bottom:22px">
+          <h3 style="font-size:15px;font-weight:800;color:#0f172a;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.5px">Mô tả công việc</h3>
+          <p style="font-size:13.5px;color:#334155;line-height:1.6;margin:0 0 10px">${job.description}</p>
+        </div>
+
+        <!-- Requirements Section -->
+        <div style="margin-bottom:22px">
+          <h3 style="font-size:15px;font-weight:800;color:#0f172a;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.5px">Yêu cầu ứng viên</h3>
+          <ul style="margin:0;padding-left:18px;font-size:13.5px;color:#334155;line-height:1.7">
+            ${(job.requirements || [
+              'Nắm chắc kỹ năng chuyên môn yêu cầu cho vị trí tuyển dụng',
+              'Tư duy giải quyết vấn đề tốt, khả năng làm việc nhóm',
+              'Chủ động cập nhật công nghệ và quy trình làm việc mới'
+            ]).map(r => `<li>${r}</li>`).join('')}
+          </ul>
+        </div>
+
+        <!-- Benefits Section -->
+        <div style="margin-bottom:22px">
+          <h3 style="font-size:15px;font-weight:800;color:#0f172a;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.5px">Quyền lợi được hưởng</h3>
+          <ul style="margin:0;padding-left:18px;font-size:13.5px;color:#334155;line-height:1.7">
+            ${(job.benefits || [
+              'Mức lương cạnh tranh, xét tăng lương định kỳ hàng năm',
+              'Đầy đủ chế độ bảo hiểm theo quy định pháp luật',
+              'Chế độ đào tạo nội bộ và hỗ trợ chi phí học tập phát triển bản thân'
+            ]).map(b => `<li>${b}</li>`).join('')}
+          </ul>
+        </div>
+
+        <!-- Company Info Section -->
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:18px;margin-top:20px">
+          <h4 style="font-size:14px;font-weight:800;color:#0f172a;margin:0 0 6px">Về công ty ${job.company}</h4>
+          <p style="font-size:12.5px;color:#64748b;line-height:1.6;margin:0 0 10px">${job.companyAbout || 'Đơn vị uy tín hàng đầu tại khu vực Đồng bằng Sông Cửu Long.'}</p>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:12px;color:#64748b">
+            <span>📍 <strong>Địa chỉ:</strong> ${job.companyAddress || job.location}</span>
+            <span>🌐 <strong>Website:</strong> <a href="${job.companyWebsite || '#'}" target="_blank" style="color:#0d9488;text-decoration:none">${job.companyWebsite || 'Đang cập nhật'}</a></span>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleSaveJob(jobId) {
+      if (candidateSavedJobIds.includes(jobId)) {
+        candidateSavedJobIds = candidateSavedJobIds.filter(id => id !== jobId);
+      } else {
+        candidateSavedJobIds.push(jobId);
+      }
+      renderCandidateJobs();
+    }
+
+    function openCandidateApplyModal(jobId) {
+      applyingJobId = jobId;
+      const allJobs = getAllCandidateJobs();
+      const job = allJobs.find(j => j.id === jobId);
+      if (!job) return;
+
+      const modal = document.getElementById('candidateApplyModal');
+      if (!modal) return;
+
+      const match = calculateJobMatch(job.skills);
+      const candidate = CANDIDATE_PROFILE;
+
+      const titleEl = document.getElementById('candApplyJobTitle');
+      if (titleEl) titleEl.textContent = job.title;
+
+      const compEl = document.getElementById('candApplyCompany');
+      if (compEl) compEl.textContent = `${job.company} · ${job.location}`;
+
+      const avatarEl = document.getElementById('candApplyAvatar');
+      if (avatarEl) {
+        avatarEl.textContent = job.avatar || job.company.charAt(0);
+        avatarEl.style.background = job.avatarBg || '#0d9488';
+      }
+
+      const scoreEl = document.getElementById('candApplyMatchScore');
+      if (scoreEl) scoreEl.textContent = `Phù hợp ${match.matchPct}%`;
+
+      const nameEl = document.getElementById('candApplyName');
+      if (nameEl) nameEl.value = candidate.name;
+
+      const emailEl = document.getElementById('candApplyEmail');
+      if (emailEl) emailEl.value = candidate.email;
+
+      const phoneEl = document.getElementById('candApplyPhone');
+      if (phoneEl) phoneEl.value = candidate.phone;
+
+      modal.style.display = 'flex';
+    }
+
+    function closeCandidateApplyModal() {
+      const modal = document.getElementById('candidateApplyModal');
+      if (modal) modal.style.display = 'none';
+      applyingJobId = null;
+    }
+
+    function confirmSubmitApply() {
+      if (!applyingJobId) return;
+      const allJobs = getAllCandidateJobs();
+      const job = allJobs.find(j => j.id === applyingJobId);
+      if (!job) return;
+
+      const candidate = CANDIDATE_PROFILE;
+      const match = calculateJobMatch(job.skills);
+      const note = document.getElementById('candApplyNote')?.value || '';
+
+      const application = {
+        id: Date.now(),
+        jobId: job.id,
+        jobTitle: job.title,
+        company: job.company,
+        location: job.location,
+        salary: job.salary,
+        candidateName: candidate.name,
+        candidateEmail: candidate.email,
+        candidatePhone: candidate.phone,
+        skills: candidate.skills,
+        skillsOwned: match.owned,
+        skillsMissing: match.missing,
+        matchScore: match.matchPct,
+        matchPct: match.matchPct,
+        appliedDate: new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
+        appliedDateFull: new Date().toLocaleDateString('vi-VN'),
+        status: 'Đã ứng tuyển',
+        note: note,
+        aiComment: `Ứng viên nắm vững ${match.owned.length}/${job.skills.length} kỹ năng yêu cầu (${match.matchPct}% phù hợp). Các kỹ năng sẵn có: ${match.owned.join(', ')}. Đánh giá tiềm năng cao.`
+      };
+
+      try {
+        const raw = localStorage.getItem('global_job_applications');
+        const apps = raw ? JSON.parse(raw) : [];
+        apps.unshift(application);
+        localStorage.setItem('global_job_applications', JSON.stringify(apps));
+      } catch (e) {}
+
+      closeCandidateApplyModal();
+      renderCandidateJobs();
+      updateAppliedCountBadge();
+      alert(`🎉 Ứng tuyển thành công vị trí "${job.title}" tại ${job.company}!\nHồ sơ của bạn đã được chuyển tới Nhà tuyển dụng.`);
+    }
+
+    function updateAppliedCountBadge() {
+      const appliedIds = getCandidateAppliedJobIds();
+      const badge = document.getElementById('pubAppliedBadge');
+      if (badge) {
+        badge.textContent = appliedIds.length;
+      }
+    }
+
+    function openAppliedDrawer() {
+      const drawer = document.getElementById('candidateAppliedDrawer');
+      if (!drawer) return;
+      renderAppliedJobsList();
+      drawer.style.display = 'flex';
+    }
+
+    function closeAppliedDrawer() {
+      const drawer = document.getElementById('candidateAppliedDrawer');
+      if (drawer) drawer.style.display = 'none';
+    }
+
+    function renderAppliedJobsList() {
+      const container = document.getElementById('candidateAppliedList');
+      if (!container) return;
+
+      let apps = [];
+      try {
+        const raw = localStorage.getItem('global_job_applications');
+        if (raw) apps = JSON.parse(raw);
+      } catch (e) {}
+
+      // If empty, add the seed job 3 application
+      if (!apps || apps.length === 0) {
+        apps = [
+          {
+            id: 301,
+            jobId: 3,
+            jobTitle: 'DevOps & Cloud Engineer',
+            company: 'FPT Software Cần Thơ',
+            appliedDate: '10/10/2026',
+            status: 'Đã ứng tuyển',
+            matchScore: 50
+          }
+        ];
+      }
+
+      container.innerHTML = apps.map(app => `
+        <div style="background:#ffffff;border:1.5px solid #e2e8f0;border-radius:18px;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,0.03)">
+          <div>
+            <div style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:2px">${app.jobTitle}</div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:6px">🏢 ${app.company} · Nộp ngày ${app.appliedDate || app.appliedDateFull || '14/10/2026'}</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <span style="background:#ecfdf5;color:#047857;font-size:11px;font-weight:800;padding:2px 8px;border-radius:9999px">Phù hợp ${app.matchScore || app.matchPct || 67}%</span>
+              <span style="background:#e0f2fe;color:#0369a1;font-size:11px;font-weight:800;padding:2px 8px;border-radius:9999px">📄 CV_NguyenVanAn_Backend.pdf</span>
+            </div>
+          </div>
+          <span style="background:#dcfce7;color:#065f46;border:1px solid #86efac;font-size:12px;font-weight:800;padding:6px 14px;border-radius:9999px;white-space:nowrap">
+            ${app.status || 'Đang xem xét'}
+          </span>
+        </div>
+      `).join('');
     }
 
     // ══════════════════════════════════════════════════════
@@ -7097,6 +8362,7 @@
     function initDashboardCharts() {
       buildOverviewGapChart();
       buildIndustryPie();
+      initYearShiftSection();
     }
 
     function buildOverviewGapChart() {
@@ -7148,23 +8414,779 @@
     }
 
     // ══════════════════════════════════════════════════════
-    //  SOFT SKILLS
+    //  YEAR-OVER-YEAR INDUSTRY SHIFT & TREND ANALYSIS (XU HƯỚNG CHUYỂN DỊCH NGÀNH)
     // ══════════════════════════════════════════════════════
+    const YEAR_SHIFT_DATA = {
+      '2024-2025': {
+        fromYear: '2024',
+        toYear: '2025',
+        bannerPeriod: 'Giai đoạn 2024 – 2025',
+        summary: 'Thị trường bắt đầu bước vào giai đoạn phục hồi và tăng trưởng số. <strong>IT & Công nghệ (+23.9%)</strong> và <strong>Du lịch & Khách sạn (+16.7%)</strong> là hai điểm sáng lớn, trong khi <strong>Kinh tế truyền thống (-6.9%)</strong> bắt đầu chững lại.',
+        topWinner: { name: 'IT & Công nghệ', growth: '+23.9%', sub: 'Tỷ trọng tăng từ 25.5% → 28.5%' },
+        runnerUp: { name: 'Du lịch & Khách sạn', growth: '+16.7%', sub: 'Phục hồi sau dịch, khách quốc tế tăng' },
+        agri: { name: 'Nông nghiệp CNC', growth: '+28.6%', sub: 'Mô hình ứng dụng IoT khởi động' },
+        decliner: { name: 'Kinh tế & Kế toán', growth: '-6.9%', sub: 'Thị phần giảm từ 32.2% → 27.0%' },
+        industries: [
+          { name: 'IT & Công nghệ', icon: '💻', countFrom: 230, pctFrom: 25.5, countTo: 285, pctTo: 28.5, growth: 23.9, trend: 'Tăng trưởng nhanh', statusClass: 'growth', drivers: 'Thành lập trung tâm phần mềm vệ tinh, chuyển đổi số doanh nghiệp ĐBSCL' },
+          { name: 'Logistics & XNK', icon: '🚢', countFrom: 165, pctFrom: 18.3, countTo: 190, pctTo: 19.0, growth: 15.2, trend: 'Tăng trưởng đều', statusClass: 'growth', drivers: 'Mở rộng cao tốc Trung Lương - Mỹ Thuận - Cần Thơ, dịch vụ kho vận' },
+          { name: 'Du lịch & Khách sạn', icon: '✈️', countFrom: 180, pctFrom: 20.0, countTo: 210, pctTo: 21.0, growth: 16.7, trend: 'Phục hồi tích cực', statusClass: 'growth', drivers: 'Du lịch MICE & sinh thái miệt vườn đón dòng khách quốc tế trở lại' },
+          { name: 'Kinh tế & Tài chính', icon: '📊', countFrom: 290, pctFrom: 32.2, countTo: 270, pctTo: 27.0, growth: -6.9, trend: 'Bão hòa & Giảm nhẹ', statusClass: 'decline', drivers: 'Tự động hóa tác vụ nhập liệu, sáp nhập phòng giao dịch ngân hàng' },
+          { name: 'Nông nghiệp CNC', icon: '🌱', countFrom: 35, pctFrom: 3.9, countTo: 45, pctTo: 4.5, growth: 28.6, trend: 'Bắt đầu khởi sắc', statusClass: 'boom', drivers: 'Thử nghiệm cảm biến IoT đo độ mặn, canh tác hữu cơ xuất khẩu' }
+        ]
+      },
+      '2025-2026': {
+        fromYear: '2025',
+        toYear: '2026',
+        bannerPeriod: 'Giai đoạn 2025 – 2026',
+        summary: 'Thị trường lao động TP. Cần Thơ & ĐBSCL đang chuyển dịch bùng nổ sang <strong>IT & Công nghệ số (+35.1%)</strong> và <strong>Logistics (+26.8%)</strong>. Ngược lại, ngành <strong>Kinh tế & Kế toán truyền thống sụt giảm tỷ trọng (-42.2%)</strong> do tác động của tự động hóa và AI.',
+        topWinner: { name: 'IT & Công nghệ', growth: '+35.1%', sub: 'Tỷ trọng tăng từ 28.5% → 38.5% (+10% thị phần)' },
+        runnerUp: { name: 'Logistics & XNK', growth: '+26.8%', sub: 'Tỷ trọng tăng từ 19.0% → 24.1% (+5.1% thị phần)' },
+        agri: { name: 'Nông nghiệp CNC', growth: '+73.3%', sub: 'Thị phần tăng vọt từ 4.5% → 7.8%' },
+        decliner: { name: 'Kinh tế & Kế toán', growth: '-42.2%', sub: 'Thị phần sụt giảm từ 27.0% → 15.6%' },
+        industries: [
+          { name: 'IT & Công nghệ', icon: '💻', countFrom: 285, pctFrom: 28.5, countTo: 385, pctTo: 38.5, growth: 35.1, trend: '🔥 Chuyển dịch trọng tâm', statusClass: 'boom', drivers: 'Sự mở rộng của FPT, TMA, Viettel Digital; nhu cầu Python, Cloud, Fullstack, AI' },
+          { name: 'Logistics & XNK', icon: '🚢', countFrom: 190, pctFrom: 19.0, countTo: 241, pctTo: 24.1, growth: 26.8, trend: '🚀 Tăng trưởng mạnh mẽ', statusClass: 'growth', drivers: 'Cảng nước sâu Cái Cui, logistics chuỗi lạnh nông thủy sản xuất khẩu EU, Mỹ' },
+          { name: 'Du lịch & Khách sạn', icon: '✈️', countFrom: 210, pctFrom: 21.0, countTo: 218, pctTo: 21.8, growth: 3.8, trend: '⚖️ Ổn định & Chuyên sâu', statusClass: 'stable', drivers: 'Chuyển đổi số du lịch, nâng chuẩn ngoại ngữ & kỹ năng trải nghiệm khách hàng' },
+          { name: 'Kinh tế & Tài chính', icon: '📊', countFrom: 270, pctFrom: 27.0, countTo: 156, pctTo: 15.6, growth: -42.2, trend: '📉 Thu hẹp (Tự động hóa)', statusClass: 'decline', drivers: 'Ứng dụng GenAI, RPA trong kế toán & thuế, giảm mạnh chỉ tiêu kế toán sơ cấp' },
+          { name: 'Nông nghiệp CNC', icon: '🌱', countFrom: 45, pctFrom: 4.5, countTo: 78, pctTo: 7.8, growth: 73.3, trend: '🌱 Tăng tốc đột phá', statusClass: 'boom', drivers: 'Đề án 1 triệu ha lúa chất lượng cao, drone gieo sạ, cảm biến IoT đo độ phèn mặn' }
+        ]
+      },
+      '2026-2027': {
+        fromYear: '2026',
+        toYear: '2027 (Dự báo)',
+        bannerPeriod: 'Dự báo giai đoạn 2026 – 2027',
+        summary: 'Dự báo lực lượng lao động tiếp tục dịch chuyển mạnh về <strong>Kinh tế số & Kinh tế xanh</strong>. <strong>IT và Logistics chiếm hơn 68%</strong> tổng việc làm mới, trong khi <strong>Nông nghiệp công nghệ cao vượt mốc 10%</strong> thị phần.',
+        topWinner: { name: 'Nông nghiệp CNC & IT', growth: '+41.0%', sub: 'Bùng nổ nông nghiệp xanh & tín chỉ carbon' },
+        runnerUp: { name: 'Logistics & Cảng biển', growth: '+20.3%', sub: 'Trở thành trung tâm logistics vùng ĐBSCL' },
+        agri: { name: 'Nông nghiệp CNC', growth: '+41.0%', sub: 'Thị phần chính thức đạt 10.0%' },
+        decliner: { name: 'Kế toán truyền thống', growth: '-26.3%', sub: 'Thị phần chỉ còn 10.5%, dịch chuyển sang Fintech' },
+        industries: [
+          { name: 'IT & Công nghệ', icon: '💻', countFrom: 385, pctFrom: 38.5, countTo: 460, pctTo: 41.8, growth: 19.5, trend: '👑 Giữ vị thế chủ lực', statusClass: 'boom', drivers: 'Kỹ sư AI Agent, Data Engineer, An toàn thông tin phục vụ đô thị thông minh Cần Thơ' },
+          { name: 'Logistics & XNK', icon: '🚢', countFrom: 241, pctFrom: 24.1, countTo: 290, pctTo: 26.4, growth: 20.3, trend: '🚀 Tăng trưởng bền vững', statusClass: 'growth', drivers: 'Hạ tầng cao tốc kết nối toàn vùng, hình thành trung tâm logistics liên vùng' },
+          { name: 'Du lịch & Khách sạn', icon: '✈️', countFrom: 218, pctFrom: 21.8, countTo: 225, pctTo: 20.5, growth: 3.2, trend: '⚖️ Duy trì ổn định', statusClass: 'stable', drivers: 'Nghỉ dưỡng sinh thái ven sông Hậu cao cấp, du lịch kết hợp chăm sóc sức khỏe' },
+          { name: 'Kinh tế & Tài chính', icon: '📊', countFrom: 156, pctFrom: 15.6, countTo: 115, pctTo: 10.5, growth: -26.3, trend: '🔄 Chuyển dịch sang Fintech', statusClass: 'decline', drivers: 'Vị trí kế toán truyền thống giảm, chỉ tuyển chuyên viên phân tích tài chính số' },
+          { name: 'Nông nghiệp CNC', icon: '🌱', countFrom: 78, pctFrom: 7.8, countTo: 110, pctTo: 10.0, growth: 41.0, trend: '🌱 Bùng nổ kinh tế xanh', statusClass: 'boom', drivers: 'Thương mại tín chỉ carbon lúa gạo, chế biến sâu xuất khẩu nông thủy sản' }
+        ]
+      }
+    };
+
+    const MULTI_YEAR_LINE_DATA = {
+      labels: ['2023', '2024', '2025', '2026', '2027 (Dự báo)'],
+      datasets: [
+        { label: 'IT & Công nghệ', data: [180, 230, 285, 385, 460], borderColor: '#0fa39e', backgroundColor: 'rgba(15,163,158,0.1)', tension: 0.35, borderWidth: 3, pointRadius: 4, pointHoverRadius: 6 },
+        { label: 'Logistics & XNK', data: [140, 165, 190, 241, 290], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.35, borderWidth: 3, pointRadius: 4, pointHoverRadius: 6 },
+        { label: 'Du lịch & Khách sạn', data: [150, 180, 210, 218, 225], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', tension: 0.35, borderWidth: 3, pointRadius: 4, pointHoverRadius: 6 },
+        { label: 'Kinh tế & Tài chính', data: [310, 290, 270, 156, 115], borderColor: '#dc2626', backgroundColor: 'rgba(220,38,38,0.1)', tension: 0.35, borderWidth: 3, pointRadius: 4, pointHoverRadius: 6 },
+        { label: 'Nông nghiệp CNC', data: [25, 35, 45, 78, 110], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.1)', tension: 0.35, borderWidth: 3, pointRadius: 4, pointHoverRadius: 6 }
+      ]
+    };
+
+    let industryTrendLineInst = null;
+    let industryShiftCompareInst = null;
+    let currentShiftPeriodKey = '2025-2026';
+
+    function initYearShiftSection() {
+      renderYearShiftData(currentShiftPeriodKey);
+      buildIndustryTrendLineChart();
+      buildIndustryShiftCompareChart(currentShiftPeriodKey);
+    }
+
+    function selectShiftPeriod(periodKey, btnEl) {
+      currentShiftPeriodKey = periodKey;
+      document.querySelectorAll('.shift-period-pill').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.background = 'none';
+        btn.style.color = 'var(--text2)';
+        btn.style.fontWeight = '600';
+        btn.style.boxShadow = 'none';
+      });
+      if (btnEl) {
+        btnEl.classList.add('active');
+        btnEl.style.background = 'var(--primary)';
+        btnEl.style.color = '#ffffff';
+        btnEl.style.fontWeight = '800';
+        btnEl.style.boxShadow = '0 2px 8px rgba(15,163,158,0.3)';
+      }
+      renderYearShiftData(periodKey);
+      buildIndustryShiftCompareChart(periodKey);
+    }
+
+    function renderYearShiftData(periodKey) {
+      const data = YEAR_SHIFT_DATA[periodKey] || YEAR_SHIFT_DATA['2025-2026'];
+
+      // Banner text
+      const periodTextEl = document.getElementById('shiftBannerPeriodText');
+      if (periodTextEl) periodTextEl.textContent = data.bannerPeriod;
+      const descEl = document.getElementById('shiftBannerDescription');
+      if (descEl) descEl.innerHTML = data.summary;
+
+      // 4 Stat Cards
+      const setCard = (prefix, obj) => {
+        const nameEl = document.getElementById(prefix + 'Name');
+        const grEl = document.getElementById(prefix + 'Growth');
+        const subEl = document.getElementById(prefix + 'Sub');
+        if (nameEl) nameEl.textContent = obj.name;
+        if (grEl) grEl.textContent = obj.growth;
+        if (subEl) subEl.textContent = obj.sub;
+      };
+      setCard('shiftStatTopWinner', data.topWinner);
+      setCard('shiftStatRunnerUp', data.runnerUp);
+      setCard('shiftStatAgri', data.agri);
+      setCard('shiftStatDecliner', data.decliner);
+
+      // Compare chart title
+      const chartTitleEl = document.getElementById('shiftCompareChartTitle');
+      if (chartTitleEl) chartTitleEl.textContent = `So Sánh Cơ Cấu Tỷ Trọng (${data.fromYear} vs ${data.toYear})`;
+
+      // Table headers
+      const thFrom = document.getElementById('thYearFrom');
+      const thTo = document.getElementById('thYearTo');
+      const tableSub = document.getElementById('shiftTableSubText');
+      if (thFrom) thFrom.textContent = `NĂM ${data.fromYear}`;
+      if (thTo) thTo.textContent = `NĂM ${data.toYear}`;
+      if (tableSub) tableSub.textContent = `So sánh đối chiếu chi tiết giữa năm ${data.fromYear} và năm ${data.toYear}`;
+
+      // Table Body
+      const tbody = document.getElementById('industryShiftTableBody');
+      if (tbody) {
+        tbody.innerHTML = data.industries.map(ind => {
+          const isPos = ind.growth > 0;
+          const deltaColor = isPos ? '#059669' : '#dc2626';
+          const deltaBg = isPos ? '#ecfdf5' : '#fef2f2';
+          const deltaBorder = isPos ? '#a7f3d0' : '#fecdd3';
+          const arrow = isPos ? '↗' : '↘';
+
+          let badgeStyle = 'background:#f1f5f9;color:#334155';
+          if (ind.statusClass === 'boom') badgeStyle = 'background:#dcfce7;color:#065f46;border:1px solid #86efac;font-weight:800';
+          else if (ind.statusClass === 'growth') badgeStyle = 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;font-weight:700';
+          else if (ind.statusClass === 'stable') badgeStyle = 'background:#fef9c3;color:#854d0e;border:1px solid #fde047;font-weight:700';
+          else if (ind.statusClass === 'decline') badgeStyle = 'background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-weight:700';
+
+          return `
+            <tr style="border-bottom:1px solid var(--border); transition:background 0.15s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='transparent'">
+              <td style="padding:14px 12px; font-weight:800; color:var(--text)">
+                <span style="font-size:16px; margin-right:6px">${ind.icon}</span> ${ind.name}
+              </td>
+              <td style="padding:14px 12px; text-align:center; color:var(--text2)">
+                <strong>${ind.countFrom}</strong> tin <br/><span style="font-size:11px; color:var(--text3)">(${ind.pctFrom}%)</span>
+              </td>
+              <td style="padding:14px 12px; text-align:center; color:var(--text); font-weight:700">
+                <strong>${ind.countTo}</strong> tin <br/><span style="font-size:11px; color:var(--primary); font-weight:800">(${ind.pctTo}%)</span>
+              </td>
+              <td style="padding:14px 12px; text-align:center">
+                <span style="background:${deltaBg}; border:1px solid ${deltaBorder}; color:${deltaColor}; padding:4px 10px; border-radius:9999px; font-weight:800; font-size:12px; display:inline-flex; align-items:center; gap:4px">
+                  ${isPos ? '+' : ''}${ind.growth}% ${arrow}
+                </span>
+              </td>
+              <td style="padding:14px 12px; min-width:180px">
+                <div style="font-size:11px; color:var(--text3); margin-bottom:4px; display:flex; justify-content:space-between">
+                  <span>${ind.pctFrom}%</span>
+                  <span style="color:var(--primary); font-weight:700">${ind.pctTo}%</span>
+                </div>
+                <div style="height:8px; border-radius:9999px; background:var(--bg3); display:flex; overflow:hidden">
+                  <div style="width:${ind.pctFrom}%; background:#94a3b8; opacity:0.6; border-radius:9999px 0 0 9999px"></div>
+                  <div style="width:${Math.max(0, ind.pctTo - ind.pctFrom)}%; background:${deltaColor}; border-radius:0 9999px 9999px 0"></div>
+                </div>
+              </td>
+              <td style="padding:14px 12px">
+                <span style="padding:4px 10px; border-radius:9999px; font-size:11.5px; white-space:nowrap; ${badgeStyle}">
+                  ${ind.trend}
+                </span>
+              </td>
+              <td style="padding:14px 12px; font-size:12px; color:var(--text2); max-width:260px; line-height:1.4">
+                ${ind.drivers}
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    function buildIndustryTrendLineChart() {
+      const ctx = document.getElementById('industryTrendLineChart');
+      if (!ctx) return;
+      if (industryTrendLineInst) industryTrendLineInst.destroy();
+
+      industryTrendLineInst = new Chart(ctx, {
+        type: 'line',
+        data: MULTI_YEAR_LINE_DATA,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#8892a4', font: { size: 11, family: 'Be Vietnam Pro' }, padding: 12, usePointStyle: true, boxWidth: 8 }
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} việc làm`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
+              ticks: { color: '#8892a4', font: { size: 11, family: 'Be Vietnam Pro' } }
+            },
+            y: {
+              grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
+              ticks: { color: '#8892a4', font: { size: 10 } },
+              title: { display: true, text: 'Số lượng tin tuyển dụng', color: '#8892a4', font: { size: 10 } }
+            }
+          }
+        }
+      });
+    }
+
+    function buildIndustryShiftCompareChart(periodKey) {
+      const ctx = document.getElementById('industryShiftCompareChart');
+      if (!ctx) return;
+      if (industryShiftCompareInst) industryShiftCompareInst.destroy();
+
+      const data = YEAR_SHIFT_DATA[periodKey] || YEAR_SHIFT_DATA['2025-2026'];
+      const labels = data.industries.map(i => i.name.replace(' & ', '\n& '));
+      const datasetFrom = data.industries.map(i => i.pctFrom);
+      const datasetTo = data.industries.map(i => i.pctTo);
+
+      industryShiftCompareInst = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: `Năm ${data.fromYear} (%)`,
+              data: datasetFrom,
+              backgroundColor: 'rgba(148, 163, 184, 0.7)',
+              borderRadius: 6
+            },
+            {
+              label: `Năm ${data.toYear} (%)`,
+              data: datasetTo,
+              backgroundColor: ['#0fa39e', '#f59e0b', '#10b981', '#dc2626', '#7c3aed'],
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#8892a4', font: { size: 11, family: 'Be Vietnam Pro' }, padding: 10 }
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}% thị phần`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
+              ticks: { color: '#8892a4', font: { size: 10, family: 'Be Vietnam Pro' } }
+            },
+            y: {
+              grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
+              ticks: {
+                color: '#8892a4',
+                font: { size: 10 },
+                callback: v => `${v}%`
+              },
+              title: { display: true, text: 'Tỷ trọng thị phần (%)', color: '#8892a4', font: { size: 10 } }
+            }
+          }
+        }
+      });
+    }
+
+    // ══════════════════════════════════════════════════════
+    //  SOFT SKILLS CHARTS (TOP 5 GỘP CỘT & ĐƯỜNG XU HƯỚNG)
+    // ══════════════════════════════════════════════════════
+    let softSkillsDisplayCount = 5; // Mặc định hiển thị Top 5 skill nghề trọng điểm để không bị sít
+    let softBarChartAxis = 'x'; // 'x' for vertical column, 'y' for horizontal bar
+    let softTrendActiveMetric = 'gap'; // 'gap' or 'demand'
+    let modalSoftFilterIndustry = 'all';
+    let modalSoftBarAxis = 'y'; // Trong modal mở rộng mặc định thanh ngang thoáng đãng
+
+    // Dữ liệu chuỗi thời gian 7 quý gần nhất (Q1/2025 -> Q3/2026)
+    const SOFT_SKILLS_TREND_DATA = {
+      quarters: ['Q1/2025', 'Q2/2025', 'Q3/2025', 'Q4/2025', 'Q1/2026', 'Q2/2026', 'Q3/2026 (Hiện tại)'],
+      skills: [
+        {
+          name: 'Tiếng Anh (IT & Logistics)',
+          color: '#8b5cf6',
+          demandHistory: [65.0, 68.4, 71.2, 74.0, 76.5, 78.0, 79.8],
+          gapHistory: [28.0, 31.2, 33.5, 36.0, 38.2, 39.5, 40.6]
+        },
+        {
+          name: 'Tư duy phản biện (Fintech & AI)',
+          color: '#0ea5e9',
+          demandHistory: [48.0, 52.5, 57.0, 61.8, 65.4, 68.7, 71.3],
+          gapHistory: [18.5, 22.0, 26.1, 29.8, 33.0, 35.2, 36.7]
+        },
+        {
+          name: 'Giao tiếp (Du lịch & Dịch vụ)',
+          color: '#ef4444',
+          demandHistory: [78.0, 80.2, 82.5, 84.1, 85.8, 87.2, 88.4],
+          gapHistory: [30.5, 31.8, 32.9, 34.0, 35.1, 35.8, 36.3]
+        },
+        {
+          name: 'Giải quyết vấn đề (CNTT & Kỹ thuật)',
+          color: '#f59e0b',
+          demandHistory: [70.0, 72.5, 75.0, 77.2, 79.5, 81.0, 82.6],
+          gapHistory: [26.0, 27.8, 29.5, 31.2, 32.8, 33.6, 34.3]
+        },
+        {
+          name: 'Thích nghi (Tech & GenAI)',
+          color: '#10b981',
+          demandHistory: [35.0, 38.5, 42.0, 46.2, 49.8, 52.5, 55.4],
+          gapHistory: [8.0, 9.5, 10.8, 12.0, 13.1, 13.8, 14.2]
+        }
+      ]
+    };
+
     function initSoftSkills() {
       buildSoftCharts();
       renderSoftTable(SOFT_SKILLS);
     }
 
     function buildSoftCharts() {
-      buildSmallBarChart('softDemandChart', SOFT_SKILLS, 'demand', 'rgba(220,38,38,0.85)');
-      buildSmallBarChart('softSupplyChart', SOFT_SKILLS, 'supply', 'rgba(15,163,158,0.85)');
-      buildSmallBarChart('softGapChart', SOFT_SKILLS, 'gap', 'rgba(124,58,237,0.80)');
+      buildSoftCombinedBarChart();
+      buildSoftTrendLineChart();
+    }
+
+    function toggleSoftSkillsInlineCount() {
+      softSkillsDisplayCount = (softSkillsDisplayCount === 5) ? 10 : 5;
+      const btnText = document.getElementById('btnToggleSoftInlineText');
+      const subTitle = document.getElementById('softBarChartSubTitle');
+      const note = document.getElementById('softBarStatusNote');
+      
+      if (softSkillsDisplayCount === 5) {
+        if (btnText) btnText.textContent = '⭐ Xem Top 5 (Mặc định)';
+        if (subTitle) subTitle.textContent = 'Đang xem Top 5 kỹ năng nghề trọng điểm · Hiện rõ tên ngành tương ứng bên dưới';
+        if (note) note.innerHTML = 'Hiển thị thoáng <strong>Top 5 kỹ năng</strong> để đọc rõ tên nghề &amp; ngành. Bấm <strong>"Xem Chi Tiết"</strong> để mở toàn cảnh 10 skill.';
+      } else {
+        if (btnText) btnText.textContent = '⭐ Thu Gọn Top 5 Skill';
+        if (subTitle) subTitle.textContent = 'Đang hiển thị toàn cảnh 10 kỹ năng nghề · Bấm nút để thu gọn Top 5 thoáng hơn';
+        if (note) note.innerHTML = 'Đang hiển thị <strong>Tất cả 10 kỹ năng nghề</strong>. Bạn có thể bấm <strong>"Thu Gọn Top 5"</strong> hoặc mở <strong>"Xem Chi Tiết"</strong> toàn màn hình.';
+      }
+      buildSoftCombinedBarChart();
+    }
+
+    function toggleSoftBarAxis() {
+      softBarChartAxis = (softBarChartAxis === 'x') ? 'y' : 'x';
+      const icon = document.getElementById('softBarAxisIcon');
+      if (icon) {
+        icon.textContent = (softBarChartAxis === 'x') ? '📊 Cột Dọc' : '📑 Thanh Ngang';
+      }
+      buildSoftCombinedBarChart();
+    }
+
+    function switchSoftTrendMetric(metric) {
+      softTrendActiveMetric = metric;
+      const btnGap = document.getElementById('btnSoftTrendGap');
+      const btnDemand = document.getElementById('btnSoftTrendDemand');
+      const subTitle = document.getElementById('softTrendSubTitle');
+
+      if (btnGap && btnDemand) {
+        if (metric === 'gap') {
+          btnGap.style.background = '#7c3aed';
+          btnGap.style.color = '#ffffff';
+          btnGap.style.borderColor = '#7c3aed';
+          btnDemand.style.background = '#ffffff';
+          btnDemand.style.color = '#64748b';
+          btnDemand.style.borderColor = '#cbd5e1';
+          if (subTitle) subTitle.textContent = 'Quỹ đạo biến động độ thiếu hụt (Gap %) qua 7 quý gần nhất';
+        } else {
+          btnDemand.style.background = '#ef4444';
+          btnDemand.style.color = '#ffffff';
+          btnDemand.style.borderColor = '#ef4444';
+          btnGap.style.background = '#ffffff';
+          btnGap.style.color = '#64748b';
+          btnGap.style.borderColor = '#cbd5e1';
+          if (subTitle) subTitle.textContent = 'Quỹ đạo tăng trưởng nhu cầu tuyển dụng (Demand %) qua 7 quý gần nhất';
+        }
+      }
+      buildSoftTrendLineChart();
+    }
+
+    function buildSoftCombinedBarChart() {
+      const ctx = document.getElementById('softCombinedBarChart');
+      if (!ctx) return;
+      if (ctx._chart) ctx._chart.destroy();
+
+      const sortedAll = [...SOFT_SKILLS].sort((a, b) => b.demand - a.demand);
+      const dataToShow = sortedAll.slice(0, softSkillsDisplayCount);
+      const isHorizontal = softBarChartAxis === 'y';
+
+      // Nhãn đa dòng: Dòng 1 = Tên Kỹ năng, Dòng 2 = [Tên Ngành]
+      const labels = dataToShow.map(s => {
+        let cleanName = s.skill;
+        if (cleanName.includes(' (Communication)')) cleanName = 'Giao tiếp';
+        else if (cleanName.includes(' (Ngoại ngữ chuyên môn)')) cleanName = 'Tiếng Anh';
+        else if (cleanName.length > 15) cleanName = cleanName.substring(0, 14) + '…';
+
+        const indName = s.shortIndustry || s.industry;
+        if (isHorizontal) {
+          return `${cleanName} [${indName}]`;
+        } else {
+          return [cleanName, `[${indName}]`];
+        }
+      });
+
+      ctx._chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Nhu Cầu (Demand %)',
+              data: dataToShow.map(s => s.demand),
+              backgroundColor: 'rgba(239, 68, 68, 0.88)',
+              borderColor: '#dc2626',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Cung Hiện Có (Supply %)',
+              data: dataToShow.map(s => s.supply),
+              backgroundColor: 'rgba(15, 163, 158, 0.88)',
+              borderColor: '#0d9488',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Thiếu Hụt (Gap %)',
+              data: dataToShow.map(s => s.gap),
+              backgroundColor: 'rgba(124, 58, 237, 0.88)',
+              borderColor: '#7c3aed',
+              borderWidth: 1,
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          indexAxis: softBarChartAxis,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                boxWidth: 12,
+                boxHeight: 12,
+                usePointStyle: true,
+                pointStyle: 'rectRounded',
+                font: { size: 11, family: "'Be Vietnam Pro', system-ui, sans-serif", weight: '600' },
+                color: '#334155'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                title: items => {
+                  const idx = items[0].dataIndex;
+                  const item = dataToShow[idx];
+                  return `${item.skill} — [Ngành: ${item.industry}]`;
+                },
+                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed[isHorizontal ? 'x' : 'y'].toFixed(1)}%`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: isHorizontal, color: 'rgba(0,0,0,0.04)' },
+              ticks: {
+                color: isHorizontal ? '#64748b' : '#0f172a',
+                font: {
+                  size: (softSkillsDisplayCount === 5 && !isHorizontal) ? 11 : 9.5,
+                  family: "'Be Vietnam Pro', system-ui, sans-serif",
+                  weight: isHorizontal ? 'normal' : '700'
+                },
+                maxRotation: isHorizontal ? 0 : (softSkillsDisplayCount === 5 ? 0 : 35),
+                minRotation: 0,
+                autoSkip: false,
+                callback: function(val, index) {
+                  if (isHorizontal) return val + '%';
+                  return this.getLabelForValue(val);
+                }
+              }
+            },
+            y: {
+              grid: { display: !isHorizontal, color: 'rgba(0,0,0,0.04)' },
+              ticks: {
+                color: isHorizontal ? '#0f172a' : '#64748b',
+                font: { size: 10.5, family: "'Be Vietnam Pro', system-ui, sans-serif", weight: isHorizontal ? '700' : 'normal' },
+                autoSkip: false,
+                callback: function(val, index) {
+                  if (!isHorizontal) return val + '%';
+                  return this.getLabelForValue(val);
+                }
+              },
+              max: !isHorizontal ? 100 : undefined
+            }
+          }
+        }
+      });
+    }
+
+    function buildSoftTrendLineChart() {
+      const ctx = document.getElementById('softTrendLineChart');
+      if (!ctx) return;
+      if (ctx._chart) ctx._chart.destroy();
+
+      const isGap = softTrendActiveMetric === 'gap';
+
+      const datasets = SOFT_SKILLS_TREND_DATA.skills.map(s => ({
+        label: s.name,
+        data: isGap ? s.gapHistory : s.demandHistory,
+        borderColor: s.color,
+        backgroundColor: s.color + '15',
+        borderWidth: 2.2,
+        tension: 0.35,
+        fill: false,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        pointBackgroundColor: '#ffffff',
+        pointBorderColor: s.color,
+        pointBorderWidth: 2
+      }));
+
+      ctx._chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: SOFT_SKILLS_TREND_DATA.quarters,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                boxWidth: 10,
+                usePointStyle: true,
+                font: { size: 10.5, family: "'Be Vietnam Pro', system-ui, sans-serif", weight: '600' },
+                color: '#475569'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: '#64748b', font: { size: 10.5 } }
+            },
+            y: {
+              grid: { color: 'rgba(0,0,0,0.04)' },
+              ticks: {
+                color: '#64748b',
+                font: { size: 10.5 },
+                callback: v => `${v}%`
+              },
+              title: {
+                display: true,
+                text: isGap ? 'Mức độ thiếu hụt Gap (%)' : 'Nhu cầu tuyển dụng (%)',
+                color: '#94a3b8',
+                font: { size: 10 }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // ══ MODAL CHI TIẾT TOÀN BỘ KỸ NĂNG & NGÀNH NGHỀ ══
+    function openSoftSkillsDetailModal() {
+      const modal = document.getElementById('modalSoftSkillsDetail');
+      if (!modal) return;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      renderModalSoftChart();
+      renderModalSoftTable();
+    }
+
+    function closeSoftSkillsDetailModal() {
+      const modal = document.getElementById('modalSoftSkillsDetail');
+      if (!modal) return;
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function filterModalSoftSkills(indKey, btnEl) {
+      modalSoftFilterIndustry = indKey;
+      if (btnEl && btnEl.parentElement) {
+        btnEl.parentElement.querySelectorAll('.btn-soft-filter').forEach(b => {
+          b.style.background = '#ffffff';
+          b.style.color = '#475569';
+          b.style.borderColor = '#cbd5e1';
+          b.style.fontWeight = '600';
+        });
+        btnEl.style.background = '#0fa39e';
+        btnEl.style.color = '#ffffff';
+        btnEl.style.borderColor = '#0fa39e';
+        btnEl.style.fontWeight = '700';
+      }
+      renderModalSoftChart();
+      renderModalSoftTable();
+    }
+
+    function toggleModalSoftBarAxis() {
+      modalSoftBarAxis = (modalSoftBarAxis === 'y') ? 'x' : 'y';
+      const icon = document.getElementById('modalSoftBarAxisIcon');
+      if (icon) {
+        icon.textContent = (modalSoftBarAxis === 'y') ? '📊 Chuyển Cột Dọc' : '📑 Chuyển Thanh Ngang';
+      }
+      renderModalSoftChart();
+    }
+
+    function renderModalSoftChart() {
+      const ctx = document.getElementById('modalSoftFullBarChart');
+      if (!ctx) return;
+      if (ctx._chart) ctx._chart.destroy();
+
+      let items = [...SOFT_SKILLS].sort((a, b) => b.demand - a.demand);
+      if (modalSoftFilterIndustry !== 'all') {
+        items = items.filter(s => (s.shortIndustry || s.industry).toLowerCase().includes(modalSoftFilterIndustry.toLowerCase()));
+      }
+
+      const isHorizontal = modalSoftBarAxis === 'y';
+      const labels = items.map(s => {
+        const ind = s.shortIndustry || s.industry;
+        if (isHorizontal) {
+          return `${s.skill} [${ind}]`;
+        } else {
+          return [s.skill.split('(')[0].trim(), `[${ind}]`];
+        }
+      });
+
+      ctx._chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Nhu Cầu (Demand %)',
+              data: items.map(s => s.demand),
+              backgroundColor: 'rgba(239, 68, 68, 0.88)',
+              borderColor: '#dc2626',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Cung Hiện Có (Supply %)',
+              data: items.map(s => s.supply),
+              backgroundColor: 'rgba(15, 163, 158, 0.88)',
+              borderColor: '#0d9488',
+              borderWidth: 1,
+              borderRadius: 4
+            },
+            {
+              label: 'Thiếu Hụt (Gap %)',
+              data: items.map(s => s.gap),
+              backgroundColor: 'rgba(124, 58, 237, 0.88)',
+              borderColor: '#7c3aed',
+              borderWidth: 1,
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          indexAxis: modalSoftBarAxis,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                boxWidth: 12,
+                font: { size: 11, family: "'Be Vietnam Pro', system-ui, sans-serif", weight: '600' }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                title: list => {
+                  const item = items[list[0].dataIndex];
+                  return `${item.skill} (Ngành: ${item.industry})`;
+                },
+                label: c => ` ${c.dataset.label}: ${c.parsed[isHorizontal ? 'x' : 'y'].toFixed(1)}%`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: isHorizontal, color: 'rgba(0,0,0,0.04)' },
+              ticks: {
+                color: isHorizontal ? '#64748b' : '#0f172a',
+                font: { size: 10.5, family: "'Be Vietnam Pro', system-ui, sans-serif" },
+                autoSkip: false,
+                callback: function(val, idx) {
+                  if (isHorizontal) return val + '%';
+                  return this.getLabelForValue(val);
+                }
+              }
+            },
+            y: {
+              grid: { display: !isHorizontal, color: 'rgba(0,0,0,0.04)' },
+              ticks: {
+                color: isHorizontal ? '#0f172a' : '#64748b',
+                font: { size: 11, family: "'Be Vietnam Pro', system-ui, sans-serif", weight: isHorizontal ? '700' : 'normal' },
+                autoSkip: false,
+                callback: function(val, idx) {
+                  if (!isHorizontal) return val + '%';
+                  return this.getLabelForValue(val);
+                }
+              },
+              max: !isHorizontal ? 100 : undefined
+            }
+          }
+        }
+      });
+    }
+
+    function renderModalSoftTable() {
+      const tbody = document.getElementById('modalSoftTableBody');
+      if (!tbody) return;
+      let items = [...SOFT_SKILLS].sort((a, b) => b.demand - a.demand);
+      if (modalSoftFilterIndustry !== 'all') {
+        items = items.filter(s => (s.shortIndustry || s.industry).toLowerCase().includes(modalSoftFilterIndustry.toLowerCase()));
+      }
+
+      tbody.innerHTML = items.map((s, idx) => {
+        const gapColor = s.gap > 35 ? 'red' : s.gap > 20 ? 'amber' : 'green';
+        return `
+          <tr style="border-bottom:1px solid #f1f5f9;font-size:12px">
+            <td style="padding:10px 12px;font-weight:700;color:#0f172a">#${idx + 1} ${s.skill}</td>
+            <td style="padding:10px 12px">
+              <span style="display:inline-block;padding:2px 8px;border-radius:6px;background:#f0fdfa;color:#0f766e;font-weight:600;font-size:11px;border:1px solid #ccfbf1">
+                🏷️ ${s.industry}
+              </span>
+            </td>
+            <td style="padding:10px 12px;font-weight:700;color:#ef4444">${s.demand}%</td>
+            <td style="padding:10px 12px;font-weight:700;color:#0d9488">${s.supply}%</td>
+            <td style="padding:10px 12px">
+              <span class="chip ${gapColor}" style="font-weight:700">${s.gap.toFixed(1)}%</span>
+            </td>
+            <td style="padding:10px 12px;font-weight:700;color:#10b981">🔺 ${s.trend}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function buildSmallBarChart(canvasId, data, field, color) {
       const ctx = document.getElementById(canvasId);
       if (!ctx) return;
-      // destroy old
       if (ctx._chart) ctx._chart.destroy();
       const sorted = [...data].sort((a, b) => b[field] - a[field]).slice(0, 10);
       ctx._chart = new Chart(ctx, {
@@ -7197,7 +9219,8 @@
     </button>`;
         return `<tr>
       <td class="rank-cell">${medal}</td>
-      <td class="skill-name-cell">${s.skill}</td>
+      <td class="skill-name-cell" style="font-weight:700">${s.skill}</td>
+      <td><span class="chip" style="background:#f0fdfa;color:#0f766e;border:1px solid #ccfbf1;font-weight:600;font-size:11px">🏷️ ${s.shortIndustry || s.industry}</span></td>
       <td><div class="pct-bar-wrap"><div class="pct-bar demand" style="width:${s.demand * 0.8}px;max-width:120px"></div><span class="pct-val">${s.demand}%</span></div></td>
       <td><div class="pct-bar-wrap"><div class="pct-bar supply" style="width:${s.supply * 0.8}px;max-width:120px"></div><span class="pct-val">${s.supply}%</span></div></td>
       <td><span class="chip ${gapColor}">${s.gap.toFixed(1)}%</span></td>
@@ -7208,7 +9231,12 @@
     }
 
     function filterSoftTable(q) {
-      const filtered = SOFT_SKILLS.filter(s => s.skill.toLowerCase().includes(q.toLowerCase()));
+      const qLow = q.toLowerCase();
+      const filtered = SOFT_SKILLS.filter(s => 
+        s.skill.toLowerCase().includes(qLow) || 
+        (s.industry && s.industry.toLowerCase().includes(qLow)) ||
+        (s.shortIndustry && s.shortIndustry.toLowerCase().includes(qLow))
+      );
       renderSoftTable(filtered);
     }
 
@@ -9450,8 +11478,7 @@
       if (token) {
         try {
           const res = await fetch(`${API_BASE}/api/auth/me`, {
-            headers: getAuthHeaders(),
-            credentials: 'include'
+            headers: getAuthHeaders()
           });
           if (res.ok) {
             const data = await res.json();
@@ -9701,8 +11728,7 @@
         if (token) {
           await fetch(`${API_BASE}/api/auth/logout`, {
             method: 'POST',
-            headers: getAuthHeaders(),
-            credentials: 'include'
+            headers: getAuthHeaders()
           });
         }
       } catch (e) {
@@ -9795,6 +11821,8 @@
       // Specific tab initializations
       if (tab === 'jobs') {
         renderEmployerPortalJobsTab();
+      } else if (tab === 'candidates') {
+        renderEmployerCandidatesList();
       } else if (tab === 'skills' || tab === 'market-skills') {
         renderEmployerMarketSkillsTab();
       } else if (tab === 'profile') {
@@ -9994,6 +12022,14 @@
         console.warn('API create job error:', err);
       }
 
+      // Sync with global_job_postings for candidate job board
+      try {
+        const raw = localStorage.getItem('global_job_postings');
+        const list = raw ? JSON.parse(raw) : [];
+        list.unshift(newJob);
+        localStorage.setItem('global_job_postings', JSON.stringify(list));
+      } catch (e) {}
+
       empPortalJobsData.unshift(newJob);
       renderEmployerJobsList();
       alert('Đăng tin tuyển dụng thành công!');
@@ -10003,6 +12039,14 @@
       if (!confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) return;
       if (id) {
         empPortalJobsData = empPortalJobsData.filter(j => j.id !== id);
+        // Sync deletion with global_job_postings
+        try {
+          const raw = localStorage.getItem('global_job_postings');
+          if (raw) {
+            const list = JSON.parse(raw).filter(j => j.id !== id);
+            localStorage.setItem('global_job_postings', JSON.stringify(list));
+          }
+        } catch (e) {}
       }
       if (el) {
         const card = el.closest('.emp-job-card');
@@ -10063,12 +12107,65 @@
 
     let currentSelectedCandidateId = 2; // Default to Nguyen Van An as in Mockup
 
+    function getEmployerCandidatesList() {
+      let list = [...EMP_CANDIDATES];
+      try {
+        const rawApps = localStorage.getItem('global_job_applications');
+        if (rawApps) {
+          const apps = JSON.parse(rawApps);
+          if (Array.isArray(apps)) {
+            apps.forEach(app => {
+              const exists = list.find(c => c.id === app.id || (c.email === app.candidateEmail && c.jobId === app.jobId));
+              if (!exists) {
+                list.unshift({
+                  id: app.id,
+                  jobId: app.jobId,
+                  name: app.candidateName,
+                  email: app.candidateEmail,
+                  appliedDate: app.appliedDate || 'Hôm nay',
+                  matchScore: app.matchScore || app.matchPct || 67,
+                  title: `${app.jobTitle} · Ứng viên mới nộp`,
+                  skillsOwned: app.skillsOwned || ['Python', 'SQL', 'Git', 'REST API'],
+                  skillsMissing: app.skillsMissing || ['FastAPI', 'Docker'],
+                  aiComment: app.aiComment || `Ứng viên đã nộp hồ sơ trực tuyến cho vị trí ${app.jobTitle}. Độ phù hợp ${app.matchScore || 67}%. Các kỹ năng khớp: ${(app.skillsOwned || []).join(', ')}.`
+                });
+              }
+            });
+          }
+        }
+      } catch (e) {}
+      return list;
+    }
+
+    function renderEmployerCandidatesList() {
+      const container = document.getElementById('empCandCardsList');
+      if (!container) return;
+      const list = getEmployerCandidatesList();
+
+      if (!list.some(c => c.id === currentSelectedCandidateId)) {
+        currentSelectedCandidateId = list[0]?.id || 2;
+      }
+
+      container.innerHTML = list.map(c => `
+        <div onclick="empSelectCandidate(${c.id})" id="empCandItem-${c.id}" class="emp-cand-item ${c.id === currentSelectedCandidateId ? 'active' : ''}" style="background:#fff; border-radius:18px; border:${c.id === currentSelectedCandidateId ? '2px solid #0d5f57' : '1px solid #e2e8f0'}; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s">
+          <div>
+            <div style="font-size:14px; font-weight:800; color:#0f172a">${c.name}</div>
+            <div style="font-size:12px; color:#64748b; margin-top:2px">${c.email} · Nộp ${c.appliedDate}</div>
+          </div>
+          <span style="background:${c.matchScore >= 75 ? '#dcfce7' : (c.matchScore >= 50 ? '#fef9c3' : '#ffe4e6')}; color:${c.matchScore >= 75 ? '#0f766e' : (c.matchScore >= 50 ? '#a16207' : '#e11d48')}; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">${c.matchScore}%</span>
+        </div>
+      `).join('');
+
+      empSelectCandidate(currentSelectedCandidateId);
+    }
+
     function empSelectCandidate(id) {
-      const cand = EMP_CANDIDATES.find(c => c.id === id);
+      const list = getEmployerCandidatesList();
+      const cand = list.find(c => c.id === id);
       if (!cand) return;
       currentSelectedCandidateId = id;
 
-      EMP_CANDIDATES.forEach(c => {
+      list.forEach(c => {
         const el = document.getElementById(`empCandItem-${c.id}`);
         if (el) {
           if (c.id === id) {
@@ -10112,13 +12209,15 @@
     }
 
     function empInviteCurrentCandidate() {
-      const cand = EMP_CANDIDATES.find(c => c.id === currentSelectedCandidateId);
+      const list = getEmployerCandidatesList();
+      const cand = list.find(c => c.id === currentSelectedCandidateId);
       if (!cand) return;
       alert(`Đã gửi email mời phỏng vấn đến ứng viên: ${cand.name} (${cand.email})!`);
     }
 
     function empRejectCurrentCandidate() {
-      const cand = EMP_CANDIDATES.find(c => c.id === currentSelectedCandidateId);
+      const list = getEmployerCandidatesList();
+      const cand = list.find(c => c.id === currentSelectedCandidateId);
       if (!cand) return;
       if (confirm(`Bạn có chắc muốn từ chối hồ sơ của ${cand.name}?`)) {
         const cardEl = document.getElementById(`empCandItem-${cand.id}`);
@@ -10428,13 +12527,131 @@
     ];
 
     let provCoursesList = [
-      { id: 1, title: 'Python Backend thực chiến', skill: 'Python', status: 'active', clicks: 128 },
-      { id: 2, title: 'FastAPI & Docker cho người mới', skill: 'Python', status: 'active', clicks: 74 },
-      { id: 3, title: 'Nhập môn Machine Learning', skill: 'Machine Learning', status: 'active', clicks: 96 },
-      { id: 4, title: 'Phân tích dữ liệu với Power BI', skill: 'Data Analysis', status: 'active', clicks: 61 },
-      { id: 5, title: 'IELTS 6.5 cho sinh viên', skill: 'English', status: 'pending', clicks: 0 },
-      { id: 6, title: 'Giao tiếp và thuyết trình', skill: 'Communication', status: 'pending', clicks: 0 }
+      {
+        id: 1,
+        title: 'Python Backend thực chiến',
+        skill: 'Python',
+        platform: 'Mekong Skills',
+        status: 'active',
+        statusLabel: 'Đang phân phối',
+        priority: '1',
+        clicks: 128,
+        date: '12/10/2026',
+        url: 'https://mekongskills.vn/python-backend',
+        theme: {
+          bg: '#e6f7f5',
+          titleColor: '#0a5146',
+          badgeColor: '#0a5146'
+        }
+      },
+      {
+        id: 2,
+        title: 'FastAPI & Docker cho người mới',
+        skill: 'Python',
+        platform: 'Udemy',
+        status: 'active',
+        statusLabel: 'Đang phân phối',
+        priority: '2',
+        clicks: 74,
+        date: '08/10/2026',
+        url: 'https://www.udemy.com/course/fastapi-docker',
+        theme: {
+          bg: '#eff6ff',
+          titleColor: '#1e3a8a',
+          badgeColor: '#1e3a8a'
+        }
+      },
+      {
+        id: 3,
+        title: 'Nhập môn Machine Learning',
+        skill: 'Machine Learning',
+        platform: 'Coursera',
+        status: 'active',
+        statusLabel: 'Đang phân phối',
+        priority: '1',
+        clicks: 96,
+        date: '02/10/2026',
+        url: 'https://www.coursera.org/learn/machine-learning-introduction',
+        theme: {
+          bg: '#f5f3ff',
+          titleColor: '#581c87',
+          badgeColor: '#581c87'
+        }
+      },
+      {
+        id: 4,
+        title: 'Phân tích dữ liệu với Power BI',
+        skill: 'Data Analysis',
+        platform: 'Mekong Skills',
+        status: 'active',
+        statusLabel: 'Đang phân phối',
+        priority: '1',
+        clicks: 61,
+        date: '25/09/2026',
+        url: 'https://mekongskills.vn/power-bi-analysis',
+        theme: {
+          bg: '#fff7ed',
+          titleColor: '#9a3412',
+          badgeColor: '#9a3412'
+        }
+      },
+      {
+        id: 5,
+        title: 'IELTS 6.5 cho sinh viên',
+        skill: 'English',
+        platform: 'Mekong Skills',
+        status: 'pending',
+        statusLabel: 'Chờ duyệt',
+        priority: '1',
+        clicks: 0,
+        date: '16/10/2026',
+        url: 'https://mekongskills.vn/ielts-6-5',
+        theme: {
+          bg: '#fdf2f8',
+          titleColor: '#9d174d',
+          badgeColor: '#9d174d'
+        }
+      },
+      {
+        id: 6,
+        title: 'Giao tiếp và thuyết trình',
+        skill: 'Communication',
+        platform: 'Mekong Skills',
+        status: 'pending',
+        statusLabel: 'Chờ duyệt',
+        priority: '2',
+        clicks: 0,
+        date: '15/10/2026',
+        url: 'https://mekongskills.vn/communication-skills',
+        theme: {
+          bg: '#fefce8',
+          titleColor: '#854d0e',
+          badgeColor: '#854d0e'
+        }
+      }
     ];
+
+    let provCurrentStatusFilter = 'all';
+    let provCurrentSkillFilter = 'all';
+    let provCurrentViewMode = 'grid';
+
+    function getSkillTheme(skill) {
+      const s = String(skill || '').toLowerCase();
+      if (s.includes('python')) {
+        return { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' };
+      } else if (s.includes('machine learning') || s.includes('ai')) {
+        return { bg: '#f5f3ff', titleColor: '#581c87', badgeColor: '#581c87' };
+      } else if (s.includes('data') || s.includes('analytics')) {
+        return { bg: '#fff7ed', titleColor: '#9a3412', badgeColor: '#9a3412' };
+      } else if (s.includes('english') || s.includes('tiếng anh')) {
+        return { bg: '#fdf2f8', titleColor: '#9d174d', badgeColor: '#9d174d' };
+      } else if (s.includes('communication') || s.includes('giao tiếp')) {
+        return { bg: '#fefce8', titleColor: '#854d0e', badgeColor: '#854d0e' };
+      } else if (s.includes('docker') || s.includes('devops')) {
+        return { bg: '#eff6ff', titleColor: '#1e3a8a', badgeColor: '#1e3a8a' };
+      }
+      return { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' };
+    }
 
     function updateProviderPortalInfo() {
       try {
@@ -10459,7 +12676,7 @@
       if (avatar) avatar.textContent = initial;
 
       renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
-      renderProviderCoursesTable();
+      renderProviderCourses();
     }
 
     function switchProvTab(tab) {
@@ -10491,7 +12708,7 @@
       if (tab === 'gap-analytics') {
         renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
       } else if (tab === 'courses') {
-        renderProviderCoursesTable();
+        renderProviderCourses();
       }
     }
 
@@ -10542,13 +12759,240 @@
       renderProviderSkillsTable(val);
     }
 
+    function provSetStatusFilter(status) {
+      provCurrentStatusFilter = status;
+
+      const btnAll = document.getElementById('provFilterBtnAll');
+      const btnActive = document.getElementById('provFilterBtnActive');
+      const btnPending = document.getElementById('provFilterBtnPending');
+
+      if (btnAll) {
+        btnAll.style.background = status === 'all' ? '#0d5f57' : '#ffffff';
+        btnAll.style.color = status === 'all' ? '#ffffff' : '#475569';
+        btnAll.style.border = status === 'all' ? 'none' : '1px solid #e2e8f0';
+        const b = document.getElementById('provBadgeAll');
+        if (b) {
+          b.style.background = status === 'all' ? '#073d35' : '#f1f5f9';
+          b.style.color = status === 'all' ? '#ffffff' : '#475569';
+        }
+      }
+
+      if (btnActive) {
+        btnActive.style.background = status === 'active' ? '#0d5f57' : '#ffffff';
+        btnActive.style.color = status === 'active' ? '#ffffff' : '#475569';
+        btnActive.style.border = status === 'active' ? 'none' : '1px solid #e2e8f0';
+        const b = document.getElementById('provBadgeActive');
+        if (b) {
+          b.style.background = status === 'active' ? '#073d35' : '#f1f5f9';
+          b.style.color = status === 'active' ? '#ffffff' : '#475569';
+        }
+      }
+
+      if (btnPending) {
+        btnPending.style.background = status === 'pending' ? '#0d5f57' : '#ffffff';
+        btnPending.style.color = status === 'pending' ? '#ffffff' : '#475569';
+        btnPending.style.border = status === 'pending' ? 'none' : '1px solid #e2e8f0';
+        const b = document.getElementById('provBadgePending');
+        if (b) {
+          b.style.background = status === 'pending' ? '#073d35' : '#f1f5f9';
+          b.style.color = status === 'pending' ? '#ffffff' : '#475569';
+        }
+      }
+
+      renderProviderCourses();
+    }
+
+    function provSetSkillFilter(skill) {
+      provCurrentSkillFilter = skill;
+      renderProviderCourses();
+    }
+
+    function provSetViewMode(mode) {
+      provCurrentViewMode = mode;
+      const gridBtn = document.getElementById('provViewModeGrid');
+      const tableBtn = document.getElementById('provViewModeTable');
+      const gridContainer = document.getElementById('provCoursesGridContainer');
+      const tableContainer = document.getElementById('provCoursesTableContainer');
+
+      if (mode === 'grid') {
+        if (gridBtn) {
+          gridBtn.style.background = '#ffffff';
+          gridBtn.style.color = '#0d5f57';
+          gridBtn.style.boxShadow = '0 1px 2px rgba(0,0,0,0.06)';
+        }
+        if (tableBtn) {
+          tableBtn.style.background = 'transparent';
+          tableBtn.style.color = '#64748b';
+          tableBtn.style.boxShadow = 'none';
+        }
+        if (gridContainer) gridContainer.style.display = 'grid';
+        if (tableContainer) tableContainer.style.display = 'none';
+      } else {
+        if (tableBtn) {
+          tableBtn.style.background = '#ffffff';
+          tableBtn.style.color = '#0d5f57';
+          tableBtn.style.boxShadow = '0 1px 2px rgba(0,0,0,0.06)';
+        }
+        if (gridBtn) {
+          gridBtn.style.background = 'transparent';
+          gridBtn.style.color = '#64748b';
+          gridBtn.style.boxShadow = 'none';
+        }
+        if (gridContainer) gridContainer.style.display = 'none';
+        if (tableContainer) tableContainer.style.display = 'block';
+      }
+    }
+
+    function renderProviderCourses() {
+      // 1. Cập nhật số lượng huy hiệu (Badges)
+      const totalCount = provCoursesList.length;
+      const activeCount = provCoursesList.filter(c => c.status === 'active').length;
+      const pendingCount = provCoursesList.filter(c => c.status === 'pending').length;
+
+      const bAll = document.getElementById('provBadgeAll');
+      if (bAll) bAll.textContent = totalCount;
+
+      const bActive = document.getElementById('provBadgeActive');
+      if (bActive) bActive.textContent = activeCount;
+
+      const bPending = document.getElementById('provBadgePending');
+      if (bPending) bPending.textContent = pendingCount;
+
+      const summary = document.getElementById('provCoursesSummaryText');
+      if (summary) {
+        summary.innerHTML = `<strong>${activeCount}</strong> đang phân phối · <strong>${pendingCount}</strong> chờ duyệt`;
+      }
+
+      // 2. Lọc danh sách theo statusFilter và skillFilter
+      const filtered = provCoursesList.filter(c => {
+        if (provCurrentStatusFilter !== 'all' && c.status !== provCurrentStatusFilter) return false;
+        if (provCurrentSkillFilter !== 'all' && c.skill !== provCurrentSkillFilter) return false;
+        return true;
+      });
+
+      // 3. Render Dạng Thẻ Grid (Khớp 100% Ảnh Mẫu 1)
+      const gridContainer = document.getElementById('provCoursesGridContainer');
+      if (gridContainer) {
+        if (filtered.length === 0) {
+          gridContainer.innerHTML = `
+            <div style="grid-column:1/-1; background:#ffffff; border-radius:24px; border:1px dashed #cbd5e1; padding:48px; text-align:center; color:#64748b">
+              <div style="font-size:32px; margin-bottom:8px">🔍</div>
+              <div style="font-weight:800; font-size:15px; color:#0f172a">Không có khóa học nào phù hợp với bộ lọc</div>
+              <div style="font-size:13px; margin-top:4px">Hãy thử đổi trạng thái hoặc kỹ năng khác để xem kết quả.</div>
+            </div>
+          `;
+        } else {
+          gridContainer.innerHTML = filtered.map(c => `
+            <div style="background:#ffffff; border-radius:26px; border:1px solid #e2e8f0; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between; transition:all 0.15s">
+              <!-- Top Banner Section có màu Pastel mềm -->
+              <div style="background:${c.theme?.bg || '#e6f7f5'}; border-radius:18px; padding:18px; margin-bottom:16px; min-height:148px; display:flex; flex-direction:column; justify-content:space-between">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+                  <span style="background:#ffffff; color:${c.theme?.titleColor || '#0a5146'}; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:9999px; box-shadow:0 1px 2px rgba(0,0,0,0.04)">
+                    ${c.skill}
+                  </span>
+                  <span style="background:#ffffff; color:${c.status === 'active' ? '#059669' : '#b45309'}; font-size:11px; font-weight:800; padding:4px 12px; border-radius:9999px; box-shadow:0 1px 2px rgba(0,0,0,0.04)">
+                    ${c.status === 'active' ? 'Đang phân phối' : 'Chờ duyệt'}
+                  </span>
+                </div>
+                <div style="margin-top:14px">
+                  <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:3px">
+                    ${c.platform}
+                  </div>
+                  <h3 style="font-size:16.5px; font-weight:900; color:${c.theme?.titleColor || '#0a5146'}; line-height:1.35; margin:0">
+                    ${c.title}
+                  </h3>
+                </div>
+              </div>
+
+              <!-- Bottom Stats Section -->
+              <div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1.2fr; gap:6px; margin-bottom:16px; padding:0 4px">
+                  <div>
+                    <div style="font-size:9.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.6px">ƯU TIÊN</div>
+                    <div style="font-size:15px; font-weight:900; color:#0f172a; margin-top:2px">${c.priority || '1'}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:9.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.6px">LƯỢT CLICK</div>
+                    <div style="font-size:15px; font-weight:900; color:#0f172a; margin-top:2px">${c.clicks || 0}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:9.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.6px">NGÀY ĐĂNG</div>
+                    <div style="font-size:12.5px; font-weight:800; color:#0f172a; margin-top:3px">${c.date || '12/10/2026'}</div>
+                  </div>
+                </div>
+
+                <!-- Action Buttons Row -->
+                <div style="display:flex; align-items:center; gap:8px">
+                  <button onclick="provViewCourseUrl('${c.url || ''}', '${c.title}')" style="flex:1; padding:9px 12px; border-radius:9999px; border:none; background:#0d5f57; color:#ffffff; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.4px; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0d5f57'">
+                    XEM TRANG KHÓA HỌC
+                  </button>
+                  <button onclick="provDeleteCourseItem(${c.id})" style="padding:8px 14px; border-radius:9999px; border:1px solid #fecdd3; background:#ffffff; color:#e11d48; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#fff1f2'" onmouseout="this.style.background='#ffffff'">
+                    Xóa
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 4. Render Dạng Bảng Table (Khớp 100% Ảnh Mẫu 2)
+      const tbody = document.getElementById('provCoursesTbody');
+      if (tbody) {
+        tbody.innerHTML = filtered.map(c => `
+          <tr style="border-bottom:1px solid #f8fafc">
+            <td style="padding:14px 8px; font-weight:800; color:#0f172a">
+              <div>${c.title}</div>
+              <div style="font-size:11px; font-weight:600; color:#94a3b8; margin-top:2px">${c.platform} · Đăng ngày ${c.date || '12/10/2026'}</div>
+            </td>
+            <td style="padding:14px 14px">
+              <span style="display:inline-block; padding:3px 12px; border-radius:9999px; font-size:12px; font-weight:700; background:#f1f5f9; color:#334155">
+                ${c.skill}
+              </span>
+            </td>
+            <td style="padding:14px 14px">
+              ${c.status === 'active'
+                ? '<span style="font-size:12px; font-weight:800; color:#059669">Đang phân phối</span>'
+                : '<span style="font-size:12px; font-weight:800; color:#d97706">Chờ duyệt</span>'
+              }
+            </td>
+            <td style="padding:14px 14px; text-align:center; font-weight:800; color:#0f172a">
+              ${c.clicks || 0}
+            </td>
+            <td style="padding:14px 8px; text-align:right">
+              <button onclick="provDeleteCourseItem(${c.id})" style="padding:4px 14px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#64748b; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s" onmouseover="this.style.borderColor='#f43f5e';this.style.color='#e11d48'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#64748b'">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function provViewCourseUrl(url, title) {
+      if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      } else {
+        alert(`Khóa học: "${title}"\nĐường dẫn: ${url || 'Chưa cung cấp liên kết'}`);
+      }
+    }
+
     function provOpenAddCourseModal(prefillSkill = '') {
       const modal = document.getElementById('provAddCourseModal');
       if (!modal) return;
       modal.style.display = 'flex';
 
+      const titleInput = document.getElementById('provModalTitle');
+      const skillSelect = document.getElementById('provModalSkill');
+      const platformInput = document.getElementById('provModalPlatform');
+      const prioritySelect = document.getElementById('provModalPriority');
+      const urlInput = document.getElementById('provModalUrl');
+
+      if (platformInput) platformInput.value = 'Mekong Skills';
+      if (prioritySelect) prioritySelect.value = '1 (cao nhất)';
+      if (urlInput) urlInput.value = 'https://mekongskills.vn/python-backend';
+
       if (prefillSkill) {
-        const skillSelect = document.getElementById('provModalSkill');
         if (skillSelect) {
           for (let opt of skillSelect.options) {
             if (opt.value === prefillSkill || opt.text.toLowerCase().includes(prefillSkill.toLowerCase())) {
@@ -10557,10 +13001,12 @@
             }
           }
         }
-        const titleInput = document.getElementById('provModalTitle');
         if (titleInput) {
           titleInput.value = `${prefillSkill} thực chiến & ứng dụng`;
         }
+      } else {
+        if (skillSelect) skillSelect.value = 'Python';
+        if (titleInput) titleInput.value = 'Python Backend thực chiến';
       }
     }
 
@@ -10577,77 +13023,45 @@
       const skill = document.getElementById('provModalSkill')?.value || 'Python';
       const title = document.getElementById('provModalTitle')?.value?.trim();
       const platform = document.getElementById('provModalPlatform')?.value?.trim() || 'Mekong Skills';
-      const priority = document.getElementById('provModalPriority')?.value || '1 (cao nhất)';
-      const url = document.getElementById('provModalUrl')?.value?.trim() || '';
+      const priority = document.getElementById('provModalPriority')?.value || '1';
+      const url = document.getElementById('provModalUrl')?.value?.trim() || 'https://mekongskills.vn';
 
       if (!title) {
         alert('Vui lòng nhập tên khóa học');
         return;
       }
 
+      const cleanSkill = skill.split('·')[0].split('-')[0].trim();
+      const today = new Date();
+      const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+      const cleanPriority = priority.replace(/[^0-9]/g, '') || '1';
+
       const newCourse = {
         id: Date.now(),
         title: title,
-        skill: skill,
+        skill: cleanSkill,
         platform: platform,
-        priority: priority,
+        priority: cleanPriority,
+        date: dateStr,
         url: url,
         status: 'pending',
-        clicks: 0
+        statusLabel: 'Chờ duyệt',
+        clicks: 0,
+        theme: getSkillTheme(cleanSkill)
       };
 
       provCoursesList.unshift(newCourse);
       provCloseAddCourseModal();
-      renderProviderCoursesTable();
+      renderProviderCourses();
 
       alert(`Đã thêm khóa học "${title}" thành công!\nTrạng thái: Chờ duyệt (sẽ được AI phân phối sau khi duyệt).`);
       switchProvTab('courses');
     }
 
-    function renderProviderCoursesTable() {
-      const tbody = document.getElementById('provCoursesTbody');
-      if (!tbody) return;
-
-      const activeCount = provCoursesList.filter(c => c.status === 'active').length;
-      const pendingCount = provCoursesList.filter(c => c.status === 'pending').length;
-
-      const summary = document.getElementById('provCoursesSummaryText');
-      if (summary) {
-        summary.innerHTML = `<strong>${activeCount}</strong> đang phân phối · <strong>${pendingCount}</strong> chờ duyệt`;
-      }
-
-      tbody.innerHTML = provCoursesList.map(c => `
-        <tr style="border-bottom:1px solid #f8fafc">
-          <td style="padding:14px 8px; font-weight:800; color:#0f172a">
-            ${c.title}
-          </td>
-          <td style="padding:14px 14px">
-            <span style="display:inline-block; padding:3px 12px; border-radius:9999px; font-size:12px; font-weight:700; background:#f1f5f9; color:#334155">
-              ${c.skill}
-            </span>
-          </td>
-          <td style="padding:14px 14px">
-            ${c.status === 'active'
-              ? '<span style="font-size:12px; font-weight:800; color:#059669">Đang phân phối</span>'
-              : '<span style="font-size:12px; font-weight:800; color:#d97706">Chờ duyệt</span>'
-            }
-          </td>
-          <td style="padding:14px 14px; text-align:center; font-weight:800; color:#0f172a">
-            ${c.clicks || 0}
-          </td>
-          <td style="padding:14px 8px; text-align:right">
-            <button onclick="provDeleteCourseItem(${c.id})" style="padding:4px 14px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#64748b; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s" onmouseover="this.style.borderColor='#f43f5e';this.style.color='#e11d48'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#64748b'">
-              Xóa
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
     function provDeleteCourseItem(id) {
       if (confirm('Bạn có chắc chắn muốn xóa khóa học này?')) {
         provCoursesList = provCoursesList.filter(c => c.id !== id);
-        renderProviderCoursesTable();
+        renderProviderCourses();
       }
     }
 
@@ -10693,8 +13107,7 @@
         const res = await fetch(`${API_BASE}/api/auth/profile`, {
           method: 'PUT',
           headers: getAuthHeaders(),
-          body: JSON.stringify(payload),
-          credentials: 'include'
+          body: JSON.stringify(payload)
         });
         if (res.ok) {
           currentUser = await res.json();
@@ -10747,8 +13160,7 @@
         const res = await fetch(`${API_BASE}/api/auth/profile`, {
           method: 'PUT',
           headers: getAuthHeaders(),
-          body: JSON.stringify({ old_password: cur, new_password: nw }),
-          credentials: 'include'
+          body: JSON.stringify({ old_password: cur, new_password: nw })
         });
         if (res.ok) {
           closeChangePasswordModal();
@@ -10815,15 +13227,48 @@
       }
     }
 
-    function quickLoginRole(role) {
-      const profiles = {
-        admin: { id: 1, username: 'admin', full_name: 'Admin Tổng', role: 'admin', email: 'admin@skillgap.local', is_guest: false },
-        employer: { id: 2, username: 'employer_demo', full_name: 'Nguyễn Minh Khoa', role: 'employer', email: 'hr@mekongtech.com', company_name: 'Mekong Tech', is_guest: false },
-        candidate: { id: 3, username: 'candidate_demo', full_name: 'Nguyễn Văn A', role: 'candidate', email: 'sinhvien@ctu.edu.vn', is_guest: false },
-        provider: { id: 4, username: 'provider_demo', full_name: 'Trần Thanh Hải', company_name: 'Mekong Skills', role: 'provider', email: 'training@mekongskills.vn', is_guest: false }
+    async function quickLoginRole(role) {
+      const demoAccounts = {
+        admin: { email: 'admin@skillgap.com', password: 'admin123' },
+        employer: { email: 'employer_test@skillgap.com', password: '123456' },
+        candidate: { email: 'candidate_test@skillgap.com', password: '123456' },
+        provider: { email: 'provider_test@skillgap.com', password: '123456' }
       };
-      currentUser = profiles[role] || profiles.admin;
-      localStorage.setItem('current_user', JSON.stringify(currentUser));
+
+      const profiles = {
+        admin: { id: 1, username: 'admin', full_name: 'Admin Tổng', role: 'admin', email: 'admin@skillgap.com', is_guest: false },
+        employer: { id: 14, username: 'employer_test', full_name: 'Doanh Nghiệp Mẫu', role: 'employer', email: 'employer_test@skillgap.com', company_name: 'Mekong Tech', is_guest: false },
+        candidate: { id: 13, username: 'candidate_test', full_name: 'Sinh Viên Mẫu', role: 'candidate', email: 'candidate_test@skillgap.com', is_guest: false },
+        provider: { id: 15, username: 'provider_test', full_name: 'Trung Tâm Đào Tạo Mẫu', company_name: 'Mekong Skills', role: 'provider', email: 'provider_test@skillgap.com', is_guest: false }
+      };
+
+      const target = demoAccounts[role] || demoAccounts.admin;
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(target)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.access_token) {
+            localStorage.setItem('access_token', data.access_token);
+            localStorage.setItem('token', data.access_token);
+          }
+          if (data.user) {
+            currentUser = { ...data.user, is_guest: false };
+            localStorage.setItem('current_user', JSON.stringify(currentUser));
+          }
+        } else {
+          currentUser = profiles[role] || profiles.admin;
+          localStorage.setItem('current_user', JSON.stringify(currentUser));
+        }
+      } catch (err) {
+        console.warn('Quick login API fallback:', err);
+        currentUser = profiles[role] || profiles.admin;
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+      }
+
       updateUserUI();
       applyRoleGuards();
       const demoMenu = document.getElementById('demoDropdownMenu');
@@ -10882,52 +13327,54 @@
         if (res.ok) {
           alert('🎉 Đăng ký tài khoản thành công! Đang tự động đăng nhập...');
           // Tự động đăng nhập
-          const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password }),
-            credentials: 'include'
-          });
-          if (loginRes.ok) {
-            const data = await loginRes.json();
-            if (data.access_token) {
-              localStorage.setItem('access_token', data.access_token);
-              localStorage.setItem('token', data.access_token);
-            }
-            if (data.user) {
-              currentUser = { ...data.user, is_guest: false };
-              localStorage.setItem('current_user', JSON.stringify(currentUser));
-            }
-            updateUserUI();
-            applyRoleGuards();
-            closeAuthModal();
-            alert(`Chào mừng ${currentUser.full_name}! Bạn đã đăng nhập thành công.`);
+          try {
+            const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email, password: password })
+            });
+            if (loginRes.ok) {
+              const data = await loginRes.json();
+              if (data.access_token) {
+                localStorage.setItem('access_token', data.access_token);
+                localStorage.setItem('token', data.access_token);
+              }
+              if (data.user) {
+                currentUser = { ...data.user, is_guest: false };
+                localStorage.setItem('current_user', JSON.stringify(currentUser));
+              }
+              updateUserUI();
+              applyRoleGuards();
+              closeAuthModal();
+              alert(`Chào mừng ${currentUser.full_name}! Bạn đã đăng nhập thành công.`);
 
-            const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
-            if (userRole === 'admin') {
-              navigate('/admin/dashboard');
-            } else if (userRole === 'employer') {
-              navigate('/employer/dashboard');
-            } else if (userRole === 'provider') {
-              navigate('/provider/gap-analytics');
-            } else {
-              navigate('/');
+              const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
+              if (userRole === 'admin') {
+                navigate('/admin/dashboard');
+              } else if (userRole === 'employer') {
+                navigate('/employer/dashboard');
+              } else if (userRole === 'provider') {
+                navigate('/provider/gap-analytics');
+              } else {
+                navigate('/');
+              }
+              return;
             }
-            return;
-          } else {
-            switchAuthTab('login');
-            document.getElementById('authUsername').value = email;
-            document.getElementById('authPassword').value = '';
-            return;
+          } catch (autoErr) {
+            console.warn('Auto login after register failed:', autoErr);
           }
+          switchAuthTab('login');
+          document.getElementById('authUsername').value = email;
+          document.getElementById('authPassword').value = '';
+          return;
         } else {
-          const err = await res.json();
+          const err = await res.json().catch(() => ({}));
           alert(err.detail || 'Đăng ký không thành công. Email này có thể đã được sử dụng.');
           return;
         }
       } catch (e) {
         console.error('Register error:', e);
-        alert('Lỗi kết nối máy chủ đăng ký.');
+        alert('Lỗi kết nối máy chủ đăng ký: ' + (e.message || e));
       }
     }
 
@@ -10942,8 +13389,7 @@
         const res = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: u, password: p }),
-          credentials: 'include'
+          body: JSON.stringify({ email: u, password: p })
         });
         if (res.ok) {
           const data = await res.json();
@@ -10972,12 +13418,13 @@
           }
           return;
         } else {
-          const err = await res.json();
+          const err = await res.json().catch(() => ({}));
           alert(err.detail || 'Sai tên đăng nhập hoặc mật khẩu.');
           return;
         }
       } catch (e) {
-        alert('Lỗi kết nối máy chủ auth.');
+        console.error('Login error:', e);
+        alert('Lỗi kết nối máy chủ auth: ' + (e.message || e));
       }
     }
 

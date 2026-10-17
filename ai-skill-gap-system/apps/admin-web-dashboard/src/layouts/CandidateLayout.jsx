@@ -58,67 +58,82 @@ export default function CandidateLayout() {
             </span>
           </Link>
 
-          {/* CỤM GIỮA: 3 MENU ĐIỀU HƯỚNG NGANG DÀNH CHO ỨNG VIÊN */}
-          <nav className="hidden md:flex items-center gap-2">
+          {/* CỤM GIỮA: CÁC MENU ĐIỀU HƯỚNG NGANG DÀNH CHO ỨNG VIÊN (KHỚP ẢNH MẪU) */}
+          <nav className="hidden md:flex items-center gap-1.5">
             {/* Menu 1: Chẩn đoán AI & Lộ trình */}
             <NavLink to="/" end className={navLinkClass}>
-              <span>CHẨN ĐOÁN &amp; LỘ TRÌNH</span>
+              <span>Chẩn đoán &amp; Lộ trình</span>
             </NavLink>
 
-            {/* Menu 2: Khám Phá Ngành Nghề */}
+            {/* Menu 2: Việc làm (Khớp ảnh mẫu) */}
+            <NavLink to="/jobs" className={navLinkClass}>
+              <span>Việc làm</span>
+            </NavLink>
+
+            {/* Menu 3: Khám Phá Ngành Nghề */}
             <NavLink to="/explore-industries" className={navLinkClass}>
-              <span>KHÁM PHÁ NGÀNH NGHỀ</span>
+              <span>Khám phá ngành nghề</span>
             </NavLink>
 
-            {/* Menu 3: Cẩm Nang Kỹ Năng Mềm */}
+            {/* Menu 4: Cẩm Nang Kỹ Năng Mềm */}
             <NavLink to="/soft-skills" className={navLinkClass}>
-              <span>CẨM NANG KỸ NĂNG MỀM</span>
+              <span>Cẩm nang kỹ năng mềm</span>
             </NavLink>
           </nav>
 
-          {/* CỤM PHẢI: AVATAR / ĐĂNG NHẬP / ĐĂNG TUYỂN */}
-          <div className="flex items-center gap-2.5">
+          {/* CỤM PHẢI: AVATAR / ĐĂNG NHẬP / VIỆC ĐÃ ỨNG TUYỂN (KHỚP ẢNH MẪU) */}
+          <div className="flex items-center gap-3">
             {currentUser ? (
-              <div className="relative">
-                <button
-                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2.5 p-1.5 pl-3 rounded-full hover:bg-white/10 transition-colors border border-white/20"
-                >
-                  <span className="text-xs font-bold text-teal-100 hidden sm:inline-block">
-                    {currentUser.full_name || 'Người dùng'}
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-[#0d5f57] text-white font-bold text-sm flex items-center justify-center shadow-xs">
-                    {(currentUser.full_name || 'U').charAt(0).toUpperCase()}
-                  </div>
-                </button>
-
-                {/* Dropdown Menu */}
-                {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-2xl border border-slate-100 py-1.5 z-50 text-slate-800">
-                    <div className="px-4 py-2 border-b border-slate-100">
-                      <div className="text-xs font-bold text-slate-800">{currentUser.full_name}</div>
-                      <div className="text-[11px] text-slate-400">{currentUser.email}</div>
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <button
+                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                    className="flex items-center gap-2.5 p-1 pl-3 rounded-full hover:bg-white/10 transition-colors border border-white/20 cursor-pointer"
+                  >
+                    <span className="text-xs font-bold text-teal-100 hidden sm:inline-block">
+                      {currentUser.full_name || 'Nguyễn Văn An'}
+                    </span>
+                    <div className="w-8 h-8 rounded-full bg-[#10b981] text-white font-black text-sm flex items-center justify-center shadow-xs">
+                      {(currentUser.full_name || 'A').charAt(0).toUpperCase()}
                     </div>
-                    {currentUser.role === 'admin' && (
-                      <Link
-                        to="/admin"
-                        className="block px-4 py-2 text-xs font-semibold text-teal-700 hover:bg-teal-50"
-                        onClick={() => setUserDropdownOpen(false)}
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {userDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-2xl border border-slate-100 py-1.5 z-50 text-slate-800">
+                      <div className="px-4 py-2 border-b border-slate-100">
+                        <div className="text-xs font-bold text-slate-800">{currentUser.full_name || 'Nguyễn Văn An'}</div>
+                        <div className="text-[11px] text-slate-400">{currentUser.email || 'sinhvien@ctu.edu.vn'}</div>
+                      </div>
+                      {currentUser.role === 'admin' && (
+                        <Link
+                          to="/admin"
+                          className="block px-4 py-2 text-xs font-semibold text-teal-700 hover:bg-teal-50"
+                          onClick={() => setUserDropdownOpen(false)}
+                        >
+                          👑 Vào Trang Quản Trị (/admin)
+                        </Link>
+                      )}
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2 cursor-pointer"
                       >
-                        👑 Vào Trang Quản Trị (/admin)
-                      </Link>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 flex items-center gap-2"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                      Đăng xuất
-                    </button>
-                  </div>
-                )}
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Đăng xuất
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Nút VIỆC ĐÃ ỨNG TUYỂN (Khớp 100% Ảnh Mẫu) */}
+                <Link
+                  to="/jobs"
+                  className="px-4 py-2 rounded-full text-xs font-black bg-[#5eead4] hover:bg-[#2dd4bf] text-[#064e3b] transition-all shadow-sm uppercase tracking-wide cursor-pointer whitespace-nowrap"
+                >
+                  VIỆC ĐÃ ỨNG TUYỂN
+                </Link>
               </div>
             ) : (
               <div className="flex items-center gap-2">

@@ -13,6 +13,7 @@ import ProviderLayout from '../layouts/ProviderLayout';
 
 // ── 2. CANDIDATE PAGES (Các trang chức năng Ứng viên / Sinh viên) ──
 import AiDiagnosisPage from '../pages/candidate/AiDiagnosisPage';
+import CandidateJobsPage from '../pages/candidate/CandidateJobsPage';
 import IndustryExplorePage from '../pages/candidate/IndustryExplorePage';
 import SoftSkillsGuidePage from '../pages/candidate/SoftSkillsGuidePage';
 
@@ -28,7 +29,11 @@ import ProviderGapAnalyticsPage from '../pages/provider/ProviderGapAnalyticsPage
 import ProviderCoursesPage from '../pages/provider/ProviderCoursesPage';
 import ProviderAnalyticsPage from '../pages/provider/ProviderAnalyticsPage';
 
-// ── 5. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
+// ── 5. ADMIN PAGES (Cổng Quản Trị Hệ Thống) ──
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
+import AdminSoftSkillsPage from '../pages/admin/AdminSoftSkillsPage';
+
+// ── 6. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
 import AuthGuard from '../components/guards/AuthGuard';
 import GuestGuard from '../components/guards/GuestGuard';
 
@@ -56,6 +61,7 @@ export default function AppRouter() {
       >
         <Route index element={<AiDiagnosisPage />} />
         <Route path="ai-diagnosis" element={<AiDiagnosisPage />} />
+        <Route path="jobs" element={<CandidateJobsPage />} />
         <Route path="explore-industries" element={<IndustryExplorePage />} />
         <Route path="soft-skills" element={<SoftSkillsGuidePage />} />
       </Route>
@@ -93,8 +99,8 @@ export default function AppRouter() {
         }
       >
         <Route index element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="dashboard" element={<div className="p-6 bg-white rounded-xl shadow-xs">📊 Bảng Điều Khiển Tổng Quan KPI</div>} />
-        <Route path="skills" element={<div className="p-6 bg-white rounded-xl shadow-xs">🧠 Kỹ Năng Mềm &amp; Theo Ngành</div>} />
+        <Route path="dashboard" element={<AdminDashboardPage />} />
+        <Route path="skills" element={<AdminSoftSkillsPage />} />
         <Route path="workers" element={<div className="p-6 bg-white rounded-xl shadow-xs">👥 Quản Lý Người Lao Động</div>} />
         <Route path="employers" element={<div className="p-6 bg-white rounded-xl shadow-xs">🏢 Quản Lý Nhà Tuyển Dụng</div>} />
         <Route path="courses" element={<div className="p-6 bg-white rounded-xl shadow-xs">📚 Quản Lý Khóa Học</div>} />
