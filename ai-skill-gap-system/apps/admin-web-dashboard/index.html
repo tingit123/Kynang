@@ -6402,9 +6402,14 @@
 
     async function checkAuthAndProtectDashboard() {
       try {
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        if (!token) return;
         const res = await fetch(`${DASHBOARD_AUTH.API_BASE}/api/auth/me`, {
           method: 'GET',
-          credentials: 'include'
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
         });
 
         if (res.status === 401 || !res.ok) {
@@ -13324,22 +13329,26 @@
     }
 
     function openAuthModal(tab = 'login', role = '') {
-      const halloweenModal = document.getElementById('halloweenAuthModal');
-      const frame = document.getElementById('halloweenAuthFrame');
-      if (halloweenModal && frame) {
-        const viewParam = (tab === 'register') ? 'register' : 'login';
-        const roleParam = role ? `&role=${encodeURIComponent(role)}` : '';
-        frame.src = `http://localhost:8081/?view=${viewParam}${roleParam}&t=${Date.now()}`;
-        halloweenModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      } else {
-        const modal = document.getElementById('authModal');
-        if (modal) {
-          if (tab === 'register') switchAuthTab('register');
-          else switchAuthTab('login');
-          modal.classList.add('open');
+      // Đóng modal Halloween nếu đang mở và khôi phục thanh cuộn
+      closeHalloweenAuthModal();
+
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        if (tab === 'register') {
+          switchAuthTab('register');
+          if (role) {
+            const regRole = document.getElementById('regRole');
+            if (regRole) {
+              regRole.value = role;
+              toggleRegCompanyInput();
+            }
+          }
+        } else {
+          switchAuthTab('login');
         }
+        modal.classList.add('open');
       }
+      document.body.style.overflow = '';
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       const demoMenu = document.getElementById('demoDropdownMenu');
@@ -13348,6 +13357,18 @@
       if (pubMenu) pubMenu.classList.remove('show');
       const pubDemoMenu = document.getElementById('publicDemoDropdownMenu');
       if (pubDemoMenu) pubDemoMenu.style.display = 'none';
+    }
+
+    function openHalloweenAuthModal(tab = 'login', role = '') {
+      const halloweenModal = document.getElementById('halloweenAuthModal');
+      const frame = document.getElementById('halloweenAuthFrame');
+      if (halloweenModal && frame) {
+        const viewParam = (tab === 'register') ? 'register' : 'login';
+        const roleParam = role ? `&role=${encodeURIComponent(role)}` : '';
+        frame.src = `http://localhost:8081/?view=${viewParam}${roleParam}&t=${Date.now()}`;
+        halloweenModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
     }
 
     function closeHalloweenAuthModal() {
