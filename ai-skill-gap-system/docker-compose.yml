@@ -39,6 +39,10 @@ services:
       DB_NAME: skillgap_db
       DB_USER: skillgap_user
       DB_PASS: skillgap_pass
+      JWT_SECRET: ${JWT_SECRET:-super-secret-key-halloween-2026}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://localhost:8081}
+      DASHBOARD_URL: ${DASHBOARD_URL:-http://localhost:8080}
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
       timeout: 15s
@@ -79,6 +83,16 @@ services:
       - "8080:80"
     volumes:
       - ./apps/admin-web-dashboard:/usr/share/nginx/html:ro
+
+  # ─── Auth Web (Đăng nhập / Đăng ký Halloween) ─
+  auth-web:
+    image: nginx:alpine
+    container_name: skillgap_auth_web
+    restart: always
+    ports:
+      - "8081:80"
+    volumes:
+      - ./apps/auth-web:/usr/share/nginx/html:ro
 
 volumes:
   mysql_data:

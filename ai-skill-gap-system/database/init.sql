@@ -12,8 +12,10 @@ CREATE TABLE IF NOT EXISTS users (
   email               VARCHAR(150) UNIQUE NOT NULL,
   password_hash       VARCHAR(255) NOT NULL,
   full_name           VARCHAR(150) NOT NULL,
-  role                ENUM('admin', 'candidate', 'employer', 'provider') NOT NULL DEFAULT 'candidate',
+  role                ENUM('admin', 'worker', 'employer', 'course_provider', 'candidate', 'provider') NOT NULL DEFAULT 'worker',
+  is_active           BOOLEAN DEFAULT TRUE,
   is_deleted          BOOLEAN DEFAULT FALSE,
+  last_login_at       TIMESTAMP NULL,
   company_name        VARCHAR(200) NULL,
   company_logo_url    VARCHAR(500) NULL,
   company_description TEXT NULL,
@@ -42,6 +44,39 @@ CREATE TABLE IF NOT EXISTS companies (
   description TEXT,
   created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (employer_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- ─── BẢNG 0.3: Người lao động / Ứng viên (Workers) ──────────────
+CREATE TABLE IF NOT EXISTS workers (
+  worker_id   INT AUTO_INCREMENT PRIMARY KEY,
+  user_id     INT UNIQUE NULL,
+  full_name   VARCHAR(150) NULL,
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ─── BẢNG 0.4: Nhà tuyển dụng (Employers) ─────────────────────
+CREATE TABLE IF NOT EXISTS employers (
+  employer_id  INT AUTO_INCREMENT PRIMARY KEY,
+  user_id      INT UNIQUE,
+  company_id   INT NULL,
+  contact_name VARCHAR(150) NULL,
+  phone        VARCHAR(50) NULL,
+  is_verified  TINYINT(1) DEFAULT 0,
+  created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ─── BẢNG 0.5: Đơn vị đào tạo (Course Providers) ───────────────
+CREATE TABLE IF NOT EXISTS course_providers (
+  provider_id   INT AUTO_INCREMENT PRIMARY KEY,
+  user_id       INT UNIQUE,
+  provider_name VARCHAR(200) UNIQUE,
+  website       VARCHAR(500) NULL,
+  description   TEXT NULL,
+  is_verified   TINYINT(1) DEFAULT 0,
+  created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- ─── BẢNG 1: Tin tuyển dụng ───────────────────────────────────

@@ -53,6 +53,8 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                             log.warning(f"[DB] Lỗi thêm cột {table}.{col}: {e}")
 
                     ensure_col("users", "is_deleted", "BOOLEAN DEFAULT FALSE")
+                    ensure_col("users", "is_active", "BOOLEAN DEFAULT TRUE")
+                    ensure_col("users", "last_login_at", "TIMESTAMP NULL")
                     ensure_col("users", "company_name", "VARCHAR(200) NULL")
                     ensure_col("users", "company_logo_url", "VARCHAR(500) NULL")
                     ensure_col("users", "company_description", "TEXT NULL")
@@ -86,6 +88,7 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                             password_hash="$2b$12$7SpBJ3oI.ZvL9uW1Id4MOuUYEHgm.WKCwkuyr93HFuf94q1zeawW2",
                             full_name="Hệ Thống Admin",
                             role="admin",
+                            is_active=True,
                         )
                         db.add(admin)
                         db.commit()
@@ -149,14 +152,32 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS – cho phép Dashboard gọi API
+# CORS: cấu hình allow_origins từ CORS_ORIGINS
+import os
+cors_origins_env = os.getenv("CORS_ORIGINS", "http://localhost:8080,http://localhost:8081")
+ALLOWED_ORIGINS = [orig.strip() for orig in cors_origins_env.split(",") if orig.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def check_post_origin(request, call_next):
+    """Với request POST, từ chối nếu header Origin có gửi và không nằm trong danh sách cho phép."""
+    if request.method == "POST":
+        origin = request.headers.get("origin")
+        if origin and origin not in ALLOWED_ORIGINS:
+            from fastapi.responses import JSONResponse
+            return JSONResponse(
+                status_code=403,
+                content={"detail": "Origin không nằm trong danh sách cho phép."}
+            )
+    return await call_next(request)
 
 # Đăng ký các router
 from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer  # noqa
