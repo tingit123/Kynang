@@ -29,6 +29,7 @@ def send_to_api(jobs: list) -> int:
             resp = requests.post(
                 f"{API_BASE_URL}/api/jobs/",
                 json=job,
+                headers={"X-Worker-Token": os.getenv("INTERNAL_API_TOKEN", "")},
                 timeout=15,
             )
             if resp.status_code in (200, 201):

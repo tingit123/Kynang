@@ -77,3 +77,13 @@ htmlcov/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+
+# Local merge snapshots
+.merge-backup/
+
+# Local credentials and merge snapshots
+.env
+.env.*
+!.env.example
+.merge-backup/
+*.bak

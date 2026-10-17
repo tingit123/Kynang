@@ -22,4 +22,11 @@ Thumbs.db
 # Local secrets backup
 *.local
 
-
+
+
+# Local credentials and merge snapshots
+.env
+.env.*
+!.env.example
+.merge-backup/
+*.bak

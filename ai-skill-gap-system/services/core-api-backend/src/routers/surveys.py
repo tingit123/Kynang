@@ -5,7 +5,11 @@ from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, desc
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
+from sqlalchemy.exc import IntegrityError
+from uuid import uuid4
+from src.core.security import require_role
+from src.models.user import User
 from datetime import date
 
 from src.database import get_db
@@ -73,6 +77,57 @@ def _infer_role(major: str, top_skills: List[str]) -> str:
             return "Kế Toán Thuế & Báo Cáo"
         return "Chuyên Viên Phân Tích Tài Chính"
     return "Chuyên Viên Nghiệp Vụ"
+
+
+class ProfileSkillInput(BaseModel):
+    skill_id: int = Field(gt=0)
+    self_rating: int = Field(ge=0, le=100)
+
+
+class ProfileCreate(BaseModel):
+    student_code: Optional[str] = Field(None, max_length=20, pattern=r"^[A-Za-z0-9_-]+$")
+    full_name: str = Field(min_length=1, max_length=100)
+    major: Optional[str] = Field(None, max_length=100)
+    institution: Optional[str] = Field(None, max_length=200)
+    year_of_study: Optional[int] = Field(None, ge=1, le=6)
+    completed_at: Optional[date] = None
+    skills: List[ProfileSkillInput] = Field(default_factory=list, max_length=100)
+
+    @field_validator('full_name')
+    @classmethod
+    def require_name(cls, value):
+        value = value.strip()
+        if not value:
+            raise ValueError('Vui lòng nhập họ và tên')
+        return value
+
+
+@router.post("/", status_code=201)
+def create_profile(
+    payload: ProfileCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role('admin')),
+):
+    skill_ids = [item.skill_id for item in payload.skills]
+    if len(skill_ids) != len(set(skill_ids)):
+        raise HTTPException(422, 'Mỗi kỹ năng chỉ được chọn một lần')
+    if skill_ids and db.query(SkillCatalog).filter(SkillCatalog.id.in_(skill_ids)).count() != len(skill_ids):
+        raise HTTPException(422, 'Có kỹ năng không tồn tại trong danh mục')
+    profile = SurveyResponse(
+        **payload.model_dump(exclude={'skills', 'student_code'}),
+        student_code=payload.student_code or ('HS' + uuid4().hex[:12].upper()),
+    )
+    try:
+        db.add(profile)
+        db.flush()
+        for item in payload.skills:
+            db.add(SurveySkillRating(survey_id=profile.id, **item.model_dump()))
+        db.commit()
+        db.refresh(profile)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(409, 'Mã hồ sơ đã tồn tại. Vui lòng dùng mã khác.')
+    return {'id': profile.id, **get_student_detail(profile.student_code, db)}
 
 
 @router.get("/", response_model=List[SurveyOut])
@@ -206,6 +261,27 @@ def list_surveys_paged(
     return SurveyListResponse(total=total, page=page, limit=limit, items=results)
 
 
+@router.get("/stats")
+def survey_stats(db: Session = Depends(get_db)):
+    """Thống kê khảo sát theo trường, ngành."""
+    from sqlalchemy import func
+    by_major = (
+        db.query(SurveyResponse.major, func.count(SurveyResponse.id).label("count"))
+        .group_by(SurveyResponse.major)
+        .all()
+    )
+    by_institution = (
+        db.query(SurveyResponse.institution, func.count(SurveyResponse.id).label("count"))
+        .group_by(SurveyResponse.institution)
+        .all()
+    )
+    return {
+        "total": db.query(SurveyResponse).count(),
+        "by_major": [{"major": r.major, "count": r.count} for r in by_major],
+        "by_institution": [{"institution": r.institution, "count": r.count} for r in by_institution],
+    }
+
+
 @router.get("/{student_code}")
 def get_student_detail(student_code: str, db: Session = Depends(get_db)):
     """Lấy chi tiết hồ sơ CV sinh viên và tất cả điểm kỹ năng."""
@@ -312,25 +388,4 @@ def diagnose_student_gap(req: DiagnosisRequest, db: Session = Depends(get_db)):
         "possessed_skills": possessed,
         "missing_skills": missing,
         "prescriptions": prescriptions[:6]
-    }
-
-
-@router.get("/stats")
-def survey_stats(db: Session = Depends(get_db)):
-    """Thống kê khảo sát theo trường, ngành."""
-    from sqlalchemy import func
-    by_major = (
-        db.query(SurveyResponse.major, func.count(SurveyResponse.id).label("count"))
-        .group_by(SurveyResponse.major)
-        .all()
-    )
-    by_institution = (
-        db.query(SurveyResponse.institution, func.count(SurveyResponse.id).label("count"))
-        .group_by(SurveyResponse.institution)
-        .all()
-    )
-    return {
-        "total": db.query(SurveyResponse).count(),
-        "by_major": [{"major": r.major, "count": r.count} for r in by_major],
-        "by_institution": [{"institution": r.institution, "count": r.count} for r in by_institution],
     }

@@ -1,0 +1,30 @@
+.notification-bell { position: relative; display: inline-grid; place-items: center; width: 40px; min-width: 40px; height: 40px; border: 1px solid var(--border2); border-radius: 12px; background: var(--bg2); color: var(--text2); cursor: pointer; }
+.notification-bell svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.notification-bell:hover, .notification-bell[aria-expanded="true"] { color: var(--primary-dark); background: var(--primary-glow); }
+.notification-bell .notif-dot { top: 6px; right: 7px; }
+.notification-popover { position: fixed; z-index: 1000; top: 70px; right: 24px; width: min(430px, calc(100vw - 28px)); background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; box-shadow: var(--shadow-lg); color: var(--text); overflow: hidden; }
+.notification-popover[hidden] { display: none; }
+.notification-popover-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+.notification-popover-header h2 { font-size: 17px; }
+.notification-popover-list { max-height: min(540px, 65vh); overflow-y: auto; overscroll-behavior: contain; }
+.notification-item { padding: 20px; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.notification-item:last-child { border-bottom: 0; }
+.notification-item time { display: block; color: var(--text2); font-size: 11px; margin-bottom: 8px; }
+.notification-item h3 { font-size: 15px; line-height: 1.5; margin-bottom: 8px; }
+.notification-item p { font-size: 13px; color: var(--text2); line-height: 1.8; white-space: pre-wrap; }
+.notification-footer { display: flex; justify-content: center; padding: 12px; border-top: 1px solid var(--border); }
+.notification-layout { display: grid; grid-template-columns: minmax(280px, 360px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.notification-layout.viewer { grid-template-columns: minmax(0, 1fr); max-width: 860px; margin: 0 auto; }
+.notification-compose, .notification-feed { background: var(--bg2); border: 1px solid var(--border2); border-radius: 18px; padding: 24px; }
+.notification-compose h2, .notification-feed h2 { font-size: 18px; margin-bottom: 12px; }
+.notification-compose textarea { resize: vertical; min-height: 180px; }
+.notification-feed .notification-item { padding: 22px 0; }
+.notification-feed .notification-item h3 { font-size: 18px; }
+.notification-feed .notification-item p { font-size: 14px; }
+.notification-empty { padding: 28px 20px; color: var(--text2); text-align: center; line-height: 1.8; font-size: 13px; }
+.notification-feed-heading { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.notification-bell:focus-visible, .notification-popover button:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+@media(max-width: 1000px) { .notification-layout { grid-template-columns: 1fr; } }
+@media(max-width: 760px) { .notification-popover { right: 14px; } .notification-compose, .notification-feed { padding: 18px; } }
+
+.notification-compose[hidden], #notificationsMore[hidden], [data-notification-dot][hidden] { display: none !important; }

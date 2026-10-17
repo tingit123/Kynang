@@ -8,6 +8,7 @@ from sqlalchemy import desc
 from pydantic import BaseModel
 
 from src.database import get_db
+from src.core.security import require_admin_or_worker
 from src.models.skill import SkillCatalog
 from src.models.course import CourseRecommendation
 
@@ -177,7 +178,7 @@ def get_skill(skill_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{skill_id}", response_model=SkillOut)
-def update_skill(skill_id: int, data: SkillUpdate, db: Session = Depends(get_db)):
+def update_skill(skill_id: int, data: SkillUpdate, db: Session = Depends(get_db), _authorized=Depends(require_admin_or_worker)):
     """Cập nhật % demand/supply/gap (dùng bởi AI Worker)."""
     skill = db.query(SkillCatalog).filter(SkillCatalog.id == skill_id).first()
     if not skill:

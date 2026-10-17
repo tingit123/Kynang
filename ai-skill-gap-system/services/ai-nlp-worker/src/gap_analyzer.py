@@ -2,6 +2,7 @@
 Gap Analyzer – Tính toán Skill Gap = Demand - Supply
 Cập nhật skill_catalog qua API
 """
+import os
 import logging
 import requests
 from typing import List, Dict
@@ -27,11 +28,13 @@ class GapAnalyzer:
             new_gap = round(skill["demand_pct"] - skill["supply_pct"], 1)
             if abs(new_gap - skill["gap_pct"]) > 0.5:  # Chỉ update nếu có thay đổi
                 try:
-                    requests.put(
+                    updated = requests.put(
                         f"{self.api_url}/api/skills/{skill['id']}",
                         json={"gap_pct": new_gap},
+                        headers={"X-Worker-Token": os.getenv("INTERNAL_API_TOKEN", "")},
                         timeout=10,
                     )
+                    updated.raise_for_status()
                     log.info(f"   Updated gap for '{skill['skill_name']}': {new_gap}%")
                 except Exception as e:
                     log.warning(f"Không update được skill {skill['id']}: {e}")

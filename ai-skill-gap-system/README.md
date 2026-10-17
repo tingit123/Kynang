@@ -1,3 +1,7 @@
+> Kiểm thử trước push: xem [TEST_REPORT.md](TEST_REPORT.md) để biết các lỗi đã sửa, chức năng còn là demo và cách chạy lại test.
+
+> Bản hợp nhất ngày 17/10/2026 lấy Kynang-Tin làm chính. Xem [báo cáo hợp nhất và hướng dẫn chạy](MERGE_REPORT.md) để biết thay đổi, kiểm thử và cách cập nhật dịch vụ đang chạy.
+
 <div align="center">
 
 # 🧠 SkillGap AI
