@@ -4450,6 +4450,15 @@
                 <textarea class="form-input" id="cvTextContent" rows="6"
                   style="resize:vertical;font-family:inherit;font-size:12px"
                   placeholder="Dán toàn bộ văn bản CV, quá trình học tập, kinh nghiệm và kỹ năng vào đây nếu bạn không tải ảnh lên..."></textarea>
+                
+                <!-- Thanh chọn nhanh CV mẫu tiện lợi -->
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px">
+                  <span style="font-size:11px;color:var(--text3);font-weight:700">Mẫu CV nhanh:</span>
+                  <button type="button" onclick="loadSampleCv('it')" style="font-size:11px;padding:3px 10px;border-radius:12px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;color:var(--text);font-weight:600">💻 CNTT</button>
+                  <button type="button" onclick="loadSampleCv('ketoan')" style="font-size:11px;padding:3px 10px;border-radius:12px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;color:var(--text);font-weight:600">📊 Kế toán</button>
+                  <button type="button" onclick="loadSampleCv('logistics')" style="font-size:11px;padding:3px 10px;border-radius:12px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;color:var(--text);font-weight:600">🚢 Logistics</button>
+                  <button type="button" onclick="loadSampleCv('image')" style="font-size:11px;padding:3px 10px;border-radius:12px;background:rgba(15,163,158,0.1);border:1px solid var(--primary);cursor:pointer;color:var(--primary);font-weight:700">🖼️ Ảnh Scan</button>
+                </div>
               </div>
 
               <div
@@ -4463,7 +4472,6 @@
                 </div>
               </div>
 
-
               <button class="btn btn-primary" id="btnAnalyzeCv" onclick="submitCvForAiAnalysis()"
                 style="width:100%;justify-content:center;padding:12px">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -4474,26 +4482,174 @@
             </div>
           </div>
 
-          <!-- Cột phải: Kết quả phân tích & Lộ trình học -->
+          <!-- Cột phải: Hướng dẫn sử dụng & Kết quả phân tích -->
           <div>
-            <div id="cvEmptyState" class="card">
-              <div class="empty-state" style="padding:70px 20px">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
-                <div style="font-size:16px;font-weight:700;color:var(--text2);margin-bottom:6px">Chưa có hồ sơ nào được
-                  gửi</div>
-                <div style="font-size:13px;color:var(--text3);max-width:400px;margin:0 auto">Tải lên file CV hoặc chọn
-                  một mẫu CV bên trái, sau đó nhấn "Phân Tích CV Bằng Gemini AI" để xem chẩn đoán kỹ năng và lộ trình
-                  đào tạo cá nhân hóa.</div>
+            <!-- KHỐI HƯỚNG DẪN CHI TIẾT & TRẠNG THÁI CHỜ HỒ SƠ -->
+            <div id="cvEmptyState" class="card" style="padding:26px;border-radius:20px;border:none;box-shadow:0 8px 30px rgba(0,0,0,0.08);background:var(--bg2)">
+              
+              <!-- Tiêu đề Hướng Dẫn -->
+              <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--border);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg, rgba(13,148,136,0.18) 0%, rgba(20,184,166,0.08) 100%);display:flex;align-items:center;justify-content:center;font-size:22px">
+                    📖
+                  </div>
+                  <div>
+                    <div style="font-size:17.5px;font-weight:800;color:var(--text);letter-spacing:-0.3px">
+                      Hướng Dẫn Phân Tích CV &amp; Kê Đơn Lộ Trình Học Bằng Gemini AI
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text2);margin-top:3px">
+                      Hệ thống tự động đọc hiểu hồ sơ, bóc tách kỹ năng và đối chiếu khoảng cách năng lực theo chuẩn thị trường lao động Cần Thơ.
+                    </div>
+                  </div>
+                </div>
+                <span class="card-badge" style="background:#ccfbf1;color:#0f766e;border:1px solid #5eead4;font-size:11.5px;font-weight:700;padding:4px 14px;border-radius:20px">
+                  💡 Hướng dẫn &amp; Mẫu thử
+                </span>
               </div>
+
+              <!-- 3 BƯỚC THỰC HIỆN TRỰC QUAN (GRID 3 CỘT) -->
+              <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:14px;margin-bottom:22px">
+                <!-- Bước 1 -->
+                <div style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                      <span style="font-size:24px">📤</span>
+                      <span style="font-size:10px;font-weight:800;background:var(--primary);color:#fff;padding:2px 8px;border-radius:8px">BƯỚC 1</span>
+                    </div>
+                    <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:6px">Cung Cấp CV / Hồ Sơ</div>
+                    <div style="font-size:12px;color:var(--text2);line-height:1.5">
+                      Kéo thả file <strong>PDF, DOCX, TXT</strong> hoặc tải <strong>Ảnh chụp CV</strong> ở khung bên trái. Hoặc nhấn <kbd style="background:var(--bg2);padding:1px 5px;border-radius:4px;border:1px solid var(--border);font-size:11px;font-weight:700">Ctrl + V</kbd> để dán ảnh chụp màn hình CV tức thì.
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--border);font-size:11px;color:var(--primary);font-weight:600">
+                    ✓ Hỗ trợ cả dán văn bản trực tiếp
+                  </div>
+                </div>
+
+                <!-- Bước 2 -->
+                <div style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                      <span style="font-size:24px">⚡</span>
+                      <span style="font-size:10px;font-weight:800;background:#0f766e;color:#fff;padding:2px 8px;border-radius:8px">BƯỚC 2</span>
+                    </div>
+                    <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:6px">Gemini AI Quét Năng Lực</div>
+                    <div style="font-size:12px;color:var(--text2);line-height:1.5">
+                      Bấm nút <strong>"✨ Phân Tích CV Bằng Gemini AI"</strong>. Trí tuệ nhân tạo sẽ tự động nhận diện Họ tên, chức danh hiện tại, học vấn và bóc tách danh mục Hard Skills &amp; Soft Skills.
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--border);font-size:11px;color:var(--green);font-weight:600">
+                    ✓ Tự động 100%, không cần cấu hình
+                  </div>
+                </div>
+
+                <!-- Bước 3 -->
+                <div style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;justify-content:space-between">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                      <span style="font-size:24px">🎯</span>
+                      <span style="font-size:10px;font-weight:800;background:#0d9488;color:#fff;padding:2px 8px;border-radius:8px">BƯỚC 3</span>
+                    </div>
+                    <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:6px">Nhận Kết Quả &amp; Kê Đơn</div>
+                    <div style="font-size:12px;color:var(--text2);line-height:1.5">
+                      Hệ thống đối chiếu <strong>% Phù Hợp</strong> với tiêu chuẩn doanh nghiệp Cần Thơ, chỉ rõ <strong>kỹ năng còn thiếu (Skill Gap)</strong> và kê đơn lộ trình khóa học bù đắp kèm link học ngay.
+                    </div>
+                  </div>
+                  <div style="margin-top:12px;padding-top:8px;border-top:1px dashed var(--border);font-size:11px;color:#d97706;font-weight:600">
+                    ✓ Đơn thuốc đào tạo thực chiến
+                  </div>
+                </div>
+              </div>
+
+              <!-- KHỐI THỬ NGHIỆM NHANH BẰNG 4 CV MẪU (INTERACTIVE QUICK TRY) -->
+              <div style="background:linear-gradient(135deg, rgba(13,148,136,0.06) 0%, rgba(20,184,166,0.02) 100%);border:1.5px dashed var(--primary);border-radius:16px;padding:18px 20px;margin-bottom:20px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+                  <div style="font-size:13.5px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px">
+                    <span>🧪</span> THỬ NGHIỆM NHANH — BẤM ĐỂ NẠP HỒ SƠ MẪU VÀO KHUNG BÊN TRÁI:
+                  </div>
+                  <span style="font-size:11.5px;color:var(--text3)">Trải nghiệm ngay không cần chuẩn bị file</span>
+                </div>
+                
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:10px">
+                  <!-- Mẫu 1: CNTT -->
+                  <div onclick="loadSampleCv('it')" style="background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.03)" onmouseover="this.style.borderColor='var(--primary)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+                    <div style="font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                      <span>💻</span> Trần Văn An (IT)
+                    </div>
+                    <div style="font-size:11.5px;color:var(--text2);line-height:1.4">Sinh viên CNTT muốn lên Backend Python Developer</div>
+                    <div style="margin-top:6px;font-size:11px;color:var(--primary);font-weight:700">➔ Bấm để nạp CV mẫu</div>
+                  </div>
+
+                  <!-- Mẫu 2: Kế toán -->
+                  <div onclick="loadSampleCv('ketoan')" style="background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.03)" onmouseover="this.style.borderColor='var(--primary)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+                    <div style="font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                      <span>📊</span> Nguyễn Thị Thu Hà
+                    </div>
+                    <div style="font-size:11.5px;color:var(--text2);line-height:1.4">Thực tập sinh Kế toán muốn lên Kế Toán Tổng Hợp</div>
+                    <div style="margin-top:6px;font-size:11px;color:var(--primary);font-weight:700">➔ Bấm để nạp CV mẫu</div>
+                  </div>
+
+                  <!-- Mẫu 3: Logistics -->
+                  <div onclick="loadSampleCv('logistics')" style="background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.03)" onmouseover="this.style.borderColor='var(--primary)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+                    <div style="font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                      <span>🚢</span> Lê Hoàng Nam (Logistics)
+                    </div>
+                    <div style="font-size:11.5px;color:var(--text2);line-height:1.4">Thực tập kho vận muốn lên Chuyên Viên Xuất Nhập Khẩu</div>
+                    <div style="margin-top:6px;font-size:11px;color:var(--primary);font-weight:700">➔ Bấm để nạp CV mẫu</div>
+                  </div>
+
+                  <!-- Mẫu 4: Ảnh Scan -->
+                  <div onclick="loadSampleCv('image')" style="background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.03)" onmouseover="this.style.borderColor='var(--primary)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
+                    <div style="font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                      <span>🖼️</span> Ảnh Chụp CV (Scan OCR)
+                    </div>
+                    <div style="font-size:11.5px;color:var(--text2);line-height:1.4">Kiểm tra khả năng đọc ảnh trực tiếp của Gemini Vision</div>
+                    <div style="margin-top:6px;font-size:11px;color:var(--primary);font-weight:700">➔ Bấm để nạp ảnh mẫu</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- HÀNG 2 CỘT: CÁCH ĐỌC KẾT QUẢ & LƯU Ý BẢO MẬT -->
+              <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:14px">
+                <!-- Cách đọc kết quả -->
+                <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:16px">
+                  <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+                    <span>💡</span> Cách Đọc Báo Cáo Phân Tích
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text2);line-height:1.5">
+                    <div><strong style="color:var(--green)">✓ Đã có:</strong> Kỹ năng ứng viên đã sở hữu và đáp ứng chuẩn tuyển dụng.</div>
+                    <div><strong style="color:var(--red)">❌ Đang thiếu (Skill Gap):</strong> Kỹ năng còn khuyết cần đào tạo bổ sung.</div>
+                    <div><strong style="color:var(--primary)">🎓 Khóa học kê đơn:</strong> Các khóa học chính xác bù đắp trực tiếp từng kỹ năng thiếu.</div>
+                  </div>
+                </div>
+
+                <!-- Tiêu chuẩn & Bảo mật -->
+                <div style="background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:16px">
+                  <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+                    <span>🛡️</span> Chuẩn Tuyển Dụng &amp; Bảo Mật
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text2);line-height:1.5">
+                    <div><strong>🏢 Chuẩn địa phương:</strong> Đối chiếu trực tiếp với dữ liệu yêu cầu thực tế từ hơn 1.000 doanh nghiệp Cần Thơ.</div>
+                    <div><strong>🔒 Bảo mật 100%:</strong> Dữ liệu CV chỉ được xử lý để bóc tách năng lực, không lưu trữ thông tin nhạy cảm.</div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
             <div id="cvResultArea" style="display:none">
+              <!-- Thanh điều hướng quay lại hướng dẫn -->
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+                <button type="button" onclick="resetCvAnalysisView()"
+                  style="background:var(--bg2);border:1.5px solid var(--primary);color:var(--primary);font-weight:700;font-size:12.5px;padding:7px 18px;border-radius:20px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s">
+                  <span>← Phân Tích Hồ Sơ Khác / Xem Lại Hướng Dẫn</span>
+                </button>
+                <button type="button" onclick="window.print()"
+                  style="background:var(--bg3);border:1px solid var(--border);color:var(--text2);font-weight:600;font-size:12px;padding:7px 16px;border-radius:20px;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+                  <span>🖨️ In Báo Cáo</span>
+                </button>
+              </div>
+
               <!-- Header hồ sơ & điểm match -->
               <div class="card" style="margin-bottom:16px;border-left:4px solid var(--primary)">
                 <div
@@ -13937,11 +14093,28 @@
       }
     });
 
+    function resetCvAnalysisView() {
+      const resArea = document.getElementById('cvResultArea');
+      const emptyState = document.getElementById('cvEmptyState');
+      const pageCv = document.getElementById('page-cv-upload');
+      if (resArea) resArea.style.display = 'none';
+      if (emptyState) emptyState.style.display = 'block';
+      if (pageCv) {
+        window.scrollTo({ top: pageCv.offsetTop - 20, behavior: 'smooth' });
+      }
+    }
+
     function loadSampleCv(type) {
+      if (type !== 'image') {
+        removeSelectedCvImage();
+      }
+
       if (type === 'ketoan') {
-        document.getElementById('cvPrevRole').value = 'Thực tập sinh Kế toán';
-        document.getElementById('cvTargetRole').value = 'Kế Toán Tổng Hợp';
-        document.getElementById('cvTextContent').value = `HỌ VÀ TÊN: NGUYỄN THỊ THU HÀ
+        if (document.getElementById('cvPrevRole')) document.getElementById('cvPrevRole').value = 'Thực tập sinh Kế toán';
+        if (document.getElementById('cvTargetRole')) document.getElementById('cvTargetRole').value = 'Kế Toán Tổng Hợp';
+        const txtEl = document.getElementById('cvTextContent');
+        if (txtEl) {
+          txtEl.value = `HỌ VÀ TÊN: NGUYỄN THỊ THU HÀ
 Sinh viên Kế toán – Đại học Cần Thơ (Khóa 47)
 Chức vụ hiện tại: Thực tập sinh Kế toán tại Công ty CP Thủy sản Cần Thơ
 Mục tiêu nghề nghiệp: Trở thành Kế Toán Tổng Hợp trong 6 tháng tới.
@@ -13957,10 +14130,13 @@ KỸ NĂNG:
 
 KINH NGHIỆM:
 - 4 tháng thực tập hỗ trợ kiểm tra chứng từ hóa đơn, đối chiếu công nợ.`;
+        }
       } else if (type === 'it') {
-        document.getElementById('cvPrevRole').value = 'Thực tập sinh Lập trình';
-        document.getElementById('cvTargetRole').value = 'Python Developer';
-        document.getElementById('cvTextContent').value = `HỌ VÀ TÊN: TRẦN VĂN AN
+        if (document.getElementById('cvPrevRole')) document.getElementById('cvPrevRole').value = 'Thực tập sinh Lập trình';
+        if (document.getElementById('cvTargetRole')) document.getElementById('cvTargetRole').value = 'Python Developer';
+        const txtEl = document.getElementById('cvTextContent');
+        if (txtEl) {
+          txtEl.value = `HỌ VÀ TÊN: TRẦN VĂN AN
 Chuyên ngành: Kỹ thuật phần mềm – ĐH Cần Thơ
 Chức vụ trước: Thực tập sinh Web Developer
 Mục tiêu: Trở thành Python Backend Developer
@@ -13970,10 +14146,14 @@ KỸ NĂNG:
 - Cơ sở dữ liệu: SQL, MySQL
 - Công cụ: Git, GitHub, VS Code
 - Tiếng Anh: Đọc hiểu tài liệu kỹ thuật tốt`;
+        }
       } else if (type === 'image') {
-        document.getElementById('cvPrevRole').value = 'Thực tập sinh Kế toán';
-        document.getElementById('cvTargetRole').value = 'Kế Toán Tổng Hợp';
-        document.getElementById('cvTextContent').value = '[Đã đính kèm Ảnh chụp CV mẫu của ứng viên: Nguyễn Thị Thu Hà - Cử nhân Kế toán ĐH Cần Thơ]';
+        if (document.getElementById('cvPrevRole')) document.getElementById('cvPrevRole').value = 'Thực tập sinh Kế toán';
+        if (document.getElementById('cvTargetRole')) document.getElementById('cvTargetRole').value = 'Kế Toán Tổng Hợp';
+        const txtEl = document.getElementById('cvTextContent');
+        if (txtEl) {
+          txtEl.value = '[Đã đính kèm Ảnh chụp CV mẫu của ứng viên: Nguyễn Thị Thu Hà - Cử nhân Kế toán ĐH Cần Thơ]';
+        }
 
         // Create an elegant SVG sample CV image converted to PNG/Blob
         const canvas = document.createElement('canvas');
@@ -14026,9 +14206,11 @@ KỸ NĂNG:
           attachCvFile(file);
         });
       } else if (type === 'logistics') {
-        document.getElementById('cvPrevRole').value = 'Thực tập sinh Kho vận';
-        document.getElementById('cvTargetRole').value = 'Chuyên Viên Xuất Nhập Khẩu';
-        document.getElementById('cvTextContent').value = `HỌ VÀ TÊN: LÊ HOÀNG NAM
+        if (document.getElementById('cvPrevRole')) document.getElementById('cvPrevRole').value = 'Thực tập sinh Kho vận';
+        if (document.getElementById('cvTargetRole')) document.getElementById('cvTargetRole').value = 'Chuyên Viên Xuất Nhập Khẩu';
+        const txtEl = document.getElementById('cvTextContent');
+        if (txtEl) {
+          txtEl.value = `HỌ VÀ TÊN: LÊ HOÀNG NAM
 Chuyên ngành: Logistics & Quản lý chuỗi cung ứng
 Chức vụ trước: Thực tập sinh kho vận tại Cảng Cần Thơ
 Mục tiêu: Chuyên Viên Xuất Nhập Khẩu
@@ -14038,6 +14220,18 @@ KỸ NĂNG:
 - Incoterms 2020 cơ bản
 - Excel quản lý đơn hàng
 - Tiếng Anh thương mại TOEIC 650`;
+        }
+      }
+
+      // Highlight nút bấm phân tích để người dùng nhận diện ngay
+      const btn = document.getElementById('btnAnalyzeCv');
+      if (btn) {
+        btn.style.transform = 'scale(1.02)';
+        btn.style.boxShadow = '0 0 16px rgba(13,148,136,0.5)';
+        setTimeout(() => {
+          btn.style.transform = '';
+          btn.style.boxShadow = '';
+        }, 1200);
       }
     }
 
