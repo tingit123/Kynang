@@ -23,7 +23,12 @@ import EmployerJobsPage from '../pages/employer/EmployerJobsPage';
 import EmployerCandidatesPage from '../pages/employer/EmployerCandidatesPage';
 import EmployerProfilePage from '../pages/employer/EmployerProfilePage';
 
-// ── 4. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
+// ── 4. PROVIDER PAGES (Cổng Đơn Vị Đào Tạo / Trung Tâm Khóa Học) ──
+import ProviderGapAnalyticsPage from '../pages/provider/ProviderGapAnalyticsPage';
+import ProviderCoursesPage from '../pages/provider/ProviderCoursesPage';
+import ProviderAnalyticsPage from '../pages/provider/ProviderAnalyticsPage';
+
+// ── 5. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
 import AuthGuard from '../components/guards/AuthGuard';
 import GuestGuard from '../components/guards/GuestGuard';
 
@@ -109,9 +114,9 @@ export default function AppRouter() {
         }
       >
         <Route index element={<Navigate to="/provider/gap-analytics" replace />} />
-        <Route path="gap-analytics" element={<div className="p-6 bg-white rounded-xl shadow-xs">🔍 Phân Tích Kỹ Năng Thiếu Hụt</div>} />
-        <Route path="courses" element={<div className="p-6 bg-white rounded-xl shadow-xs">🎓 Quản Lý Khóa Học Trung Tâm</div>} />
-        <Route path="analytics" element={<div className="p-6 bg-white rounded-xl shadow-xs">🖱️ Thống Kê Lượt Click &amp; Quan Tâm</div>} />
+        <Route path="gap-analytics" element={<ProviderGapAnalyticsPage />} />
+        <Route path="courses" element={<ProviderCoursesPage />} />
+        <Route path="analytics" element={<ProviderAnalyticsPage />} />
       </Route>
 
       {/* Fallback điều hướng về trang chủ */}

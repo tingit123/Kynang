@@ -1,113 +1,119 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import HeaderUserMenu from '../components/HeaderUserMenu';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 /**
- * Layout 4: Giao Diện Dành Cho Trung Tâm Đào Tạo / Đối Tác Khóa Học (Route: /provider/*)
- * Đặc điểm: Sidebar thu gọn tập trung vào phân tích kỹ năng thiếu hụt và tối ưu khóa học.
+ * ProviderLayout.jsx - Giao diện Độc Lập Dành Cho Đơn Vị Đào Tạo / Trung Tâm Khóa Học
+ * Khớp chuẩn thiết kế theo hình ảnh mẫu (media_1792213850085_09b78eb3.png):
+ * - Sidebar trái cố định tông màu Dark Teal (#0a5146) với logo SkillGapAI (AI màu mint).
+ * - Subtitle: TRUNG TÂM KHÓA HỌC.
+ * - 3 Menu chính dạng pill bo góc: Phân tích kỹ năng, Quản lý khóa học, Thống kê lượt click.
+ * - Profile card đáy Sidebar: Khung bo góc tối màu, Avatar mint chữ cái đầu, Tên Đơn vị, Tên đại diện và Nút ĐĂNG XUẤT mint bo tròn.
+ * - Content phải: Nền sáng xám nhẹ (#f8fafc), hiển thị trực tiếp nội dung không có topbar rườm rà.
  */
 export default function ProviderLayout() {
-  const sidebarLinkStyle = ({ isActive }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '11px 14px',
-    borderRadius: '8px',
-    fontSize: '13.5px',
-    fontWeight: 600,
-    textDecoration: 'none',
-    color: isActive ? '#7c3aed' : '#475569',
-    backgroundColor: isActive ? '#f3e8ff' : 'transparent',
-    borderLeft: isActive ? '3px solid #7c3aed' : '3px solid transparent',
-    transition: 'all 0.15s ease',
+  const navigate = useNavigate();
+
+  // Đọc thông tin Đơn vị đào tạo từ localStorage
+  const [user, setUser] = useState(() => {
+    try {
+      const raw = localStorage.getItem('current_user');
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
   });
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('current_user');
+      if (raw) setUser(JSON.parse(raw));
+    } catch (e) {}
+  }, []);
+
+  // Xử lý Đăng xuất: Xóa token & current_user -> Chuyển về trang chủ của sinh viên (/)
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('current_user');
+    navigate('/');
+  };
+
+  // 3 Menu chức năng cốt lõi theo đúng thiết kế mẫu
+  const navItems = [
+    { to: '/provider/gap-analytics', label: 'Phân tích kỹ năng' },
+    { to: '/provider/courses', label: 'Quản lý khóa học' },
+    { to: '/provider/analytics', label: 'Thống kê lượt click' }
+  ];
+
+  const providerName = user?.company_name || 'Mekong Skills';
+  const contactName = user?.full_name || 'Trần Thanh Hải';
+  const initialLetter = providerName.charAt(0).toUpperCase() || 'M';
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#faf5ff', color: '#0f172a' }}>
-      {/* ── SIDEBAR ĐƠN VỊ ĐÀO TẠO (Thu gọn theo nghiệp vụ Provider) ── */}
-      <aside style={{
-        width: '250px',
-        backgroundColor: '#ffffff',
-        borderRight: '1px solid #e9d5ff',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'sticky',
-        top: 0,
-        height: '100vh',
-      }}>
-        {/* Logo Provider */}
-        <div style={{ padding: '20px 18px', borderBottom: '1px solid #faf5ff', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '8px',
-            backgroundColor: '#7c3aed',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#ffffff',
-          }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
-              <path d="M6 6h10" />
-              <path d="M6 10h10" />
-            </svg>
+    <div className="min-h-screen flex bg-[#f8fafc] font-sans text-slate-800 antialiased">
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* ── 1. SIDEBAR TRÁI CỐ ĐỊNH (Dark Teal #0a5146) ──         */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      <aside className="w-64 bg-[#0a5146] text-white flex flex-col shrink-0 sticky top-0 h-screen z-40 select-none shadow-md">
+        {/* Brand / Logo */}
+        <div className="pt-8 px-6 pb-6">
+          <div className="text-2xl font-black tracking-tight text-white flex items-center">
+            SkillGap<span className="text-[#5eead4]">AI</span>
           </div>
-          <div>
-            <div style={{ fontSize: '15px', fontWeight: 800, color: '#0f172a' }}>
-              SkillGap<span style={{ color: '#7c3aed' }}> Edu</span>
-            </div>
-            <div style={{ fontSize: '11px', color: '#64748b' }}>Cổng Đơn Vị Đào Tạo</div>
+          <div className="text-[11px] font-bold text-teal-200/80 tracking-widest uppercase mt-1">
+            TRUNG TÂM KHÓA HỌC
           </div>
         </div>
 
-        {/* Menu Điều Hướng Provider (Yêu cầu 2: ProviderLayout) */}
-        <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <NavLink to="/provider/gap-analytics" style={sidebarLinkStyle}>
-            🔍 Phân Tích Kỹ Năng Thiếu Hụt
-          </NavLink>
-          <NavLink to="/provider/courses" style={sidebarLinkStyle}>
-            🎓 Quản Lý Khóa Học
-          </NavLink>
-          <NavLink to="/provider/analytics" style={sidebarLinkStyle}>
-            🖱️ Thống Kê Lượt Click &amp; Quan Tâm
-          </NavLink>
+        {/* 3 Menu Điều Hướng (Pill style theo mockup) */}
+        <nav className="flex-1 px-4 py-2 space-y-2 overflow-y-auto">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `block px-4 py-3 rounded-2xl text-sm font-semibold transition-all duration-150 ${
+                  isActive
+                    ? 'bg-[#136659] text-white shadow-xs'
+                    : 'text-teal-100/80 hover:text-white hover:bg-white/10'
+                }`
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </nav>
 
-        {/* Mẹo tối ưu khóa học */}
-        <div style={{ padding: '12px 14px', margin: '12px', backgroundColor: '#f5f3ff', borderRadius: '8px', border: '1px solid #ddd6fe', fontSize: '11.5px', color: '#6d28d9', lineHeight: 1.5 }}>
-          💡 <strong>Gợi ý AI:</strong> Tạo các khóa học bám sát chỉ số Gap cao nhất tại Cần Thơ để tiếp cận lượng học viên lớn nhất.
+        {/* Thẻ thông tin Đơn vị đào tạo ở đáy Sidebar */}
+        <div className="p-4 mx-4 mb-6 bg-[#063830] rounded-2xl shadow-inner border border-teal-900/40">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-[#5eead4] text-[#0a5146] font-black text-base flex items-center justify-center shrink-0 shadow-sm">
+              {initialLetter}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-sm font-bold text-white truncate" title={providerName}>
+                {providerName}
+              </div>
+              <div className="text-xs text-teal-200/80 truncate" title={contactName}>
+                {contactName}
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="w-full mt-3.5 py-2 px-3 rounded-full bg-[#5eead4] hover:bg-[#2dd4bf] text-[#063830] text-xs font-black tracking-wider uppercase transition-colors shadow-xs cursor-pointer"
+          >
+            ĐĂNG XUẤT
+          </button>
         </div>
       </aside>
 
-      {/* ── KHU VỰC NỘI DUNG CHÍNH ── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, backgroundColor: '#f8fafc' }}>
-        {/* Header Provider */}
-        <header style={{
-          height: '64px',
-          backgroundColor: '#ffffff',
-          borderBottom: '1px solid #e2e8f0',
-          padding: '0 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'sticky',
-          top: 0,
-          zIndex: 900,
-        }}>
-          <div style={{ fontSize: '14px', fontWeight: 600, color: '#475569' }}>
-            <span>Đơn Vị Đào Tạo</span> / <span style={{ color: '#7c3aed' }}>Quản Trị Khóa Học</span>
-          </div>
-
-          {/* Cụm Avatar + Đăng Xuất (Không có nút đăng nhập/đăng ký) */}
-          <HeaderUserMenu roleBadgeText="📚 Trung Tâm Đào Tạo" defaultName="Đơn Vị Đào Tạo" />
-        </header>
-
-        {/* Nội dung trang con (Outlet) */}
-        <main style={{ flex: 1, padding: '24px', minWidth: 0 }}>
-          <Outlet />
-        </main>
-      </div>
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* ── 2. KHU VỰC NỘI DUNG CHÍNH (OUTLET) ──                  */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      <main className="flex-1 p-8 sm:p-10 min-w-0 overflow-y-auto">
+        <Outlet />
+      </main>
     </div>
   );
 }

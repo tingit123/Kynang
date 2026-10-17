@@ -3042,6 +3042,244 @@
       margin: 0 auto;
       padding: 40px 24px;
     }
+
+    /* ══════════════════════════════════════════════════════════════════ */
+    /* NEW EMPLOYER PORTAL STYLES (MATCHING MOCKUP EXACTLY)               */
+    /* ══════════════════════════════════════════════════════════════════ */
+    .employer-portal-layout {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f8fafc;
+      font-family: 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+    }
+
+    .emp-sidebar {
+      width: 260px;
+      background: #0a5146;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 2px 0 16px rgba(0, 0, 0, 0.08);
+      z-index: 100;
+      user-select: none;
+    }
+
+    .emp-sidebar-header {
+      padding: 32px 24px 20px;
+    }
+
+    .emp-logo-title {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+
+    .emp-logo-title span {
+      color: #5eead4;
+    }
+
+    .emp-logo-sub {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: rgba(94, 234, 212, 0.85);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .emp-sidebar-nav {
+      flex: 1;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+    }
+
+    .emp-nav-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 16px;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .emp-nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .emp-nav-item.active {
+      background: #136659;
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .emp-sidebar-profile {
+      margin: 0 16px 24px;
+      background: #063830;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .emp-profile-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .emp-avatar-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #5eead4;
+      color: #0a5146;
+      font-weight: 900;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .emp-profile-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .emp-profile-company {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .emp-profile-name {
+      font-size: 11.5px;
+      color: rgba(94, 234, 212, 0.85);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .emp-logout-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: #5eead4;
+      color: #0a5146;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: block;
+    }
+
+    .emp-logout-btn:hover {
+      background: #4ade80;
+      transform: translateY(-1px);
+    }
+
+    .emp-main-content {
+      flex: 1;
+      padding: 36px 48px;
+      overflow-y: auto;
+      min-height: 100vh;
+    }
+
+    .emp-kpi-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 24px 26px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .emp-kpi-card.teal { border-top: 4px solid #0d5f57; }
+    .emp-kpi-card.amber { border-top: 4px solid #f59e0b; }
+    .emp-kpi-card.blue { border-top: 4px solid #2563eb; }
+
+    .emp-action-card-teal {
+      background: #0d5f57;
+      border-radius: 20px;
+      padding: 28px 30px;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(13, 95, 87, 0.15);
+    }
+
+    .emp-action-card-white {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 28px 30px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .emp-circle-arrow {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      margin-left: 8px;
+    }
+
+    .emp-status-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .emp-status-open {
+      background: #dcfce7;
+      color: #0f766e;
+    }
+    .emp-status-expiring {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .emp-status-expired {
+      background: #f1f5f9;
+      color: #64748b;
+    }
   </style>
 </head>
 
@@ -4107,6 +4345,1082 @@
     </div><!-- /main -->
   </div><!-- /shell -->
   </div><!-- /adminLayout -->
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- 3. EMPLOYER PORTAL LAYOUT (/employer/*)                            -->
+  <!-- THIẾT KẾ ĐỘC LẬP TÔNG DARK TEAL (#0a5146) KHỚP 100% ẢNH MẪU         -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="employerPortalLayout" class="employer-portal-layout" style="display:none">
+    <!-- Sidebar Trái Cố Định -->
+    <aside class="emp-sidebar">
+      <div class="emp-sidebar-header">
+        <div class="emp-logo-title">SkillGap<span>AI</span></div>
+        <div class="emp-logo-sub">NHÀ TUYỂN DỤNG</div>
+      </div>
+
+      <nav class="emp-sidebar-nav">
+        <a class="emp-nav-item active" id="empNavDashboard" onclick="switchEmpTab('dashboard')">Tổng quan</a>
+        <a class="emp-nav-item" id="empNavJobs" onclick="switchEmpTab('jobs')">Tin tuyển dụng</a>
+        <a class="emp-nav-item" id="empNavCandidates" onclick="switchEmpTab('candidates')">Ứng viên</a>
+        <a class="emp-nav-item" id="empNavSkills" onclick="switchEmpTab('skills')">Kỹ năng thị trường</a>
+        <a class="emp-nav-item" id="empNavProfile" onclick="switchEmpTab('profile')">Hồ sơ công ty</a>
+      </nav>
+
+      <div class="emp-sidebar-profile">
+        <div class="emp-profile-row">
+          <div class="emp-avatar-circle" id="empAvatarInitial">M</div>
+          <div class="emp-profile-info">
+            <div class="emp-profile-company" id="empSidebarCompanyName">Mekong Tech</div>
+            <div class="emp-profile-name" id="empSidebarContactName">Nguyễn Minh Khoa</div>
+          </div>
+        </div>
+        <button class="emp-logout-btn" onclick="handleLogout()">ĐĂNG XUẤT</button>
+      </div>
+    </aside>
+
+    <!-- Khu Vực Nội Dung Phải -->
+    <main class="emp-main-content">
+      <!-- ── TAB 1: TỔNG QUAN (DASHBOARD - CHÍNH THEO ẢNH MẪU) ── -->
+      <div id="empTabDashboard" class="emp-tab-view" style="max-width:1150px; margin:0 auto">
+        <!-- Header Chào mừng -->
+        <div style="margin-bottom:28px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+            Xin chào, <span id="empDashboardCompanyName">Mekong Tech</span>
+          </h1>
+          <p style="font-size:14px; color:#64748b">
+            Tình hình tuyển dụng của bạn trong thời gian thực.
+          </p>
+        </div>
+
+        <!-- 3 Thẻ KPI Thống Kê (Top Row) -->
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-bottom:28px">
+          <!-- Card 1: TIN ĐANG MỞ -->
+          <div class="emp-kpi-card teal">
+            <div style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
+              TIN ĐANG MỞ
+            </div>
+            <div style="font-size:42px; font-weight:900; color:#0f172a; margin:10px 0 6px" id="empKpiOpenJobs">
+              4
+            </div>
+            <div style="font-size:12px; color:#64748b; font-weight:500">
+              1 tin sắp hết hạn
+            </div>
+          </div>
+
+          <!-- Card 2: HỒ SƠ NHẬN ĐƯỢC -->
+          <div class="emp-kpi-card amber">
+            <div style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
+              HỒ SƠ NHẬN ĐƯỢC
+            </div>
+            <div style="font-size:42px; font-weight:900; color:#0f172a; margin:10px 0 6px" id="empKpiApplications">
+              148
+            </div>
+            <div style="font-size:12px; color:#64748b; font-weight:500">
+              +22 hồ sơ trong 7 ngày qua
+            </div>
+          </div>
+
+          <!-- Card 3: LƯỢT XEM TIN -->
+          <div class="emp-kpi-card blue">
+            <div style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
+              LƯỢT XEM TIN
+            </div>
+            <div style="font-size:42px; font-weight:900; color:#0f172a; margin:10px 0 6px" id="empKpiViews">
+              3.250
+            </div>
+            <div style="font-size:12px; color:#64748b; font-weight:500">
+              +12% so với tuần trước
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Thẻ Hành Động (Action Cards) -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:28px">
+          <!-- Card Trái: Đăng tin mới -->
+          <div class="emp-action-card-teal">
+            <div>
+              <h2 style="font-size:21px; font-weight:800; margin-bottom:8px">Đăng tin tuyển dụng mới</h2>
+              <p style="font-size:13.5px; color:rgba(255,255,255,0.9); line-height:1.55; margin-bottom:28px; max-width:440px">
+                Gắn thẻ kỹ năng để AI đối chiếu với hồ sơ ứng viên ngay khi tin được đăng.
+              </p>
+            </div>
+            <div>
+              <button onclick="openJobModal()" style="background:#ffffff; color:#0d5f57; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 22px; border-radius:9999px; border:none; cursor:pointer; display:inline-flex; align-items:center; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.1)">
+                ĐĂNG TIN MỚI
+                <span class="emp-circle-arrow" style="background:#0a5146; color:#ffffff">›</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card Phải: Quản lý ứng viên -->
+          <div class="emp-action-card-white">
+            <div>
+              <h2 style="font-size:21px; font-weight:800; color:#0f172a; margin-bottom:8px">Quản lý ứng viên</h2>
+              <p style="font-size:13.5px; color:#64748b; line-height:1.55; margin-bottom:28px; max-width:440px">
+                Có 22 hồ sơ mới. Xem bản tóm tắt CV do AI phân tích và gửi thư mời phỏng vấn.
+              </p>
+            </div>
+            <div>
+              <button onclick="switchEmpTab('candidates')" style="background:#ffffff; border:2px solid #0d5f57; color:#0d5f57; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:10px 22px; border-radius:9999px; cursor:pointer; display:inline-flex; align-items:center; text-transform:uppercase">
+                XEM ỨNG VIÊN
+                <span class="emp-circle-arrow" style="background:#0d5f57; color:#ffffff">›</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bảng Tin Tuyển Dụng Gần Đây (Khớp 100% Mockup) -->
+        <div style="background:#ffffff; border-radius:20px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:18px; border-bottom:1px solid #f1f5f9; margin-bottom:14px">
+            <h3 style="font-size:17px; font-weight:800; color:#0f172a">Tin tuyển dụng gần đây</h3>
+            <a href="javascript:void(0)" onclick="switchEmpTab('jobs')" style="color:#0d5f57; font-size:13.5px; font-weight:700; text-decoration:none">Xem tất cả</a>
+          </div>
+
+          <table style="width:100%; border-collapse:collapse; text-align:left">
+            <thead>
+              <tr style="border-bottom:1px solid #f1f5f9; font-size:12px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
+                <th style="padding:12px 10px">VỊ TRÍ</th>
+                <th style="padding:12px 10px">NGÀY ĐĂNG</th>
+                <th style="padding:12px 10px">HỒ SƠ</th>
+                <th style="padding:12px 10px; text-align:right">TRẠNG THÁI</th>
+              </tr>
+            </thead>
+            <tbody id="empRecentJobsTbody" style="font-size:14px">
+              <tr style="border-bottom:1px solid #f8fafc">
+                <td style="padding:16px 10px; font-weight:700; color:#0f172a">Python Backend Developer</td>
+                <td style="padding:16px 10px; color:#64748b">14/10/2026</td>
+                <td style="padding:16px 10px; color:#334155"><strong>34</strong> hồ sơ</td>
+                <td style="padding:16px 10px; text-align:right"><span class="emp-status-badge emp-status-open">Đang mở</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #f8fafc">
+                <td style="padding:16px 10px; font-weight:700; color:#0f172a">Data Analyst / BI Specialist</td>
+                <td style="padding:16px 10px; color:#64748b">10/10/2026</td>
+                <td style="padding:16px 10px; color:#334155"><strong>21</strong> hồ sơ</td>
+                <td style="padding:16px 10px; text-align:right"><span class="emp-status-badge emp-status-open">Đang mở</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #f8fafc">
+                <td style="padding:16px 10px; font-weight:700; color:#0f172a">DevOps &amp; Cloud Engineer</td>
+                <td style="padding:16px 10px; color:#64748b">05/10/2026</td>
+                <td style="padding:16px 10px; color:#334155"><strong>40</strong> hồ sơ</td>
+                <td style="padding:16px 10px; text-align:right"><span class="emp-status-badge emp-status-open">Đang mở</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid #f8fafc">
+                <td style="padding:16px 10px; font-weight:700; color:#0f172a">Frontend Developer (React)</td>
+                <td style="padding:16px 10px; color:#64748b">20/09/2026</td>
+                <td style="padding:16px 10px; color:#334155"><strong>18</strong> hồ sơ</td>
+                <td style="padding:16px 10px; text-align:right"><span class="emp-status-badge emp-status-expiring">Sắp hết hạn</span></td>
+              </tr>
+              <tr>
+                <td style="padding:16px 10px; font-weight:700; color:#0f172a">QA / QC Software Tester</td>
+                <td style="padding:16px 10px; color:#64748b">12/09/2026</td>
+                <td style="padding:16px 10px; color:#334155"><strong>35</strong> hồ sơ</td>
+                <td style="padding:16px 10px; text-align:right"><span class="emp-status-badge emp-status-expired">Đã hết hạn</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB 2: QUẢN LÝ TIN TUYỂN DỤNG (KHỚP 100% MOCKUP MEDIA 1) ── -->
+      <div id="empTabJobs" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+        <!-- Header -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px">
+          <div>
+            <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+              Quản lý tin tuyển dụng
+            </h1>
+            <p style="font-size:14px; color:#64748b">
+              Đăng tin mới, gắn thẻ kỹ năng và quản lý các tin đã đăng.
+            </p>
+          </div>
+          <button onclick="document.getElementById('empJobTitleInput').focus()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.12)">
+            ĐĂNG TIN MỚI
+          </button>
+        </div>
+
+        <!-- 2 Columns Grid -->
+        <div style="display:grid; grid-template-columns:5fr 7fr; gap:28px; align-items:flex-start">
+          <!-- Form Đăng tin mới (Cột trái) -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:20px">Đăng tin mới</h2>
+            <form onsubmit="empHandleSubmitJob(event)" style="display:flex; flex-direction:column; gap:16px">
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">TIÊU ĐỀ</label>
+                <input type="text" id="empJobTitleInput" class="form-input" style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="Python Backend Developer" required />
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">TÊN CÔNG TY</label>
+                  <input type="text" id="empJobCompanyInput" class="form-input" style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="Mekong Tech" required />
+                </div>
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">ĐỊA ĐIỂM</label>
+                  <select id="empJobLocationInput" style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; background:#fff">
+                    <option value="Cần Thơ">Cần Thơ</option>
+                    <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">NGÀNH NGHỀ</label>
+                <select id="empJobIndustryInput" style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; background:#fff">
+                  <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+                  <option value="Du lịch & Khách sạn">Du lịch & Khách sạn</option>
+                  <option value="Logistics & Xuất nhập khẩu">Logistics & Xuất nhập khẩu</option>
+                  <option value="Kinh tế & Tài chính">Kinh tế & Tài chính</option>
+                  <option value="Nông nghiệp công nghệ cao">Nông nghiệp công nghệ cao</option>
+                </select>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">LƯƠNG TỐI THIỂU (TRIỆU)</label>
+                  <input type="number" id="empJobSalaryMinInput" class="form-input" style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="15" />
+                </div>
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">LƯƠNG TỐI ĐA (TRIỆU)</label>
+                  <input type="number" id="empJobSalaryMaxInput" class="form-input" style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="25" />
+                </div>
+              </div>
+
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">MÔ TẢ CÔNG VIỆC</label>
+                <textarea id="empJobDescInput" rows="4" style="width:100%; padding:12px 18px; border-radius:18px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:500; font-family:inherit; resize:none; line-height:1.5">Phát triển và bảo trì các dịch vụ backend bằng Python, làm việc cùng nhóm frontend và DevOps...</textarea>
+              </div>
+
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#334155; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px">KỸ NĂNG YÊU CẦU (AI DÙNG ĐỂ ĐỐI CHIẾU ỨNG VIÊN)</label>
+                <div id="empSkillTagsContainer" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center">
+                  <span class="emp-form-skill-tag" style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; display:inline-flex; align-items:center; gap:6px">Python <span onclick="empRemoveTag(this)" style="cursor:pointer; font-weight:900">✕</span></span>
+                  <span class="emp-form-skill-tag" style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; display:inline-flex; align-items:center; gap:6px">Docker <span onclick="empRemoveTag(this)" style="cursor:pointer; font-weight:900">✕</span></span>
+                  <span class="emp-form-skill-tag" style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; display:inline-flex; align-items:center; gap:6px">Tiếng Anh <span onclick="empRemoveTag(this)" style="cursor:pointer; font-weight:900">✕</span></span>
+                  <button type="button" onclick="empPromptAddTag()" style="background:#fff; border:1px dashed #cbd5e1; color:#64748b; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; cursor:pointer">+ Thêm kỹ năng</button>
+                </div>
+              </div>
+
+              <div style="margin-top:8px">
+                <button type="submit" style="width:100%; padding:12px; background:#0a5146; color:#ffffff; font-size:12px; font-weight:900; letter-spacing:1px; text-transform:uppercase; border-radius:9999px; border:none; cursor:pointer; box-shadow:0 2px 8px rgba(10,81,70,0.25)">
+                  ĐĂNG TIN
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Danh sách tin đã đăng (Cột phải) -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
+              <h2 style="font-size:17px; font-weight:800; color:#0f172a" id="empPostedJobsCountHeader">Tin đã đăng (5)</h2>
+              <span style="font-size:12px; color:#94a3b8; font-weight:500">Xóa tin khi đã tuyển đủ người</span>
+            </div>
+
+            <div id="empJobsListContainer" style="display:flex; flex-direction:column; gap:16px">
+              <!-- Item 1 -->
+              <div class="emp-job-card" style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px">
+                  <h3 style="font-size:16px; font-weight:800; color:#0f172a">Python Backend Developer</h3>
+                  <span class="emp-status-badge emp-status-open">Đang mở</span>
+                </div>
+                <div style="font-size:12px; color:#64748b; margin-bottom:12px">Quận Ninh Kiều, Cần Thơ · 15–25 triệu · Đăng 14/10/2026</div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px">
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Python</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">FastAPI</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Docker</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">SQL</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f8fafc">
+                  <span style="font-size:12.5px; color:#475569"><strong>34</strong> hồ sơ đã nộp</span>
+                  <button onclick="empDeleteJobCard(this)" style="padding:4px 14px; border-radius:9999px; border:1px solid #fecdd3; color:#e11d48; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer">Xóa tin</button>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="emp-job-card" style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px">
+                  <h3 style="font-size:16px; font-weight:800; color:#0f172a">Data Analyst / BI Specialist</h3>
+                  <span class="emp-status-badge emp-status-open">Đang mở</span>
+                </div>
+                <div style="font-size:12px; color:#64748b; margin-bottom:12px">Quận Ninh Kiều, Cần Thơ · 15–25 triệu · Đăng 10/10/2026</div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px">
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">SQL</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Power BI</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Python</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f8fafc">
+                  <span style="font-size:12.5px; color:#475569"><strong>21</strong> hồ sơ đã nộp</span>
+                  <button onclick="empDeleteJobCard(this)" style="padding:4px 14px; border-radius:9999px; border:1px solid #fecdd3; color:#e11d48; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer">Xóa tin</button>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="emp-job-card" style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px">
+                  <h3 style="font-size:16px; font-weight:800; color:#0f172a">DevOps &amp; Cloud Engineer</h3>
+                  <span class="emp-status-badge emp-status-open">Đang mở</span>
+                </div>
+                <div style="font-size:12px; color:#64748b; margin-bottom:12px">Quận Ninh Kiều, Cần Thơ · 15–25 triệu · Đăng 05/10/2026</div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px">
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Docker</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Linux</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">CI/CD</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Cloud</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f8fafc">
+                  <span style="font-size:12.5px; color:#475569"><strong>40</strong> hồ sơ đã nộp</span>
+                  <button onclick="empDeleteJobCard(this)" style="padding:4px 14px; border-radius:9999px; border:1px solid #fecdd3; color:#e11d48; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer">Xóa tin</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 3: QUẢN LÝ ỨNG VIÊN (KHỚP 100% MOCKUP MEDIA 2) ── -->
+      <div id="empTabCandidates" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+        <!-- Header -->
+        <div style="margin-bottom:24px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+            Quản lý ứng viên
+          </h1>
+          <p style="font-size:14px; color:#64748b">
+            Xem hồ sơ theo từng tin, đọc bản tóm tắt CV do AI phân tích và mời phỏng vấn.
+          </p>
+        </div>
+
+        <!-- Filter Dropdown Row -->
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px">
+          <span style="font-size:11.5px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
+            LỌC THEO TIN TUYỂN DỤNG
+          </span>
+          <select style="padding:10px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:320px">
+            <option>Python Backend Developer · 34 hồ sơ</option>
+            <option>Data Analyst / BI Specialist · 21 hồ sơ</option>
+            <option>DevOps & Cloud Engineer · 40 hồ sơ</option>
+          </select>
+        </div>
+
+        <!-- 2 Columns Master - Detail Split -->
+        <div style="display:grid; grid-template-columns:5fr 7fr; gap:28px; align-items:flex-start">
+          <!-- Cột Trái: Danh sách ứng viên -->
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px">
+              <h2 style="font-size:16px; font-weight:800; color:#0f172a">Ứng viên</h2>
+              <span style="font-size:12px; color:#94a3b8; font-weight:500">Xếp theo mức phù hợp</span>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:12px" id="empCandCardsList">
+              <!-- Item 1 -->
+              <div onclick="empSelectCandidate(1)" id="empCandItem-1" class="emp-cand-item" style="background:#fff; border-radius:18px; border:1px solid #e2e8f0; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s">
+                <div>
+                  <div style="font-size:14px; font-weight:800; color:#0f172a">Trần Thị Bích Ngọc</div>
+                  <div style="font-size:12px; color:#64748b; margin-top:2px">ngoc.tran@email.com · Nộp 15/10</div>
+                </div>
+                <span style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">83%</span>
+              </div>
+
+              <!-- Item 2 (Active as in mockup) -->
+              <div onclick="empSelectCandidate(2)" id="empCandItem-2" class="emp-cand-item active" style="background:#fff; border-radius:18px; border:2px solid #0d5f57; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s">
+                <div>
+                  <div style="font-size:14px; font-weight:800; color:#0f172a">Nguyễn Văn An</div>
+                  <div style="font-size:12px; color:#64748b; margin-top:2px">an.nguyen@email.com · Nộp 14/10</div>
+                </div>
+                <span style="background:#fef9c3; color:#a16207; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">67%</span>
+              </div>
+
+              <!-- Item 3 -->
+              <div onclick="empSelectCandidate(3)" id="empCandItem-3" class="emp-cand-item" style="background:#fff; border-radius:18px; border:1px solid #e2e8f0; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s">
+                <div>
+                  <div style="font-size:14px; font-weight:800; color:#0f172a">Lê Minh Quân</div>
+                  <div style="font-size:12px; color:#64748b; margin-top:2px">quan.le@email.com · Nộp 14/10</div>
+                </div>
+                <span style="background:#fef3c7; color:#b45309; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">50%</span>
+              </div>
+
+              <!-- Item 4 -->
+              <div onclick="empSelectCandidate(4)" id="empCandItem-4" class="emp-cand-item" style="background:#fff; border-radius:18px; border:1px solid #e2e8f0; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s">
+                <div>
+                  <div style="font-size:14px; font-weight:800; color:#0f172a">Phạm Gia Hân</div>
+                  <div style="font-size:12px; color:#64748b; margin-top:2px">han.pham@email.com · Nộp 13/10</div>
+                </div>
+                <span style="background:#ffe4e6; color:#e11d48; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">33%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cột Phải: Detail Card (CV SNAPSHOT · AI PHÂN TÍCH) -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <!-- Top Detail Header -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px">
+              <div>
+                <div style="font-size:11px; font-weight:900; color:#0d5f57; text-transform:uppercase; letter-spacing:0.8px" id="empCandDetailLabel">
+                  CV SNAPSHOT · AI PHÂN TÍCH
+                </div>
+                <h2 style="font-size:24px; font-weight:900; color:#0f172a; margin-top:4px" id="empCandDetailName">
+                  Nguyễn Văn An
+                </h2>
+                <div style="font-size:13px; color:#64748b; margin-top:2px" id="empCandDetailSub">
+                  Sinh viên CNTT năm 4 · Đại học Cần Thơ
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:36px; font-weight:900; color:#0d5f57; line-height:1" id="empCandDetailScore">
+                  67%
+                </div>
+                <div style="font-size:12px; color:#64748b; font-weight:500; margin-top:4px">
+                  phù hợp với tin này
+                </div>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div style="background:#f1f5f9; border-radius:9999px; height:8px; overflow:hidden; margin-bottom:24px">
+              <div id="empCandDetailBar" style="background:#0d5f57; height:100%; border-radius:9999px; width:67%; transition:width 0.3s ease"></div>
+            </div>
+
+            <!-- 2 Side by side boxes (Kỹ năng đã có & Kỹ năng còn thiếu) -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px">
+              <!-- Box Đã có -->
+              <div style="background:#f8fafc; border-radius:18px; border:1px solid #f1f5f9; padding:20px">
+                <h3 style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:12px">Kỹ năng đã có</h3>
+                <div id="empCandDetailOwnedSkills" style="display:flex; flex-wrap:wrap; gap:8px">
+                  <span style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">Python</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">SQL</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">Git</span>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">REST API</span>
+                </div>
+              </div>
+
+              <!-- Box Còn thiếu -->
+              <div style="background:#f8fafc; border-radius:18px; border:1px solid #f1f5f9; padding:20px">
+                <h3 style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:12px">Kỹ năng còn thiếu</h3>
+                <div id="empCandDetailMissingSkills" style="display:flex; flex-wrap:wrap; gap:8px">
+                  <span style="background:#ffe4e6; color:#e11d48; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">FastAPI</span>
+                  <span style="background:#ffe4e6; color:#e11d48; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">Docker</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nhận xét của AI -->
+            <div style="background:#f8fafc; border-radius:18px; border:1px solid #f1f5f9; padding:20px; margin-bottom:28px">
+              <h3 style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:8px">Nhận xét của AI</h3>
+              <p style="font-size:13px; color:#475569; line-height:1.6; margin:0" id="empCandDetailComment">
+                Ứng viên nắm chắc nền tảng Python và cơ sở dữ liệu, đã có dự án REST API. Còn thiếu FastAPI và Docker nhưng nền tảng đủ để đào tạo thêm trong thời gian thử việc.
+              </p>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="display:flex; align-items:center; gap:14px">
+              <button onclick="empInviteCurrentCandidate()" style="padding:12px 26px; background:#0a5146; color:#ffffff; font-size:12px; font-weight:900; letter-spacing:0.8px; text-transform:uppercase; border-radius:9999px; border:none; cursor:pointer; box-shadow:0 2px 8px rgba(10,81,70,0.25)">
+                GỬI EMAIL MỜI PHỎNG VẤN
+              </button>
+              <button onclick="empRejectCurrentCandidate()" style="padding:11px 22px; background:#ffffff; border:1px solid #fecdd3; color:#e11d48; font-size:12px; font-weight:700; border-radius:9999px; cursor:pointer">
+                Từ chối
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 4: KỸ NĂNG THEO NGÀNH · THỊ TRƯỜNG (KHỚP 100% MOCKUP IMAGE 1) ── -->
+      <div id="empTabSkills" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+        <!-- Header -->
+        <div style="margin-bottom:24px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+            Kỹ năng theo ngành · Thị trường
+          </h1>
+          <p style="font-size:14px; color:#64748b">
+            Xem khoảng cách kỹ năng trên thị trường để điều chỉnh mô tả công việc.
+          </p>
+        </div>
+
+        <!-- Horizontal Industry Selector -->
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px" id="empSkillsIndustryPills">
+          <button onclick="empSelectSkillsIndustry('IT')" id="empIndBtn-IT" class="emp-ind-btn" style="padding:8px 20px; border-radius:9999px; font-size:12.5px; font-weight:700; background:#115e59; color:#fff; border:none; cursor:pointer">
+            IT &amp; Công nghệ
+          </button>
+          <button onclick="empSelectSkillsIndustry('tourism')" id="empIndBtn-tourism" class="emp-ind-btn" style="padding:8px 20px; border-radius:9999px; font-size:12.5px; font-weight:600; background:#fff; color:#334155; border:1px solid #e2e8f0; cursor:pointer">
+            Du lịch &amp; Khách sạn
+          </button>
+          <button onclick="empSelectSkillsIndustry('logistics')" id="empIndBtn-logistics" class="emp-ind-btn" style="padding:8px 20px; border-radius:9999px; font-size:12.5px; font-weight:600; background:#fff; color:#334155; border:1px solid #e2e8f0; cursor:pointer">
+            Logistics &amp; XNK
+          </button>
+          <button onclick="empSelectSkillsIndustry('economics')" id="empIndBtn-economics" class="emp-ind-btn" style="padding:8px 20px; border-radius:9999px; font-size:12.5px; font-weight:600; background:#fff; color:#334155; border:1px solid #e2e8f0; cursor:pointer">
+            Kinh tế &amp; Tài chính
+          </button>
+          <button onclick="empSelectSkillsIndustry('agriculture')" id="empIndBtn-agriculture" class="emp-ind-btn" style="padding:8px 20px; border-radius:9999px; font-size:12.5px; font-weight:600; background:#fff; color:#334155; border:1px solid #e2e8f0; cursor:pointer">
+            Nông nghiệp
+          </button>
+        </div>
+
+        <!-- 2 Columns Grid -->
+        <div style="display:grid; grid-template-columns:7fr 5fr; gap:28px; align-items:flex-start">
+          <!-- Cột Trái: Nhu cầu tuyển dụng và cung lao động -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:4px">
+              Nhu cầu tuyển dụng và cung lao động
+            </h2>
+            <p style="font-size:12px; color:#64748b; font-weight:500; margin-bottom:24px">
+              Thanh teal: % tin tuyển dụng đòi hỏi · Thanh vàng: % sinh viên đạt yêu cầu
+            </p>
+
+            <div id="empMarketSkillsRowsContainer" style="display:flex; flex-direction:column; gap:18px">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Cột Phải: GỢI Ý TỪ AI -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <div style="font-size:11px; font-weight:900; color:#0d5f57; text-transform:uppercase; letter-spacing:0.8px">
+              GỢI Ý TỪ AI
+            </div>
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a; margin-top:4px; margin-bottom:20px">
+              Điều chỉnh tin tuyển dụng để thu hút ứng viên
+            </h2>
+
+            <div id="empAiSuggestionsContainer" style="display:flex; flex-direction:column; gap:16px">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB 5: HỒ SƠ CÔNG TY (KHỚP 100% MOCKUP IMAGE 2) ── -->
+      <div id="empTabProfile" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+        <!-- Header -->
+        <div style="margin-bottom:24px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+            Hồ sơ công ty
+          </h1>
+          <p style="font-size:14px; color:#64748b">
+            Thương hiệu tuyển dụng này hiển thị đồng bộ trên mọi tin của công ty.
+          </p>
+        </div>
+
+        <!-- 2 Columns Grid -->
+        <div style="display:grid; grid-template-columns:7fr 5fr; gap:28px; align-items:flex-start">
+          <!-- Cột Trái: Form Thông tin thương hiệu tuyển dụng -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:22px">
+              Thông tin thương hiệu tuyển dụng
+            </h2>
+
+            <form onsubmit="empHandleSaveProfile(event)" style="display:flex; flex-direction:column; gap:18px">
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px">
+                  TÊN NGƯỜI ĐẠI DIỆN
+                </label>
+                <input type="text" id="empProfileInputRepresentative" oninput="empSyncProfilePreview()" class="form-input" style="width:100%; padding:11px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="Nguyễn Minh Khoa" required />
+              </div>
+
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px">
+                  TÊN DOANH NGHIỆP
+                </label>
+                <input type="text" id="empProfileInputCompanyName" oninput="empSyncProfilePreview()" class="form-input" style="width:100%; padding:11px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="Mekong Tech" required />
+              </div>
+
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px">
+                  ĐƯỜNG DẪN LOGO
+                </label>
+                <input type="text" id="empProfileInputLogoUrl" class="form-input" style="width:100%; padding:11px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600" value="https://mekongtech.vn/logo.png" />
+              </div>
+
+              <div>
+                <label style="display:block; font-size:11px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px">
+                  GIỚI THIỆU VĂN HÓA VÀ MÔI TRƯỜNG LÀM VIỆC
+                </label>
+                <textarea id="empProfileInputCulture" oninput="empSyncProfilePreview()" rows="5" style="width:100%; padding:14px 20px; border-radius:18px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:500; font-family:inherit; resize:none; line-height:1.6">Mekong Tech là công ty phần mềm tại Cần Thơ, hơn 80 kỹ sư, tập trung xây dựng sản phẩm cho thị trường ĐBSCL. Chúng tôi coi trọng đào tạo nội bộ và lộ trình thăng tiến rõ ràng.</textarea>
+              </div>
+
+              <div style="margin-top:6px">
+                <button type="submit" style="padding:12px 32px; background:#0a5146; color:#ffffff; font-size:11.5px; font-weight:900; letter-spacing:0.8px; text-transform:uppercase; border-radius:9999px; border:none; cursor:pointer; box-shadow:0 2px 8px rgba(10,81,70,0.25)">
+                  LƯU THAY ĐỔI
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Cột Phải: Xem trước ứng viên sẽ thấy -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <div style="font-size:11px; font-weight:900; color:#0d5f57; text-transform:uppercase; letter-spacing:0.8px">
+              XEM TRƯỚC
+            </div>
+            <h2 style="font-size:16px; font-weight:800; color:#0f172a; margin-top:4px; margin-bottom:20px">
+              Ứng viên sẽ thấy trên mỗi tin tuyển dụng
+            </h2>
+
+            <div style="display:flex; flex-direction:column; gap:16px">
+              <!-- Box 1: Company Profile Snapshot -->
+              <div style="background:#f8fafc; border-radius:20px; border:1px solid #f1f5f9; padding:22px">
+                <div style="display:flex; align-items:center; gap:14px">
+                  <div id="empPreviewLogoBox" style="width:48px; height:48px; border-radius:12px; background:#0d9488; color:#ffffff; font-weight:900; font-size:20px; display:flex; align-items:center; justify-content:center; flex-shrink:0">
+                    M
+                  </div>
+                  <div style="min-width:0; flex:1">
+                    <div id="empPreviewCompanyName" style="font-size:16px; font-weight:900; color:#0f172a">
+                      Mekong Tech
+                    </div>
+                    <div id="empPreviewRepresentative" style="font-size:12px; color:#64748b; font-weight:500; margin-top:2px">
+                      Người đại diện: Nguyễn Minh Khoa
+                    </div>
+                  </div>
+                </div>
+                <p id="empPreviewDescription" style="font-size:12.5px; color:#475569; line-height:1.6; margin:14px 0 0">
+                  Mekong Tech là công ty phần mềm tại Cần Thơ, hơn 80 kỹ sư, tập trung xây dựng sản phẩm cho thị trường ĐBSCL...
+                </p>
+              </div>
+
+              <!-- Box 2: Sample Job Card Preview -->
+              <div style="background:#ffffff; border-radius:18px; border:1px solid #e2e8f0; padding:18px 20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+                <div>
+                  <div style="font-size:14.5px; font-weight:800; color:#0f172a">
+                    Python Backend Developer
+                  </div>
+                  <div id="empPreviewJobSub" style="font-size:12px; color:#64748b; font-weight:500; margin-top:4px">
+                    Mekong Tech · Cần Thơ · 15–25 triệu
+                  </div>
+                </div>
+                <div>
+                  <span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:9999px">
+                    Đang tuyển
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- 4. PROVIDER PORTAL LAYOUT (/provider/*)                            -->
+  <!-- THIẾT KẾ ĐỘC LẬP TÔNG DARK TEAL (#0a5146) KHỚP 100% ẢNH MẪU         -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="providerPortalLayout" class="employer-portal-layout" style="display:none">
+    <!-- Sidebar Trái Cố Định -->
+    <aside class="emp-sidebar">
+      <div class="emp-sidebar-header">
+        <div class="emp-logo-title">SkillGap<span>AI</span></div>
+        <div class="emp-logo-sub">TRUNG TÂM KHÓA HỌC</div>
+      </div>
+
+      <nav class="emp-sidebar-nav">
+        <a class="emp-nav-item active" id="provNavGap" onclick="switchProvTab('gap-analytics')">Phân tích kỹ năng</a>
+        <a class="emp-nav-item" id="provNavCourses" onclick="switchProvTab('courses')">Quản lý khóa học</a>
+        <a class="emp-nav-item" id="provNavAnalytics" onclick="switchProvTab('analytics')">Thống kê lượt click</a>
+      </nav>
+
+      <div class="emp-sidebar-profile">
+        <div class="emp-profile-row">
+          <div class="emp-avatar-circle" id="provAvatarInitial">P</div>
+          <div class="emp-profile-info">
+            <div class="emp-profile-company" id="provSidebarName">Coursera Partner</div>
+            <div class="emp-profile-name" id="provSidebarSub">Đơn vị đào tạo</div>
+          </div>
+        </div>
+        <button class="emp-logout-btn" onclick="handleLogout()">ĐĂNG XUẤT</button>
+      </div>
+    </aside>
+
+    <!-- Khu Vực Nội Dung Phải -->
+    <main class="emp-main-content">
+      <!-- ── TAB 1: PHÂN TÍCH KỸ NĂNG THIẾU HỤT (KHỚP 100% ẢNH MẪU) ── -->
+      <div id="provTabGapAnalytics" class="emp-tab-view" style="max-width:1150px; margin:0 auto">
+        <!-- Header -->
+        <div style="margin-bottom:24px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+            Phân tích kỹ năng thiếu hụt
+          </h1>
+          <p style="font-size:14px; color:#64748b">
+            Biết sinh viên đang yếu kỹ năng nào nhất để thiết kế khóa học trúng đích.
+          </p>
+        </div>
+
+        <!-- Filter Row -->
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px">
+          <label style="font-size:11.5px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
+            NGÀNH NGHỀ
+          </label>
+          <select id="provIndustrySelect" onchange="provFilterSkills(this.value)" style="padding:10px 24px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:200px">
+            <option value="all">Tất cả</option>
+            <option value="IT">IT &amp; Công nghệ</option>
+            <option value="tourism">Du lịch &amp; Khách sạn</option>
+            <option value="logistics">Logistics &amp; XNK</option>
+            <option value="economics">Kinh tế &amp; Tài chính</option>
+          </select>
+          <span style="font-size:12.5px; color:#64748b; font-weight:500">
+            Có thể chọn: IT, Du lịch, Logistics, Kinh tế
+          </span>
+        </div>
+
+        <!-- Recommendation Banner -->
+        <div style="background:#e6f7f5; border:1px solid #99f6e4; border-radius:18px; padding:16px 24px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+          <div style="font-size:13px; color:#1e293b; line-height:1.55">
+            <strong style="color:#0d5f57; font-weight:900">Gợi ý:</strong> Hãy ưu tiên xây dựng khóa học cho Top 3 kỹ năng thiếu hụt trên để được AI hệ thống ưu tiên đề xuất cho 100% ứng viên.
+          </div>
+        </div>
+
+        <!-- Bảng xếp hạng kỹ năng thiếu hụt -->
+        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a">
+              Bảng xếp hạng kỹ năng thiếu hụt
+            </h2>
+            <span style="font-size:12px; color:#94a3b8; font-weight:500">
+              Xếp theo gap giảm dần · Gap = Nhu cầu - Cung
+            </span>
+          </div>
+
+          <table style="width:100%; border-collapse:collapse; text-align:left">
+            <thead>
+              <tr style="border-bottom:1px solid #f1f5f9; font-size:11.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
+                <th style="padding:10px 8px; width:44px">#</th>
+                <th style="padding:10px 14px">KỸ NĂNG</th>
+                <th style="padding:10px 14px; width:100px">NHU CẦU</th>
+                <th style="padding:10px 14px; width:100px">CUNG</th>
+                <th style="padding:10px 14px; width:220px">THIẾU HỤT (GAP)</th>
+                <th style="padding:10px 8px; text-align:right"></th>
+              </tr>
+            </thead>
+            <tbody id="provSkillsTbody" style="font-size:13.5px">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB 2: QUẢN LÝ KHÓA HỌC (KHỚP 100% MOCKUP IMAGE 1) ── -->
+      <div id="provTabCourses" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px">
+          <div>
+            <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+              Quản lý khóa học
+            </h1>
+            <p style="font-size:14px; color:#64748b">
+              Đăng khóa học và gắn kỹ năng để hệ thống AI gợi ý đúng người cần.
+            </p>
+          </div>
+          <button onclick="provOpenAddCourseModal()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.12)">
+            THÊM KHÓA HỌC
+          </button>
+        </div>
+
+        <!-- Table Card: Khóa học đã đăng -->
+        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a">
+              Khóa học đã đăng
+            </h2>
+            <span id="provCoursesSummaryText" style="font-size:12.5px; color:#64748b; font-weight:600">
+              4 đang phân phối · 2 chờ duyệt
+            </span>
+          </div>
+
+          <table style="width:100%; border-collapse:collapse; text-align:left">
+            <thead>
+              <tr style="border-bottom:1px solid #f1f5f9; font-size:11.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
+                <th style="padding:10px 8px">TÊN KHÓA HỌC</th>
+                <th style="padding:10px 14px; width:160px">KỸ NĂNG BÙ ĐẮP</th>
+                <th style="padding:10px 14px; width:150px">TRẠNG THÁI</th>
+                <th style="padding:10px 14px; width:110px; text-align:center">LƯỢT CLICK</th>
+                <th style="padding:10px 8px; text-align:right; width:90px"></th>
+              </tr>
+            </thead>
+            <tbody id="provCoursesTbody" style="font-size:13.5px">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB 3: THỐNG KÊ LƯỢT CLICK (KHỚP 100% MOCKUP IMAGE 2) ── -->
+      <div id="provTabClicks" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+        <div style="margin-bottom:28px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+            Thống kê lượt click
+          </h1>
+          <p style="font-size:14px; color:#64748b">
+            Đo hiệu quả: có bao nhiêu sinh viên bấm vào khóa học từ gợi ý của AI.
+          </p>
+        </div>
+
+        <!-- 3 KPI Cards -->
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-bottom:28px">
+          <!-- Card 1: Tổng lượt truy cập -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:26px 28px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <div style="position:absolute; top:0; left:0; right:0; height:6px; background:#0d9488"></div>
+            <div style="font-size:11px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:0.8px">
+              TỔNG LƯỢT TRUY CẬP
+            </div>
+            <div style="font-size:46px; font-weight:900; color:#0f172a; margin:10px 0 6px">
+              359
+            </div>
+            <div style="font-size:12px; color:#64748b; font-weight:500">
+              Sinh viên bấm vào khóa học từ gợi ý của AI
+            </div>
+          </div>
+
+          <!-- Card 2: Khóa học đang phân phối -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:26px 28px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <div style="position:absolute; top:0; left:0; right:0; height:6px; background:#f59e0b"></div>
+            <div style="font-size:11px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:0.8px">
+              KHÓA HỌC ĐANG PHÂN PHỐI
+            </div>
+            <div style="font-size:46px; font-weight:900; color:#0f172a; margin:10px 0 6px">
+              4
+            </div>
+            <div style="font-size:12px; color:#64748b; font-weight:500">
+              Trên tổng số 6 khóa học đã đăng
+            </div>
+          </div>
+
+          <!-- Card 3: Thu hút nhất -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:26px 28px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04); display:flex; flex-direction:column; justify-content:space-between">
+            <div style="position:absolute; top:0; left:0; right:0; height:6px; background:#2563eb"></div>
+            <div>
+              <div style="font-size:11px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:0.8px">
+                THU HÚT NHẤT
+              </div>
+              <div style="font-size:22px; font-weight:900; color:#0f172a; margin-top:8px; line-height:1.3">
+                Python Backend thực chiến
+              </div>
+            </div>
+            <div style="font-size:12px; color:#64748b; font-weight:500; margin-top:10px">
+              128 lượt click
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Columns Bottom: Khóa học thu hút nhất & Tỷ trọng lượt click theo khóa học -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:flex-start">
+          <!-- Cột Trái: Khóa học thu hút nhất (Bảng) -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <h2 style="font-size:16.5px; font-weight:800; color:#0f172a; margin-bottom:18px">
+              Khóa học thu hút nhất
+            </h2>
+
+            <table style="width:100%; border-collapse:collapse; text-align:left">
+              <thead>
+                <tr style="border-bottom:1px solid #f1f5f9; font-size:11px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
+                  <th style="padding:8px 4px; width:30px">#</th>
+                  <th style="padding:8px 10px">KHÓA HỌC</th>
+                  <th style="padding:8px 10px; width:130px">KỸ NĂNG BÙ ĐẮP</th>
+                  <th style="padding:8px 6px; text-align:right; width:60px">CLICK</th>
+                </tr>
+              </thead>
+              <tbody style="font-size:13.5px">
+                <tr style="border-bottom:1px solid #f8fafc">
+                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">1</td>
+                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Python Backend thực chiến</td>
+                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Python</span></td>
+                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">128</td>
+                </tr>
+                <tr style="border-bottom:1px solid #f8fafc">
+                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">2</td>
+                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Nhập môn Machine Learning</td>
+                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Machine Learning</span></td>
+                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">96</td>
+                </tr>
+                <tr style="border-bottom:1px solid #f8fafc">
+                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">3</td>
+                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">FastAPI &amp; Docker cho người mới</td>
+                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Python</span></td>
+                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">74</td>
+                </tr>
+                <tr style="border-bottom:1px solid #f8fafc">
+                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">4</td>
+                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Phân tích dữ liệu với Power BI</td>
+                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Data Analysis</span></td>
+                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">61</td>
+                </tr>
+                <tr style="border-bottom:1px solid #f8fafc">
+                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">5</td>
+                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">IELTS 6.5 cho sinh viên</td>
+                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">English</span></td>
+                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">0</td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">6</td>
+                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Giao tiếp và thuyết trình</td>
+                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Communication</span></td>
+                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cột Phải: Tỷ trọng lượt click theo khóa học (Bars) -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+            <h2 style="font-size:16.5px; font-weight:800; color:#0f172a">
+              Tỷ trọng lượt click theo khóa học
+            </h2>
+            <p style="font-size:12px; color:#94a3b8; font-weight:500; margin-top:2px; margin-bottom:24px">
+              Thanh càng dài thì khóa học càng được quan tâm
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:18px">
+              <!-- Item 1 -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                  <span style="font-size:13px; font-weight:800; color:#0f172a">Python Backend thực chiến</span>
+                  <span style="font-size:12px; font-weight:600; color:#64748b">128 click · 35.7%</span>
+                </div>
+                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
+                  <div style="background:#0d5f57; height:100%; border-radius:9999px; width:100%"></div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                  <span style="font-size:13px; font-weight:800; color:#0f172a">Nhập môn Machine Learning</span>
+                  <span style="font-size:12px; font-weight:600; color:#64748b">96 click · 26.7%</span>
+                </div>
+                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
+                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:75%"></div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                  <span style="font-size:13px; font-weight:800; color:#0f172a">FastAPI &amp; Docker cho người mới</span>
+                  <span style="font-size:12px; font-weight:600; color:#64748b">74 click · 20.6%</span>
+                </div>
+                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
+                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:58%"></div>
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                  <span style="font-size:13px; font-weight:800; color:#0f172a">Phân tích dữ liệu với Power BI</span>
+                  <span style="font-size:12px; font-weight:600; color:#64748b">61 click · 17.0%</span>
+                </div>
+                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
+                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:48%"></div>
+                </div>
+              </div>
+
+              <!-- Item 5 -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                  <span style="font-size:13px; font-weight:800; color:#0f172a">IELTS 6.5 cho sinh viên</span>
+                  <span style="font-size:12px; font-weight:600; color:#64748b">0 click · 0.0%</span>
+                </div>
+                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
+                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:0%"></div>
+                </div>
+              </div>
+
+              <!-- Item 6 -->
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+                  <span style="font-size:13px; font-weight:800; color:#0f172a">Giao tiếp và thuyết trình</span>
+                  <span style="font-size:12px; font-weight:600; color:#64748b">0 click · 0.0%</span>
+                </div>
+                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
+                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: Thêm khóa học mới (TRUNG TÂM KHÓA HỌC - Mockup 1) -->
+  <div id="provAddCourseModal" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.45); backdrop-filter:blur(3px); align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#ffffff; border-radius:28px; border:1px solid #e2e8f0; width:100%; max-width:520px; padding:32px; box-shadow:0 20px 45px rgba(0,0,0,0.18); position:relative;">
+      <!-- Close button -->
+      <button onclick="provCloseAddCourseModal()" type="button" style="position:absolute; top:24px; right:24px; width:34px; height:34px; border-radius:50%; background:#f1f5f9; border:none; color:#64748b; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center">
+        ✕
+      </button>
+
+      <h2 style="font-size:19px; font-weight:900; color:#0f172a; margin-bottom:22px">
+        Thêm khóa học mới
+      </h2>
+
+      <form id="provAddCourseForm" onsubmit="provSubmitNewCourse(event)" style="display:flex; flex-direction:column; gap:16px">
+        <!-- Kỹ năng bù đắp -->
+        <div>
+          <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+            KỸ NĂNG BÙ ĐẮP
+          </label>
+          <select id="provModalSkill" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; outline:none">
+            <option value="Python">Python - IT</option>
+            <option value="Machine Learning">Machine Learning - IT</option>
+            <option value="Data Analysis">Data Analysis - IT</option>
+            <option value="Docker & DevOps">Docker &amp; DevOps - IT</option>
+            <option value="English">English - Ngoại ngữ</option>
+            <option value="Communication">Communication - Kỹ năng mềm</option>
+            <option value="AI Ethics">AI Ethics - IT</option>
+            <option value="Logistics">Logistics - Vận tải &amp; XNK</option>
+            <option value="Digital Marketing">Digital Marketing - Kinh tế</option>
+            <option value="Customer Service">Customer Service - Du lịch</option>
+          </select>
+        </div>
+
+        <!-- Tên khóa học -->
+        <div>
+          <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+            TÊN KHÓA HỌC
+          </label>
+          <input type="text" id="provModalTitle" required placeholder="Python Backend thực chiến" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box">
+        </div>
+
+        <!-- Nền tảng & Độ ưu tiên (2 cột) -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px">
+          <div>
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              NỀN TẢNG
+            </label>
+            <input type="text" id="provModalPlatform" required value="Mekong Skills" placeholder="Mekong Skills" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box">
+          </div>
+          <div>
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              ĐỘ ƯU TIÊN
+            </label>
+            <select id="provModalPriority" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; outline:none">
+              <option value="1 (cao nhất)">1 (cao nhất)</option>
+              <option value="2 (trung bình)">2 (trung bình)</option>
+              <option value="3 (thấp)">3 (thấp)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Đường dẫn trang đăng ký học -->
+        <div>
+          <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+            ĐƯỜNG DẪN TRANG ĐĂNG KÝ HỌC
+          </label>
+          <input type="text" id="provModalUrl" required placeholder="https://mekongskills.vn/python-backend" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box">
+        </div>
+
+        <!-- Ghi chú -->
+        <p style="font-size:12px; color:#64748b; margin:2px 0 6px; font-weight:500">
+          Khóa học sẽ ở trạng thái Chờ duyệt cho đến khi quản trị viên phê duyệt.
+        </p>
+
+        <!-- Nút hành động -->
+        <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:6px">
+          <button type="button" onclick="provCloseAddCourseModal()" style="padding:10px 22px; border-radius:9999px; border:1.5px solid #0d5f57; background:#ffffff; color:#0d5f57; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px">
+            HỦY
+          </button>
+          <button type="submit" style="padding:10px 24px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px; box-shadow:0 2px 6px rgba(10,81,70,0.25)">
+            ĐĂNG KHÓA HỌC
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- ══════════════════════════════════════════════════════════════════ -->
   <!-- DUAL LAYOUT: 2. PUBLIC LAYOUT (/, /jobs, /profile...) (Micro-task 1.2) -->
@@ -5480,20 +6794,72 @@
         }
       }
 
+      // ── 4. AUTH GUARD: BẢO VỆ ROUTE ĐƠN VỊ ĐÀO TẠO (/provider) ──
+      if (isProviderRoute && userRole !== 'provider' && userRole !== 'admin') {
+        if (isGuest) {
+          openAuthModal('login');
+          navigate('/', true, true);
+          return;
+        } else {
+          navigate('/', true, true);
+          return;
+        }
+      }
+
       const adminLayout = document.getElementById('adminLayout');
       const publicNavbar = document.getElementById('publicNavbar');
       const sidebar = document.getElementById('sidebar');
       const adminTopbar = document.querySelector('.topbar');
       const mainEl = document.getElementById('main');
       const publicLayout = document.getElementById('publicLayout');
+      const employerLayout = document.getElementById('employerPortalLayout');
+      const providerLayout = document.getElementById('providerPortalLayout');
 
       // Đảm bảo publicNavbar được hiển thị đúng ở top-level body
       if (publicNavbar && publicNavbar.parentElement && publicNavbar.parentElement.id === 'publicLayout') {
         document.body.prepend(publicNavbar);
       }
 
-      if (isAdminRoute || isEmployerRoute || isProviderRoute) {
-        // ── GIAO DIỆN QUẢN TRỊ / DOANH NGHIỆP / ĐÀO TẠO (Sidebar + Topbar) ──
+      if (isEmployerRoute) {
+        // ── GIAO DIỆN RIÊNG DÀNH CHO CỔNG DOANH NGHIỆP (KHỚP ẢNH MẪU 100%) ──
+        document.body.classList.remove('candidate-purple-theme');
+        if (publicLayout) publicLayout.style.display = 'none';
+        if (adminLayout) adminLayout.style.display = 'none';
+        if (providerLayout) providerLayout.style.display = 'none';
+        if (publicNavbar) publicNavbar.style.display = 'none';
+        if (employerLayout) {
+          employerLayout.style.display = 'flex';
+          updateEmployerPortalInfo();
+          const cleanEmp = currentPath.replace(/^\/employer\/?/, '');
+          const empPart = cleanEmp.split('/').filter(Boolean)[0] || 'dashboard';
+          switchEmpTab(empPart);
+        }
+        return;
+      }
+
+      if (isProviderRoute) {
+        // ── GIAO DIỆN RIÊNG DÀNH CHO CỔNG ĐƠN VỊ ĐÀO TẠO (KHỚP ẢNH MẪU 100%) ──
+        document.body.classList.remove('candidate-purple-theme');
+        if (publicLayout) publicLayout.style.display = 'none';
+        if (adminLayout) adminLayout.style.display = 'none';
+        if (employerLayout) employerLayout.style.display = 'none';
+        if (publicNavbar) publicNavbar.style.display = 'none';
+        if (providerLayout) {
+          providerLayout.style.display = 'flex';
+          updateProviderPortalInfo();
+          const cleanProv = currentPath.replace(/^\/provider\/?/, '');
+          const provPart = cleanProv.split('/').filter(Boolean)[0] || 'gap-analytics';
+          switchProvTab(provPart);
+        }
+        return;
+      }
+
+      // Ẩn employerLayout & providerLayout khi không ở route tương ứng
+      if (employerLayout) employerLayout.style.display = 'none';
+      if (providerLayout) providerLayout.style.display = 'none';
+
+      if (isAdminRoute) {
+        // ── GIAO DIỆN QUẢN TRỊ ADMIN / ĐÀO TẠO (Sidebar + Topbar) ──
         document.body.classList.remove('candidate-purple-theme');
         if (publicLayout) publicLayout.style.display = 'none';
         if (adminLayout) adminLayout.style.display = 'block';
@@ -5508,13 +6874,7 @@
 
         if (triggerPageSwitch) {
           let subPage = 'dashboard';
-          if (isEmployerRoute) {
-            const cleanEmp = currentPath.replace(/^\/employer\/?/, '');
-            const empPart = cleanEmp.split('/').filter(Boolean)[0] || 'jobs';
-            if (empPart === 'jobs' || empPart === 'candidates' || empPart === 'dashboard') subPage = 'employers';
-            else if (empPart === 'market-skills') subPage = 'industry';
-            else subPage = 'employers';
-          } else if (isProviderRoute) {
+          if (isProviderRoute) {
             subPage = 'courses';
           } else {
             const clean = currentPath.replace(/^\/admin\/?/, '');
@@ -8362,6 +9722,935 @@
       alert('Đã đăng xuất tài khoản thành công!');
     }
 
+    // ══════════════════════════════════════════════════════════════════
+    // EMPLOYER PORTAL CONTROLLER FUNCTIONS (MATCHING MOCKUP)
+    // ══════════════════════════════════════════════════════════════════
+    function updateEmployerPortalInfo() {
+      try {
+        const raw = localStorage.getItem('current_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          currentUser = Object.assign({}, currentUser, u);
+        }
+      } catch(e) {}
+
+      const compName = currentUser.company_name || (currentUser.role === 'employer' ? currentUser.full_name : null) || 'Mekong Tech';
+      const contact = currentUser.full_name || 'Nguyễn Minh Khoa';
+      const initial = compName.charAt(0).toUpperCase() || 'M';
+
+      const dName = document.getElementById('empDashboardCompanyName');
+      if (dName) dName.textContent = compName;
+
+      const sComp = document.getElementById('empSidebarCompanyName');
+      if (sComp) sComp.textContent = compName;
+
+      const sContact = document.getElementById('empSidebarContactName');
+      if (sContact) sContact.textContent = contact;
+
+      const avatar = document.getElementById('empAvatarInitial');
+      if (avatar) avatar.textContent = initial;
+
+      // Inputs on profile tab
+      const inpRep = document.getElementById('empProfileInputRepresentative');
+      if (inpRep) inpRep.value = contact;
+
+      const inpComp = document.getElementById('empProfileInputCompanyName');
+      if (inpComp) inpComp.value = compName;
+
+      const inpLogo = document.getElementById('empProfileInputLogoUrl');
+      if (inpLogo) inpLogo.value = currentUser.company_logo_url || 'https://mekongtech.vn/logo.png';
+
+      const inpCulture = document.getElementById('empProfileInputCulture');
+      if (inpCulture && currentUser.company_description) inpCulture.value = currentUser.company_description;
+
+      empSyncProfilePreview();
+
+      // Load jobs count into KPI
+      loadEmployerPortalJobs();
+    }
+
+    function switchEmpTab(tab) {
+      if (!tab) tab = 'dashboard';
+      const tabMap = {
+        'dashboard': { nav: 'empNavDashboard', view: 'empTabDashboard' },
+        'jobs': { nav: 'empNavJobs', view: 'empTabJobs' },
+        'candidates': { nav: 'empNavCandidates', view: 'empTabCandidates' },
+        'skills': { nav: 'empNavSkills', view: 'empTabSkills' },
+        'market-skills': { nav: 'empNavSkills', view: 'empTabSkills' },
+        'profile': { nav: 'empNavProfile', view: 'empTabProfile' }
+      };
+
+      const selected = tabMap[tab] || tabMap['dashboard'];
+
+      // Update Nav active classes
+      document.querySelectorAll('.emp-nav-item').forEach(el => el.classList.remove('active'));
+      const activeNav = document.getElementById(selected.nav);
+      if (activeNav) activeNav.classList.add('active');
+
+      // Update Views
+      document.querySelectorAll('.emp-tab-view').forEach(el => el.style.display = 'none');
+      const activeView = document.getElementById(selected.view);
+      if (activeView) activeView.style.display = 'block';
+
+      // Specific tab initializations
+      if (tab === 'jobs') {
+        renderEmployerPortalJobsTab();
+      } else if (tab === 'skills' || tab === 'market-skills') {
+        renderEmployerMarketSkillsTab();
+      } else if (tab === 'profile') {
+        renderEmployerProfileTab();
+      }
+    }
+
+    async function loadEmployerPortalJobs() {
+      try {
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        if (!token) return;
+        const res = await fetch(`${API_BASE}/api/jobs/my-jobs`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const list = await res.json();
+          if (Array.isArray(list) && list.length > 0) {
+            const kpiJobs = document.getElementById('empKpiOpenJobs');
+            if (kpiJobs) kpiJobs.textContent = list.length;
+          }
+        }
+      } catch (e) {
+        console.warn('loadEmployerPortalJobs error:', e);
+      }
+    }
+
+    let empPortalJobsData = [
+      {
+        id: 1,
+        title: 'Python Backend Developer',
+        location: 'Quận Ninh Kiều, Cần Thơ',
+        salary_min: 15000000,
+        salary_max: 25000000,
+        salary_text: '15–25 triệu',
+        posted_date: '14/10/2026',
+        skills: ['Python', 'FastAPI', 'Docker', 'SQL'],
+        applications_count: 34
+      },
+      {
+        id: 2,
+        title: 'Data Analyst / BI Specialist',
+        location: 'Quận Ninh Kiều, Cần Thơ',
+        salary_min: 15000000,
+        salary_max: 25000000,
+        salary_text: '15–25 triệu',
+        posted_date: '10/10/2026',
+        skills: ['SQL', 'Power BI', 'Python'],
+        applications_count: 21
+      },
+      {
+        id: 3,
+        title: 'DevOps & Cloud Engineer',
+        location: 'Quận Ninh Kiều, Cần Thơ',
+        salary_min: 15000000,
+        salary_max: 25000000,
+        salary_text: '15–25 triệu',
+        posted_date: '05/10/2026',
+        skills: ['Docker', 'Linux', 'CI/CD', 'Cloud'],
+        applications_count: 40
+      }
+    ];
+
+    function renderEmployerJobsList() {
+      const container = document.getElementById('empJobsListContainer');
+      const countHeader = document.getElementById('empPostedJobsCountHeader');
+      if (countHeader) countHeader.textContent = `Tin đã đăng (${empPortalJobsData.length})`;
+      if (!container) return;
+      container.innerHTML = empPortalJobsData.map(j => `
+        <div class="emp-job-card" style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px">
+            <h3 style="font-size:16px; font-weight:800; color:#0f172a">${j.title}</h3>
+            <span class="emp-status-badge emp-status-open">Đang mở</span>
+          </div>
+          <div style="font-size:12px; color:#64748b; margin-bottom:12px">${j.location || 'Cần Thơ'} · ${j.salary_text || '15–25 triệu'} · Đăng ${j.posted_date}</div>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px">
+            ${(j.skills || []).map(s => `<span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">${s}</span>`).join('')}
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f8fafc">
+            <span style="font-size:12.5px; color:#475569"><strong>${j.applications_count || 0}</strong> hồ sơ đã nộp</span>
+            <button onclick="empDeleteJobCard(this, ${j.id})" style="padding:4px 14px; border-radius:9999px; border:1px solid #fecdd3; color:#e11d48; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer">Xóa tin</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function renderEmployerPortalJobsTab() {
+      try {
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        if (token) {
+          const res = await fetch(`${API_BASE}/api/jobs/my-jobs`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (res.ok) {
+            const list = await res.json();
+            if (Array.isArray(list) && list.length > 0) {
+              empPortalJobsData = list.map(item => ({
+                id: item.id,
+                title: item.title,
+                location: item.location || 'Cần Thơ',
+                salary_min: item.salary_min,
+                salary_max: item.salary_max,
+                salary_text: item.salary_min && item.salary_max ? `${(item.salary_min/1000000).toFixed(0)}–${(item.salary_max/1000000).toFixed(0)} triệu` : 'Thỏa thuận',
+                posted_date: item.created_at ? new Date(item.created_at).toLocaleDateString('vi-VN') : '14/10/2026',
+                skills: Array.isArray(item.skills) ? item.skills : ['Python', 'Docker'],
+                applications_count: item.applications_count || 0
+              }));
+            }
+          }
+        }
+      } catch(e) {
+        console.warn('renderEmployerPortalJobsTab fallback to default data:', e);
+      }
+      renderEmployerJobsList();
+    }
+
+    function empPromptAddTag() {
+      const tag = prompt("Nhập tên kỹ năng cần thêm (ví dụ: Redis, Kubernetes, React):");
+      if (!tag || !tag.trim()) return;
+      const trimmed = tag.trim();
+      const container = document.getElementById("empSkillTagsContainer");
+      if (!container) return;
+      const span = document.createElement("span");
+      span.className = "emp-form-skill-tag";
+      span.style.cssText = "background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px; display:inline-flex; align-items:center; gap:6px";
+      span.innerHTML = `${trimmed} <span onclick="empRemoveTag(this)" style="cursor:pointer; font-weight:900">✕</span>`;
+      const addBtn = container.querySelector("button");
+      if (addBtn) {
+        container.insertBefore(span, addBtn);
+      } else {
+        container.appendChild(span);
+      }
+    }
+
+    function empRemoveTag(el) {
+      if (el && el.parentElement) {
+        el.parentElement.remove();
+      }
+    }
+
+    async function empHandleSubmitJob(event) {
+      if (event) event.preventDefault();
+      const title = document.getElementById('empJobTitleInput')?.value.trim();
+      const company = document.getElementById('empJobCompanyInput')?.value.trim() || 'Mekong Tech';
+      const location = document.getElementById('empJobLocationInput')?.value || 'Cần Thơ';
+      const industry = document.getElementById('empJobIndustryInput')?.value || 'Công nghệ thông tin';
+      const salaryMin = document.getElementById('empJobSalaryMinInput')?.value || '15';
+      const salaryMax = document.getElementById('empJobSalaryMaxInput')?.value || '25';
+      const desc = document.getElementById('empJobDescInput')?.value || '';
+      
+      const tags = [];
+      document.querySelectorAll('#empSkillTagsContainer .emp-form-skill-tag').forEach(tagEl => {
+        const text = tagEl.textContent.replace('✕', '').trim();
+        if (text) tags.push(text);
+      });
+
+      if (!title) {
+        alert('Vui lòng nhập tiêu đề tin tuyển dụng!');
+        return;
+      }
+
+      const newJob = {
+        id: Date.now(),
+        title: title,
+        company: company,
+        location: location,
+        industry: industry,
+        salary_min: parseFloat(salaryMin) * 1000000,
+        salary_max: parseFloat(salaryMax) * 1000000,
+        salary_text: `${salaryMin}–${salaryMax} triệu`,
+        posted_date: new Date().toLocaleDateString('vi-VN'),
+        skills: tags.length ? tags : ['Python', 'Docker'],
+        applications_count: 0
+      };
+
+      try {
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        if (token) {
+          await fetch(`${API_BASE}/api/jobs/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              title: title,
+              company: company,
+              location: location,
+              industry: industry,
+              salary_min: newJob.salary_min,
+              salary_max: newJob.salary_max,
+              description: desc,
+              skills: tags
+            })
+          });
+        }
+      } catch (err) {
+        console.warn('API create job error:', err);
+      }
+
+      empPortalJobsData.unshift(newJob);
+      renderEmployerJobsList();
+      alert('Đăng tin tuyển dụng thành công!');
+    }
+
+    function empDeleteJobCard(el, id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) return;
+      if (id) {
+        empPortalJobsData = empPortalJobsData.filter(j => j.id !== id);
+      }
+      if (el) {
+        const card = el.closest('.emp-job-card');
+        if (card) card.remove();
+      }
+      const countHeader = document.getElementById('empPostedJobsCountHeader');
+      const currentCards = document.querySelectorAll('#empJobsListContainer .emp-job-card');
+      if (countHeader) countHeader.textContent = `Tin đã đăng (${currentCards.length})`;
+    }
+
+    // Candidate Management logic matching Mockup Media 2
+    const EMP_CANDIDATES = [
+      {
+        id: 1,
+        name: 'Trần Thị Bích Ngọc',
+        email: 'ngoc.tran@email.com',
+        appliedDate: '15/10',
+        matchScore: 83,
+        title: 'Kỹ sư phần mềm · Đại học Cần Thơ',
+        skillsOwned: ['Python', 'SQL', 'FastAPI', 'Git', 'REST API'],
+        skillsMissing: ['Docker'],
+        aiComment: 'Ứng viên có kỹ năng thực tế rất tốt, hoàn thành các dự án backend với Python & FastAPI đạt chất lượng cao. Đã nắm vững REST API và SQL, rất phù hợp với vị trí này.'
+      },
+      {
+        id: 2,
+        name: 'Nguyễn Văn An',
+        email: 'an.nguyen@email.com',
+        appliedDate: '14/10',
+        matchScore: 67,
+        title: 'Sinh viên CNTT năm 4 · Đại học Cần Thơ',
+        skillsOwned: ['Python', 'SQL', 'Git', 'REST API'],
+        skillsMissing: ['FastAPI', 'Docker'],
+        aiComment: 'Ứng viên nắm chắc nền tảng Python và cơ sở dữ liệu, đã có dự án REST API. Còn thiếu FastAPI và Docker nhưng nền tảng đủ để đào tạo thêm trong thời gian thử việc.'
+      },
+      {
+        id: 3,
+        name: 'Lê Minh Quân',
+        email: 'quan.le@email.com',
+        appliedDate: '14/10',
+        matchScore: 50,
+        title: 'Kỹ sư phần mềm mới tốt nghiệp · Cần Thơ',
+        skillsOwned: ['Python', 'SQL', 'Git'],
+        skillsMissing: ['REST API', 'FastAPI', 'Docker'],
+        aiComment: 'Ứng viên có kiến thức lập trình cơ bản tốt, tư duy logic vững. Cần bồi dưỡng thêm kiến thức về hệ quản trị cơ sở dữ liệu và triển khai container.'
+      },
+      {
+        id: 4,
+        name: 'Phạm Gia Hân',
+        email: 'han.pham@email.com',
+        appliedDate: '13/10',
+        matchScore: 33,
+        title: 'Sinh viên ngành Hệ thống thông tin · ĐH Cần Thơ',
+        skillsOwned: ['SQL', 'Git'],
+        skillsMissing: ['Python', 'FastAPI', 'Docker', 'REST API'],
+        aiComment: 'Kỹ năng hiện tại chưa sát với yêu cầu backend thực tế của vị trí. Khoảng cách kỹ năng lớn, cần thêm thời gian tích lũy đồ án chuyên sâu.'
+      }
+    ];
+
+    let currentSelectedCandidateId = 2; // Default to Nguyen Van An as in Mockup
+
+    function empSelectCandidate(id) {
+      const cand = EMP_CANDIDATES.find(c => c.id === id);
+      if (!cand) return;
+      currentSelectedCandidateId = id;
+
+      EMP_CANDIDATES.forEach(c => {
+        const el = document.getElementById(`empCandItem-${c.id}`);
+        if (el) {
+          if (c.id === id) {
+            el.style.border = '2px solid #0d5f57';
+            el.classList.add('active');
+          } else {
+            el.style.border = '1px solid #e2e8f0';
+            el.classList.remove('active');
+          }
+        }
+      });
+
+      const nameEl = document.getElementById('empCandDetailName');
+      if (nameEl) nameEl.textContent = cand.name;
+
+      const subEl = document.getElementById('empCandDetailSub');
+      if (subEl) subEl.textContent = cand.title;
+
+      const scoreEl = document.getElementById('empCandDetailScore');
+      if (scoreEl) scoreEl.textContent = `${cand.matchScore}%`;
+
+      const barEl = document.getElementById('empCandDetailBar');
+      if (barEl) barEl.style.width = `${cand.matchScore}%`;
+
+      const ownedEl = document.getElementById('empCandDetailOwnedSkills');
+      if (ownedEl) {
+        ownedEl.innerHTML = cand.skillsOwned.map(s => `
+          <span style="background:#dcfce7; color:#0f766e; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">${s}</span>
+        `).join('');
+      }
+
+      const missingEl = document.getElementById('empCandDetailMissingSkills');
+      if (missingEl) {
+        missingEl.innerHTML = cand.skillsMissing.map(s => `
+          <span style="background:#ffe4e6; color:#e11d48; font-size:12px; font-weight:700; padding:4px 12px; border-radius:9999px">${s}</span>
+        `).join('');
+      }
+
+      const commentEl = document.getElementById('empCandDetailComment');
+      if (commentEl) commentEl.textContent = cand.aiComment;
+    }
+
+    function empInviteCurrentCandidate() {
+      const cand = EMP_CANDIDATES.find(c => c.id === currentSelectedCandidateId);
+      if (!cand) return;
+      alert(`Đã gửi email mời phỏng vấn đến ứng viên: ${cand.name} (${cand.email})!`);
+    }
+
+    function empRejectCurrentCandidate() {
+      const cand = EMP_CANDIDATES.find(c => c.id === currentSelectedCandidateId);
+      if (!cand) return;
+      if (confirm(`Bạn có chắc muốn từ chối hồ sơ của ${cand.name}?`)) {
+        const cardEl = document.getElementById(`empCandItem-${cand.id}`);
+        if (cardEl) {
+          cardEl.style.opacity = '0.5';
+        }
+        alert(`Đã từ chối hồ sơ ứng viên: ${cand.name}`);
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    // TAB 4: KỸ NĂNG THEO NGÀNH · THỊ TRƯỜNG (KHỚP 100% MOCKUP IMAGE 1)
+    // ══════════════════════════════════════════════════════════════════
+    const EMP_MARKET_SKILLS = {
+      IT: {
+        skills: [
+          { name: 'Python', demand: 91.1, supply: 32.4, gap: 58.7 },
+          { name: 'Machine Learning', demand: 78.4, supply: 18.1, gap: 60.3 },
+          { name: 'Data Analysis', demand: 74.2, supply: 29.8, gap: 44.4 },
+          { name: 'ReactJS', demand: 68.7, supply: 38.3, gap: 30.4 },
+          { name: 'Docker & DevOps', demand: 62.4, supply: 21.9, gap: 40.5 },
+          { name: 'SQL & Database', demand: 58.7, supply: 44.6, gap: 14.1 },
+          { name: 'Cloud (AWS/GCP)', demand: 52.6, supply: 15.5, gap: 37.1 },
+          { name: 'Cybersecurity', demand: 48.4, supply: 12.3, gap: 36.1 }
+        ],
+        aiSuggestions: [
+          {
+            title: 'Machine Learning · thiếu 60,3%',
+            content: 'Cân nhắc nhận ứng viên có nền tảng Python và đào tạo ML trong 3 tháng đầu, thay vì bắt buộc kinh nghiệm ML trong mô tả công việc.'
+          },
+          {
+            title: 'Python · thiếu 58,7%',
+            content: 'Đây là kỹ năng khan hiếm nhất. Nên nêu rõ lộ trình thử việc và cân nhắc mức lương cao hơn khung 15–25 triệu để cạnh tranh.'
+          },
+          {
+            title: 'Cloud · thiếu 37,1%',
+            content: 'Chuyển Cloud từ "bắt buộc" sang "ưu tiên" để mở rộng nguồn ứng viên mà vẫn giữ chất lượng.'
+          }
+        ]
+      },
+      tourism: {
+        skills: [
+          { name: 'Tiếng Anh giao tiếp Quốc tế', demand: 88.5, supply: 41.2, gap: 47.3 },
+          { name: 'Quản trị Khách sạn & PMS', demand: 72.4, supply: 33.0, gap: 39.4 },
+          { name: 'Tiếng Trung du lịch', demand: 58.0, supply: 21.5, gap: 36.5 },
+          { name: 'Xử lý khủng hoảng dịch vụ', demand: 65.2, supply: 38.1, gap: 27.1 },
+          { name: 'Digital Marketing & OTA Channel', demand: 54.0, supply: 30.5, gap: 23.5 }
+        ],
+        aiSuggestions: [
+          {
+            title: 'Tiếng Anh giao tiếp · thiếu 47,3%',
+            content: 'Nguồn nhân lực thạo ngoại ngữ tại ĐBSCL có sự phân hóa lớn. Doanh nghiệp có thể tài trợ khóa đào tạo tiếng Anh chuyên ngành sau khi nhận việc.'
+          },
+          {
+            title: 'PMS System · thiếu 39,4%',
+            content: 'Nên kiểm tra khả năng tiếp thu công nghệ thay vì đòi hỏi chứng chỉ phần mềm quản lý phòng cụ thể.'
+          }
+        ]
+      },
+      logistics: {
+        skills: [
+          { name: 'Quản lý chuỗi cung ứng SCM', demand: 82.0, supply: 29.4, gap: 52.6 },
+          { name: 'Khai báo Hải quan & Incoterms', demand: 76.5, supply: 35.0, gap: 41.5 },
+          { name: 'Phần mềm ERP / SAP Logistics', demand: 64.0, supply: 25.2, gap: 38.8 },
+          { name: 'Tiếng Anh Logistics thương mại', demand: 71.0, supply: 38.5, gap: 32.5 },
+          { name: 'Quản trị Kho bãi WMS', demand: 59.0, supply: 34.0, gap: 25.0 }
+        ],
+        aiSuggestions: [
+          {
+            title: 'Quản lý chuỗi cung ứng · thiếu 52,6%',
+            content: 'Ưu tiên tuyển các ứng viên có tư duy phân tích luồng vận tải và đào tạo nghiệp vụ cảng thực tế theo quy trình công ty.'
+          },
+          {
+            title: 'Phần mềm ERP · thiếu 38,8%',
+            content: 'Có thể tuyển nhân sự biết Excel nâng cao hoặc các phần mềm kho cơ bản rồi chuyển giao hướng dẫn SAP.'
+          }
+        ]
+      },
+      economics: {
+        skills: [
+          { name: 'Phân tích Dữ liệu Power BI', demand: 85.0, supply: 32.0, gap: 53.0 },
+          { name: 'Phần mềm Kế toán MISA / FAST', demand: 78.0, supply: 42.0, gap: 36.0 },
+          { name: 'Phân tích Báo cáo Tài chính', demand: 68.0, supply: 35.0, gap: 33.0 },
+          { name: 'Digital Marketing đa kênh', demand: 74.0, supply: 45.0, gap: 29.0 },
+          { name: 'Kỹ năng Đàm phán & Thuyết trình', demand: 66.0, supply: 40.0, gap: 26.0 }
+        ],
+        aiSuggestions: [
+          {
+            title: 'Phân tích Power BI · thiếu 53,0%',
+            content: 'Nhu cầu BI tăng vọt nhưng sinh viên chủ yếu được dạy Excel. Cân nhắc hỗ trợ ứng viên nâng cấp kỹ năng Dashboarding trong kỳ thử việc.'
+          }
+        ]
+      },
+      agriculture: {
+        skills: [
+          { name: 'IoT & Cảm biến Nông nghiệp', demand: 75.0, supply: 18.0, gap: 57.0 },
+          { name: 'Tiêu chuẩn VietGAP / GlobalGAP', demand: 82.0, supply: 34.0, gap: 48.0 },
+          { name: 'Bảo quản chế biến sau thu hoạch', demand: 69.0, supply: 28.0, gap: 41.0 },
+          { name: 'Thương mại điện tử nông sản', demand: 63.0, supply: 31.0, gap: 32.0 }
+        ],
+        aiSuggestions: [
+          {
+            title: 'IoT Nông nghiệp · thiếu 57,0%',
+            content: 'Kỹ sư nông nghiệp kết hợp công nghệ cao rất hiếm tại ĐBSCL. Hãy hợp tác trực tiếp với các viện nghiên cứu hoặc trường ĐH để đặt hàng trước.'
+          }
+        ]
+      }
+    };
+
+    let empCurrentSelectedIndustry = 'IT';
+
+    function empSelectSkillsIndustry(indId) {
+      empCurrentSelectedIndustry = indId;
+      document.querySelectorAll('#empSkillsIndustryPills .emp-ind-btn').forEach(btn => {
+        btn.style.background = '#fff';
+        btn.style.color = '#334155';
+        btn.style.border = '1px solid #e2e8f0';
+        btn.style.fontWeight = '600';
+      });
+      const activeBtn = document.getElementById(`empIndBtn-${indId}`);
+      if (activeBtn) {
+        activeBtn.style.background = '#115e59';
+        activeBtn.style.color = '#fff';
+        activeBtn.style.border = 'none';
+        activeBtn.style.fontWeight = '700';
+      }
+      renderEmployerMarketSkillsTab();
+    }
+
+    function renderEmployerMarketSkillsTab() {
+      const data = EMP_MARKET_SKILLS[empCurrentSelectedIndustry] || EMP_MARKET_SKILLS.IT;
+      const rowsContainer = document.getElementById('empMarketSkillsRowsContainer');
+      if (rowsContainer) {
+        rowsContainer.innerHTML = data.skills.map(item => {
+          let badgeBg = '#ffe4e6';
+          let badgeColor = '#e11d48';
+          if (item.gap < 20) {
+            badgeBg = '#dcfce7';
+            badgeColor = '#0f766e';
+          } else if (item.gap < 40) {
+            badgeBg = '#fef3c7';
+            badgeColor = '#b45309';
+          }
+
+          return `
+            <div style="display:flex; align-items:center; gap:16px">
+              <div style="width:140px; flex-shrink:0; font-size:13.5px; font-weight:800; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">
+                ${item.name}
+              </div>
+              <div style="flex:1; display:flex; flex-direction:column; gap:6px">
+                <div style="display:flex; align-items:center; gap:10px">
+                  <div style="flex:1; background:#f1f5f9; border-radius:9999px; height:8px; overflow:hidden">
+                    <div style="background:#0d5f57; height:100%; border-radius:9999px; width:${item.demand}%; transition:width 0.4s ease"></div>
+                  </div>
+                  <span style="font-size:11.5px; font-weight:900; color:#0d5f57; width:45px; text-align:right; flex-shrink:0">
+                    ${item.demand}%
+                  </span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px">
+                  <div style="flex:1; background:#f1f5f9; border-radius:9999px; height:8px; overflow:hidden">
+                    <div style="background:#f59e0b; height:100%; border-radius:9999px; width:${item.supply}%; transition:width 0.4s ease"></div>
+                  </div>
+                  <span style="font-size:11.5px; font-weight:900; color:#b45309; width:45px; text-align:right; flex-shrink:0">
+                    ${item.supply}%
+                  </span>
+                </div>
+              </div>
+              <div style="width:105px; text-align:right; flex-shrink:0">
+                <span style="background:${badgeBg}; color:${badgeColor}; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:9999px; display:inline-block">
+                  Thiếu ${item.gap}%
+                </span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const sugContainer = document.getElementById('empAiSuggestionsContainer');
+      if (sugContainer) {
+        sugContainer.innerHTML = data.aiSuggestions.map(sug => `
+          <div style="background:#f8fafc; border-radius:18px; border:1px solid #f1f5f9; padding:18px">
+            <div style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:6px">
+              ${sug.title}
+            </div>
+            <p style="font-size:12.5px; color:#475569; line-height:1.6; margin:0">
+              ${sug.content}
+            </p>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    // TAB 5: HỒ SƠ CÔNG TY (KHỚP 100% MOCKUP IMAGE 2)
+    // ══════════════════════════════════════════════════════════════════
+    function empSyncProfilePreview() {
+      const rep = document.getElementById('empProfileInputRepresentative')?.value || 'Nguyễn Minh Khoa';
+      const comp = document.getElementById('empProfileInputCompanyName')?.value || 'Mekong Tech';
+      const culture = document.getElementById('empProfileInputCulture')?.value || '';
+
+      const nameEl = document.getElementById('empPreviewCompanyName');
+      if (nameEl) nameEl.textContent = comp;
+
+      const repEl = document.getElementById('empPreviewRepresentative');
+      if (repEl) repEl.textContent = `Người đại diện: ${rep}`;
+
+      const descEl = document.getElementById('empPreviewDescription');
+      if (descEl) {
+        descEl.textContent = culture || 'Mekong Tech là công ty phần mềm tại Cần Thơ, hơn 80 kỹ sư...';
+      }
+
+      const subEl = document.getElementById('empPreviewJobSub');
+      if (subEl) {
+        subEl.textContent = `${comp} · Cần Thơ · 15–25 triệu`;
+      }
+
+      const logoBox = document.getElementById('empPreviewLogoBox');
+      if (logoBox) {
+        logoBox.textContent = (comp.trim() || 'M').charAt(0).toUpperCase();
+      }
+    }
+
+    function renderEmployerProfileTab() {
+      try {
+        const raw = localStorage.getItem('current_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          if (u.full_name) {
+            const inpRep = document.getElementById('empProfileInputRepresentative');
+            if (inpRep) inpRep.value = u.full_name;
+          }
+          if (u.company_name) {
+            const inpComp = document.getElementById('empProfileInputCompanyName');
+            if (inpComp) inpComp.value = u.company_name;
+          }
+          if (u.company_logo_url) {
+            const inpLogo = document.getElementById('empProfileInputLogoUrl');
+            if (inpLogo) inpLogo.value = u.company_logo_url;
+          }
+          if (u.company_description) {
+            const inpCulture = document.getElementById('empProfileInputCulture');
+            if (inpCulture) inpCulture.value = u.company_description;
+          }
+        }
+      } catch(e) {}
+      empSyncProfilePreview();
+    }
+
+    async function empHandleSaveProfile(event) {
+      if (event) event.preventDefault();
+      const rep = document.getElementById('empProfileInputRepresentative')?.value.trim();
+      const comp = document.getElementById('empProfileInputCompanyName')?.value.trim();
+      const logo = document.getElementById('empProfileInputLogoUrl')?.value.trim();
+      const culture = document.getElementById('empProfileInputCulture')?.value.trim();
+
+      if (!comp) {
+        alert('Vui lòng nhập tên doanh nghiệp!');
+        return;
+      }
+
+      currentUser.full_name = rep;
+      currentUser.company_name = comp;
+      currentUser.company_logo_url = logo;
+      currentUser.company_description = culture;
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
+
+      updateEmployerPortalInfo();
+
+      try {
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        if (token) {
+          await fetch(`${API_BASE}/api/auth/profile`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              full_name: rep,
+              company_name: comp,
+              company_logo_url: logo,
+              company_description: culture
+            })
+          });
+        }
+      } catch (err) {
+        console.warn('API update profile warning:', err);
+      }
+
+      alert('Lưu thay đổi hồ sơ công ty thành công!');
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    // PROVIDER PORTAL CONTROLLER (TRUNG TÂM KHÓA HỌC - KHỚP 100% MOCKUP)
+    // ══════════════════════════════════════════════════════════════════
+    const PROV_SKILLS_DATA = [
+      { id: 1, name: 'Python', industry: 'IT', industryLabel: 'IT', demand: 92, supply: 32, gap: 60, color: '#be123c' },
+      { id: 2, name: 'Data Analysis', industry: 'IT', industryLabel: 'IT', demand: 68, supply: 24, gap: 44, color: '#be123c' },
+      { id: 3, name: 'Machine Learning', industry: 'IT', industryLabel: 'IT', demand: 55, supply: 12, gap: 43, color: '#be123c' },
+      { id: 4, name: 'English', industry: 'all', industryLabel: 'Tất cả', demand: 76.6, supply: 42, gap: 34.6, color: '#d97706' },
+      { id: 5, name: 'AI Ethics', industry: 'IT', industryLabel: 'IT', demand: 38, supply: 8, gap: 30, color: '#d97706' },
+      { id: 6, name: 'Logistics', industry: 'logistics', industryLabel: 'Logistics', demand: 45, supply: 28, gap: 17, color: '#0d9488' },
+      { id: 7, name: 'Communication', industry: 'all', industryLabel: 'Tất cả', demand: 35.3, supply: 18.3, gap: 17, color: '#0d9488' },
+      { id: 8, name: 'Digital Marketing', industry: 'economics', industryLabel: 'Kinh tế', demand: 42.7, supply: 26.7, gap: 16, color: '#0d9488' },
+      { id: 9, name: 'Problem Solving', industry: 'all', industryLabel: 'Tất cả', demand: 38.1, supply: 22.8, gap: 15.3, color: '#0d9488' },
+      { id: 10, name: 'Customer Service', industry: 'tourism', industryLabel: 'Du lịch', demand: 30, supply: 20, gap: 10, color: '#0d9488' }
+    ];
+
+    let provCoursesList = [
+      { id: 1, title: 'Python Backend thực chiến', skill: 'Python', status: 'active', clicks: 128 },
+      { id: 2, title: 'FastAPI & Docker cho người mới', skill: 'Python', status: 'active', clicks: 74 },
+      { id: 3, title: 'Nhập môn Machine Learning', skill: 'Machine Learning', status: 'active', clicks: 96 },
+      { id: 4, title: 'Phân tích dữ liệu với Power BI', skill: 'Data Analysis', status: 'active', clicks: 61 },
+      { id: 5, title: 'IELTS 6.5 cho sinh viên', skill: 'English', status: 'pending', clicks: 0 },
+      { id: 6, title: 'Giao tiếp và thuyết trình', skill: 'Communication', status: 'pending', clicks: 0 }
+    ];
+
+    function updateProviderPortalInfo() {
+      try {
+        const raw = localStorage.getItem('current_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          currentUser = Object.assign({}, currentUser, u);
+        }
+      } catch(e) {}
+
+      const company = currentUser.company_name || 'Mekong Skills';
+      const name = currentUser.full_name || 'Trần Thanh Hải';
+      const initial = (company || name).charAt(0).toUpperCase() || 'M';
+
+      const sName = document.getElementById('provSidebarName');
+      if (sName) sName.textContent = company;
+
+      const sSub = document.getElementById('provSidebarSub');
+      if (sSub) sSub.textContent = name;
+
+      const avatar = document.getElementById('provAvatarInitial');
+      if (avatar) avatar.textContent = initial;
+
+      renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
+      renderProviderCoursesTable();
+    }
+
+    function switchProvTab(tab) {
+      if (!tab) tab = 'gap-analytics';
+      const tabMap = {
+        'gap-analytics': { nav: 'provNavGap', view: 'provTabGapAnalytics' },
+        'courses': { nav: 'provNavCourses', view: 'provTabCourses' },
+        'analytics': { nav: 'provNavAnalytics', view: 'provTabClicks' }
+      };
+
+      const selected = tabMap[tab] || tabMap['gap-analytics'];
+
+      // Nav items active class
+      ['provNavGap', 'provNavCourses', 'provNavAnalytics'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+      const activeNav = document.getElementById(selected.nav);
+      if (activeNav) activeNav.classList.add('active');
+
+      // Views
+      ['provTabGapAnalytics', 'provTabCourses', 'provTabClicks'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      const activeView = document.getElementById(selected.view);
+      if (activeView) activeView.style.display = 'block';
+
+      if (tab === 'gap-analytics') {
+        renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
+      } else if (tab === 'courses') {
+        renderProviderCoursesTable();
+      }
+    }
+
+    function renderProviderSkillsTable(industry = 'all') {
+      const tbody = document.getElementById('provSkillsTbody');
+      if (!tbody) return;
+
+      const filtered = PROV_SKILLS_DATA.filter(s => {
+        if (!industry || industry === 'all') return true;
+        return s.industry === industry || s.industry === 'all';
+      });
+
+      tbody.innerHTML = filtered.map((item, idx) => {
+        const rank = idx + 1;
+        const isTop3 = rank <= 3;
+        const rankHtml = isTop3 
+          ? `<div style="width:30px; height:30px; border-radius:50%; background:#0d5f57; color:#ffffff; font-weight:900; font-size:12px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(13,95,87,0.25)">${rank}</div>`
+          : `<div style="width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#64748b; font-size:13.5px">${rank}</div>`;
+
+        return `
+          <tr style="border-bottom:1px solid #f8fafc">
+            <td style="padding:14px 8px">${rankHtml}</td>
+            <td style="padding:14px 14px">
+              <div style="font-weight:800; color:#0f172a; font-size:14px">${item.name}</div>
+              <div style="font-size:11.5px; color:#94a3b8; font-weight:600; margin-top:2px">${item.industryLabel}</div>
+            </td>
+            <td style="padding:14px 14px; font-weight:700; color:#334155">${item.demand}%</td>
+            <td style="padding:14px 14px; font-weight:700; color:#334155">${item.supply}%</td>
+            <td style="padding:14px 14px">
+              <div style="display:flex; align-items:center; gap:12px">
+                <div style="flex:1; background:#f1f5f9; border-radius:9999px; height:8px; overflow:hidden; max-width:130px">
+                  <div style="background:${item.color}; height:100%; border-radius:9999px; width:${Math.min(100, item.gap * 1.5)}%"></div>
+                </div>
+                <span style="font-weight:800; color:#0f172a; font-size:12.5px">${item.gap}%</span>
+              </div>
+            </td>
+            <td style="padding:14px 8px; text-align:right">
+              <button onclick="provOpenAddCourseModal('${item.name}')" style="padding:6px 16px; border-radius:9999px; border:1px solid #0d5f57; background:#ffffff; color:#0d5f57; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#0d5f57';this.style.color='#fff'" onmouseout="this.style.background='#fff';this.style.color='#0d5f57'">
+                + Tạo khóa học bù đắp
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function provFilterSkills(val) {
+      renderProviderSkillsTable(val);
+    }
+
+    function provOpenAddCourseModal(prefillSkill = '') {
+      const modal = document.getElementById('provAddCourseModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+
+      if (prefillSkill) {
+        const skillSelect = document.getElementById('provModalSkill');
+        if (skillSelect) {
+          for (let opt of skillSelect.options) {
+            if (opt.value === prefillSkill || opt.text.toLowerCase().includes(prefillSkill.toLowerCase())) {
+              skillSelect.value = opt.value;
+              break;
+            }
+          }
+        }
+        const titleInput = document.getElementById('provModalTitle');
+        if (titleInput) {
+          titleInput.value = `${prefillSkill} thực chiến & ứng dụng`;
+        }
+      }
+    }
+
+    function provCloseAddCourseModal() {
+      const modal = document.getElementById('provAddCourseModal');
+      if (modal) modal.style.display = 'none';
+      const form = document.getElementById('provAddCourseForm');
+      if (form) form.reset();
+    }
+
+    function provSubmitNewCourse(event) {
+      if (event) event.preventDefault();
+
+      const skill = document.getElementById('provModalSkill')?.value || 'Python';
+      const title = document.getElementById('provModalTitle')?.value?.trim();
+      const platform = document.getElementById('provModalPlatform')?.value?.trim() || 'Mekong Skills';
+      const priority = document.getElementById('provModalPriority')?.value || '1 (cao nhất)';
+      const url = document.getElementById('provModalUrl')?.value?.trim() || '';
+
+      if (!title) {
+        alert('Vui lòng nhập tên khóa học');
+        return;
+      }
+
+      const newCourse = {
+        id: Date.now(),
+        title: title,
+        skill: skill,
+        platform: platform,
+        priority: priority,
+        url: url,
+        status: 'pending',
+        clicks: 0
+      };
+
+      provCoursesList.unshift(newCourse);
+      provCloseAddCourseModal();
+      renderProviderCoursesTable();
+
+      alert(`Đã thêm khóa học "${title}" thành công!\nTrạng thái: Chờ duyệt (sẽ được AI phân phối sau khi duyệt).`);
+      switchProvTab('courses');
+    }
+
+    function renderProviderCoursesTable() {
+      const tbody = document.getElementById('provCoursesTbody');
+      if (!tbody) return;
+
+      const activeCount = provCoursesList.filter(c => c.status === 'active').length;
+      const pendingCount = provCoursesList.filter(c => c.status === 'pending').length;
+
+      const summary = document.getElementById('provCoursesSummaryText');
+      if (summary) {
+        summary.innerHTML = `<strong>${activeCount}</strong> đang phân phối · <strong>${pendingCount}</strong> chờ duyệt`;
+      }
+
+      tbody.innerHTML = provCoursesList.map(c => `
+        <tr style="border-bottom:1px solid #f8fafc">
+          <td style="padding:14px 8px; font-weight:800; color:#0f172a">
+            ${c.title}
+          </td>
+          <td style="padding:14px 14px">
+            <span style="display:inline-block; padding:3px 12px; border-radius:9999px; font-size:12px; font-weight:700; background:#f1f5f9; color:#334155">
+              ${c.skill}
+            </span>
+          </td>
+          <td style="padding:14px 14px">
+            ${c.status === 'active'
+              ? '<span style="font-size:12px; font-weight:800; color:#059669">Đang phân phối</span>'
+              : '<span style="font-size:12px; font-weight:800; color:#d97706">Chờ duyệt</span>'
+            }
+          </td>
+          <td style="padding:14px 14px; text-align:center; font-weight:800; color:#0f172a">
+            ${c.clicks || 0}
+          </td>
+          <td style="padding:14px 8px; text-align:right">
+            <button onclick="provDeleteCourseItem(${c.id})" style="padding:4px 14px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#64748b; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s" onmouseover="this.style.borderColor='#f43f5e';this.style.color='#e11d48'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#64748b'">
+              Xóa
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function provDeleteCourseItem(id) {
+      if (confirm('Bạn có chắc chắn muốn xóa khóa học này?')) {
+        provCoursesList = provCoursesList.filter(c => c.id !== id);
+        renderProviderCoursesTable();
+      }
+    }
+
     function openProfileModal() {
       const modal = document.getElementById('profileModal');
       if (!modal) return;
@@ -8529,9 +10818,9 @@
     function quickLoginRole(role) {
       const profiles = {
         admin: { id: 1, username: 'admin', full_name: 'Admin Tổng', role: 'admin', email: 'admin@skillgap.local', is_guest: false },
-        employer: { id: 2, username: 'employer_demo', full_name: 'FPT Software HR', role: 'employer', email: 'hr@fpt.com', company_name: 'FPT Software Cần Thơ', is_guest: false },
+        employer: { id: 2, username: 'employer_demo', full_name: 'Nguyễn Minh Khoa', role: 'employer', email: 'hr@mekongtech.com', company_name: 'Mekong Tech', is_guest: false },
         candidate: { id: 3, username: 'candidate_demo', full_name: 'Nguyễn Văn A', role: 'candidate', email: 'sinhvien@ctu.edu.vn', is_guest: false },
-        provider: { id: 4, username: 'provider_demo', full_name: 'Coursera Partner', role: 'provider', email: 'training@coursera.org', is_guest: false }
+        provider: { id: 4, username: 'provider_demo', full_name: 'Trần Thanh Hải', company_name: 'Mekong Skills', role: 'provider', email: 'training@mekongskills.vn', is_guest: false }
       };
       currentUser = profiles[role] || profiles.admin;
       localStorage.setItem('current_user', JSON.stringify(currentUser));
