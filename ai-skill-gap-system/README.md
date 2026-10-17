@@ -66,6 +66,8 @@ ai-skill-gap-system/
 │           └── models/            ← SQLAlchemy models
 │
 └── 📁 apps/                       ← Frontend
+    ├── 📁 auth-web/               ← 🎃 Cổng Đăng nhập / Đăng ký (Halloween theme)
+    │   └── index.html
     ├── 📁 admin-web-dashboard/    ← ⭐ Dashboard chính (HTML + Chart.js)
     │   └── index.html
     └── 📁 mobile-survey-app/      ← App khảo sát sinh viên
@@ -104,9 +106,36 @@ docker-compose up -d
 
 | Dịch vụ | URL |
 |---|---|
+| 🎃 **Đăng Nhập / Đăng Ký (Auth Web)** | http://localhost:8081 |
 | 🖥️ **Dashboard** | http://localhost:8080 |
 | ⚡ **API Docs (Swagger)** | http://localhost:8000/docs |
 | 🗃️ **API Redoc** | http://localhost:8000/redoc |
+
+---
+
+## 🔐 Đăng Nhập & Phân Quyền
+
+Hệ thống sử dụng cơ chế xác thực tập trung qua JWT lưu trong Cookie HttpOnly (`SameSite=Lax`, hết hạn 8 giờ) với 4 chức vụ người dùng:
+
+### 1. Bảng phân quyền 4 chức vụ
+| Chức vụ | Vai trò (`users.role`) | Đăng ký trực tuyến | Quyền hạn trên hệ thống |
+|---|---|---|---|
+| **ADMIN** | `admin` | ❌ (Chỉ tạo thủ công) | Toàn quyền quản trị hệ thống, duyệt đối tác, xem tất cả menu |
+| **Người lao động** | `worker` | ✅ | Xem Dashboard, Kỹ năng mềm, Kỹ năng ngành, Gợi ý nghề nghiệp & phân tích CV |
+| **Nhà tuyển dụng** | `employer` | ✅ (Chờ duyệt) | Xem Dashboard, Kỹ năng mềm, Kỹ năng ngành, Quản lý tin tuyển dụng |
+| **Đơn vị đào tạo** | `course_provider` | ✅ (Chờ duyệt) | Xem Dashboard, Kỹ năng mềm, Kỹ năng ngành, Quản lý khóa học |
+
+### 2. Quy tắc đăng ký
+- Chỉ cho phép đăng ký trực tuyến 3 chức vụ: **Người lao động**, **Nhà tuyển dụng**, **Đơn vị đào tạo**.
+- Mọi nỗ lực gửi `role="admin"` qua API đều bị từ chối với mã lỗi `403 Forbidden`.
+- Tài khoản **Nhà tuyển dụng** và **Đơn vị đào tạo** sau khi đăng ký sẽ ở trạng thái chờ duyệt (`is_verified = 0`).
+
+### 3. Cách tạo tài khoản Admin
+Khởi tạo tài khoản Quản trị viên thông qua dòng lệnh bằng Docker Compose (mật khẩu nhập ẩn an toàn bằng `getpass` và băm `bcrypt`):
+```bash
+docker compose exec core-api python src/scripts/create_admin.py
+```
+
 
 ---
 

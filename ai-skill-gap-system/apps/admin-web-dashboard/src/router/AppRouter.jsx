@@ -1,9 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// ── 0. PUBLIC AUTH PAGES ──
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
+// ── 0. PUBLIC AUTH PAGES ── (Old login/register pages removed to use apps/auth-web)
 
 // ── 1. LAYOUTS ──
 import CandidateLayout from '../layouts/CandidateLayout';
@@ -40,11 +38,9 @@ import GuestGuard from '../components/guards/GuestGuard';
 export default function AppRouter() {
   return (
     <Routes>
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* CỤM 1: PUBLIC AUTH ROUTES (Không bị bọc bởi bất kỳ Guard nào)      */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      {/* CỤM 1: AUTH ROUTES REDIRECT TO AUTH-WEB (http://localhost:8081) */}
+      <Route path="/login" element={<Navigate to="/" replace />} />
+      <Route path="/register" element={<Navigate to="/" replace />} />
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* CỤM 2: CANDIDATE PORTAL (Dành cho Sinh viên/Người lao động/Khách)  */}

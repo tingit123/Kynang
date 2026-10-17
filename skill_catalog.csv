@@ -1,0 +1,62 @@
+﻿id,skill_name,industry,demand_pct,supply_pct,gap_pct,trend_pct,updated_at
+1,Python,IT,29.4,21.1,8.3,+29%,2026-10-02 16:01:09
+2,FastAPI,IT,6.3,20.0,-13.7,-36%,2026-10-02 16:01:09
+3,Docker,IT,21.1,20.0,1.1,+24%,2026-10-02 16:01:09
+4,SQL,IT,52.0,20.0,32.0,+37%,2026-10-02 16:01:09
+5,Git,IT,47.7,21.1,26.6,+5%,2026-10-02 16:01:09
+6,REST API,IT,13.4,19.4,-6.0,-41%,2026-10-02 16:01:09
+7,JavaScript,IT,26.6,17.7,8.9,+25%,2026-10-02 16:01:09
+8,TypeScript,IT,19.4,17.1,2.3,+36%,2026-10-02 16:01:09
+9,ReactJS,IT,19.4,25.1,-5.7,-45%,2026-10-02 16:01:09
+10,Node.js,IT,10.3,14.9,-4.6,-45%,2026-10-02 16:01:09
+11,Data Analysis,IT,52.3,18.3,34.0,+19%,2026-10-02 16:01:09
+12,Power BI,IT,18.0,13.7,4.3,+41%,2026-10-02 16:01:09
+13,Machine Learning,IT,8.3,20.0,-11.7,-21%,2026-10-02 16:01:09
+14,AI Ethics,IT,8.3,16.6,-8.3,-6%,2026-10-02 16:01:09
+15,Linux,IT,33.4,14.9,18.5,+26%,2026-10-02 16:01:09
+16,CI/CD,IT,6.6,14.3,-7.7,-42%,2026-10-02 16:01:09
+17,Cloud Computing,IT,6.6,19.4,-12.8,-45%,2026-10-02 16:01:09
+18,Software Testing,IT,8.3,20.0,-11.7,-40%,2026-10-02 16:01:09
+19,Automated Testing,IT,8.3,24.6,-16.3,-7%,2026-10-02 16:01:09
+20,Database Administration,IT,9.1,20.6,-11.5,-13%,2026-10-02 16:01:09
+21,Network Security,IT,9.7,16.0,-6.3,-32%,2026-10-02 16:01:09
+22,Define Technical Requirements,IT,8.9,14.9,-6.0,-5%,2026-10-02 16:01:09
+23,Systems Development Life-Cycle,IT,8.9,15.4,-6.5,-15%,2026-10-02 16:01:09
+24,Tour Operations,Du lịch,36.0,30.4,5.6,+44%,2026-10-02 16:01:09
+25,Customer Service,Du lịch,115.2,28.0,87.2,+21%,2026-10-02 16:01:09
+26,Hotel Management,Du lịch,10.0,32.0,-22.0,-22%,2026-10-02 16:01:09
+27,Hotel Booking Software,Du lịch,13.6,24.0,-10.4,-14%,2026-10-02 16:01:09
+28,Tourism Marketing,Du lịch,14.0,18.4,-4.4,-7%,2026-10-02 16:01:09
+29,Food Safety & Hygiene,Du lịch,13.2,36.0,-22.8,-19%,2026-10-02 16:01:09
+30,Customer Complaint Handling,Du lịch,23.2,35.2,-12.0,-10%,2026-10-02 16:01:09
+31,Ecotourism Development,Du lịch,11.6,29.6,-18.0,-27%,2026-10-02 16:01:09
+32,Interpersonal Skills,Du lịch,13.6,32.0,-18.4,-38%,2026-10-02 16:01:09
+33,International Trade Regulations,Logistics,13.5,25.0,-11.5,-43%,2026-10-02 16:01:09
+34,Customs Compliance,Logistics,23.0,29.0,-6.0,-13%,2026-10-02 16:01:09
+35,Warehouse Management,Logistics,26.0,25.0,1.0,+26%,2026-10-02 16:01:09
+36,Inventory Control,Logistics,48.0,24.0,24.0,+38%,2026-10-02 16:01:09
+37,Fleet Management,Logistics,9.0,29.0,-20.0,-22%,2026-10-02 16:01:09
+38,Transport Route Planning,Logistics,9.0,23.0,-14.0,-44%,2026-10-02 16:01:09
+39,Logistics Software,Logistics,9.0,29.0,-20.0,-6%,2026-10-02 16:01:09
+40,Supply Chain Management,Logistics,6.5,29.0,-22.5,-34%,2026-10-02 16:01:09
+41,Demand Forecasting,Logistics,6.5,26.0,-19.5,-17%,2026-10-02 16:01:09
+42,Freight Forwarding,Logistics,19.0,26.0,-7.0,-24%,2026-10-02 16:01:09
+43,Cold Chain Logistics,Logistics,11.0,21.0,-10.0,-14%,2026-10-02 16:01:09
+44,ERP / SAP,Logistics,34.5,20.0,14.5,+7%,2026-10-02 16:01:09
+45,Financial Statements,Kinh tế,58.5,30.0,28.5,+19%,2026-10-02 16:01:09
+46,Tax Compliance,Kinh tế,31.5,28.0,3.5,+11%,2026-10-02 16:01:09
+47,Accounting Software (MISA),Kinh tế,25.0,34.0,-9.0,-41%,2026-10-02 16:01:09
+48,Financial Analysis,Kinh tế,28.5,28.0,0.5,+33%,2026-10-02 16:01:09
+49,Financial Management,Kinh tế,6.5,36.0,-29.5,-34%,2026-10-02 16:01:09
+50,Internal Auditing,Kinh tế,10.0,31.0,-21.0,-35%,2026-10-02 16:01:09
+51,Cost Accounting,Kinh tế,13.0,30.0,-17.0,-23%,2026-10-02 16:01:09
+52,Cash Flow Modeling,Kinh tế,28.5,34.0,-5.5,-39%,2026-10-02 16:01:09
+53,Excel,Kinh tế,43.0,31.0,12.0,+32%,2026-10-02 16:01:09
+54,English,Tất cả,45.0,23.2,21.8,+34%,2026-10-02 16:01:09
+55,Communication,Tất cả,29.6,25.6,4.0,+28%,2026-10-02 16:01:09
+56,Problem Solving,Tất cả,42.6,28.6,14.0,+44%,2026-10-02 16:01:09
+57,Teamwork,Tất cả,29.2,25.0,4.2,+28%,2026-10-02 16:01:09
+58,Leadership,Tất cả,7.1,27.2,-20.1,-12%,2026-10-02 16:01:09
+59,Negotiation,Tất cả,8.9,24.0,-15.1,-24%,2026-10-02 16:01:09
+60,Time Management,Tất cả,0.0,26.6,-26.6,-9%,2026-10-02 16:01:09
+61,Critical Thinking,Tất cả,0.0,26.2,-26.2,-37%,2026-10-02 16:01:09

@@ -1,0 +1,222 @@
+/* ==========================================================================
+   auth.css – Định dạng bổ trợ cho Chức năng Đăng nhập / Đăng ký SkillGap AI
+   Tái sử dụng các biến và class sẵn có từ style.css
+   ========================================================================== */
+
+/* ── 1. Chuyển đổi View Đăng nhập & Đăng ký ── */
+.auth-view {
+  display: block;
+  animation: authFadeIn 240ms ease-out;
+}
+
+.auth-view[hidden] {
+  display: none !important;
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── 2. Cuộn mượt cho Form khi view dài (đặc biệt trên màn hình nhỏ) ── */
+.form-panel {
+  max-height: 92svh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(20, 141, 157, 0.4) transparent;
+}
+
+.form-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+.form-panel::-webkit-scrollbar-thumb {
+  background: rgba(20, 141, 157, 0.4);
+  border-radius: 4px;
+}
+
+body.night .form-panel {
+  scrollbar-color: rgba(182, 123, 72, 0.4) transparent;
+}
+
+body.night .form-panel::-webkit-scrollbar-thumb {
+  background: rgba(182, 123, 72, 0.4);
+}
+
+/* ── 3. Chọn chức vụ đăng ký (Role Chips) ── */
+.role-selector-label {
+  display: block;
+  margin: 0 0 8px 4px;
+  color: #173e4b;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+body.night .role-selector-label {
+  color: #f5f8fa;
+}
+
+.role-chips {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.role-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  border: 1px solid rgba(23, 62, 75, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  color: #173e4b;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 180ms ease;
+  user-select: none;
+}
+
+.role-chip .chip-icon {
+  font-size: 18px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.role-chip:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: #148d9d;
+  transform: translateY(-1px);
+}
+
+.role-chip.active {
+  border-color: #148d9d;
+  background: linear-gradient(135deg, rgba(20, 141, 157, 0.16), rgba(19, 106, 123, 0.08));
+  color: #0f5c6b;
+  box-shadow: 0 0 0 2px rgba(20, 141, 157, 0.35);
+}
+
+body.night .role-chip {
+  border-color: rgba(172, 119, 74, 0.35);
+  background: rgba(32, 23, 43, 0.65);
+  color: #e2e8f0;
+}
+
+body.night .role-chip:hover {
+  background: rgba(48, 35, 64, 0.8);
+  border-color: #c48a50;
+}
+
+body.night .role-chip.active {
+  border-color: #e6a86c;
+  background: linear-gradient(135deg, rgba(184, 117, 71, 0.32), rgba(138, 82, 42, 0.18));
+  color: #ffecd6;
+  box-shadow: 0 0 0 2px rgba(230, 168, 108, 0.4);
+}
+
+/* ── 4. Nhóm trường động theo vai trò ── */
+.role-field-group {
+  display: block;
+  animation: authFadeIn 180ms ease;
+}
+
+.role-field-group[hidden] {
+  display: none !important;
+}
+
+/* Textarea tái dùng style của input */
+.field textarea {
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 14px;
+  border: 1px solid rgba(23, 62, 75, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  color: #173e4b;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  resize: vertical;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(15, 50, 69, 0.04);
+}
+
+.field textarea:focus {
+  border-color: #238997;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(20, 129, 144, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.field textarea::placeholder {
+  color: #526f7b;
+}
+
+body.night .field textarea {
+  border-color: rgba(172, 119, 74, 0.27);
+  background-color: rgba(32, 23, 43, 0.68);
+  color: #f5f8fa;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 8, 20, 0.06);
+}
+
+body.night .field textarea::placeholder {
+  color: #b1c7d4;
+}
+
+/* ── 5. Trạng thái nút bấm & Trạng thái phản hồi ── */
+.submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.status.error {
+  color: #c53030 !important;
+  font-weight: 600;
+}
+
+body.night .status.error {
+  color: #fc8181 !important;
+}
+
+.status.success {
+  color: #276749 !important;
+  font-weight: 600;
+}
+
+body.night .status.success {
+  color: #68d391 !important;
+}
+
+/* ── 6. Tối ưu cho thiết bị di động ── */
+@media (max-width: 640px) {
+  .role-chips {
+    gap: 6px;
+  }
+  .role-chip {
+    padding: 8px 4px;
+    font-size: 11.5px;
+  }
+  .role-chip .chip-icon {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-view,
+  .role-field-group {
+    animation: none !important;
+  }
+}

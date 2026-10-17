@@ -5843,6 +5843,14 @@
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                 Trang Quản Trị Hệ Thống (/admin)
               </button>
+              <button class="user-menu-item" id="publicMenuEmployerPortal" onclick="navigate('/employer/dashboard'); if(document.getElementById('publicUserDropdown')) document.getElementById('publicUserDropdown').classList.remove('show');" style="display:none;color:#059669;font-weight:700">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+                Cổng Nhà Tuyển Dụng (/employer)
+              </button>
+              <button class="user-menu-item" id="publicMenuProviderPortal" onclick="navigate('/provider/gap-analytics'); if(document.getElementById('publicUserDropdown')) document.getElementById('publicUserDropdown').classList.remove('show');" style="display:none;color:#7c3aed;font-weight:700">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                Cổng Đào Tạo Khóa Học (/provider)
+              </button>
               <div style="height:1px;background:var(--border);margin:4px 0"></div>
               <button class="user-menu-item logout" onclick="handleLogout()">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -6275,6 +6283,15 @@
     </div>
   </div>
 
+  <!-- ══ GIAO DIỆN HALLOWEEN AUTH MODAL (ĐĂNG NHẬP & ĐĂNG KÝ HALLOWEEN) ══ -->
+  <div id="halloweenAuthModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;background:rgba(5,15,15,0.95);backdrop-filter:blur(8px);align-items:center;justify-content:center;transition:all 0.3s ease">
+    <!-- Nút Đóng Modal Halloween (✕) góc trên bên phải -->
+    <button onclick="closeHalloweenAuthModal()" title="Đóng giao diện Halloween và quay lại Dashboard" style="position:fixed;top:18px;right:24px;z-index:1000000;background:rgba(20,20,30,0.85);border:2px solid rgba(255,165,0,0.6);color:#ffffff;width:44px;height:44px;border-radius:50%;font-size:22px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.7);transition:all 0.25s ease" onmouseover="this.style.background='rgba(239,68,68,0.9)';this.style.transform='scale(1.1) rotate(90deg)'" onmouseout="this.style.background='rgba(20,20,30,0.85)';this.style.transform='scale(1) rotate(0deg)'">
+      ✕
+    </button>
+    <iframe id="halloweenAuthFrame" src="about:blank" style="width:100vw;height:100vh;border:none;display:block"></iframe>
+  </div>
+
   <!-- ══ MODAL: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ / SWITCH ROLE) ══ -->
   <div class="modal-overlay" id="authModal" style="z-index: 100020;">
     <div class="modal" style="width:min(460px,95vw);padding:24px 26px">
@@ -6341,8 +6358,16 @@
             </select>
           </div>
           <div class="form-group" id="regCompanyGroup" style="display:none">
-            <label class="form-label">Tên Công ty / Doanh nghiệp</label>
+            <label class="form-label" id="regCompanyLabel">Tên Công ty / Doanh nghiệp</label>
             <input class="form-input" id="regCompanyName" placeholder="VD: Công ty TNHH ABC Cần Thơ" />
+          </div>
+          <div class="form-group" id="regPhoneGroup" style="display:none">
+            <label class="form-label">Số điện thoại liên hệ</label>
+            <input class="form-input" id="regPhone" placeholder="VD: 0901234567" />
+          </div>
+          <div class="form-group" id="regWebsiteGroup" style="display:none">
+            <label class="form-label">Website đơn vị đào tạo (tùy chọn)</label>
+            <input class="form-input" id="regWebsite" placeholder="VD: https://mekongskills.vn" />
           </div>
           <button class="btn btn-primary" style="width:100%;margin-top:6px;padding:11px" onclick="submitRegister()">Tạo Tài Khoản Mới</button>
         </div>
@@ -6356,6 +6381,109 @@
   </div>
 
   <script>
+    // ══════════════════════════════════════════════════════════════════
+    //  MỤC 10: SCRIPT BẢO VỆ DASHBOARD & MA TRẬN PHÂN QUYỀN
+    // ══════════════════════════════════════════════════════════════════
+    const DASHBOARD_AUTH = {
+      API_BASE: 'http://localhost:8000',
+      AUTH_URL: 'http://localhost:8081',
+      // Ma trận phân quyền hiển thị menu theo chức vụ
+      MENU_PERMISSIONS: {
+        admin:           ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-recommend', 'nav-cv-upload', 'nav-workers', 'nav-employers', 'nav-courses', 'nav-admin'],
+        worker:          ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-recommend', 'nav-cv-upload'],
+        candidate:       ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-recommend', 'nav-cv-upload'],
+        employer:        ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-employers'],
+        course_provider: ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-courses'],
+        provider:        ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-courses']
+      }
+    };
+
+    let authCheckedUser = null;
+
+    async function checkAuthAndProtectDashboard() {
+      try {
+        const res = await fetch(`${DASHBOARD_AUTH.API_BASE}/api/auth/me`, {
+          method: 'GET',
+          credentials: 'include'
+        });
+
+        if (res.status === 401 || !res.ok) {
+          // Khách chưa đăng nhập: giữ nguyên trang chủ, hiển thị nút ĐĂNG NHẬP / ĐĂNG KÝ
+          currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+          updateUserUI();
+          return;
+        }
+
+        const user = await res.json();
+        authCheckedUser = user;
+
+        // Lưu thông tin user để đồng bộ
+        currentUser = {
+          id: user.user_id,
+          user_id: user.user_id,
+          email: user.email,
+          role: user.role,
+          full_name: user.display_name,
+          display_name: user.display_name,
+          is_verified: user.is_verified,
+          is_guest: false
+        };
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+
+        updateUserUI();
+        applyRoleGuards();
+
+        // Hiển thị tên, chức vụ và ẩn nút Guest
+        const guestArea = document.getElementById('topbarGuestArea');
+        if (guestArea) guestArea.style.setProperty('display', 'none', 'important');
+        const userArea = document.getElementById('topbarUserArea');
+        if (userArea) userArea.style.display = 'flex';
+
+        const topName = document.getElementById('topUserName');
+        if (topName) topName.textContent = user.display_name;
+        const topRole = document.getElementById('topUserRoleBadge');
+        if (topRole) topRole.textContent = String(user.role).toUpperCase();
+
+        const dropName = document.getElementById('userDropdownName');
+        if (dropName) dropName.textContent = user.display_name;
+        const dropRole = document.getElementById('userDropdownRole');
+        if (dropRole) dropRole.textContent = `Vai trò: ${user.role}`;
+
+        // Phân quyền hiển thị menu (Phân quyền thực tế được bảo vệ độc lập tại Backend API)
+        const allowed = DASHBOARD_AUTH.MENU_PERMISSIONS[user.role] || DASHBOARD_AUTH.MENU_PERMISSIONS.worker;
+        const allNavs = ['nav-dashboard', 'nav-softskills', 'nav-industry', 'nav-recommend', 'nav-cv-upload', 'nav-workers', 'nav-employers', 'nav-courses', 'nav-admin'];
+        allNavs.forEach(navId => {
+          const el = document.getElementById(navId);
+          if (el) {
+            el.style.display = allowed.includes(navId) ? 'flex' : 'none';
+          }
+        });
+
+        // Banner thông báo nếu tài khoản chưa được duyệt
+        if ((user.role === 'employer' || user.role === 'course_provider' || user.role === 'provider') && !user.is_verified) {
+          let banner = document.getElementById('pending-verification-banner');
+          if (!banner) {
+            banner = document.createElement('div');
+            banner.id = 'pending-verification-banner';
+            banner.style.cssText = 'background:#fef3c7;color:#92400e;padding:12px 16px;text-align:center;font-weight:700;font-size:13px;border-bottom:1px solid #fde68a;position:sticky;top:0;z-index:9999;';
+            banner.innerHTML = '⚠️ Tài khoản của bạn đang chờ quản trị viên phê duyệt (is_verified = 0). Các chức năng quản lý chính thức sẽ được kích hoạt sau khi được phê duyệt.';
+            document.body.prepend(banner);
+          }
+        }
+      } catch (err) {
+        console.warn('Phiên đăng nhập chưa khởi tạo hoặc dùng chế độ khách:', err);
+        currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
+        updateUserUI();
+      }
+    }
+
+    // Tự động kiểm tra ngay khi tải trang
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkAuthAndProtectDashboard);
+    } else {
+      checkAuthAndProtectDashboard();
+    }
+
     // ══════════════════════════════════════════════════════
     //  MOCK DATA
     // ══════════════════════════════════════════════════════
@@ -11482,7 +11610,16 @@
           });
           if (res.ok) {
             const data = await res.json();
-            currentUser = { ...data, is_guest: false };
+            currentUser = {
+              id: data.user_id || data.id,
+              user_id: data.user_id || data.id,
+              email: data.email,
+              role: data.role,
+              full_name: data.display_name || data.full_name,
+              display_name: data.display_name || data.full_name,
+              is_verified: data.is_verified,
+              is_guest: false
+            };
             localStorage.setItem('current_user', JSON.stringify(currentUser));
           } else if (res.status === 401) {
             localStorage.removeItem('access_token');
@@ -11494,7 +11631,7 @@
           if (savedUser) {
             try {
               const parsed = JSON.parse(savedUser);
-              if (parsed && !parsed.is_guest && parsed.role !== 'guest' && parsed.username !== 'guest' && parsed.id > 0) {
+              if (parsed && !parsed.is_guest && parsed.role !== 'guest' && parsed.id > 0) {
                 currentUser = parsed;
               } else {
                 currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
@@ -11507,7 +11644,7 @@
       } else if (savedUser) {
         try {
           const parsed = JSON.parse(savedUser);
-          if (parsed && !parsed.is_guest && parsed.role !== 'guest' && parsed.username !== 'guest' && parsed.id > 0) {
+          if (parsed && !parsed.is_guest && parsed.role !== 'guest' && parsed.id > 0) {
             currentUser = parsed;
           } else {
             currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
@@ -11557,46 +11694,49 @@
 
         if (avatarEl) avatarEl.textContent = initials;
         if (nameEl) nameEl.textContent = name;
-        if (roleBadgeEl) {
-          const shortRoleMap = { admin: 'Admin', employer: 'Nhà tuyển dụng', candidate: 'Ứng viên', provider: 'Đào tạo' };
-          roleBadgeEl.textContent = shortRoleMap[currentUser.role] || currentUser.role;
-        }
-        if (dropdownName) dropdownName.textContent = name;
-        if (dropdownRole) {
-          const roleLabels = {
-            admin: '👑 Quản trị viên (admin)',
-            employer: '🏢 Nhà tuyển dụng (employer)',
-            candidate: '🎓 Ứng viên / Sinh viên (candidate)',
-            provider: '📚 Nhà đào tạo (provider)'
-          };
-          dropdownRole.textContent = roleLabels[currentUser.role] || currentUser.role;
-        }
+        // Định danh nhãn chức vụ chuẩn hóa cho 4 vai trò
+        const standardRoleMap = {
+          admin: '👑 Quản trị viên (Admin)',
+          worker: '🎓 Người lao động (Worker)',
+          candidate: '🎓 Người lao động (Worker)',
+          employer: '🏢 Nhà tuyển dụng (Employer)',
+          course_provider: '📚 Đơn vị đào tạo (Course Provider)',
+          provider: '📚 Đơn vị đào tạo (Provider)'
+        };
+        const currentRole = String(currentUser.role || 'guest').toLowerCase().trim().replace('userrole.', '');
+        const roleLabel = standardRoleMap[currentRole] || `Vai trò: ${currentUser.role}`;
 
-        // 2. Public Topbar (Micro-task 2.3)
+        if (roleBadgeEl) roleBadgeEl.textContent = roleLabel;
+        if (dropdownName) dropdownName.textContent = name;
+        if (dropdownRole) dropdownRole.textContent = roleLabel;
+
+        // 2. Public Topbar (Header chính của hệ thống)
         const pubAvatar = document.getElementById('publicUserAvatar');
         const pubName = document.getElementById('publicUserName');
         const pubDropdownName = document.getElementById('publicDropdownFullName');
         const pubDropdownRole = document.getElementById('publicDropdownRoleBadge');
         const pubMenuAdmin = document.getElementById('publicMenuAdminPortal');
+        const pubMenuEmp = document.getElementById('publicMenuEmployerPortal');
+        const pubMenuProv = document.getElementById('publicMenuProviderPortal');
         const pubMenuProfile = document.getElementById('publicMenuProfile');
 
         if (pubAvatar) pubAvatar.textContent = initials;
         if (pubName) pubName.textContent = name;
         if (pubDropdownName) pubDropdownName.textContent = name;
-        if (pubDropdownRole) {
-          const roleLabels = {
-            admin: '👑 Quản trị viên (admin)',
-            employer: '🏢 Nhà tuyển dụng (employer)',
-            candidate: '🎓 Ứng viên / Sinh viên (candidate)',
-            provider: '📚 Nhà đào tạo (provider)'
-          };
-          pubDropdownRole.textContent = roleLabels[currentUser.role] || currentUser.role;
-        }
+        if (pubDropdownRole) pubDropdownRole.textContent = roleLabel;
+
+        // Bật/tắt các lối tắt theo chức vụ trong menu
         if (pubMenuAdmin) {
-          pubMenuAdmin.style.display = (currentUser.role === 'admin') ? 'flex' : 'none';
+          pubMenuAdmin.style.display = (currentRole === 'admin') ? 'flex' : 'none';
+        }
+        if (pubMenuEmp) {
+          pubMenuEmp.style.display = (currentRole === 'employer' || currentRole === 'admin') ? 'flex' : 'none';
+        }
+        if (pubMenuProv) {
+          pubMenuProv.style.display = (currentRole === 'course_provider' || currentRole === 'provider' || currentRole === 'admin') ? 'flex' : 'none';
         }
         if (pubMenuProfile) {
-          pubMenuProfile.style.display = (currentUser.role === 'admin') ? 'none' : 'flex';
+          pubMenuProfile.style.display = (currentRole === 'admin') ? 'none' : 'flex';
         }
       }
 
@@ -11690,12 +11830,7 @@
     function handleEmployerPortalClick() {
       const isGuest = !currentUser || currentUser.is_guest || currentUser.role === 'guest' || currentUser.id === 0;
       if (isGuest) {
-        openAuthModal('register');
-        const regRole = document.getElementById('regRole');
-        if (regRole) {
-          regRole.value = 'employer';
-          toggleRegCompanyInput();
-        }
+        openAuthModal('register', 'employer');
       } else if (currentUser.role === 'employer' || currentUser.role === 'admin') {
         navigate('/employer/dashboard');
       } else {
@@ -11723,14 +11858,12 @@
     });
 
     async function handleLogout() {
-      const token = localStorage.getItem('access_token') || localStorage.getItem('token');
       try {
-        if (token) {
-          await fetch(`${API_BASE}/api/auth/logout`, {
-            method: 'POST',
-            headers: getAuthHeaders()
-          });
-        }
+        const apiBase = (typeof DASHBOARD_AUTH !== 'undefined' && DASHBOARD_AUTH.API_BASE) ? DASHBOARD_AUTH.API_BASE : API_BASE;
+        await fetch(`${apiBase}/api/auth/logout`, {
+          method: 'POST',
+          headers: getAuthHeaders()
+        });
       } catch (e) {
         console.warn('Logout API:', e);
       }
@@ -11740,12 +11873,7 @@
       currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
       updateUserUI();
       applyRoleGuards();
-      const menu = document.getElementById('userDropdownMenu');
-      if (menu) menu.classList.remove('show');
-      const pubMenu = document.getElementById('publicUserDropdown');
-      if (pubMenu) pubMenu.classList.remove('show');
-      navigate('/');
-      alert('Đã đăng xuất tài khoản thành công!');
+      window.location.reload();
     }
 
     // ══════════════════════════════════════════════════════════════════
@@ -13195,15 +13323,23 @@
       }
     }
 
-    function openAuthModal(tab = 'login') {
-      const modal = document.getElementById('authModal');
-      if (!modal) return;
-      if (tab === 'register') {
-        switchAuthTab('register');
+    function openAuthModal(tab = 'login', role = '') {
+      const halloweenModal = document.getElementById('halloweenAuthModal');
+      const frame = document.getElementById('halloweenAuthFrame');
+      if (halloweenModal && frame) {
+        const viewParam = (tab === 'register') ? 'register' : 'login';
+        const roleParam = role ? `&role=${encodeURIComponent(role)}` : '';
+        frame.src = `http://localhost:8081/?view=${viewParam}${roleParam}&t=${Date.now()}`;
+        halloweenModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
       } else {
-        switchAuthTab('login');
+        const modal = document.getElementById('authModal');
+        if (modal) {
+          if (tab === 'register') switchAuthTab('register');
+          else switchAuthTab('login');
+          modal.classList.add('open');
+        }
       }
-      modal.classList.add('open');
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       const demoMenu = document.getElementById('demoDropdownMenu');
@@ -13214,16 +13350,86 @@
       if (pubDemoMenu) pubDemoMenu.style.display = 'none';
     }
 
+    function closeHalloweenAuthModal() {
+      const modal = document.getElementById('halloweenAuthModal');
+      const frame = document.getElementById('halloweenAuthFrame');
+      if (modal) modal.style.display = 'none';
+      if (frame) frame.src = 'about:blank';
+      document.body.style.overflow = '';
+    }
+
     function closeAuthModal() {
+      closeHalloweenAuthModal();
       const modal = document.getElementById('authModal');
       if (modal) modal.classList.remove('open');
     }
 
+    // Lắng nghe sự kiện đăng nhập / đăng ký thành công từ Giao diện Halloween
+    window.addEventListener('message', async (event) => {
+      if (event.data && event.data.type === 'SKILLGAP_AUTH_SUCCESS') {
+        closeHalloweenAuthModal();
+        const authData = event.data.data || {};
+        if (authData.access_token) {
+          localStorage.setItem('access_token', authData.access_token);
+          localStorage.setItem('token', authData.access_token);
+        }
+        if (authData.user) {
+          currentUser = { ...authData.user, is_guest: false };
+        } else if (authData.role) {
+          currentUser = {
+            id: authData.user_id || 1,
+            user_id: authData.user_id || 1,
+            email: authData.email || '',
+            role: authData.role,
+            full_name: authData.display_name || '',
+            display_name: authData.display_name || '',
+            is_verified: authData.is_verified,
+            is_guest: false
+          };
+        }
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+        updateUserUI();
+        applyRoleGuards();
+
+        const userRole = String(currentUser.role || 'worker').toLowerCase().trim().replace('userrole.', '');
+        if (userRole === 'admin') {
+          navigate('/admin/dashboard');
+        } else if (userRole === 'employer') {
+          navigate('/employer/dashboard');
+        } else if (userRole === 'course_provider' || userRole === 'provider') {
+          navigate('/provider/gap-analytics');
+        } else {
+          navigate('/');
+        }
+      } else if (event.data && event.data.type === 'CLOSE_HALLOWEEN_MODAL') {
+        closeHalloweenAuthModal();
+      }
+    });
+
     function toggleRegCompanyInput() {
       const role = document.getElementById('regRole').value;
-      const group = document.getElementById('regCompanyGroup');
-      if (group) {
-        group.style.display = (role === 'employer') ? 'block' : 'none';
+      const compGroup = document.getElementById('regCompanyGroup');
+      const compLabel = document.getElementById('regCompanyLabel');
+      const compInput = document.getElementById('regCompanyName');
+      const phoneGroup = document.getElementById('regPhoneGroup');
+      const webGroup = document.getElementById('regWebsiteGroup');
+
+      if (role === 'employer') {
+        if (compGroup) compGroup.style.display = 'block';
+        if (compLabel) compLabel.textContent = 'Tên Công ty / Doanh nghiệp';
+        if (compInput) compInput.placeholder = 'VD: Công ty TNHH ABC Cần Thơ';
+        if (phoneGroup) phoneGroup.style.display = 'block';
+        if (webGroup) webGroup.style.display = 'none';
+      } else if (role === 'provider' || role === 'course_provider') {
+        if (compGroup) compGroup.style.display = 'block';
+        if (compLabel) compLabel.textContent = 'Tên Trung tâm / Đơn vị đào tạo';
+        if (compInput) compInput.placeholder = 'VD: Học viện Đào tạo Kỹ năng Mekong';
+        if (phoneGroup) phoneGroup.style.display = 'none';
+        if (webGroup) webGroup.style.display = 'block';
+      } else {
+        if (compGroup) compGroup.style.display = 'none';
+        if (phoneGroup) phoneGroup.style.display = 'none';
+        if (webGroup) webGroup.style.display = 'none';
       }
     }
 
@@ -13277,12 +13483,12 @@
       if (pubDemoMenu) pubDemoMenu.style.display = 'none';
       closeAuthModal();
 
-      const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
+      const userRole = String(currentUser.role || 'worker').toLowerCase().trim().replace('userrole.', '');
       if (userRole === 'admin') {
         navigate('/admin/dashboard');
       } else if (userRole === 'employer') {
         navigate('/employer/dashboard');
-      } else if (userRole === 'provider') {
+      } else if (userRole === 'provider' || userRole === 'course_provider') {
         navigate('/provider/gap-analytics');
       } else {
         navigate('/');
@@ -13295,6 +13501,8 @@
       const password = document.getElementById('regPassword').value;
       const role = document.getElementById('regRole').value;
       const companyName = document.getElementById('regCompanyName') ? document.getElementById('regCompanyName').value.trim() : '';
+      const phone = document.getElementById('regPhone') ? document.getElementById('regPhone').value.trim() : '';
+      const website = document.getElementById('regWebsite') ? document.getElementById('regWebsite').value.trim() : '';
 
       if (!fullName) {
         alert('Vui lòng nhập họ và tên.');
@@ -13304,17 +13512,25 @@
         alert('Vui lòng nhập địa chỉ email hợp lệ.');
         return;
       }
-      if (!password || password.length < 6) {
-        alert('Mật khẩu phải có ít nhất 6 ký tự.');
+      if (!password || password.length < 8) {
+        alert('Mật khẩu phải có ít nhất 8 ký tự.');
         return;
       }
+
+      let backendRole = role;
+      if (role === 'candidate') backendRole = 'worker';
+      if (role === 'provider') backendRole = 'course_provider';
 
       const payload = {
         full_name: fullName,
         email: email,
         password: password,
-        role: role,
-        company_name: (role === 'employer') ? companyName : undefined
+        role: backendRole,
+        company_name: (role === 'employer') ? companyName : undefined,
+        contact_name: (role === 'employer') ? fullName : undefined,
+        phone: (role === 'employer') ? phone : undefined,
+        provider_name: (role === 'provider' || role === 'course_provider') ? (companyName || fullName) : undefined,
+        website: (role === 'provider' || role === 'course_provider') ? website : undefined
       };
 
       try {
@@ -13341,19 +13557,30 @@
               }
               if (data.user) {
                 currentUser = { ...data.user, is_guest: false };
-                localStorage.setItem('current_user', JSON.stringify(currentUser));
+              } else {
+                currentUser = {
+                  id: data.user_id || 1,
+                  user_id: data.user_id || 1,
+                  email: data.email || email,
+                  role: data.role || role,
+                  full_name: data.display_name || fullName,
+                  display_name: data.display_name || fullName,
+                  is_verified: data.is_verified,
+                  is_guest: false
+                };
               }
+              localStorage.setItem('current_user', JSON.stringify(currentUser));
               updateUserUI();
               applyRoleGuards();
               closeAuthModal();
-              alert(`Chào mừng ${currentUser.full_name}! Bạn đã đăng nhập thành công.`);
+              alert(`Chào mừng ${currentUser.full_name || currentUser.display_name}! Bạn đã đăng nhập thành công.`);
 
               const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
               if (userRole === 'admin') {
                 navigate('/admin/dashboard');
               } else if (userRole === 'employer') {
                 navigate('/employer/dashboard');
-              } else if (userRole === 'provider') {
+              } else if (userRole === 'provider' || userRole === 'course_provider') {
                 navigate('/provider/gap-analytics');
               } else {
                 navigate('/');
@@ -13399,19 +13626,30 @@
           }
           if (data.user) {
             currentUser = { ...data.user, is_guest: false };
-            localStorage.setItem('current_user', JSON.stringify(currentUser));
+          } else {
+            currentUser = {
+              id: data.user_id || 1,
+              user_id: data.user_id || 1,
+              email: data.email || u,
+              role: data.role || 'candidate',
+              full_name: data.display_name || u,
+              display_name: data.display_name || u,
+              is_verified: data.is_verified,
+              is_guest: false
+            };
           }
+          localStorage.setItem('current_user', JSON.stringify(currentUser));
           updateUserUI();
           applyRoleGuards();
           closeAuthModal();
-          alert(`Đăng nhập thành công! Xin chào ${currentUser.full_name || currentUser.username}`);
+          alert(`Đăng nhập thành công! Xin chào ${currentUser.full_name || currentUser.username || currentUser.display_name}`);
 
           const userRole = String(currentUser.role || 'candidate').toLowerCase().trim().replace('userrole.', '');
           if (userRole === 'admin') {
             navigate('/admin/dashboard');
           } else if (userRole === 'employer') {
             navigate('/employer/dashboard');
-          } else if (userRole === 'provider') {
+          } else if (userRole === 'provider' || userRole === 'course_provider') {
             navigate('/provider/gap-analytics');
           } else {
             navigate('/');
