@@ -2917,29 +2917,49 @@
     /* CANDIDATE TEAL THEME (Matching user's screenshots exactly) */
     /* ══════════════════════════════════════════════════════════ */
     body.candidate-purple-theme {
+      --sidebar-w: 0px !important;
       background: #094741 !important;
       background: radial-gradient(ellipse at 50% 0%, #0d6e64 0%, #0a564e 35%, #073b36 70%, #052c28 100%) !important;
       background-attachment: fixed !important;
       color: #ffffff !important;
       font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
     }
+    body.candidate-purple-theme #adminLayout {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
     body.candidate-purple-theme .shell {
       display: block !important;
       width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     body.candidate-purple-theme .main,
     body.candidate-purple-theme #main {
       margin-left: 0 !important;
-      padding-top: 135px !important;
+      margin-right: 0 !important;
+      margin: 0 auto !important;
+      padding-top: 140px !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
       background: transparent !important;
       width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
       min-height: 100vh !important;
       display: flex !important;
       flex-direction: column !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
     }
     body.candidate-purple-theme #sidebar,
     body.candidate-purple-theme .sidebar {
       display: none !important;
+      width: 0 !important;
     }
     body.candidate-purple-theme .topbar {
       display: none !important;
@@ -3050,24 +3070,21 @@
     body.candidate-purple-theme .page {
       display: none !important;
     }
-    body.candidate-purple-theme .page.active {
+    body.candidate-purple-theme .page.active,
+    body.candidate-purple-theme #page-recommend.active,
+    body.candidate-purple-theme #page-industry.active,
+    body.candidate-purple-theme #page-candidate-jobs.active,
+    body.candidate-purple-theme #page-dashboard.active,
+    body.candidate-purple-theme #page-cv-upload.active,
+    body.candidate-purple-theme #page-courses.active,
+    body.candidate-purple-theme #page-softskills.active {
       display: flex !important;
       flex-direction: column !important;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 24px 16px 80px;
-      width: 100%;
-      box-sizing: border-box;
-      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
-    }
-    body.candidate-purple-theme #page-recommend.active {
-      display: flex !important;
-      flex-direction: column !important;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 30px 16px 80px;
-      width: 100%;
-      box-sizing: border-box;
+      max-width: 1320px !important;
+      margin: 0 auto !important;
+      padding: 24px 24px 80px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
       font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
     }
     body.candidate-purple-theme #page-recommend .diag-card {
@@ -7927,8 +7944,9 @@
         if (adminTopbar) adminTopbar.style.display = 'none';
         if (mainEl) {
           mainEl.style.marginLeft = '0px';
-          mainEl.style.paddingTop = '120px';
+          mainEl.style.paddingTop = '140px';
           mainEl.style.width = '100%';
+          mainEl.style.maxWidth = '100%';
         }
 
         updateCandidateNavLinks(currentPath);
