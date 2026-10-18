@@ -6568,8 +6568,18 @@
     </div>
   </div>
 
-  <!-- ══ GIAO DIỆN HALLOWEEN AUTH MODAL (ĐÃ VÔ HIỆU HÓA HOÀN TOÀN ĐỂ SỬ DỤNG AUTH MODAL CHUẨN CỦA HỆ THỐNG) ══ -->
-  <div id="halloweenAuthModal" style="display:none !important;pointer-events:none !important;width:0 !important;height:0 !important;overflow:hidden;position:fixed;top:0;left:0;z-index:-1"></div>
+  <!-- ══ GIAO DIỆN HALLOWEEN AUTH MODAL (ĐĂNG NHẬP & ĐĂNG KÝ HALLOWEEN CỦA LỘC) ══ -->
+  <div id="halloweenAuthModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;background:rgba(5,15,15,0.95);backdrop-filter:blur(8px);align-items:center;justify-content:center;transition:all 0.3s ease">
+    <!-- Nút Đóng Modal Halloween (✕) góc trên bên phải -->
+    <button type="button" onclick="closeHalloweenAuthModal()" title="Đóng giao diện Halloween và quay lại Dashboard" style="position:fixed;top:20px;right:25px;z-index:1000000;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.5);transition:all 0.2s" onmouseover="this.style.background='rgba(239,68,68,0.85)';this.style.borderColor='#ef4444'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.borderColor='rgba(255,255,255,0.3)'">✕</button>
+
+    <!-- Nút chuyển sang modal tiêu chuẩn dự phòng -->
+    <button type="button" onclick="switchToStandardAuthModal()" title="Mở đăng nhập cơ bản" style="position:fixed;bottom:20px;right:25px;z-index:1000000;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.3);color:#e2e8f0;padding:8px 16px;border-radius:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px">
+      <span>Đăng nhập cơ bản</span>
+    </button>
+
+    <iframe id="halloweenAuthFrame" src="about:blank" style="width:100vw;height:100vh;border:none;display:block"></iframe>
+  </div>
 
   <!-- ══ MODAL: AUTH (ĐĂNG NHẬP / ĐĂNG KÝ / SWITCH ROLE) ══ -->
   <div class="modal-overlay" id="authModal" onclick="if(event.target===this) closeAuthModal()" style="z-index: 100020;">
@@ -13664,26 +13674,18 @@
     }
 
     function openAuthModal(tab = 'login', role = '') {
-      closeHalloweenAuthModal();
-
-      const modal = document.getElementById('authModal');
-      if (modal) {
-        if (tab === 'register') {
-          switchAuthTab('register');
-          if (role) {
-            const regRole = document.getElementById('regRole');
-            if (regRole) {
-              regRole.value = role;
-              toggleRegCompanyInput();
-            }
-          }
-        } else {
-          switchAuthTab('login');
-        }
-        modal.classList.add('open');
-        modal.style.display = 'flex';
+      const halloweenModal = document.getElementById('halloweenAuthModal');
+      const frame = document.getElementById('halloweenAuthFrame');
+      if (halloweenModal && frame) {
+        const viewParam = (tab === 'register') ? 'register' : 'login';
+        const roleParam = role ? `&role=${encodeURIComponent(role)}` : '';
+        frame.src = `http://localhost:8081/?view=${viewParam}${roleParam}&t=${Date.now()}`;
+        halloweenModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      } else {
+        switchToStandardAuthModal(tab, role);
       }
-      document.body.style.overflow = '';
+
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       const demoMenu = document.getElementById('demoDropdownMenu');
@@ -13703,6 +13705,28 @@
       const frame = document.getElementById('halloweenAuthFrame');
       if (modal) modal.style.display = 'none';
       if (frame) frame.src = 'about:blank';
+      document.body.style.overflow = '';
+    }
+
+    function switchToStandardAuthModal(tab = 'login', role = '') {
+      closeHalloweenAuthModal();
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        if (tab === 'register') {
+          switchAuthTab('register');
+          if (role) {
+            const regRole = document.getElementById('regRole');
+            if (regRole) {
+              regRole.value = role;
+              toggleRegCompanyInput();
+            }
+          }
+        } else {
+          switchAuthTab('login');
+        }
+        modal.classList.add('open');
+        modal.style.display = 'flex';
+      }
       document.body.style.overflow = '';
     }
 
