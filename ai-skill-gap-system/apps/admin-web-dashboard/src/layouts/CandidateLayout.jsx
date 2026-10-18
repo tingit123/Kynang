@@ -58,24 +58,39 @@ export default function CandidateLayout() {
             </span>
           </Link>
 
-          {/* CỤM GIỮA: CÁC MENU ĐIỀU HƯỚNG NGANG DÀNH CHO ỨNG VIÊN (KHỚP ẢNH MẪU) */}
+          {/* CỤM GIỮA: CÁC MENU ĐIỀU HƯỚNG NGANG DÀNH CHO ỨNG VIÊN (7 CHỨC NĂNG) */}
           <nav className="hidden md:flex items-center gap-1.5">
-            {/* Menu 1: Chẩn đoán AI & Lộ trình */}
+            {/* Menu 1: Tổng quan (Mặc định) */}
             <NavLink to="/" end className={navLinkClass}>
+              <span>Tổng quan</span>
+            </NavLink>
+
+            {/* Menu 2: Chẩn đoán AI & Lộ trình */}
+            <NavLink to="/ai-diagnosis" className={navLinkClass}>
               <span>Chẩn đoán &amp; Lộ trình</span>
             </NavLink>
 
-            {/* Menu 2: Việc làm (Khớp ảnh mẫu) */}
+            {/* Menu 3: Phân tích CV (AI) */}
+            <NavLink to="/cv-upload" className={navLinkClass}>
+              <span>Phân tích CV (AI)</span>
+            </NavLink>
+
+            {/* Menu 4: Việc làm */}
             <NavLink to="/jobs" className={navLinkClass}>
               <span>Việc làm</span>
             </NavLink>
 
-            {/* Menu 3: Khám Phá Ngành Nghề */}
+            {/* Menu 5: Khám Phá Ngành Nghề */}
             <NavLink to="/explore-industries" className={navLinkClass}>
               <span>Khám phá ngành nghề</span>
             </NavLink>
 
-            {/* Menu 4: Cẩm Nang Kỹ Năng Mềm */}
+            {/* Menu 6: Khóa học */}
+            <NavLink to="/courses" className={navLinkClass}>
+              <span>Khóa học</span>
+            </NavLink>
+
+            {/* Menu 7: Cẩm Nang Kỹ Năng Mềm */}
             <NavLink to="/soft-skills" className={navLinkClass}>
               <span>Cẩm nang kỹ năng mềm</span>
             </NavLink>

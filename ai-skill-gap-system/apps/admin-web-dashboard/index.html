@@ -2959,8 +2959,36 @@
     body.candidate-purple-theme #publicNavbar .public-logo-text {
       color: #ffffff !important;
     }
-    body.candidate-purple-theme #page-dashboard {
-      display: none !important;
+    body.candidate-purple-theme #page-dashboard .page-title,
+    body.candidate-purple-theme #page-cv-upload .page-title {
+      color: #ffffff !important;
+    }
+    body.candidate-purple-theme #page-dashboard .page-sub,
+    body.candidate-purple-theme #page-cv-upload .page-sub {
+      color: #ccfbf1 !important;
+    }
+    body.candidate-purple-theme #page-dashboard .card,
+    body.candidate-purple-theme #page-cv-upload .card,
+    body.candidate-purple-theme #page-dashboard .kpi-card {
+      background: #ffffff !important;
+      border: none !important;
+      border-radius: 20px !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+      color: #0f172a !important;
+    }
+    body.candidate-purple-theme #page-dashboard .card-title,
+    body.candidate-purple-theme #page-cv-upload .card-title {
+      color: #0f172a !important;
+    }
+    body.candidate-purple-theme #page-dashboard .card-sub,
+    body.candidate-purple-theme #page-cv-upload .card-sub {
+      color: #64748b !important;
+    }
+    body.candidate-purple-theme #page-dashboard .kpi-label {
+      color: #64748b !important;
+    }
+    body.candidate-purple-theme #page-dashboard .kpi-value {
+      color: #0f172a !important;
     }
     body.candidate-purple-theme .page {
       display: none !important;
@@ -6067,9 +6095,11 @@
           </a>
         </div>
 
-        <!-- Candidate Menu (Top Navbar ngang cho Người Tìm Việc / Sinh Viên) -->
+        <!-- Candidate Menu (Top Navbar ngang cho Người Tìm Việc / Sinh Viên - 7 chức năng) -->
         <nav class="public-nav-center" id="publicNavCenter">
-          <button class="pub-nav-link active" id="pubNavAi" onclick="navigate('/')" style="padding:7px 18px;border-radius:9999px;font-weight:700;font-size:13px;border:1px solid rgba(94,234,212,0.4);background:#06332e;color:#ffffff;cursor:pointer">Chẩn đoán &amp; Lộ trình</button>
+          <button class="pub-nav-link active" id="pubNavOverview" onclick="navigate('/')" style="padding:7px 18px;border-radius:9999px;font-weight:700;font-size:13px;border:1px solid rgba(94,234,212,0.4);background:#06332e;color:#ffffff;cursor:pointer">Tổng quan</button>
+          <button class="pub-nav-link" id="pubNavAi" onclick="navigate('/ai-diagnosis')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Chẩn đoán &amp; Lộ trình</button>
+          <button class="pub-nav-link" id="pubNavCv" onclick="navigate('/cv-upload')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Phân tích CV (AI)</button>
           <button class="pub-nav-link" id="pubNavJobs" onclick="navigate('/jobs')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Việc làm</button>
           <button class="pub-nav-link" id="pubNavIndustry" onclick="navigate('/explore-industries')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khám phá ngành nghề</button>
           <button class="pub-nav-link" id="pubNavCourses" onclick="navigate('/courses')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khóa học</button>
@@ -7652,20 +7682,22 @@
         btn.style.padding = '7px 18px';
         btn.style.border = 'none';
       });
-      let activeId = 'pubNavAi';
-      if (path === '/jobs' || path.startsWith('/jobs')) activeId = 'pubNavJobs';
+      let activeId = 'pubNavOverview';
+      if (path === '/' || path === '' || path === '/overview' || path.includes('dashboard')) activeId = 'pubNavOverview';
+      else if (path.includes('ai-diagnosis') || path.includes('recommend')) activeId = 'pubNavAi';
+      else if (path.includes('cv-upload') || path.includes('cv')) activeId = 'pubNavCv';
+      else if (path === '/jobs' || path.startsWith('/jobs')) activeId = 'pubNavJobs';
       else if (path.includes('explore-industries') || path.includes('industry')) activeId = 'pubNavIndustry';
       else if (path.includes('courses') || path.includes('learning')) activeId = 'pubNavCourses';
       else if (path.includes('soft-skills') || path.includes('softskills')) activeId = 'pubNavSoft';
-      else if (path === '/' || path === '' || path.includes('ai-diagnosis') || path.includes('recommend')) activeId = 'pubNavAi';
 
       const el = document.getElementById(activeId);
       if (el) {
-        el.style.background = '#07453e';
+        el.style.background = '#06332e';
         el.style.color = '#ffffff';
         el.style.fontWeight = '700';
-        el.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-        el.style.padding = '7px 20px';
+        el.style.border = '1px solid rgba(94, 234, 212, 0.4)';
+        el.style.padding = '7px 18px';
         el.style.borderRadius = '9999px';
       }
     }
@@ -7837,11 +7869,15 @@
 
         updateCandidateNavLinks(currentPath);
 
-        // Kích hoạt đúng trang con cho Candidate
-        if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
-          switchPage('candidate-jobs', null, false);
-        } else if (currentPath === '/' || currentPath === '' || currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
+        // Kích hoạt đúng trang con cho Candidate / Người lao động (Tổng quan đầu tiên)
+        if (currentPath === '/' || currentPath === '' || currentPath === '/overview' || currentPath.includes('dashboard')) {
+          switchPage('dashboard', null, false);
+        } else if (currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
           switchPage('recommend', null, false);
+        } else if (currentPath.includes('cv-upload') || currentPath.includes('cv')) {
+          switchPage('cv-upload', null, false);
+        } else if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
+          switchPage('candidate-jobs', null, false);
         } else if (currentPath.includes('explore-industries') || currentPath.includes('industry')) {
           switchPage('industry', null, false);
         } else if (currentPath.includes('courses') || currentPath.includes('learning')) {
@@ -7849,7 +7885,7 @@
         } else if (currentPath.includes('soft-skills') || currentPath.includes('softskills')) {
           switchPage('softskills', null, false);
         } else {
-          switchPage('recommend', null, false);
+          switchPage('dashboard', null, false);
         }
       }
     }
@@ -8001,12 +8037,13 @@
       if (updateRoute) {
         const isCandidate = (document.getElementById('sidebar') && document.getElementById('sidebar').style.display === 'none');
         if (isCandidate) {
-          if (name === 'recommend') navigate('/', true, false);
+          if (name === 'dashboard') navigate('/', true, false);
+          else if (name === 'recommend') navigate('/ai-diagnosis', true, false);
+          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
           else if (name === 'candidate-jobs') navigate('/jobs', true, false);
           else if (name === 'industry') navigate('/explore-industries', true, false);
           else if (name === 'courses') navigate('/courses', true, false);
           else if (name === 'softskills') navigate('/soft-skills', true, false);
-          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
         } else {
           const routeName = (name === 'employers' ? 'jobs' : (name === 'admin' ? 'system' : name));
           navigate(`/admin/${routeName}`, true, false);
