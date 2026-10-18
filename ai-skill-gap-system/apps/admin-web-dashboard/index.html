@@ -2924,10 +2924,42 @@
       font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
     }
     body.candidate-purple-theme .shell {
-      display: flex !important;
+      display: block !important;
       width: 100% !important;
     }
+    body.candidate-purple-theme .main,
+    body.candidate-purple-theme #main {
+      margin-left: 0 !important;
+      padding-top: 76px !important;
+      background: transparent !important;
+      width: 100% !important;
+      min-height: 100vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    body.candidate-purple-theme #sidebar,
+    body.candidate-purple-theme .sidebar {
+      display: none !important;
+    }
+    body.candidate-purple-theme .topbar {
+      display: none !important;
+    }
     body.candidate-purple-theme #publicNavbar {
+      display: flex !important;
+      background: #0b5e55 !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 70px !important;
+      z-index: 999 !important;
+    }
+    body.candidate-purple-theme #publicNavbar .public-logo-text {
+      color: #ffffff !important;
+    }
+    body.candidate-purple-theme #page-dashboard {
       display: none !important;
     }
     body.candidate-purple-theme .page {
@@ -3414,7 +3446,7 @@
           <span class="nav-badge green">Mới</span>
         </div>
 
-        <div class="nav-group-label" id="nav-group-management" style="margin-top:12px">Quản Lý</div>
+        <div class="nav-group-label" style="margin-top:12px">Quản Lý</div>
         <div class="nav-item" id="nav-workers" onclick="switchPage('workers',this)">
           <svg viewBox="0 0 24 24" fill="none">
             <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
@@ -6026,7 +6058,7 @@
   <!-- ══════════════════════════════════════════════════════════════════ -->
   <div id="publicLayout" class="layout-container public-layout" style="display:none">
     <!-- TopNavbar component (Fixed Top) -->
-    <header class="public-top-navbar" id="publicNavbar" style="display:none">
+    <header class="public-top-navbar" id="publicNavbar">
       <div class="public-navbar-container">
         <!-- Micro-task 2.1 Cụm Trái (Logo text SkillGapAI font đậm, không dùng icon vuông) -->
         <div class="public-nav-left" id="publicNavLeft">
@@ -7790,38 +7822,34 @@
           switchPage(subPage, null, false);
         }
       } else {
-        // ── GIAO DIỆN CANDIDATE / WORKER / PUBLIC (CÓ SIDEBAR 5 MỤC PHÂN TÍCH, MẶC ĐỊNH LÀ TỔNG QUAN) ──
-        document.body.classList.remove('candidate-purple-theme');
+        // ── GIAO DIỆN CANDIDATE / PUBLIC (THEME TEAL KHỚP ẢNH MẪU 100%) ──
+        document.body.classList.add('candidate-purple-theme');
         if (publicLayout) publicLayout.style.display = 'none';
         if (adminLayout) adminLayout.style.display = 'block';
-        if (publicNavbar) publicNavbar.style.display = 'none';
-        if (sidebar) sidebar.style.display = 'flex';
-        if (adminTopbar) adminTopbar.style.display = 'flex';
+        if (publicNavbar) publicNavbar.style.display = 'flex';
+        if (sidebar) sidebar.style.display = 'none'; // BỎ HOÀN TOÀN THANH SIDEBAR XANH LÁ CÂY
+        if (adminTopbar) adminTopbar.style.display = 'none';
         if (mainEl) {
-          mainEl.style.marginLeft = '';
-          mainEl.style.paddingTop = '';
-          mainEl.style.width = '';
+          mainEl.style.marginLeft = '0px';
+          mainEl.style.paddingTop = '76px';
+          mainEl.style.width = '100%';
         }
 
-        applyRoleGuards();
+        updateCandidateNavLinks(currentPath);
 
-        // Kích hoạt đúng trang con cho Người lao động: Mặc định là 'dashboard' (Tổng quan thị trường)
-        if (currentPath === '/' || currentPath === '' || currentPath === '/overview' || currentPath.includes('dashboard')) {
-          switchPage('dashboard', null, false);
-        } else if (currentPath.includes('soft-skills') || currentPath.includes('softskills')) {
-          switchPage('softskills', null, false);
+        // Kích hoạt đúng trang con cho Candidate
+        if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
+          switchPage('candidate-jobs', null, false);
+        } else if (currentPath === '/' || currentPath === '' || currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
+          switchPage('recommend', null, false);
         } else if (currentPath.includes('explore-industries') || currentPath.includes('industry')) {
           switchPage('industry', null, false);
-        } else if (currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
-          switchPage('recommend', null, false);
-        } else if (currentPath.includes('cv-upload') || currentPath.includes('cv')) {
-          switchPage('cv-upload', null, false);
-        } else if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
-          switchPage('candidate-jobs', null, false);
         } else if (currentPath.includes('courses') || currentPath.includes('learning')) {
           switchPage('courses', null, false);
+        } else if (currentPath.includes('soft-skills') || currentPath.includes('softskills')) {
+          switchPage('softskills', null, false);
         } else {
-          switchPage('dashboard', null, false);
+          switchPage('recommend', null, false);
         }
       }
     }
@@ -7971,19 +7999,17 @@
       initPage(name);
 
       if (updateRoute) {
-        const userRole = String(currentUser?.role || 'guest').toLowerCase().trim().replace('userrole.', '');
-        if (userRole === 'admin') {
+        const isCandidate = (document.getElementById('sidebar') && document.getElementById('sidebar').style.display === 'none');
+        if (isCandidate) {
+          if (name === 'recommend') navigate('/', true, false);
+          else if (name === 'candidate-jobs') navigate('/jobs', true, false);
+          else if (name === 'industry') navigate('/explore-industries', true, false);
+          else if (name === 'courses') navigate('/courses', true, false);
+          else if (name === 'softskills') navigate('/soft-skills', true, false);
+          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
+        } else {
           const routeName = (name === 'employers' ? 'jobs' : (name === 'admin' ? 'system' : name));
           navigate(`/admin/${routeName}`, true, false);
-        } else {
-          if (name === 'dashboard') navigate('/', true, false);
-          else if (name === 'softskills') navigate('/soft-skills', true, false);
-          else if (name === 'industry') navigate('/explore-industries', true, false);
-          else if (name === 'recommend') navigate('/ai-diagnosis', true, false);
-          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
-          else if (name === 'candidate-jobs') navigate('/jobs', true, false);
-          else if (name === 'courses') navigate('/courses', true, false);
-          else navigate('/', true, false);
         }
       }
     }
@@ -12092,28 +12118,30 @@
       }
 
       // 3. Phân quyền các mục trên thanh Sidebar Quản Trị theo Role
-      const navGroupManagement = document.getElementById('nav-group-management');
       const navWorkers = document.getElementById('nav-workers');
       const navAdmin = document.getElementById('nav-admin');
       const navEmployers = document.getElementById('nav-employers');
       const navCourses = document.getElementById('nav-courses');
       const navDashboard = document.getElementById('nav-dashboard');
 
-      if (userRole === 'admin') {
-        // Admin xem toàn bộ (Phân Tích + Quản Lý)
-        if (navGroupManagement) navGroupManagement.style.display = 'block';
+      if (userRole === 'employer') {
+        if (navWorkers) navWorkers.style.display = 'none';
+        if (navAdmin) navAdmin.style.display = 'none';
+        if (navEmployers) navEmployers.style.display = 'flex';
+        if (navCourses) navCourses.style.display = 'flex';
+        if (navDashboard) navDashboard.style.display = 'flex';
+      } else if (userRole === 'provider') {
+        if (navWorkers) navWorkers.style.display = 'none';
+        if (navAdmin) navAdmin.style.display = 'none';
+        if (navEmployers) navEmployers.style.display = 'none';
+        if (navCourses) navCourses.style.display = 'flex';
+        if (navDashboard) navDashboard.style.display = 'flex';
+      } else {
+        // Admin hoặc mặc định
         if (navWorkers) navWorkers.style.display = 'flex';
         if (navAdmin) navAdmin.style.display = 'flex';
         if (navEmployers) navEmployers.style.display = 'flex';
         if (navCourses) navCourses.style.display = 'flex';
-        if (navDashboard) navDashboard.style.display = 'flex';
-      } else {
-        // Người lao động / Ứng viên / Khách: CHỈ hiển thị 5 mục Phân Tích (Tổng Quan, Kỹ Năng Mềm Chung, Kỹ Năng Theo Ngành, Gợi Ý Nghề Nghiệp, Phân Tích CV)
-        if (navGroupManagement) navGroupManagement.style.display = 'none';
-        if (navWorkers) navWorkers.style.display = 'none';
-        if (navAdmin) navAdmin.style.display = 'none';
-        if (navEmployers) navEmployers.style.display = 'none';
-        if (navCourses) navCourses.style.display = 'none';
         if (navDashboard) navDashboard.style.display = 'flex';
       }
     }
