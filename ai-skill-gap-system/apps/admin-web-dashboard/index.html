@@ -7630,7 +7630,7 @@
 
       if (pushState) {
         try {
-          window.history.pushState({ route: routePath }, '', routePath);
+          window.history.pushState({ route: routePath }, '', '#' + routePath);
         } catch(e) {
           window.location.hash = '#' + routePath;
         }
@@ -12219,7 +12219,7 @@
       currentUser = { is_guest: true, id: 0, username: 'guest', full_name: 'Khách', role: 'guest' };
       updateUserUI();
       applyRoleGuards();
-      window.location.reload();
+      window.location.href = window.location.origin + '/';
     }
 
     // ══════════════════════════════════════════════════════════════════
