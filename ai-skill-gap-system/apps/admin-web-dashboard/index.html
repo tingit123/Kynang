@@ -15491,10 +15491,14 @@
 
     async function loadProviderCoursesFromAPI() {
       try {
-        const res = await fetch('http://localhost:8000/api/courses/');
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        const endpoint = token ? 'http://localhost:8000/api/courses/my-courses' : 'http://localhost:8000/api/courses/';
+        const res = await fetch(endpoint, {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        });
         if (res.ok) {
           const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
+          if (Array.isArray(data)) {
             provCoursesList = data.map(c => ({
               id: c.id,
               title: c.course_name,
@@ -15513,6 +15517,7 @@
               theme: getSkillTheme(c.skill_name)
             }));
             renderProviderCourses();
+            return;
           }
         }
       } catch (err) {
@@ -15925,9 +15930,13 @@
       try {
         if (isEditing) {
           const editId = parseInt(editIdStr, 10);
+          const token = localStorage.getItem('access_token') || localStorage.getItem('token');
           const res = await fetch(`http://localhost:8000/api/courses/${editId}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
             body: JSON.stringify(payload)
           });
           if (res.ok) {
@@ -15965,9 +15974,13 @@
           }
         } else {
           // THÊM MỚI
+          const token = localStorage.getItem('access_token') || localStorage.getItem('token');
           const res = await fetch('http://localhost:8000/api/courses/', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
             body: JSON.stringify({ ...payload, status: 'pending' })
           });
           if (res.ok) {
@@ -16027,7 +16040,15 @@
     async function provDeleteCourseItem(id) {
       if (confirm('Bạn có chắc chắn muốn xóa khóa học này?')) {
         try {
-          await fetch(`http://localhost:8000/api/courses/${id}`, { method: 'DELETE' });
+          const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+          const res = await fetch(`http://localhost:8000/api/courses/${id}`, {
+            method: 'DELETE',
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+          });
+          if (res.status === 403) {
+            alert('Lỗi 403 Forbidden: Bạn không có quyền xóa khóa học này (Chỉ được xóa khóa học của chính bạn tạo)!');
+            return;
+          }
         } catch (err) {
           console.warn('Lỗi gọi API xóa khóa học:', err);
         }

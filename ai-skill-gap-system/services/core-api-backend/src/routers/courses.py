@@ -13,7 +13,7 @@ from src.database import get_db
 from src.models.course import CourseRecommendation
 from src.models.skill import SkillCatalog
 from src.models.user import User
-from src.core.security import get_current_user_optional
+from src.core.security import get_current_user, get_current_user_optional
 
 router = APIRouter()
 
@@ -205,6 +205,47 @@ def create_course(
     )
 
 
+@router.get("/my-courses", response_model=List[CourseOut])
+def get_my_courses(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Lấy danh sách khóa học của riêng đơn vị đào tạo (provider) đang đăng nhập.
+    Bảo đảm tính cô lập dữ liệu (Data Isolation): Chỉ query theo provider_id của current_user.
+    """
+    results = (
+        db.query(CourseRecommendation, SkillCatalog)
+        .outerjoin(SkillCatalog, CourseRecommendation.skill_id == SkillCatalog.id)
+        .filter(
+            CourseRecommendation.provider_id == current_user.id,
+            CourseRecommendation.is_deleted == False,
+        )
+        .order_by(CourseRecommendation.id.desc())
+        .all()
+    )
+    return [
+        CourseOut(
+            id=c.id,
+            provider_id=c.provider_id,
+            skill_id=c.skill_id,
+            skill_name=sk.skill_name if sk else "Chung",
+            industry=c.industry or (sk.industry if sk else "IT"),
+            course_name=c.course_name,
+            platform=c.platform,
+            url=c.url,
+            priority=c.priority or 1,
+            status=c.status or "pending",
+            click_count=c.click_count or 0,
+            outcomes=c.outcomes,
+            skills_acquired=c.skills_acquired,
+            tools_acquired=c.tools_acquired,
+            created_at=c.created_at or "12/10/2026",
+        )
+        for c, sk in results
+    ]
+
+
 @router.put("/{course_id}", response_model=CourseOut)
 def update_course(
     course_id: int,
@@ -212,7 +253,7 @@ def update_course(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_current_user_optional),
 ):
-    """Sửa thông tin khóa học (Lưu đè dữ liệu cũ vào MySQL)."""
+    """Sửa thông tin khóa học (Kiểm tra quyền sở hữu provider_id)."""
     db_course = (
         db.query(CourseRecommendation)
         .filter(CourseRecommendation.id == course_id, CourseRecommendation.is_deleted == False)
@@ -220,6 +261,13 @@ def update_course(
     )
     if not db_course:
         raise HTTPException(status_code=404, detail="Không tìm thấy khóa học cần cập nhật")
+
+    # Kiểm tra phân quyền: Nếu tài khoản là provider thì chỉ được sửa khóa học do mình tạo
+    if current_user and current_user.role == "provider" and db_course.provider_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bạn không có quyền chỉnh sửa khóa học này (Chỉ được sửa khóa học do mình tạo)",
+        )
 
     if course_data.course_name is not None:
         db_course.course_name = course_data.course_name
@@ -278,7 +326,7 @@ def delete_course(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_current_user_optional),
 ):
-    """Xóa khóa học (Soft delete trong MySQL)."""
+    """Xóa khóa học (Soft delete trong MySQL, kiểm tra quyền sở hữu provider_id)."""
     course = (
         db.query(CourseRecommendation)
         .filter(CourseRecommendation.id == course_id, CourseRecommendation.is_deleted == False)
@@ -286,6 +334,13 @@ def delete_course(
     )
     if not course:
         raise HTTPException(status_code=404, detail="Không tìm thấy khóa học")
+
+    # Kiểm tra phân quyền: Nếu tài khoản là provider thì chỉ được xóa khóa học do mình tạo
+    if current_user and current_user.role == "provider" and course.provider_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bạn không có quyền xóa khóa học này (Chỉ được xóa khóa học do mình tạo)",
+        )
 
     course.is_deleted = True
     db.commit()

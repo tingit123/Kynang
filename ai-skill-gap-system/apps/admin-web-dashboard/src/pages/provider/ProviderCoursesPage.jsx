@@ -2,134 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 const API_BASE = import.meta.env?.VITE_API_URL || 'http://localhost:8000';
 
-const INITIAL_COURSES = [
-  {
-    id: 1,
-    title: 'Python Backend thực chiến',
-    skill: 'Python',
-    industry: 'IT',
-    platform: 'Mekong Skills',
-    status: 'active',
-    statusLabel: 'Đang phân phối',
-    priority: '1',
-    clicks: 128,
-    date: '12/10/2026',
-    url: 'https://mekongskills.vn/python-backend',
-    outcomes: 'Cú pháp Python và cấu trúc dữ liệu cơ bản\nXây dựng REST API với FastAPI\nLàm việc với cơ sở dữ liệu SQL\nĐóng gói ứng dụng bằng Docker',
-    skills_acquired: 'Python\nREST API\nSQL',
-    tools_acquired: 'FastAPI\nDocker\nGit',
-    theme: {
-      bg: '#e6f7f5',
-      titleColor: '#0a5146',
-      badgeColor: '#0a5146'
-    }
-  },
-  {
-    id: 2,
-    title: 'FastAPI & Docker cho người mới',
-    skill: 'Python',
-    industry: 'IT',
-    platform: 'Udemy',
-    status: 'active',
-    statusLabel: 'Đang phân phối',
-    priority: '2',
-    clicks: 74,
-    date: '08/10/2026',
-    url: 'https://www.udemy.com/course/fastapi-docker',
-    outcomes: 'Kiến thức nền tảng FastAPI\nContainer hóa ứng dụng với Docker\nDeploy lên môi trường thực tế',
-    skills_acquired: 'FastAPI\nDocker\nBackend Development',
-    tools_acquired: 'Docker\nFastAPI\nPostman',
-    theme: {
-      bg: '#eff6ff',
-      titleColor: '#1e3a8a',
-      badgeColor: '#1e3a8a'
-    }
-  },
-  {
-    id: 3,
-    title: 'Nhập môn Machine Learning',
-    skill: 'Machine Learning',
-    industry: 'IT',
-    platform: 'Coursera',
-    status: 'active',
-    statusLabel: 'Đang phân phối',
-    priority: '1',
-    clicks: 96,
-    date: '02/10/2026',
-    url: 'https://www.coursera.org/learn/machine-learning-introduction',
-    outcomes: 'Thuật toán Supervised Learning cơ bản\nĐánh giá và tối ưu mô hình học máy\nỨng dụng thực tế bài toán phân loại và hồi quy',
-    skills_acquired: 'Machine Learning\nData Science\nModel Evaluation',
-    tools_acquired: 'Scikit-Learn\nJupyter\nPython',
-    theme: {
-      bg: '#f5f3ff',
-      titleColor: '#581c87',
-      badgeColor: '#581c87'
-    }
-  },
-  {
-    id: 4,
-    title: 'Phân tích dữ liệu với Power BI',
-    skill: 'Data Analysis',
-    industry: 'economics',
-    platform: 'Mekong Skills',
-    status: 'active',
-    statusLabel: 'Đang phân phối',
-    priority: '1',
-    clicks: 61,
-    date: '25/09/2026',
-    url: 'https://mekongskills.vn/power-bi-analysis',
-    outcomes: 'Trực quan hóa dữ liệu Dashboard\nXây dựng mô hình dữ liệu quan hệ DAX\nKết nối đa nguồn dữ liệu Excel, SQL',
-    skills_acquired: 'Power BI\nData Analysis\nDAX',
-    tools_acquired: 'Power BI Desktop\nPower Query\nExcel',
-    theme: {
-      bg: '#fff7ed',
-      titleColor: '#9a3412',
-      badgeColor: '#9a3412'
-    }
-  },
-  {
-    id: 5,
-    title: 'IELTS 6.5 cho sinh viên',
-    skill: 'English',
-    industry: 'all',
-    platform: 'Mekong Skills',
-    status: 'pending',
-    statusLabel: 'Chờ duyệt',
-    priority: '1',
-    clicks: 0,
-    date: '16/10/2026',
-    url: 'https://mekongskills.vn/ielts-6-5',
-    outcomes: 'Luyện đề 4 kỹ năng Nghe - Nói - Đọc - Viết\nPhương pháp viết Task 1 và Task 2 học thuật\nChiến lược giao tiếp tự nhiên band 6.5+',
-    skills_acquired: 'Academic English\nIELTS Preparation\nPresentation',
-    tools_acquired: 'Cambridge Materials\nIELTS Online',
-    theme: {
-      bg: '#fdf2f8',
-      titleColor: '#9d174d',
-      badgeColor: '#9d174d'
-    }
-  },
-  {
-    id: 6,
-    title: 'Giao tiếp và thuyết trình',
-    skill: 'Communication',
-    industry: 'all',
-    platform: 'Mekong Skills',
-    status: 'pending',
-    statusLabel: 'Chờ duyệt',
-    priority: '2',
-    clicks: 0,
-    date: '15/10/2026',
-    url: 'https://mekongskills.vn/communication-skills',
-    outcomes: 'Kỹ năng thuyết phục và làm việc nhóm\nNghệ thuật trình bày trước đám đông\nXử lý phản hồi và tranh luận tự tin',
-    skills_acquired: 'Public Speaking\nNegotiation\nTeamwork',
-    tools_acquired: 'PowerPoint\nCanva',
-    theme: {
-      bg: '#fefce8',
-      titleColor: '#854d0e',
-      badgeColor: '#854d0e'
-    }
-  }
-];
 
 function getSkillTheme(skill) {
   const s = String(skill || '').toLowerCase();
@@ -180,14 +52,25 @@ export default function ProviderCoursesPage() {
   const [skillsAcquired, setSkillsAcquired] = useState('');
   const [toolsAcquired, setToolsAcquired] = useState('');
 
-  // ── 1. GỌI API FASTAPI ĐỂ LẤY DỮ LIỆU THẬT TỪ MYSQL ──
-  const fetchCoursesFromAPI = async () => {
+  // Lấy Authorization Header từ JWT token đã lưu trong localStorage
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    };
+  };
+
+  // ── 1. GỌI API GET /api/courses/my-courses ĐỂ LẤY KHÓA HỌC CỦA CHÍNH TÀI KHOẢN PROVIDER ──
+  const fetchMyCourses = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/api/courses/`);
+      const res = await fetch(`${API_BASE}/api/courses/my-courses`, {
+        headers: getAuthHeaders()
+      });
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
+        if (Array.isArray(data)) {
           const mapped = data.map((c) => ({
             id: c.id,
             title: c.course_name,
@@ -208,18 +91,20 @@ export default function ProviderCoursesPage() {
           setCourses(mapped);
           return;
         }
+      } else if (res.status === 401) {
+        console.warn('Phiên đăng nhập không hợp lệ hoặc đã hết hạn.');
       }
-      setCourses(INITIAL_COURSES);
+      setCourses([]);
     } catch (err) {
-      console.warn('Không thể kết nối API, dùng danh sách dự phòng:', err);
-      setCourses(INITIAL_COURSES);
+      console.warn('Không thể kết nối API my-courses:', err);
+      setCourses([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCoursesFromAPI();
+    fetchMyCourses();
   }, []);
 
   // Reset pagination when filter changes
@@ -296,7 +181,94 @@ export default function ProviderCoursesPage() {
     setShowModal(true);
   };
 
-  // ── XỬ LÝ LƯU (THÊM HOẶC SỬA) VÀO DATABASE QUA FASTAPI ──
+  // ── 2. THÊM MỚI KHÓA HỌC (POST /api/courses/) ──
+  const handleAddCourse = async (payload) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/courses/`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ ...payload, status: 'pending' })
+      });
+
+      if (res.ok) {
+        const created = await res.json();
+        const newCourseItem = {
+          id: created.id,
+          title: created.course_name,
+          skill: created.skill_name,
+          industry: created.industry || payload.industry,
+          platform: created.platform,
+          status: created.status || 'pending',
+          statusLabel: 'Chờ duyệt',
+          priority: String(created.priority || 1),
+          clicks: 0,
+          date: created.created_at || '12/10/2026',
+          url: created.url,
+          outcomes: created.outcomes,
+          skills_acquired: created.skills_acquired,
+          tools_acquired: created.tools_acquired,
+          theme: getSkillTheme(created.skill_name)
+        };
+        setCourses((prev) => [newCourseItem, ...prev]);
+        alert(`Đã đăng khóa học "${created.course_name}" thành công!`);
+        setShowModal(false);
+      } else if (res.status === 401) {
+        alert('Vui lòng đăng nhập tài khoản đơn vị đào tạo để tạo khóa học!');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(`Đăng khóa học thất bại: ${err.detail || 'Lỗi hệ thống'}`);
+      }
+    } catch (err) {
+      console.error('Lỗi khi thêm khóa học:', err);
+      alert('Đã xảy ra lỗi kết nối khi đăng khóa học!');
+    }
+  };
+
+  // ── 3. CẬP NHẬT KHÓA HỌC (PUT /api/courses/{id}) ──
+  const handleUpdateCourse = async (id, payload) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/courses/${id}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const updated = await res.json();
+        setCourses((prev) =>
+          prev.map((c) =>
+            c.id === id
+              ? {
+                  ...c,
+                  title: updated.course_name,
+                  skill: updated.skill_name,
+                  industry: updated.industry || payload.industry,
+                  platform: updated.platform,
+                  priority: String(updated.priority),
+                  url: updated.url,
+                  outcomes: updated.outcomes,
+                  skills_acquired: updated.skills_acquired,
+                  tools_acquired: updated.tools_acquired,
+                  theme: getSkillTheme(updated.skill_name)
+                }
+              : c
+          )
+        );
+        alert(`Đã cập nhật thông tin khóa học "${updated.course_name}" thành công!`);
+        setShowModal(false);
+      } else if (res.status === 403) {
+        alert('Lỗi 403 Forbidden: Bạn không có quyền chỉnh sửa khóa học này (Chỉ được sửa khóa học do chính tài khoản của bạn tạo)!');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(`Cập nhật thất bại: ${err.detail || 'Lỗi hệ thống'}`);
+      }
+    } catch (err) {
+      console.error('Lỗi khi cập nhật khóa học:', err);
+      alert('Đã xảy ra lỗi kết nối khi cập nhật khóa học!');
+    }
+  };
+
+  // ── 4. XỬ LÝ SUBMIT FORM MODAL (ĐIỀU HƯỚNG THÊM HOẶC SỬA) ──
   const handleSubmitCourse = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
@@ -319,132 +291,34 @@ export default function ProviderCoursesPage() {
       tools_acquired: toolsAcquired.trim()
     };
 
-    try {
-      if (modalMode === 'edit' && editingCourseId) {
-        // CẬP NHẬT (PUT API)
-        const res = await fetch(`${API_BASE}/api/courses/${editingCourseId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (res.ok) {
-          const updated = await res.json();
-          setCourses(
-            courses.map((c) =>
-              c.id === editingCourseId
-                ? {
-                    ...c,
-                    title: updated.course_name,
-                    skill: updated.skill_name,
-                    industry: updated.industry || courseIndustry,
-                    platform: updated.platform,
-                    priority: String(updated.priority),
-                    url: updated.url,
-                    outcomes: updated.outcomes,
-                    skills_acquired: updated.skills_acquired,
-                    tools_acquired: updated.tools_acquired,
-                    theme: getSkillTheme(updated.skill_name)
-                  }
-                : c
-            )
-          );
-          alert(`Đã cập nhật thông tin khóa học "${updated.course_name}" thành công vào MySQL!`);
-        } else {
-          // Fallback update local state
-          setCourses(
-            courses.map((c) =>
-              c.id === editingCourseId
-                ? {
-                    ...c,
-                    title: payload.course_name,
-                    skill: cleanSkill,
-                    industry: courseIndustry,
-                    platform: payload.platform,
-                    priority: String(cleanPriorityNum),
-                    url: payload.url,
-                    outcomes: payload.outcomes,
-                    skills_acquired: payload.skills_acquired,
-                    tools_acquired: payload.tools_acquired,
-                    theme: getSkillTheme(cleanSkill)
-                  }
-                : c
-            )
-          );
-          alert(`Đã lưu cập nhật khóa học "${payload.course_name}" thành công!`);
-        }
-      } else {
-        // THÊM MỚI (POST API)
-        const res = await fetch(`${API_BASE}/api/courses/`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...payload, status: 'pending' })
-        });
-
-        if (res.ok) {
-          const created = await res.json();
-          const newCourseItem = {
-            id: created.id,
-            title: created.course_name,
-            skill: created.skill_name,
-            industry: created.industry || courseIndustry,
-            platform: created.platform,
-            status: created.status || 'pending',
-            statusLabel: 'Chờ duyệt',
-            priority: String(created.priority || 1),
-            clicks: 0,
-            date: created.created_at || '12/10/2026',
-            url: created.url,
-            outcomes: created.outcomes,
-            skills_acquired: created.skills_acquired,
-            tools_acquired: created.tools_acquired,
-            theme: getSkillTheme(created.skill_name)
-          };
-          setCourses([newCourseItem, ...courses]);
-          alert(`Đã đăng khóa học "${created.course_name}" thành công và lưu vào cơ sở dữ liệu MySQL!`);
-        } else {
-          // Fallback add to local
-          const today = new Date();
-          const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
-          const newCourseItem = {
-            id: Date.now(),
-            title: payload.course_name,
-            skill: cleanSkill,
-            industry: courseIndustry,
-            platform: payload.platform,
-            status: 'pending',
-            statusLabel: 'Chờ duyệt',
-            priority: String(cleanPriorityNum),
-            clicks: 0,
-            date: dateStr,
-            url: payload.url,
-            outcomes: payload.outcomes,
-            skills_acquired: payload.skills_acquired,
-            tools_acquired: payload.tools_acquired,
-            theme: getSkillTheme(cleanSkill)
-          };
-          setCourses([newCourseItem, ...courses]);
-          alert(`Đã thêm khóa học "${newCourseItem.title}" thành công!\nTrạng thái: Chờ duyệt.`);
-        }
-      }
-    } catch (err) {
-      console.error('Lỗi khi lưu khóa học:', err);
-      alert('Đã lưu thay đổi vào giao diện!');
-    } finally {
-      setShowModal(false);
+    if (modalMode === 'edit' && editingCourseId) {
+      await handleUpdateCourse(editingCourseId, payload);
+    } else {
+      await handleAddCourse(payload);
     }
   };
 
-  // ── XỬ LÝ XÓA KHÓA HỌC ──
+  // ── 5. XỬ LÝ XÓA KHÓA HỌC (DELETE /api/courses/{id}) ──
   const handleDelete = async (id) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa khóa học này?')) {
       try {
-        await fetch(`${API_BASE}/api/courses/${id}`, { method: 'DELETE' });
+        const res = await fetch(`${API_BASE}/api/courses/${id}`, {
+          method: 'DELETE',
+          headers: getAuthHeaders()
+        });
+        if (res.ok) {
+          setCourses((prev) => prev.filter((c) => c.id !== id));
+          alert('Đã xóa khóa học thành công!');
+        } else if (res.status === 403) {
+          alert('Lỗi 403 Forbidden: Bạn không có quyền xóa khóa học này (Chỉ được xóa khóa học do chính tài khoản của bạn tạo)!');
+        } else {
+          const err = await res.json().catch(() => ({}));
+          alert(`Xóa thất bại: ${err.detail || 'Lỗi hệ thống'}`);
+        }
       } catch (err) {
         console.warn('Lỗi gọi API xóa:', err);
+        alert('Đã xảy ra lỗi kết nối khi xóa khóa học!');
       }
-      setCourses(courses.filter((c) => c.id !== id));
-      alert('Đã xóa khóa học thành công!');
     }
   };
 
