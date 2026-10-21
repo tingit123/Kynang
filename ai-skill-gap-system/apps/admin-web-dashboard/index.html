@@ -6532,7 +6532,88 @@
     </div>
   </div>
 
-  <!-- ══ MODAL: CHI TIẾT TỔNG QUAN TẤT CẢ KỸ NĂNG & NGÀNH NGHỀ ══ -->
+  
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- MODAL: CHI TIẾT KHÓA HỌC (NHỮNG GÌ SẼ HỌC, SKILLS, CÔNG CỤ)         -->
+  <!-- KHỚP 100% ẢNH MẪU media_1792554350893_c7034fb0.png                 -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="courseDetailModal" onclick="if(event.target===this) closeCourseDetailModal()" style="display:none; position:fixed; inset:0; z-index:100020; background:rgba(5, 44, 40, 0.72); backdrop-filter:blur(5px); align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
+    <div style="background:#ffffff; border-radius:28px; width:100%; max-width:680px; max-height:92vh; overflow-y:auto; box-shadow:0 25px 60px -15px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.4); position:relative; font-family:'Be Vietnam Pro', system-ui, -apple-system, sans-serif;">
+      
+      <!-- HEADER (Nền xanh bạc hà nhạt #e6f7f4) -->
+      <div style="background:linear-gradient(180deg, #e6f7f4 0%, #f0fdfa 100%); padding:24px 28px 20px; border-bottom:1px solid #ccfbf1; border-top-left-radius:28px; border-top-right-radius:28px;">
+        <!-- Hàng 1: Badge Skill + Nút Đóng -->
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <span id="cdmSkillBadge" style="background:#ccfbf1; color:#0d9488; font-weight:700; font-size:12.5px; padding:4px 16px; border-radius:9999px; display:inline-block;">
+            Python
+          </span>
+          <button type="button" onclick="closeCourseDetailModal()" style="background:#ffffff; color:#334155; border:1px solid #cbd5e1; font-weight:600; font-size:12.5px; padding:4px 18px; border-radius:9999px; cursor:pointer; transition:all 0.15s; outline:none;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
+            Đóng
+          </button>
+        </div>
+
+        <!-- Hàng 2: Provider / Đơn vị đào tạo -->
+        <div id="cdmProvider" style="color:#0d9488; font-size:13.5px; font-weight:700; margin-top:14px; display:flex; align-items:center; gap:6px;">
+          Coursera × Univ. of Michigan
+        </div>
+
+        <!-- Hàng 3: Tiêu đề khóa học -->
+        <h2 id="cdmTitle" style="color:#042f2e; font-size:23px; font-weight:800; line-height:1.3; margin:8px 0 0; letter-spacing:-0.3px;">
+          Python for Everybody Specialization
+        </h2>
+
+        <!-- Hàng 4: Badges (Thời lượng, Học phí) -->
+        <div style="margin-top:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <span id="cdmDuration" style="background:#ffffff; color:#0f172a; font-weight:700; font-size:12.5px; padding:5px 14px; border-radius:9999px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            4 tháng
+          </span>
+          <span id="cdmPrice" style="background:#ffffff; color:#0d9488; font-weight:700; font-size:12.5px; padding:5px 14px; border-radius:9999px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            Miễn phí
+          </span>
+        </div>
+      </div>
+
+      <!-- BODY NỘI DUNG -->
+      <div style="background:#ffffff; padding:24px 28px 28px; border-bottom-left-radius:28px; border-bottom-right-radius:28px;">
+        <!-- Mục 1: Những gì bạn sẽ học -->
+        <div style="margin-bottom:22px;">
+          <h3 style="font-size:15.5px; font-weight:800; color:#0f172a; margin:0 0 14px;">
+            Những gì bạn sẽ học
+          </h3>
+          <div id="cdmOutcomesGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px 16px;">
+            <!-- Render danh sách checklist dạng dấu tích xanh tròn -->
+          </div>
+        </div>
+
+        <!-- Mục 2: Kỹ năng bạn sẽ đạt được -->
+        <div style="margin-bottom:22px;">
+          <h3 style="font-size:15.5px; font-weight:800; color:#0f172a; margin:0 0 12px;">
+            Kỹ năng bạn sẽ đạt được
+          </h3>
+          <div id="cdmSkillsList" style="display:flex; flex-wrap:wrap; gap:8px;">
+            <!-- Render pills: background: #ccfbf1; color: #0f766e -->
+          </div>
+        </div>
+
+        <!-- Mục 3: Các công cụ bạn sẽ học -->
+        <div style="margin-bottom:26px;">
+          <h3 style="font-size:15.5px; font-weight:800; color:#0f172a; margin:0 0 12px;">
+            Các công cụ bạn sẽ học
+          </h3>
+          <div id="cdmToolsList" style="display:flex; flex-wrap:wrap; gap:8px;">
+            <!-- Render pills: background: #f1f5f9; color: #334155 -->
+          </div>
+        </div>
+
+        <!-- Nút hành động: VÀO HỌC NGAY -->
+        <a id="cdmActionBtn" href="#" target="_blank" rel="noopener noreferrer" style="display:block; width:100%; text-align:center; background:#0a5146; background:linear-gradient(135deg, #0d6e64 0%, #094741 100%); color:#ffffff; padding:14px 24px; border-radius:9999px; font-weight:800; font-size:13.5px; text-transform:uppercase; letter-spacing:0.6px; text-decoration:none; border:none; cursor:pointer; box-shadow:0 4px 14px rgba(9, 71, 65, 0.3); transition:all 0.2s; box-sizing:border-box;">
+          VÀO HỌC NGAY
+        </a>
+      </div>
+    </div>
+  </div>
+
+<!-- ══ MODAL: CHI TIẾT TỔNG QUAN TẤT CẢ KỸ NĂNG & NGÀNH NGHỀ ══ -->
   <div class="modal-overlay" id="modalSoftSkillsDetail" onclick="if(event.target===this) closeSoftSkillsDetailModal()" style="z-index: 100008;display:none;">
     <div class="modal" style="width:min(1100px,96vw);max-height:92vh;padding:26px 28px;display:flex;flex-direction:column;gap:16px;background:#ffffff;border-radius:24px;box-shadow:0 25px 60px rgba(0,0,0,0.35);overflow:hidden">
       <!-- Modal Header -->
@@ -7052,6 +7133,991 @@
       { id: "C035", title: "Creative & Critical Thinking in Business", skill: "Tư duy phản biện", group: "Kỹ năng mềm", industry: "softskills", provider: "edX × University of Queensland", platform: "edX", duration: "4 tuần", price: "Miễn phí", rating: 4.8, color: "#7c3aed", url: "https://www.edx.org/learn/critical-thinking" },
       { id: "C036", title: "Work Smarter, Not Harder: Time Management", skill: "Quản lý thời gian", group: "Kỹ năng mềm", industry: "softskills", provider: "Coursera × UC Irvine", platform: "Coursera", duration: "4 tuần", price: "Miễn phí", rating: 4.7, color: "#0284c7", url: "https://www.coursera.org/learn/work-smarter-not-harder" }
     ];
+
+    const COURSE_DETAILS_DATA = {
+      "C001": {
+            "outcomes": [
+                  "Cú pháp Python và cấu trúc dữ liệu cơ bản",
+                  "Biến, vòng lặp và hàm",
+                  "Làm việc với chuỗi và tệp",
+                  "Danh sách, từ điển và tuple",
+                  "Lấy dữ liệu từ web bằng Python",
+                  "Truy vấn cơ sở dữ liệu SQLite",
+                  "Xử lý JSON và gọi API",
+                  "Trực quan hóa dữ liệu đơn giản"
+            ],
+            "skills": [
+                  "Python",
+                  "Lập trình cơ bản",
+                  "Xử lý dữ liệu",
+                  "Cơ sở dữ liệu",
+                  "Tư duy thuật toán"
+            ],
+            "tools": [
+                  "Python 3",
+                  "Jupyter Notebook",
+                  "SQLite",
+                  "VS Code",
+                  "Git"
+            ]
+      },
+      "C002": {
+            "outcomes": [
+                  "Xây dựng mô hình Học có giám sát (Hồi quy & Phân loại)",
+                  "Huấn luyện mạng nơ-ron sâu với thư viện TensorFlow",
+                  "Áp dụng phương pháp giảm quá khớp & tối ưu Gradient Descent",
+                  "Xây dựng hệ thống gợi ý & thuật toán phân cụm k-means",
+                  "Cây quyết định, Random Forest & mô hình Ensemble",
+                  "Đánh giá hiệu suất và tinh chỉnh siêu tham số",
+                  "Kỹ thuật Feature Engineering trên tập dữ liệu thực tế",
+                  "Quy trình triển khai mô hình Machine Learning cơ bản"
+            ],
+            "skills": [
+                  "Machine Learning",
+                  "Deep Learning",
+                  "TensorFlow",
+                  "Hồi quy tuyến tính",
+                  "Mạng nơ-ron"
+            ],
+            "tools": [
+                  "Python",
+                  "TensorFlow",
+                  "Scikit-Learn",
+                  "NumPy",
+                  "Jupyter Notebook"
+            ]
+      },
+      "C003": {
+            "outcomes": [
+                  "Hiểu quy trình phân tích dữ liệu 6 bước tiêu chuẩn Google",
+                  "Thu thập, làm sạch và chuẩn hóa dữ liệu bị thiếu hoặc lỗi",
+                  "Truy vấn, lọc và kết hợp bảng dữ liệu phức tạp bằng SQL",
+                  "Trực quan hóa dữ liệu trực quan bằng biểu đồ Tableau",
+                  "Thống kê mô tả và tính toán tự động với bảng tính",
+                  "Viết kịch bản xử lý dữ liệu với ngôn ngữ R",
+                  "Xây dựng Dashboard phân tích báo cáo cho doanh nghiệp",
+                  "Kỹ năng Data Storytelling trình bày trước các bên liên quan"
+            ],
+            "skills": [
+                  "Phân tích dữ liệu",
+                  "SQL",
+                  "Làm sạch dữ liệu",
+                  "Data Visualization",
+                  "Lập trình R"
+            ],
+            "tools": [
+                  "Google Sheets",
+                  "SQL",
+                  "Tableau",
+                  "RStudio",
+                  "BigQuery"
+            ]
+      },
+      "C004": {
+            "outcomes": [
+                  "Xây dựng ứng dụng web Single Page App (SPA) hiện đại với React 18+",
+                  "Làm chủ JSX, Components, Props và State management",
+                  "Sử dụng thành thạo các React Hooks cốt lõi (useState, useEffect, useMemo)",
+                  "Quản lý trạng thái toàn cục phức tạp với Redux Toolkit",
+                  "Điều hướng trang mượt mà với React Router DOM v6",
+                  "Tối ưu hóa hiệu năng render và React Context API",
+                  "Xử lý Forms, xác thực dữ liệu và gọi REST API bất đồng bộ",
+                  "Triển khai ứng dụng React hoàn chỉnh lên Vercel / Netlify"
+            ],
+            "skills": [
+                  "ReactJS",
+                  "Frontend Development",
+                  "Redux Toolkit",
+                  "JavaScript ES6+",
+                  "Single Page App"
+            ],
+            "tools": [
+                  "React 18",
+                  "Vite",
+                  "Redux",
+                  "VS Code",
+                  "TailwindCSS"
+            ]
+      },
+      "C005": {
+            "outcomes": [
+                  "Hiểu kiến trúc Containerization và vòng đời của container",
+                  "Viết Dockerfile đóng gói ứng dụng đa tầng (Multi-stage build)",
+                  "Quản lý lưu trữ bền vững với Docker Volumes và cấu hình Networks",
+                  "Điều phối nhiều dịch vụ Microservices bằng Docker Compose",
+                  "Triển khai cụm Kubernetes Cluster (Pods, Deployments, Services)",
+                  "Cấu hình tự động co giãn tài nguyên (Horizontal Pod Autoscaler)",
+                  "Quản lý ConfigMaps, Secrets và định tuyến Ingress Controller",
+                  "Tích hợp quy trình CI/CD tự động build & push Docker image"
+            ],
+            "skills": [
+                  "Docker",
+                  "Kubernetes",
+                  "DevOps",
+                  "Microservices",
+                  "Containerization"
+            ],
+            "tools": [
+                  "Docker Engine",
+                  "Docker Compose",
+                  "Kubectl",
+                  "Minikube",
+                  "Helm"
+            ]
+      },
+      "C006": {
+            "outcomes": [
+                  "Làm chủ cú pháp truy vấn SELECT, WHERE, ORDER BY, GROUP BY",
+                  "Kết hợp nhiều bảng dữ liệu với INNER, LEFT, RIGHT, FULL JOIN",
+                  "Viết các truy vấn con lồng nhau phức tạp (Subqueries & CTE)",
+                  "Sử dụng hàm tính toán tổng hợp (COUNT, SUM, AVG, HAVING)",
+                  "Thực thi các hàm xử lý chuỗi và định dạng thời gian",
+                  "Phân tích số liệu kinh doanh và báo cáo doanh thu theo tháng",
+                  "Tạo bảng, sửa đổi cấu trúc và cập nhật dữ liệu (DML/DDL)",
+                  "Tối ưu hóa câu lệnh truy vấn với Index trong cơ sở dữ liệu"
+            ],
+            "skills": [
+                  "SQL",
+                  "Cơ sở dữ liệu",
+                  "Phân tích dữ liệu",
+                  "Data Querying",
+                  "Database Design"
+            ],
+            "tools": [
+                  "PostgreSQL",
+                  "MySQL",
+                  "DBeaver",
+                  "SQLite"
+            ]
+      },
+      "C007": {
+            "outcomes": [
+                  "Quản lý lịch sử phiên bản mã nguồn với Git chuyên nghiệp",
+                  "Làm việc với Branching, Merging và giải quyết xung đột (Conflicts)",
+                  "Làm chủ quy trình Pull Request & Code Review chuẩn trên GitHub",
+                  "Sử dụng Git Stash, Rebase, Cherry-pick và Reset an toàn",
+                  "Tạo và cộng tác trên các kho lưu trữ từ xa (Remote Repos)",
+                  "Thiết lập GitHub Actions cơ bản để kiểm tra mã nguồn tự động",
+                  "Quản lý SSH Keys và bảo mật truy cập kho mã nguồn",
+                  "Kỹ năng làm việc nhóm Agile/Scrum trên GitHub Projects"
+            ],
+            "skills": [
+                  "Git",
+                  "GitHub",
+                  "Quản lý mã nguồn",
+                  "CI/CD",
+                  "Làm việc nhóm"
+            ],
+            "tools": [
+                  "Git CLI",
+                  "GitHub",
+                  "GitHub Desktop",
+                  "GitKraken",
+                  "VS Code Git"
+            ]
+      },
+      "C008": {
+            "outcomes": [
+                  "Hiểu khái niệm cốt lõi về điện toán đám mây Cloud Computing",
+                  "Quản lý hạ tầng tính toán ảo hóa với Amazon EC2 & Lambda",
+                  "Lưu trữ dữ liệu an toàn trên Amazon S3 và khối lưu trữ EBS",
+                  "Thiết lập mạng nội bộ ảo VPC, Subnets và Security Groups",
+                  "Quản lý định danh và quyền truy cập bảo mật với AWS IAM",
+                  "Tìm hiểu các cơ sở dữ liệu trên mây: Amazon RDS và DynamoDB",
+                  "Theo dõi hiệu năng và chi phí với CloudWatch & Cost Explorer",
+                  "Ôn luyện kiến thức cốt lõi sẵn sàng cho chứng chỉ AWS CLF-C02"
+            ],
+            "skills": [
+                  "Điện toán đám mây",
+                  "AWS Cloud",
+                  "Bảo mật đám mây",
+                  "Kiến trúc hệ thống",
+                  "Quản lý chi phí"
+            ],
+            "tools": [
+                  "AWS Console",
+                  "AWS CLI",
+                  "Amazon EC2",
+                  "Amazon S3",
+                  "AWS IAM"
+            ]
+      },
+      "C009": {
+            "outcomes": [
+                  "Hiểu các mối đe dọa an ninh mạng, lỗ hổng và bề mặt tấn công",
+                  "Sử dụng các công cụ giám sát SIEM để phát hiện xâm nhập",
+                  "Lập trình kịch bản tự động hóa kiểm tra an ninh bằng Python",
+                  "Sử dụng dòng lệnh Linux để quản lý và kiểm tra file hệ thống",
+                  "Phân tích lưu lượng mạng và phát hiện tấn công DDoS/Phishing",
+                  "Quy trình ứng phó và xử lý sự cố an ninh thông tin (Incident Response)",
+                  "Áp dụng khung bảo mật NIST Cybersecurity Framework chuẩn",
+                  "Thực hành phòng thủ và bảo vệ tài sản số của tổ chức"
+            ],
+            "skills": [
+                  "An ninh mạng",
+                  "Phát hiện mối đe dọa",
+                  "Phân tích SIEM",
+                  "Bảo mật Linux",
+                  "Python bảo mật"
+            ],
+            "tools": [
+                  "Linux CLI",
+                  "Python",
+                  "Wireshark",
+                  "Chronicle SIEM",
+                  "Splunk"
+            ]
+      },
+      "C010": {
+            "outcomes": [
+                  "Hiểu các nguyên tắc đạo đức cốt lõi trong phát triển trí tuệ nhân tạo",
+                  "Nhận diện và giảm thiểu thiên vị (Bias) trong dữ liệu và mô hình AI",
+                  "Tính minh bạch và giải thích được của AI (Explainable AI - XAI)",
+                  "Vấn đề quyền riêng tư dữ liệu và tuân thủ các quy định bảo vệ dữ liệu",
+                  "Đánh giá tác động xã hội và việc làm của tự động hóa AI",
+                  "Trách nhiệm pháp lý và quản trị rủi ro khi triển khai AI",
+                  "Xây dựng chính sách sử dụng AI có trách nhiệm (Responsible AI)",
+                  "Nghiên cứu các tình huống thực tế về AI trong doanh nghiệp"
+            ],
+            "skills": [
+                  "Đạo đức AI",
+                  "Quản trị rủi ro",
+                  "Pháp lý công nghệ",
+                  "Responsible AI",
+                  "Đánh giá tác động"
+            ],
+            "tools": [
+                  "AI Fairness 360",
+                  "NIST AI RMF",
+                  "SHAP/LIME",
+                  "Frameworks Đạo đức"
+            ]
+      },
+      "C011": {
+            "outcomes": [
+                  "Giao tiếp tiếng Anh tự tin trong môi trường khách sạn và lữ hành",
+                  "Xử lý thủ tục đặt phòng (Check-in / Check-out) chuẩn chuyên nghiệp",
+                  "Kỹ năng giải quyết phàn nàn và xử lý tình huống khẩn cấp bằng tiếng Anh",
+                  "Thuyết minh điểm đến và giới thiệu văn hóa ẩm thực địa phương",
+                  "Soạn thảo email và hợp đồng dịch vụ lữ hành bằng tiếng Anh",
+                  "Từ vựng chuyên ngành hàng không, nhà hàng và điều hành tour",
+                  "Giao tiếp qua điện thoại và chăm sóc khách quốc tế chuẩn 5 sao",
+                  "Thực hành phản xạ đàm thoại qua các tình huống thực tế mô phỏng"
+            ],
+            "skills": [
+                  "Tiếng Anh giao tiếp",
+                  "Tiếng Anh chuyên ngành",
+                  "Chăm sóc khách hàng",
+                  "Thuyết minh du lịch"
+            ],
+            "tools": [
+                  "Oxford Hospitality English",
+                  "Listening Lab",
+                  "Mẫu đàm thoại chuẩn"
+            ]
+      },
+      "C012": {
+            "outcomes": [
+                  "Nắm vững luật du lịch Việt Nam và quy chế hướng dẫn viên",
+                  "Kỹ thuật thuyết minh điểm tham quan văn hóa, lịch sử và sinh thái",
+                  "Kỹ năng tổ chức hoạt náo, dẫn tour và quản lý đoàn khách đông",
+                  "Quy trình đón tiễn khách tại sân bay, bến tàu và nhận phòng khách sạn",
+                  "Kỹ năng sơ cấp cứu y tế và xử lý tai nạn/sự cố trên đường tour",
+                  "Tâm lý học du khách theo từng thị trường (Âu, Mỹ, Á, nội địa)",
+                  "Nghệ thuật xử lý xung đột và chăm sóc khách hàng VIP",
+                  "Thực hành dẫn tour thực tế tại các tuyến điểm ĐBSCL & TP.HCM"
+            ],
+            "skills": [
+                  "Hướng dẫn du lịch",
+                  "Thuyết minh",
+                  "Xử lý tình huống",
+                  "Quản lý đoàn",
+                  "Sơ cấp cứu"
+            ],
+            "tools": [
+                  "Micro hướng dẫn",
+                  "Bản đồ tuyến điểm",
+                  "Cẩm nang tour",
+                  "Hồ sơ đoàn"
+            ]
+      },
+      "C013": {
+            "outcomes": [
+                  "Quản lý toàn diện các bộ phận tiền sảnh (Front Office) và buồng phòng",
+                  "Chiến lược quản trị doanh thu phòng (RevPAR, ADR, Occupancy Rate)",
+                  "Quản lý chất lượng dịch vụ ăn uống F&B trong khách sạn",
+                  "Quản trị nhân sự và đào tạo nhân viên ngành hiếu khách",
+                  "Xây dựng tiêu chuẩn vận hành SOP (Standard Operating Procedures)",
+                  "Chiến lược tiếp thị và giữ chân khách hàng thân thiết",
+                  "Quản lý cơ sở vật chất và an toàn vệ sinh trong khách sạn",
+                  "Phân tích báo cáo tài chính và kiểm soát chi phí vận hành"
+            ],
+            "skills": [
+                  "Quản lý khách sạn",
+                  "Quản trị doanh thu",
+                  "Xây dựng quy trình SOP",
+                  "Quản lý F&B"
+            ],
+            "tools": [
+                  "Opera PMS",
+                  "Smile PMS",
+                  "Excel phân tích RevPAR",
+                  "Báo cáo P&L"
+            ]
+      },
+      "C014": {
+            "outcomes": [
+                  "Nguyên tắc vàng trong dịch vụ chăm sóc khách hàng đỉnh cao",
+                  "Kỹ năng lắng nghe thấu cảm và nắm bắt nhu cầu ngầm định",
+                  "Phương pháp chuyển hóa khách hàng tức giận thành khách hàng trung thành",
+                  "Kỹ năng giao tiếp phi ngôn ngữ, ngôn ngữ cơ thể và nụ cười",
+                  "Quản lý kỳ vọng khách hàng và tạo khoảnh khắc ấn tượng (Wow moments)",
+                  "Sử dụng phần mềm Helpdesk để theo dõi và giải quyết yêu cầu",
+                  "Đo lường mức độ hài lòng khách hàng qua chỉ số CSAT & NPS",
+                  "Thực hành xử lý 10 tình huống khó khăn điển hình trong nhà hàng/khách sạn"
+            ],
+            "skills": [
+                  "Chăm sóc khách hàng",
+                  "Giao tiếp thấu cảm",
+                  "Xử lý khiếu nại",
+                  "Đo lường CSAT"
+            ],
+            "tools": [
+                  "Zendesk Support",
+                  "HubSpot Service",
+                  "Mẫu khảo sát CSAT"
+            ]
+      },
+      "C015": {
+            "outcomes": [
+                  "Làm chủ phát âm chuẩn Pinyin và các thanh điệu tiếng Trung",
+                  "Giao tiếp thành thạo các chủ đề đón tiếp, chào hỏi và giới thiệu",
+                  "Giao tiếp trong nhà hàng: gọi món, thanh toán và văn hóa ẩm thực",
+                  "Chỉ đường, hướng dẫn mua sắm và mặc cả tại các điểm du lịch",
+                  "Từ vựng chuyên ngành khách sạn: nhận phòng, đổi phòng, dọn phòng",
+                  "Xử lý các tình huống khẩn cấp, hỏi thăm sức khỏe và tìm đồ thất lạc",
+                  "Nắm vững hơn 600 từ vựng và cấu trúc ngữ pháp đạt chuẩn HSK 3",
+                  "Tự tin dẫn đoàn và giao tiếp với khách du lịch nói tiếng Trung"
+            ],
+            "skills": [
+                  "Tiếng Trung giao tiếp",
+                  "Phát âm Pinyin",
+                  "Từ vựng du lịch HSK",
+                  "Đàm thoại dịch vụ"
+            ],
+            "tools": [
+                  "Từ điển Pleco",
+                  "App HelloChinese",
+                  "Tài liệu HSK chuẩn",
+                  "Flashcards"
+            ]
+      },
+      "C016": {
+            "outcomes": [
+                  "Nắm bắt tài nguyên và tiềm năng du lịch sinh thái vùng sông nước ĐBSCL",
+                  "Khảo sát và xây dựng chương trình tour du lịch miệt vườn, chợ nổi",
+                  "Kỹ năng tính giá thành (Costing) và định giá bán tour cạnh tranh",
+                  "Thiết lập mối quan hệ hợp tác với nhà vườn, chủ đò và homestay",
+                  "Điều hành phương tiện vận chuyển và đảm bảo an toàn sông nước",
+                  "Xây dựng các hoạt động trải nghiệm văn hóa bản địa độc đáo",
+                  "Quản lý rủi ro thiên tai, thời tiết và thủy triều đặc trưng miền Tây",
+                  "Tiếp thị và quảng bá tour sinh thái trên các nền tảng mạng xã hội"
+            ],
+            "skills": [
+                  "Thiết kế tour",
+                  "Định giá tour",
+                  "Du lịch sinh thái",
+                  "Điều hành lữ hành",
+                  "Văn hóa ĐBSCL"
+            ],
+            "tools": [
+                  "Excel tính giá tour",
+                  "Bản đồ luồng tuyến ĐBSCL",
+                  "Phần mềm Tour Operator"
+            ]
+      },
+      "C017": {
+            "outcomes": [
+                  "Hiểu bản chất và tầm quan trọng của Quản trị Doanh thu Khách sạn",
+                  "Dự báo nhu cầu đặt phòng chính xác theo mùa và ngày trong tuần",
+                  "Chiến lược định giá động (Dynamic Pricing) theo thời gian thực",
+                  "Tối ưu hóa các kênh phân phối trực tuyến (OTAs: Agoda, Booking, Traveloka)",
+                  "Quản lý tỷ lệ hoa hồng và chi phí thu hút khách hàng (CAC)",
+                  "Tính toán và tối ưu hóa các chỉ số đo lường hiệu quả RevPAR & GopPAR",
+                  "Kiểm soát phân bổ phòng trống (Overbooking & Length of Stay controls)",
+                  "Xây dựng bảng kế hoạch kinh doanh và tối đa hóa lợi nhuận"
+            ],
+            "skills": [
+                  "Revenue Management",
+                  "Định giá động",
+                  "Quản lý kênh OTA",
+                  "Dự báo nhu cầu"
+            ],
+            "tools": [
+                  "Channel Manager",
+                  "Rate Shopper",
+                  "Excel Revenue Model",
+                  "Báo cáo STR"
+            ]
+      },
+      "C018": {
+            "outcomes": [
+                  "Hiểu cấu trúc mạng lưới chuỗi cung ứng toàn cầu từ nguyên liệu đến khách hàng",
+                  "Nguyên lý quản lý tồn kho và mô hình đặt hàng kinh tế EOQ",
+                  "Tối ưu hóa chi phí vận chuyển đường bộ, đường biển và hàng không",
+                  "Thiết kế mạng lưới kho bãi và trung tâm phân phối (Distribution Centers)",
+                  "Phương pháp dự báo nhu cầu và hiện tượng hiệu ứng Bullwhip",
+                  "Ứng dụng công nghệ RFID, Barcode và IoT trong giám sát hàng hóa",
+                  "Chiến lược quản trị rủi ro và tăng cường độ dẻo dai chuỗi cung ứng",
+                  "Nghiên cứu mô hình chuỗi cung ứng thành công của Apple, Amazon, Walmart"
+            ],
+            "skills": [
+                  "Quản lý chuỗi cung ứng",
+                  "Quản trị tồn kho",
+                  "Logistics toàn cầu",
+                  "Dự báo nhu cầu"
+            ],
+            "tools": [
+                  "Mô hình EOQ",
+                  "Mô phỏng chuỗi cung ứng",
+                  "Excel Solver",
+                  "Phần mềm WMS"
+            ]
+      },
+      "C019": {
+            "outcomes": [
+                  "Nắm vững Luật Hải quan và các thông tư hướng dẫn xuất nhập khẩu mới nhất",
+                  "Quy trình đăng ký chữ ký số và tài khoản trên hệ thống VNACCS/VCIS",
+                  "Kỹ thuật tra cứu mã số hàng hóa (Mã HS Code) chính xác",
+                  "Lập và truyền tờ khai hải quan điện tử cho hàng xuất và hàng nhập",
+                  "Xử lý các luồng hải quan: Luồng Xanh, Luồng Vàng và Luồng Đỏ",
+                  "Chuẩn bị bộ hồ sơ hải quan đầy đủ: Hóa đơn, Vận đơn, C/O, Packing list",
+                  "Xử lý kiểm tra chuyên ngành (kiểm dịch thực vật, an toàn thực phẩm nông sản)",
+                  "Kỹ năng xử lý sự cố tờ khai bị từ chối và khiếu nại hải quan"
+            ],
+            "skills": [
+                  "Thủ tục hải quan",
+                  "Khai báo VNACCS",
+                  "Tra cứu mã HS",
+                  "Kiểm tra chuyên ngành"
+            ],
+            "tools": [
+                  "Phần mềm ECUS5-VNACCS",
+                  "Cổng thông tin một cửa quốc gia",
+                  "Biểu thuế XNK"
+            ]
+      },
+      "C020": {
+            "outcomes": [
+                  "Quy trình trọn gói một lô hàng xuất nhập khẩu đường biển và đường hàng không",
+                  "Soạn thảo và đàm phán Hợp đồng thương mại quốc tế (Sales Contract)",
+                  "Lập bộ chứng từ xuất nhập khẩu chuẩn: Commercial Invoice, Packing List",
+                  "Làm việc với hãng tàu, đại lý FWD để lấy Booking Note và phát hành B/L",
+                  "Lập hồ sơ xin cấp Chứng nhận xuất xứ hàng hóa (C/O Form D, E, EUR.1, CPTPP)",
+                  "Phương thức thanh toán quốc tế: T/T, L/C (Thư tín dụng), D/P, D/A",
+                  "Bảo hiểm hàng hóa xuất nhập khẩu và quy trình khiếu nại bồi thường",
+                  "Thực hành trên bộ chứng từ xuất khẩu gạo, thủy sản thực tế vùng ĐBSCL"
+            ],
+            "skills": [
+                  "Xuất nhập khẩu",
+                  "Chứng từ thương mại",
+                  "Thanh toán quốc tế L/C",
+                  "Xin cấp C/O"
+            ],
+            "tools": [
+                  "Bộ mẫu chứng từ chuẩn",
+                  "Hệ thống Comis",
+                  "Bill of Lading",
+                  "Sales Contract"
+            ]
+      },
+      "C021": {
+            "outcomes": [
+                  "Thiết kế mặt bằng bố trí kho hàng (Layout design) tối ưu diện tích",
+                  "Quy trình nhập kho, kiểm đếm và dán nhãn định danh hàng hóa",
+                  "Áp dụng phương pháp xếp dỡ và lưu kho FIFO, LIFO, FEFO",
+                  "Kiểm soát tồn kho theo phương pháp phân loại ABC và chỉ số vòng quay tồn kho",
+                  "Quy trình nhặt hàng (Order Picking) và đóng gói nhanh chóng, chính xác",
+                  "Vận hành hệ thống quản lý kho WMS (Warehouse Management System)",
+                  "Đảm bảo an toàn lao động, phòng cháy chữa cháy và vệ sinh kho bãi",
+                  "Giảm thiểu thất thoát, hư hỏng hàng hóa và kiểm kê định kỳ"
+            ],
+            "skills": [
+                  "Quản lý kho hàng",
+                  "Kiểm soát tồn kho",
+                  "Vận hành WMS",
+                  "Phương pháp FIFO/ABC"
+            ],
+            "tools": [
+                  "Hệ thống WMS",
+                  "Máy quét mã vạch",
+                  "Excel quản lý kho",
+                  "Bảng KPI kho"
+            ]
+      },
+      "C022": {
+            "outcomes": [
+                  "Hiểu tổng quan giải pháp ERP SAP S/4HANA cho doanh nghiệp",
+                  "Nắm vững các phân hệ Logistics cốt lõi: MM (Mua hàng), SD (Bán hàng), WM/EWM (Kho)",
+                  "Quy trình mua hàng Procure-to-Pay (P2P) từ yêu cầu đến thanh toán",
+                  "Quy trình bán hàng Order-to-Cash (O2C) từ đơn hàng đến giao hàng",
+                  "Quản lý dữ liệu tổng thể (Master Data): Vật tư, Nhà cung cấp, Khách hàng",
+                  "Thực hiện các giao dịch nhập xuất kho và chuyển kho trên SAP",
+                  "Truy xuất báo cáo tồn kho, lịch sử đơn hàng và phân tích chi phí",
+                  "Thực hành trên giao diện SAP Fiori hiện đại, trực quan"
+            ],
+            "skills": [
+                  "Phần mềm SAP",
+                  "ERP Doanh nghiệp",
+                  "Quản lý chuỗi cung ứng",
+                  "Quy trình P2P/O2C"
+            ],
+            "tools": [
+                  "SAP S/4HANA",
+                  "SAP Fiori",
+                  "SAP GUI",
+                  "SAP Business One"
+            ]
+      },
+      "C023": {
+            "outcomes": [
+                  "Nắm vững 11 điều kiện thương mại quốc tế Incoterms 2020 mới nhất",
+                  "Phân biệt rõ điểm chuyển giao rủi ro và chi phí giữa người mua và người bán",
+                  "Làm chủ các điều kiện phổ biến cho vận tải biển: FOB, CIF, CFR, FAS",
+                  "Làm chủ các điều kiện đa phương thức: EXW, FCA, CPT, CIP, DAP, DPU, DDP",
+                  "Chiến lược lựa chọn điều kiện Incoterms có lợi nhất cho nhà xuất khẩu/nhập khẩu",
+                  "Mối liên hệ giữa Incoterms và Hợp đồng bảo hiểm, Vận đơn đường biển",
+                  "Phòng tránh các sai sót và tranh chấp thương mại thường gặp về Incoterms",
+                  "Phân tích các tình huống tranh chấp thực tế do Tòa Trọng tài ICC giải quyết"
+            ],
+            "skills": [
+                  "Incoterms 2020",
+                  "Luật thương mại quốc tế",
+                  "Đàm phán hợp đồng",
+                  "Quản trị rủi ro"
+            ],
+            "tools": [
+                  "Bảng tra cứu Incoterms 2020",
+                  "Sơ đồ chuyển giao rủi ro ICC",
+                  "Mẫu hợp đồng ICC"
+            ]
+      },
+      "C024": {
+            "outcomes": [
+                  "Nền tảng Marketing số và xây dựng phễu khách hàng trực tuyến",
+                  "Kỹ thuật tối ưu hóa công cụ tìm kiếm (SEO On-page & Off-page)",
+                  "Thiết lập và chạy chiến dịch quảng cáo tìm kiếm Google Ads",
+                  "Chiến lược tiếp thị qua mạng xã hội (Facebook, TikTok, LinkedIn)",
+                  "Tiếp thị qua Email Marketing tự động hóa và nuôi dưỡng khách hàng",
+                  "Xây dựng và quản lý cửa hàng thương mại điện tử trên Shopify / Shopee",
+                  "Đo lường và phân tích hiệu quả chiến dịch với Google Analytics 4 (GA4)",
+                  "Xây dựng chiến lược truyền thông số tổng thể cho doanh nghiệp"
+            ],
+            "skills": [
+                  "Digital Marketing",
+                  "SEO",
+                  "Google Ads",
+                  "E-Commerce",
+                  "Google Analytics 4"
+            ],
+            "tools": [
+                  "Google Ads",
+                  "Google Analytics 4",
+                  "Shopify",
+                  "Mailchimp",
+                  "Canva"
+            ]
+      },
+      "C025": {
+            "outcomes": [
+                  "Đọc và phân tích 3 báo cáo tài chính cốt lõi (Bảng CĐKT, Báo cáo KQKD, LCTT)",
+                  "Tính toán và đánh giá các chỉ số tài chính: Khả năng sinh lời (ROE, ROA), Thanh khoản, Đòn bẩy",
+                  "Dự báo dòng tiền tự do trong tương lai của doanh nghiệp (FCFF & FCFE)",
+                  "Làm chủ mô hình chiết khấu dòng tiền (DCF - Discounted Cash Flow)",
+                  "Định giá doanh nghiệp theo phương pháp so sánh bội số (P/E, P/B, EV/EBITDA)",
+                  "Phân tích độ nhạy (Sensitivity Analysis) và kịch bản tài chính",
+                  "Đánh giá hiệu quả đầu tư dự án với chỉ số NPV, IRR và thời gian hoàn vốn",
+                  "Xây dựng bài thuyết trình định giá doanh nghiệp chuyên nghiệp"
+            ],
+            "skills": [
+                  "Phân tích tài chính",
+                  "Định giá doanh nghiệp",
+                  "Mô hình DCF",
+                  "Đọc báo cáo tài chính"
+            ],
+            "tools": [
+                  "Microsoft Excel",
+                  "Mô hình định giá DCF",
+                  "Capital IQ",
+                  "Báo cáo thường niên"
+            ]
+      },
+      "C026": {
+            "outcomes": [
+                  "Làm chủ hơn 50 hàm phân tích dữ liệu quan trọng (XLOOKUP, INDEX/MATCH, SUMIFS, COUNTIFS)",
+                  "Tổ chức và làm sạch tập dữ liệu lớn với Excel Tables",
+                  "Xây dựng bảng tổng hợp Pivot Tables và biểu đồ động Pivot Charts",
+                  "Sử dụng công cụ Slicers và Timelines để lọc báo cáo tương tác",
+                  "Tự động hóa chuyển đổi dữ liệu thô với công cụ Power Query",
+                  "Phân tích kịch bản What-If Analysis và công cụ tìm kiếm Goal Seek",
+                  "Thiết kế Dashboard báo cáo kinh doanh chuyên nghiệp, bắt mắt",
+                  "Bảo vệ trang tính, phân quyền dữ liệu và phím tắt tăng tốc làm việc"
+            ],
+            "skills": [
+                  "Excel nâng cao",
+                  "Pivot Table",
+                  "XLOOKUP",
+                  "Power Query",
+                  "Thiết kế Dashboard"
+            ],
+            "tools": [
+                  "Microsoft Excel 365",
+                  "Power Query",
+                  "Excel Formulas Lab",
+                  "Add-ins"
+            ]
+      },
+      "C027": {
+            "outcomes": [
+                  "Nắm vững nguyên lý kế toán và hệ thống tài khoản theo Thông tư 200/133",
+                  "Quy trình hạch toán kế toán mua hàng, bán hàng và công nợ",
+                  "Kế toán tiền mặt, tiền gửi ngân hàng và tiền lương nhân viên",
+                  "Kế toán kho vật tư, tính giá thành sản phẩm và giá vốn hàng bán",
+                  "Tính thuế GTGT, thuế TNDN, thuế TNCN và lập tờ khai thuế điện tử",
+                  "Thao tác trọn gói trên phần mềm kế toán MISA SME / AMIS",
+                  "Lập bảng cân đối phát sinh và kiểm tra đối chiếu sổ sách cuối kỳ",
+                  "Khóa sổ và lập bộ Báo cáo tài chính hoàn chỉnh nộp cơ quan thuế"
+            ],
+            "skills": [
+                  "Kế toán doanh nghiệp",
+                  "Phần mềm MISA",
+                  "Khai báo thuế",
+                  "Lập báo cáo tài chính"
+            ],
+            "tools": [
+                  "Phần mềm MISA SME",
+                  "Hóa đơn điện tử meInvoice",
+                  "HTKK Thuế"
+            ]
+      },
+      "C028": {
+            "outcomes": [
+                  "Kết nối và chuyển đổi dữ liệu từ nhiều nguồn khác nhau vào Power BI",
+                  "Làm sạch và mô hình hóa dữ liệu (Data Modeling & Star Schema)",
+                  "Viết các công thức tính toán nâng cao bằng ngôn ngữ DAX (CALCULATE, FILTER, RELATED)",
+                  "Thiết kế các biểu đồ trực quan hóa dữ liệu đa dạng và đẹp mắt",
+                  "Tạo các bộ lọc tương tác đa chiều, Drill-through và Tooltips tùy chỉnh",
+                  "Xây dựng Dashboard theo dõi chỉ số hiệu suất KPI theo thời gian thực",
+                  "Xuất bản và chia sẻ báo cáo lên dịch vụ Power BI Service trên đám mây",
+                  "Phân quyền bảo mật dữ liệu theo cấp bậc người dùng (Row-Level Security - RLS)"
+            ],
+            "skills": [
+                  "Power BI",
+                  "Data Visualization",
+                  "Ngôn ngữ DAX",
+                  "Data Modeling",
+                  "Business Intelligence"
+            ],
+            "tools": [
+                  "Power BI Desktop",
+                  "Power BI Service",
+                  "Power Query",
+                  "DAX Studio"
+            ]
+      },
+      "C029": {
+            "outcomes": [
+                  "Nhận diện và phân loại các loại rủi ro tài chính: Thị trường, Tín dụng, Thanh khoản, Tỷ giá",
+                  "Đo lường mức độ rủi ro với chỉ số Value at Risk (VaR) và Stress Testing",
+                  "Sử dụng công cụ phái sinh (Hợp đồng kỳ hạn Forward, Hợp đồng tương lai Futures) để phòng ngừa rủi ro",
+                  "Chiến lược phòng ngừa rủi ro biến động lãi suất và tỷ giá ngoại tệ",
+                  "Đánh giá xếp hạng tín nhiệm và quản trị rủi ro nợ xấu khách hàng",
+                  "Xây dựng khung quản trị rủi ro doanh nghiệp theo chuẩn quốc tế COSO",
+                  "Thiết lập các hạn mức rủi ro và quy trình báo cáo ban lãnh đạo",
+                  "Phân tích các bài học thất bại tài chính lớn trong lịch sử kinh tế"
+            ],
+            "skills": [
+                  "Quản trị rủi ro",
+                  "Phòng ngừa rủi ro (Hedging)",
+                  "Đo lường VaR",
+                  "Công cụ phái sinh"
+            ],
+            "tools": [
+                  "Excel Risk Model",
+                  "VaR Calculator",
+                  "Bloomberg Terminal Data",
+                  "Khung COSO"
+            ]
+      },
+      "C030": {
+            "outcomes": [
+                  "Tổng quan về nông nghiệp chính xác và cách mạng nông nghiệp 4.0",
+                  "Ứng dụng công nghệ GPS/GNSS trong dẫn đường máy móc nông nghiệp tự động",
+                  "Sử dụng máy bay không người lái (Drone) để chụp ảnh đa phổ theo dõi sức khỏe cây trồng",
+                  "Phân tích chỉ số thực vật NDVI để phát hiện sâu bệnh và thiếu dinh dưỡng sớm",
+                  "Bản đồ hóa độ phì nhiêu của đất và kỹ thuật bón phân biến thiên (VRA)",
+                  "Hệ thống tưới tiêu thông minh tự động dựa trên cảm biến độ ẩm đất",
+                  "Phân tích dữ liệu mùa vụ để tối ưu hóa năng suất và giảm chi phí đầu vào",
+                  "Bảo vệ môi trường và giảm thiểu phát thải khí nhà kính trong canh tác"
+            ],
+            "skills": [
+                  "Nông nghiệp chính xác",
+                  "Phân tích ảnh NDVI",
+                  "Ứng dụng Drone",
+                  "Tưới tiêu thông minh"
+            ],
+            "tools": [
+                  "Drone đa phổ",
+                  "Phần mềm GIS",
+                  "Cảm biến độ ẩm",
+                  "Phần mềm quản lý nông trại"
+            ]
+      },
+      "C031": {
+            "outcomes": [
+                  "Kiến trúc giải pháp IoT trong nông nghiệp từ cảm biến đến đám mây",
+                  "Lắp đặt và hiệu chuẩn các loại cảm biến: Độ ẩm đất, nhiệt độ, ánh sáng, EC, pH",
+                  "Kết nối thiết bị qua các giao thức truyền thông không dây tầm xa LoRaWAN, Zigbee, Wi-Fi",
+                  "Thu thập dữ liệu cảm biến và gửi lên nền tảng đám mây Azure IoT Hub",
+                  "Tự động hóa đóng/mở van tưới, quạt thông gió và đèn quang hợp theo điều kiện môi trường",
+                  "Xây dựng Dashboard giám sát trạng thái nhà màng/chuồng trại thời gian thực",
+                  "Cảnh báo sự cố tức thời qua tin nhắn SMS và ứng dụng điện thoại",
+                  "Tối ưu hóa năng lượng cho các trạm đo sử dụng pin mặt trời ngoài đồng ruộng"
+            ],
+            "skills": [
+                  "IoT nông nghiệp",
+                  "Cảm biến môi trường",
+                  "Mạng LoRaWAN",
+                  "Tự động hóa nhà màng"
+            ],
+            "tools": [
+                  "Azure IoT Hub",
+                  "Vi điều khiển ESP32 / Arduino",
+                  "Cảm biến đất pH/EC",
+                  "Node-RED"
+            ]
+      },
+      "C032": {
+            "outcomes": [
+                  "Làm quen với giao diện và các công cụ cốt lõi của phần mềm mã nguồn mở QGIS",
+                  "Nhập và quản lý dữ liệu bản đồ Vector (Shapefile, GeoJSON) và Raster",
+                  "Định vị tọa độ và chuyển đổi hệ quy chiếu bản đồ chuẩn VN-2000",
+                  "Xây dựng bản đồ phân loại đất nông nghiệp và ranh giới vùng canh tác",
+                  "Tải và xử lý ảnh vệ tinh miễn phí Sentinel-2 và Landsat để giám sát mùa vụ",
+                  "Tính toán diện tích canh tác, độ dốc địa hình và phân tích dòng chảy mặt nước",
+                  "Trình bày và xuất bản đồ chuyên đề nông nghiệp đạt chuẩn in ấn",
+                  "Ứng dụng GIS trong quản lý chuỗi mã vùng trồng xuất khẩu"
+            ],
+            "skills": [
+                  "Phần mềm QGIS",
+                  "Bản đồ số nông nghiệp",
+                  "Xử lý ảnh vệ tinh",
+                  "Hệ quy chiếu VN-2000"
+            ],
+            "tools": [
+                  "QGIS Desktop",
+                  "Ảnh vệ tinh Sentinel-2",
+                  "Google Earth Pro",
+                  "GPS cầm tay"
+            ]
+      },
+      "C033": {
+            "outcomes": [
+                  "Nắm vững 7 nguyên tắc và 12 bước xây dựng hệ thống quản lý an toàn thực phẩm HACCP",
+                  "Phân tích các mối nguy sinh học, hóa học và vật lý trong chế biến nông - thủy sản",
+                  "Xác định các điểm kiểm soát tới hạn (CCP - Critical Control Points)",
+                  "Thiết lập giới hạn tới hạn, hệ thống giám sát và hành động khắc phục khi vượt ngưỡng",
+                  "Xây dựng quy trình vệ sinh chuẩn SSOP và thực hành sản xuất tốt GMP",
+                  "Quy trình truy xuất nguồn gốc sản phẩm và thu hồi hàng hóa khi có sự cố",
+                  "Kỹ năng đánh giá nội bộ hệ thống chất lượng theo tiêu chuẩn ISO 22000:2018",
+                  "Chuẩn bị hồ sơ và tiếp đoàn thanh tra, đánh giá cấp chứng nhận quốc tế"
+            ],
+            "skills": [
+                  "HACCP",
+                  "ISO 22000",
+                  "An toàn vệ sinh thực phẩm",
+                  "Kiểm soát chất lượng QA/QC"
+            ],
+            "tools": [
+                  "Sơ đồ cây quyết định CCP",
+                  "Biểu mẫu kiểm soát GMP/SSOP",
+                  "Bảng phân tích mối nguy"
+            ]
+      },
+      "C034": {
+            "outcomes": [
+                  "Làm chủ cấu trúc bài thuyết trình ấn tượng theo nguyên lý mở đầu cuốn hút",
+                  "Kỹ thuật kiểm soát giọng nói, ngữ điệu và ngôn ngữ hình thể tự tin trước đám đông",
+                  "Thiết kế slide thuyết trình trực quan, cô đọng và chuyên nghiệp",
+                  "Kỹ năng lắng nghe tích cực và đặt câu hỏi khai phóng trong giao tiếp công việc",
+                  "Nghệ thuật giao tiếp ứng xử khéo léo với cấp trên, đồng nghiệp và khách hàng",
+                  "Kỹ năng phản hồi mang tính xây dựng (Feedback) và xử lý tình huống phản biện hóc búa",
+                  "Làm chủ tâm lý, vượt qua nỗi sợ hãi khi đứng trước đám đông",
+                  "Thực hành ghi hình thuyết trình và nhận đánh giá chi tiết từ chuyên gia"
+            ],
+            "skills": [
+                  "Giao tiếp chuyên nghiệp",
+                  "Thuyết trình trước đám đông",
+                  "Ngôn ngữ cơ thể",
+                  "Kỹ năng lắng nghe"
+            ],
+            "tools": [
+                  "PowerPoint / Canva",
+                  "Micro thuyết trình",
+                  "Kỹ thuật Storytelling",
+                  "Bảng chấm điểm bài nói"
+            ]
+      },
+      "C035": {
+            "outcomes": [
+                  "Phân biệt tư duy phản biện với suy nghĩ cảm tính và định kiến chủ quan",
+                  "Phương pháp phân tích lập luận, xác thực bằng chứng và tính hợp lý của dữ liệu",
+                  "Kỹ thuật giải quyết vấn đề phức tạp theo phương pháp 5 Whys và Fishbone Diagram",
+                  "Kích thích tư duy sáng tạo với phương pháp Brainstorming và kỹ thuật SCAMPER",
+                  "Áp dụng tư duy thiết kế (Design Thinking) để tạo ra giải pháp lấy người dùng làm trung tâm",
+                  "Đánh giá các giải pháp khả thi bằng ma trận quyết định có trọng số",
+                  "Phát hiện các ngụy biện logic (Logical Fallacies) phổ biến trong đàm phán kinh doanh",
+                  "Xây dựng văn hóa đổi mới sáng tạo trong đội ngũ và doanh nghiệp"
+            ],
+            "skills": [
+                  "Tư duy phản biện",
+                  "Tư duy sáng tạo",
+                  "Giải quyết vấn đề",
+                  "Design Thinking"
+            ],
+            "tools": [
+                  "Sơ đồ xương cá (Fishbone)",
+                  "Kỹ thuật SCAMPER",
+                  "Ma trận quyết định",
+                  "Mindmap"
+            ]
+      },
+      "C036": {
+            "outcomes": [
+                  "Xác định mục tiêu rõ ràng theo nguyên tắc SMART và lập kế hoạch làm việc tuần",
+                  "Phân loại mức độ ưu tiên công việc bằng ma trận Eisenhower (Khẩn cấp vs Quan trọng)",
+                  "Kỹ thuật tập trung cao độ Pomodoro để loại bỏ xao nhãng và trì hoãn",
+                  "Cách ủy quyền công việc hiệu quả và nghệ thuật từ chối các việc không trọng tâm",
+                  "Tối ưu hóa quản lý hộp thư email và hạn chế các cuộc họp không hiệu quả",
+                  "Xây dựng thói quen làm việc năng suất cao và duy trì năng lượng suốt ngày dài",
+                  "Quản lý căng thẳng (Stress) và cân bằng giữa công việc và cuộc sống cá nhân",
+                  "Sử dụng các công cụ số để theo dõi tiến độ và quản lý danh sách việc cần làm (To-do list)"
+            ],
+            "skills": [
+                  "Quản lý thời gian",
+                  "Lập kế hoạch công việc",
+                  "Tập trung Pomodoro",
+                  "Ma trận Eisenhower"
+            ],
+            "tools": [
+                  "Notion / Trello",
+                  "Đồng hồ Pomodoro",
+                  "Google Calendar",
+                  "Bảng Kanban"
+            ]
+      }
+};
+
+    function generateCourseDetails(c) {
+      const skill = c.skill || c.group || 'Kỹ năng chuyên môn';
+      return {
+        outcomes: [
+          `Nắm vững nền tảng và phương pháp thực hành cốt lõi về ${skill}`,
+          `Hiểu rõ các nguyên tắc thiết kế và quy chuẩn thực tế trong ngành`,
+          `Phân tích các tình huống nghiên cứu và giải quyết bài toán nghiệp vụ`,
+          `Áp dụng các công cụ và phần mềm chuyên dụng hỗ trợ công việc`,
+          `Tối ưu hóa quy trình làm việc và nâng cao hiệu suất cá nhân`,
+          `Thực hiện dự án thực chiến mô phỏng môi trường doanh nghiệp`,
+          `Phát triển kỹ năng tư duy phản biện và đánh giá chất lượng sản phẩm`,
+          `Chuẩn bị hành trang năng lực sẵn sàng đáp ứng yêu cầu nhà tuyển dụng`
+        ],
+        skills: [skill, "Tư duy nghiệp vụ", "Giải quyết vấn đề", "Thực hành thực tế", "Kỹ năng chuyên ngành"],
+        tools: [c.platform || "Nền tảng trực tuyến", "Tài liệu chuyên ngành", "Bộ công cụ chuyên môn", "Phần mềm ứng dụng"]
+      };
+    }
+
+    function openCourseDetailModal(courseId) {
+      const course = COURSES_DATA.find(c => c.id === courseId) || COURSES_DATA[0];
+      if (!course) return;
+
+      const details = COURSE_DETAILS_DATA[course.id] || generateCourseDetails(course);
+
+      const skillBadge = document.getElementById('cdmSkillBadge');
+      if (skillBadge) skillBadge.textContent = course.skill || course.group || 'Khóa học';
+
+      const provEl = document.getElementById('cdmProvider');
+      if (provEl) provEl.textContent = course.provider || 'Coursera';
+
+      const titleEl = document.getElementById('cdmTitle');
+      if (titleEl) titleEl.textContent = course.title;
+
+      const durEl = document.getElementById('cdmDuration');
+      if (durEl) durEl.textContent = course.duration || 'Tự học';
+
+      const priceEl = document.getElementById('cdmPrice');
+      if (priceEl) {
+        const isFree = course.price && (course.price.toLowerCase().includes('miễn phí') || course.price.toLowerCase().includes('free') || course.price.toLowerCase().includes('audit'));
+        priceEl.textContent = isFree ? 'Miễn phí' : course.price;
+        priceEl.style.color = isFree ? '#0d9488' : '#d97706';
+      }
+
+      const outcomesGrid = document.getElementById('cdmOutcomesGrid');
+      if (outcomesGrid) {
+        outcomesGrid.innerHTML = details.outcomes.map(item => `
+          <div style="display:flex;align-items:flex-start;gap:9px;font-size:13px;color:#1e293b;font-weight:500;line-height:1.45;">
+            <span style="width:19px;height:19px;border-radius:50%;background:#ccfbf1;color:#0d9488;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;margin-top:1px;">✓</span>
+            <span>${item}</span>
+          </div>
+        `).join('');
+      }
+
+      const skillsList = document.getElementById('cdmSkillsList');
+      if (skillsList) {
+        skillsList.innerHTML = details.skills.map(s => `
+          <span style="background:#ccfbf1;color:#0f766e;border-radius:9999px;padding:6px 14px;font-size:12.5px;font-weight:700;">
+            ${s}
+          </span>
+        `).join('');
+      }
+
+      const toolsList = document.getElementById('cdmToolsList');
+      if (toolsList) {
+        toolsList.innerHTML = details.tools.map(t => `
+          <span style="background:#f1f5f9;color:#334155;border-radius:9999px;padding:6px 14px;font-size:12.5px;font-weight:700;">
+            ${t}
+          </span>
+        `).join('');
+      }
+
+      const actionBtn = document.getElementById('cdmActionBtn');
+      if (actionBtn) {
+        actionBtn.href = course.url || '#';
+      }
+
+      const modal = document.getElementById('courseDetailModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeCourseDetailModal() {
+      const modal = document.getElementById('courseDetailModal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+
+    window.openCourseDetailModal = openCourseDetailModal;
+    window.closeCourseDetailModal = closeCourseDetailModal;
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeCourseDetailModal();
+      }
+    });
+
 
     const ADMIN_USERS = [
       { id: "ADM001", name: "Nguyễn Admin", role: "admin", joined: "01/09/2026", status: "active" },
@@ -11629,7 +12695,7 @@
 
         return `
     <div class="course-card">
-      <div class="course-banner" style="min-height:140px;background:linear-gradient(135deg, ${theme.bg} 0%, rgba(255,255,255,0.4) 100%)">
+      <div class="course-banner" onclick="openCourseDetailModal('${c.id}')" style="cursor:pointer;min-height:140px;background:linear-gradient(135deg, ${theme.bg} 0%, rgba(255,255,255,0.4) 100%)">
         <div class="course-banner-top">
           <span class="course-skill-tag" style="color:${theme.text}">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -11659,10 +12725,17 @@
         </div>
       </div>
       
-      <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="course-cta">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Truy Cập Khóa Học Ngay
-      </a>
+      <!-- Hàng nút: [Chi Tiết] & [Truy Cập Khóa Học Ngay] (Khớp yêu cầu người dùng) -->
+      <div style="display:grid; grid-template-columns: 1fr 1.35fr; gap:8px; margin-top:auto">
+        <button type="button" onclick="openCourseDetailModal('${c.id}')" style="display:flex; align-items:center; justify-content:center; gap:6px; padding:11px 10px; border-radius:12px; background:#f0fdfa; color:#0d9488; border:1.5px solid #5eead4; font-size:13.5px; font-weight:700; cursor:pointer; transition:all 0.15s; outline:none; white-space:nowrap;" onmouseover="this.style.background='#ccfbf1'" onmouseout="this.style.background='#f0fdfa'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Chi Tiết
+        </button>
+        <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="course-cta" style="margin-top:0; padding:11px 12px; font-size:13.5px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Vào Học
+        </a>
+      </div>
     </div>`;
       }).join('');
     }
