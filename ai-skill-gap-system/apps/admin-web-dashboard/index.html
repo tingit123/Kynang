@@ -2917,72 +2917,174 @@
     /* CANDIDATE TEAL THEME (Matching user's screenshots exactly) */
     /* ══════════════════════════════════════════════════════════ */
     body.candidate-purple-theme {
+      --sidebar-w: 0px !important;
       background: #094741 !important;
       background: radial-gradient(ellipse at 50% 0%, #0d6e64 0%, #0a564e 35%, #073b36 70%, #052c28 100%) !important;
       background-attachment: fixed !important;
       color: #ffffff !important;
       font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
     }
+    body.candidate-purple-theme #adminLayout {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
     body.candidate-purple-theme .shell {
       display: block !important;
       width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     body.candidate-purple-theme .main,
     body.candidate-purple-theme #main {
       margin-left: 0 !important;
-      padding-top: 76px !important;
+      margin-right: 0 !important;
+      margin: 0 auto !important;
+      padding-top: 140px !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
       background: transparent !important;
       width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
       min-height: 100vh !important;
       display: flex !important;
       flex-direction: column !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
     }
     body.candidate-purple-theme #sidebar,
     body.candidate-purple-theme .sidebar {
       display: none !important;
+      width: 0 !important;
     }
     body.candidate-purple-theme .topbar {
       display: none !important;
     }
     body.candidate-purple-theme #publicNavbar {
       display: flex !important;
-      background: #0b5e55 !important;
+      flex-direction: column !important;
+      background: #083e38 !important;
       border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
-      height: 70px !important;
+      height: auto !important;
       z-index: 999 !important;
+    }
+    .public-navbar-top-row {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 24px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+    .public-navbar-sub-row {
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 16px 12px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.12);
+    }
+    .public-nav-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 0 auto;
+    }
+    .pub-nav-link {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      border-radius: 9999px;
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      outline: none;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .pub-nav-link:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+    }
+    .pub-nav-link.active {
+      background: #ffffff !important;
+      color: #042f2e !important;
+      border: 1px solid #ffffff !important;
+      font-weight: 800 !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18) !important;
+      padding: 7px 20px !important;
     }
     body.candidate-purple-theme #publicNavbar .public-logo-text {
       color: #ffffff !important;
     }
-    body.candidate-purple-theme #page-dashboard {
-      display: none !important;
+    body.candidate-purple-theme #page-dashboard .page-title,
+    body.candidate-purple-theme #page-cv-upload .page-title {
+      color: #ffffff !important;
+    }
+    body.candidate-purple-theme #page-dashboard .page-sub,
+    body.candidate-purple-theme #page-cv-upload .page-sub {
+      color: #ccfbf1 !important;
+    }
+    body.candidate-purple-theme #page-dashboard .card,
+    body.candidate-purple-theme #page-cv-upload .card,
+    body.candidate-purple-theme #page-dashboard .kpi-card {
+      background: #ffffff !important;
+      border: none !important;
+      border-radius: 20px !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+      color: #0f172a !important;
+    }
+    body.candidate-purple-theme #page-dashboard .card-title,
+    body.candidate-purple-theme #page-cv-upload .card-title {
+      color: #0f172a !important;
+    }
+    body.candidate-purple-theme #page-dashboard .card-sub,
+    body.candidate-purple-theme #page-cv-upload .card-sub {
+      color: #64748b !important;
+    }
+    body.candidate-purple-theme #page-dashboard .kpi-label {
+      color: #64748b !important;
+    }
+    body.candidate-purple-theme #page-dashboard .kpi-value {
+      color: #0f172a !important;
     }
     body.candidate-purple-theme .page {
       display: none !important;
     }
-    body.candidate-purple-theme .page.active {
+    body.candidate-purple-theme .page.active,
+    body.candidate-purple-theme #page-recommend.active,
+    body.candidate-purple-theme #page-industry.active,
+    body.candidate-purple-theme #page-candidate-jobs.active,
+    body.candidate-purple-theme #page-dashboard.active,
+    body.candidate-purple-theme #page-cv-upload.active,
+    body.candidate-purple-theme #page-courses.active,
+    body.candidate-purple-theme #page-softskills.active {
       display: flex !important;
       flex-direction: column !important;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 24px 16px 80px;
-      width: 100%;
-      box-sizing: border-box;
-      font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
-    }
-    body.candidate-purple-theme #page-recommend.active {
-      display: flex !important;
-      flex-direction: column !important;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 30px 16px 80px;
-      width: 100%;
-      box-sizing: border-box;
+      max-width: 1320px !important;
+      margin: 0 auto !important;
+      padding: 24px 24px 80px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
       font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif !important;
     }
     body.candidate-purple-theme #page-recommend .diag-card {
@@ -6058,54 +6160,46 @@
   <!-- ══════════════════════════════════════════════════════════════════ -->
   <div id="publicLayout" class="layout-container public-layout" style="display:none">
     <!-- TopNavbar component (Fixed Top) -->
+    <!-- TopNavbar component (Fixed Top) -->
     <header class="public-top-navbar" id="publicNavbar">
-      <div class="public-navbar-container">
-        <!-- Micro-task 2.1 Cụm Trái (Logo text SkillGapAI font đậm, không dùng icon vuông) -->
+      <!-- DÒNG 1: LOGO VÀ AUTH / TÁC VỤ -->
+      <div class="public-navbar-top-row">
+        <!-- Cụm Trái (Logo text SkillGapAI font đậm, khớp ảnh mẫu) -->
         <div class="public-nav-left" id="publicNavLeft">
           <a href="/" onclick="event.preventDefault(); navigate('/');" class="public-logo" title="SkillGapAI" style="text-decoration:none;display:flex;align-items:center;gap:4px">
-            <span style="font-size:22px;font-weight:900;color:#ffffff;letter-spacing:-0.5px">SkillGap<span style="color:#5eead4">AI</span></span>
+            <span style="font-size:24px;font-weight:900;color:#ffffff;letter-spacing:-0.5px">SkillGap<span style="color:#5eead4">AI</span></span>
           </a>
         </div>
 
-        <!-- Candidate Menu (Top Navbar ngang cho Người Tìm Việc / Sinh Viên) -->
-        <nav class="public-nav-center" id="publicNavCenter">
-          <button class="pub-nav-link active" id="pubNavAi" onclick="navigate('/')" style="padding:7px 18px;border-radius:9999px;font-weight:700;font-size:13px;border:1px solid rgba(94,234,212,0.4);background:#06332e;color:#ffffff;cursor:pointer">Chẩn đoán &amp; Lộ trình</button>
-          <button class="pub-nav-link" id="pubNavJobs" onclick="navigate('/jobs')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Việc làm</button>
-          <button class="pub-nav-link" id="pubNavIndustry" onclick="navigate('/explore-industries')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khám phá ngành nghề</button>
-          <button class="pub-nav-link" id="pubNavCourses" onclick="navigate('/courses')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Khóa học</button>
-          <button class="pub-nav-link" id="pubNavSoft" onclick="navigate('/soft-skills')" style="padding:7px 16px;border-radius:9999px;font-weight:500;font-size:13px;border:none;background:none;color:#ffffff;cursor:pointer">Cẩm nang kỹ năng mềm</button>
-        </nav>
-
-        <!-- Micro-task 2.x Cụm Phải (Auth / User Action) -->
+        <!-- Cụm Phải (Auth / User Action) -->
         <div class="public-nav-right" id="publicNavRight">
           <!-- 1. Trạng thái Chưa đăng nhập (Guest) -->
           <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:10px">
-            <button onclick="openAppliedDrawer()" style="background:rgba(94,234,212,0.18);color:#5eead4;border:1px solid rgba(94,234,212,0.4);font-weight:800;font-size:11px;padding:8px 14px;border-radius:9999px;cursor:pointer;letter-spacing:0.3px;display:inline-flex;align-items:center;gap:5px">
-              📋 VIỆC ĐÃ ỨNG TUYỂN
+            <button onclick="openAppliedDrawer()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);font-weight:600;font-size:12.5px;padding:7px 18px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px;display:inline-flex;align-items:center;gap:6px">
+              Việc đã ứng tuyển
             </button>
-            <button onclick="openAuthModal('login')" style="background:#ffffff;color:#094741;font-weight:800;font-size:12px;padding:9px 20px;border-radius:9999px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
-              ĐĂNG NHẬP
+            <button onclick="handleEmployerPortalClick()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);font-weight:600;font-size:12.5px;padding:7px 18px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px">
+              Đăng tuyển &amp; tìm hồ sơ
             </button>
-            <button onclick="openAuthModal('register')" style="background:#06332e;color:#ffffff;border:1px solid rgba(255,255,255,0.25);font-weight:800;font-size:12px;padding:9px 22px;border-radius:9999px;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
-              ĐĂNG KÝ
+            <button onclick="openAuthModal('login')" style="background:#ffffff;color:#094741;font-weight:700;font-size:12.5px;padding:7px 20px;border-radius:9999px;border:none;cursor:pointer;letter-spacing:0.2px">
+              Đăng nhập
             </button>
-            <button onclick="handleEmployerPortalClick()" style="background:#86efac;color:#064e3b;font-weight:800;font-size:12px;padding:9px 20px;border-radius:9999px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:0.3px">
-              ĐĂNG TUYỂN &amp; TÌM HỒ SƠ
+            <button onclick="openAuthModal('register')" style="background:rgba(255,255,255,0.12);color:#ffffff;border:1px solid rgba(255,255,255,0.3);font-weight:700;font-size:12.5px;padding:7px 20px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px">
+              Đăng ký
             </button>
           </div>
 
-          <!-- 2. Trạng thái Đã đăng nhập (Authenticated) - Micro-task 2.3 -->
+          <!-- 2. Trạng thái Đã đăng nhập (Authenticated) -->
           <div class="public-auth-user" id="publicAuthUser" style="display:none;align-items:center;gap:10px;position:relative">
-            <button id="pubBtnAppliedJobs" onclick="openAppliedDrawer()" style="background:#5eead4;color:#042f2e;border:none;border-radius:9999px;padding:7px 18px;font-size:11.5px;font-weight:800;letter-spacing:0.4px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s">
-              <span>📋</span> VIỆC ĐÃ ỨNG TUYỂN
-              <span id="pubAppliedBadge" style="background:#0f766e;color:#ffffff;border-radius:9999px;padding:1px 7px;font-size:10.5px;font-weight:900;margin-left:2px">1</span>
+            <button id="pubBtnAppliedJobs" onclick="openAppliedDrawer()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);border-radius:9999px;padding:7px 18px;font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s">
+              Việc đã ứng tuyển
             </button>
-            <div class="public-user-chip" id="publicUserChip" onclick="togglePublicUserDropdown(event)" title="Tài khoản của bạn">
-              <div class="public-user-avatar" id="publicUserAvatar">U</div>
-              <div class="public-user-name" id="publicUserName">User</div>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--text3);margin-left:2px">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
+            <button onclick="handleEmployerPortalClick()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);border-radius:9999px;padding:7px 18px;font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s">
+              Đăng tuyển &amp; tìm hồ sơ
+            </button>
+            <div class="public-user-chip" id="publicUserChip" onclick="togglePublicUserDropdown(event)" title="Tài khoản của bạn" style="background:#ffffff;color:#042f2e;border-radius:9999px;padding:4px 5px 4px 16px;display:inline-flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);font-weight:700;font-size:13px">
+              <span class="public-user-name" id="publicUserName" style="font-weight:700;font-size:13px;color:#042f2e">Nguyễn Văn An</span>
+              <span class="public-user-avatar" id="publicUserAvatar" style="background:#094741;color:#ffffff;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">A</span>
             </div>
 
             <!-- Dropdown Menu Người Dùng -->
@@ -6142,6 +6236,19 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- DÒNG 2: THANH 7 NÚT CHỨC NĂNG CĂN GIỮA, CHIA ĐỀU (SUB-ROW) -->
+      <div class="public-navbar-sub-row">
+        <nav class="public-nav-center" id="publicNavCenter">
+          <button class="pub-nav-link active" id="pubNavOverview" onclick="navigate('/')">Tổng quan</button>
+          <button class="pub-nav-link" id="pubNavAi" onclick="navigate('/ai-diagnosis')">Chẩn đoán &amp; Lộ trình</button>
+          <button class="pub-nav-link" id="pubNavCv" onclick="navigate('/cv-upload')">Phân tích CV (AI)</button>
+          <button class="pub-nav-link" id="pubNavJobs" onclick="navigate('/jobs')">Việc làm</button>
+          <button class="pub-nav-link" id="pubNavIndustry" onclick="navigate('/explore-industries')">Khám phá ngành nghề</button>
+          <button class="pub-nav-link" id="pubNavCourses" onclick="navigate('/courses')">Khóa học</button>
+          <button class="pub-nav-link" id="pubNavSoft" onclick="navigate('/soft-skills')">Cẩm nang kỹ năng mềm</button>
+        </nav>
       </div>
     </header>
 
@@ -6571,8 +6678,11 @@
   <!-- ══ GIAO DIỆN HALLOWEEN AUTH MODAL (ĐĂNG NHẬP & ĐĂNG KÝ HALLOWEEN) ══ -->
   <div id="halloweenAuthModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;background:rgba(5,15,15,0.95);backdrop-filter:blur(8px);align-items:center;justify-content:center;transition:all 0.3s ease">
     <!-- Nút Đóng Modal Halloween (✕) góc trên bên phải -->
-    <button onclick="closeHalloweenAuthModal()" title="Đóng giao diện Halloween và quay lại Dashboard" style="position:fixed;top:18px;right:24px;z-index:1000000;background:rgba(20,20,30,0.85);border:2px solid rgba(255,165,0,0.6);color:#ffffff;width:44px;height:44px;border-radius:50%;font-size:22px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,0.7);transition:all 0.25s ease" onmouseover="this.style.background='rgba(239,68,68,0.9)';this.style.transform='scale(1.1) rotate(90deg)'" onmouseout="this.style.background='rgba(20,20,30,0.85)';this.style.transform='scale(1) rotate(0deg)'">
-      ✕
+    <button type="button" onclick="closeHalloweenAuthModal()" title="Đóng giao diện Halloween và quay lại Dashboard" style="position:fixed;top:20px;right:25px;z-index:1000000;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.5);transition:all 0.2s" onmouseover="this.style.background='rgba(239,68,68,0.85)';this.style.borderColor='#ef4444'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.borderColor='rgba(255,255,255,0.3)'">✕</button>
+
+    <!-- Nút chuyển sang modal tiêu chuẩn dự phòng -->
+    <button type="button" onclick="switchToStandardAuthModal()" title="Mở đăng nhập cơ bản" style="position:fixed;bottom:20px;right:25px;z-index:1000000;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.3);color:#e2e8f0;padding:8px 16px;border-radius:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px">
+      <span>Đăng nhập cơ bản</span>
     </button>
     <iframe id="halloweenAuthFrame" src="about:blank" style="width:100vw;height:100vh;border:none;display:block"></iframe>
   </div>
@@ -7641,28 +7751,34 @@
 
     function updateCandidateNavLinks(path) {
       document.querySelectorAll('.pub-nav-link').forEach(btn => {
-        btn.style.background = 'none';
+        btn.classList.remove('active');
+        btn.style.background = 'rgba(255, 255, 255, 0.08)';
         btn.style.color = '#ffffff';
         btn.style.fontWeight = '500';
         btn.style.borderRadius = '9999px';
         btn.style.padding = '7px 18px';
-        btn.style.border = 'none';
+        btn.style.border = '1px solid rgba(255, 255, 255, 0.22)';
+        btn.style.boxShadow = 'none';
       });
-      let activeId = 'pubNavAi';
-      if (path === '/jobs' || path.startsWith('/jobs')) activeId = 'pubNavJobs';
+      let activeId = 'pubNavOverview';
+      if (path === '/' || path === '' || path === '/overview' || path.includes('dashboard')) activeId = 'pubNavOverview';
+      else if (path.includes('ai-diagnosis') || path.includes('recommend')) activeId = 'pubNavAi';
+      else if (path.includes('cv-upload') || path.includes('cv')) activeId = 'pubNavCv';
+      else if (path === '/jobs' || path.startsWith('/jobs')) activeId = 'pubNavJobs';
       else if (path.includes('explore-industries') || path.includes('industry')) activeId = 'pubNavIndustry';
       else if (path.includes('courses') || path.includes('learning')) activeId = 'pubNavCourses';
       else if (path.includes('soft-skills') || path.includes('softskills')) activeId = 'pubNavSoft';
-      else if (path === '/' || path === '' || path.includes('ai-diagnosis') || path.includes('recommend')) activeId = 'pubNavAi';
 
       const el = document.getElementById(activeId);
       if (el) {
-        el.style.background = '#07453e';
-        el.style.color = '#ffffff';
+        el.classList.add('active');
+        el.style.background = '#ffffff';
+        el.style.color = '#042f2e';
         el.style.fontWeight = '700';
-        el.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-        el.style.padding = '7px 20px';
+        el.style.border = '1px solid #ffffff';
+        el.style.padding = '7px 22px';
         el.style.borderRadius = '9999px';
+        el.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.18)';
       }
     }
 
@@ -7827,17 +7943,22 @@
         if (adminTopbar) adminTopbar.style.display = 'none';
         if (mainEl) {
           mainEl.style.marginLeft = '0px';
-          mainEl.style.paddingTop = '76px';
+          mainEl.style.paddingTop = '140px';
           mainEl.style.width = '100%';
+          mainEl.style.maxWidth = '100%';
         }
 
         updateCandidateNavLinks(currentPath);
 
-        // Kích hoạt đúng trang con cho Candidate
-        if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
-          switchPage('candidate-jobs', null, false);
-        } else if (currentPath === '/' || currentPath === '' || currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
+        // Kích hoạt đúng trang con cho Candidate / Người lao động (Tổng quan đầu tiên)
+        if (currentPath === '/' || currentPath === '' || currentPath === '/overview' || currentPath.includes('dashboard')) {
+          switchPage('dashboard', null, false);
+        } else if (currentPath.includes('ai-diagnosis') || currentPath.includes('recommend')) {
           switchPage('recommend', null, false);
+        } else if (currentPath.includes('cv-upload') || currentPath.includes('cv')) {
+          switchPage('cv-upload', null, false);
+        } else if (currentPath === '/jobs' || currentPath.startsWith('/jobs')) {
+          switchPage('candidate-jobs', null, false);
         } else if (currentPath.includes('explore-industries') || currentPath.includes('industry')) {
           switchPage('industry', null, false);
         } else if (currentPath.includes('courses') || currentPath.includes('learning')) {
@@ -7845,7 +7966,7 @@
         } else if (currentPath.includes('soft-skills') || currentPath.includes('softskills')) {
           switchPage('softskills', null, false);
         } else {
-          switchPage('recommend', null, false);
+          switchPage('dashboard', null, false);
         }
       }
     }
@@ -7997,12 +8118,13 @@
       if (updateRoute) {
         const isCandidate = (document.getElementById('sidebar') && document.getElementById('sidebar').style.display === 'none');
         if (isCandidate) {
-          if (name === 'recommend') navigate('/', true, false);
+          if (name === 'dashboard') navigate('/', true, false);
+          else if (name === 'recommend') navigate('/ai-diagnosis', true, false);
+          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
           else if (name === 'candidate-jobs') navigate('/jobs', true, false);
           else if (name === 'industry') navigate('/explore-industries', true, false);
           else if (name === 'courses') navigate('/courses', true, false);
           else if (name === 'softskills') navigate('/soft-skills', true, false);
-          else if (name === 'cv-upload') navigate('/cv-upload', true, false);
         } else {
           const routeName = (name === 'employers' ? 'jobs' : (name === 'admin' ? 'system' : name));
           navigate(`/admin/${routeName}`, true, false);
@@ -12026,7 +12148,7 @@
         if (guestArea) guestArea.style.display = 'none';
         if (userArea) userArea.style.display = 'flex';
         if (pubGuestArea) pubGuestArea.style.display = 'none';
-        if (pubUserArea) pubUserArea.style.display = 'block';
+        if (pubUserArea) pubUserArea.style.display = 'flex';
 
         const name = currentUser.full_name || currentUser.username || 'User';
         const initials = name.split(' ').map(p => p.charAt(0)).filter(Boolean).slice(-2).join('').toUpperCase() || 'AD';
@@ -13679,25 +13801,8 @@
         halloweenModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
       } else {
-        const modal = document.getElementById('authModal');
-        if (modal) {
-          if (tab === 'register') {
-            switchAuthTab('register');
-            if (role) {
-              const regRole = document.getElementById('regRole');
-              if (regRole) {
-                regRole.value = role;
-                toggleRegCompanyInput();
-              }
-            }
-          } else {
-            switchAuthTab('login');
-          }
-          modal.classList.add('open');
-          modal.style.display = 'flex';
-        }
+        switchToStandardAuthModal(tab, role);
       }
-      document.body.style.overflow = 'hidden';
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       const demoMenu = document.getElementById('demoDropdownMenu');
@@ -13717,6 +13822,28 @@
       const frame = document.getElementById('halloweenAuthFrame');
       if (modal) modal.style.display = 'none';
       if (frame) frame.src = 'about:blank';
+      document.body.style.overflow = '';
+    }
+
+    function switchToStandardAuthModal(tab = 'login', role = '') {
+      closeHalloweenAuthModal();
+      const modal = document.getElementById('authModal');
+      if (modal) {
+        if (tab === 'register') {
+          switchAuthTab('register');
+          if (role) {
+            const regRole = document.getElementById('regRole');
+            if (regRole) {
+              regRole.value = role;
+              toggleRegCompanyInput();
+            }
+          }
+        } else {
+          switchAuthTab('login');
+        }
+        modal.classList.add('open');
+        modal.style.display = 'flex';
+      }
       document.body.style.overflow = '';
     }
 
