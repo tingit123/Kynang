@@ -192,6 +192,7 @@ app.include_router(skills.router,       prefix="/api/skills",   tags=["Kỹ Năn
 app.include_router(surveys.router,      prefix="/api/surveys",  tags=["Khảo Sát Sinh Viên"])
 app.include_router(crawler_data.router, prefix="/api/crawler",  tags=["Dữ Liệu Cào"])
 app.include_router(courses.router,      prefix="/api/courses",  tags=["Gợi Ý Khóa Học"])
+app.include_router(courses.router,      prefix="/api/v1/courses", tags=["Gợi Ý Khóa Học (v1)"])
 app.include_router(cv_analyzer.router,   prefix="/api/cv",       tags=["Phân Tích CV & Lộ Trình Học"])
 
 

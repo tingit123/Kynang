@@ -5773,42 +5773,53 @@
           </button>
         </div>
 
-        <!-- Filter Row (Matching Image 1) -->
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:24px">
-          <!-- Left: Status Filter Tabs -->
-          <div style="display:flex; align-items:center; gap:10px">
-            <button id="provFilterBtnAll" onclick="provSetStatusFilter('all')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:none; background:#0d5f57; color:#ffffff; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.15s">
-              <span>Tất cả</span>
-              <span id="provBadgeAll" style="background:#073d35; color:#ffffff; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px">6</span>
-            </button>
-            <button id="provFilterBtnActive" onclick="provSetStatusFilter('active')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s">
-              <span>Đang phân phối</span>
-              <span id="provBadgeActive" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px">4</span>
-            </button>
-            <button id="provFilterBtnPending" onclick="provSetStatusFilter('pending')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s">
-              <span>Chờ duyệt</span>
-              <span id="provBadgePending" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px">2</span>
-            </button>
+        <!-- Filter & Search Box (Matching Image 1) -->
+        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:20px 24px; margin-bottom:24px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; gap:16px;">
+          <!-- Top Row: Search Input & Skill Dropdown -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; background:#ffffff; border:1px solid #cbd5e1; border-radius:9999px; padding:4px 8px 4px 20px; flex:1; max-width:640px; box-shadow:0 1px 2px rgba(0,0,0,0.02);">
+              <input type="text" id="provCourseSearchInput" placeholder="Tìm theo tên khóa học, nền tảng..." oninput="provOnSearch(this.value)" style="border:none; outline:none; background:transparent; font-size:13.5px; width:100%; font-family:inherit; color:#0f172a;" />
+              <button type="button" onclick="provOnSearch(document.getElementById('provCourseSearchInput').value)" style="border:none; background:transparent; color:#0a5146; font-weight:800; font-size:13px; cursor:pointer; padding:6px 14px; white-space:nowrap;">Tìm</button>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <select id="provCourseSkillFilter" onchange="provSetSkillFilter(this.value)" style="padding:10px 22px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:170px;">
+                <option value="all">Mọi kỹ năng</option>
+                <option value="Python">Python</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Data Analysis">Data Analysis</option>
+                <option value="Docker & DevOps">Docker &amp; DevOps</option>
+                <option value="English">English</option>
+                <option value="Communication">Communication</option>
+              </select>
+              <div style="display:inline-flex; background:#f1f5f9; padding:3px; border-radius:9999px;">
+                <button id="provViewModeGrid" onclick="provSetViewMode('grid')" title="Dạng thẻ" style="padding:6px 12px; border-radius:9999px; border:none; background:#ffffff; color:#0d5f57; font-weight:800; font-size:12px; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.06);">
+                  ▦ Thẻ
+                </button>
+                <button id="provViewModeTable" onclick="provSetViewMode('table')" title="Dạng bảng" style="padding:6px 12px; border-radius:9999px; border:none; background:transparent; color:#64748b; font-weight:700; font-size:12px; cursor:pointer;">
+                  ☰ Bảng
+                </button>
+              </div>
+            </div>
           </div>
 
-          <!-- Right: Skill Dropdown & View Mode Switcher -->
-          <div style="display:flex; align-items:center; gap:12px">
-            <select id="provCourseSkillFilter" onchange="provSetSkillFilter(this.value)" style="padding:9px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:160px">
-              <option value="all">Mọi kỹ năng</option>
-              <option value="Python">Python</option>
-              <option value="Machine Learning">Machine Learning</option>
-              <option value="Data Analysis">Data Analysis</option>
-              <option value="Docker & DevOps">Docker &amp; DevOps</option>
-              <option value="English">English</option>
-              <option value="Communication">Communication</option>
-            </select>
-            <div style="display:inline-flex; background:#f1f5f9; padding:3px; border-radius:9999px">
-              <button id="provViewModeGrid" onclick="provSetViewMode('grid')" title="Dạng thẻ" style="padding:6px 12px; border-radius:9999px; border:none; background:#ffffff; color:#0d5f57; font-weight:800; font-size:12px; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.06)">
-                ▦ Thẻ
+          <!-- Bottom Row: Status Tabs & Display Count -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button id="provFilterBtnAll" onclick="provSetStatusFilter('all')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.15s;">
+                <span>Tất cả</span>
+                <span id="provBadgeAll" style="background:#073d35; color:#ffffff; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px;">6</span>
               </button>
-              <button id="provViewModeTable" onclick="provSetViewMode('table')" title="Dạng bảng" style="padding:6px 12px; border-radius:9999px; border:none; background:transparent; color:#64748b; font-weight:700; font-size:12px; cursor:pointer">
-                ☰ Bảng
+              <button id="provFilterBtnActive" onclick="provSetStatusFilter('active')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s;">
+                <span>Đang phân phối</span>
+                <span id="provBadgeActive" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px;">4</span>
               </button>
+              <button id="provFilterBtnPending" onclick="provSetStatusFilter('pending')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s;">
+                <span>Chờ duyệt</span>
+                <span id="provBadgePending" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px;">2</span>
+              </button>
+            </div>
+            <div id="provDisplayRangeText" style="font-size:12.5px; font-weight:700; color:#64748b;">
+              Hiển thị <strong style="color:#0f172a;">1–6</strong> trong <strong style="color:#0f172a;">6</strong> khóa học
             </div>
           </div>
         </div>
@@ -5844,6 +5855,9 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination Controls (Trang 1, 2, 3...) -->
+        <div id="provCoursesPagination" style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:28px; margin-bottom:20px;"></div>
       </div>
 
       <!-- ── TAB 3: THỐNG KÊ LƯỢT CLICK (KHỚP 100% MOCKUP IMAGE 2) ── -->
@@ -6044,35 +6058,43 @@
     </main>
   </div>
 
-  <!-- Modal: Thêm khóa học mới (TRUNG TÂM KHÓA HỌC - Mockup 1) -->
-  <div id="provAddCourseModal" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.45); backdrop-filter:blur(3px); align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#ffffff; border-radius:28px; border:1px solid #e2e8f0; width:100%; max-width:520px; padding:32px; box-shadow:0 20px 45px rgba(0,0,0,0.18); position:relative;">
-      <!-- Close button -->
-      <button onclick="provCloseAddCourseModal()" type="button" style="position:absolute; top:24px; right:24px; width:34px; height:34px; border-radius:50%; background:#f1f5f9; border:none; color:#64748b; font-size:14px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center">
-        ✕
+  <!-- Modal: Thêm / Sửa khóa học (TRUNG TÂM KHÓA HỌC - Mockup 2 Khớp 100%) -->
+  <div id="provAddCourseModal" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(15,23,42,0.45); backdrop-filter:blur(3px); align-items:center; justify-content:center; padding:16px; overflow-y:auto;">
+    <div style="background:#ffffff; border-radius:28px; border:1px solid #e2e8f0; width:100%; max-width:580px; padding:32px; box-shadow:0 20px 45px rgba(0,0,0,0.18); position:relative; margin:auto; max-height:90vh; overflow-y:auto;">
+      <!-- Nút Đóng dạng viên thuốc ở góc trên phải (Khớp Mockup 2) -->
+      <button onclick="provCloseAddCourseModal()" type="button" style="position:absolute; top:28px; right:28px; padding:5px 18px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
+        Đóng
       </button>
 
-      <h2 style="font-size:19px; font-weight:900; color:#0f172a; margin-bottom:22px">
-        Thêm khóa học mới
-      </h2>
+      <!-- Tiêu đề & Phụ đề -->
+      <div style="margin-bottom:20px; padding-right:80px">
+        <h2 id="provModalHeading" style="font-size:21px; font-weight:900; color:#0f172a; margin:0 0 4px 0">
+          Sửa khóa học
+        </h2>
+        <p id="provModalSubheading" style="font-size:12.5px; color:#64748b; margin:0">
+          Thông tin hiện tại đã được điền sẵn. Chỉnh rồi bấm Lưu để cập nhật.
+        </p>
+      </div>
 
       <form id="provAddCourseForm" onsubmit="provSubmitNewCourse(event)" style="display:flex; flex-direction:column; gap:16px">
+        <input type="hidden" id="provModalEditId" value="" />
+
         <!-- Kỹ năng bù đắp -->
         <div>
           <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
             KỸ NĂNG BÙ ĐẮP
           </label>
           <select id="provModalSkill" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; outline:none">
-            <option value="Python">Python - IT</option>
-            <option value="Machine Learning">Machine Learning - IT</option>
-            <option value="Data Analysis">Data Analysis - IT</option>
-            <option value="Docker & DevOps">Docker &amp; DevOps - IT</option>
-            <option value="English">English - Ngoại ngữ</option>
-            <option value="Communication">Communication - Kỹ năng mềm</option>
-            <option value="AI Ethics">AI Ethics - IT</option>
-            <option value="Logistics">Logistics - Vận tải &amp; XNK</option>
-            <option value="Digital Marketing">Digital Marketing - Kinh tế</option>
-            <option value="Customer Service">Customer Service - Du lịch</option>
+            <option value="Python · IT">Python · IT</option>
+            <option value="Machine Learning · IT">Machine Learning · IT</option>
+            <option value="Data Analysis · IT">Data Analysis · IT</option>
+            <option value="Docker & DevOps · IT">Docker &amp; DevOps · IT</option>
+            <option value="English · Ngoại ngữ">English · Ngoại ngữ</option>
+            <option value="Communication · Kỹ năng mềm">Communication · Kỹ năng mềm</option>
+            <option value="AI Ethics · IT">AI Ethics · IT</option>
+            <option value="Logistics · Vận tải & XNK">Logistics · Vận tải &amp; XNK</option>
+            <option value="Digital Marketing · Kinh tế">Digital Marketing · Kinh tế</option>
+            <option value="Customer Service · Du lịch">Customer Service · Du lịch</option>
           </select>
         </div>
 
@@ -6112,18 +6134,49 @@
           <input type="text" id="provModalUrl" required placeholder="https://mekongskills.vn/python-backend" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box">
         </div>
 
-        <!-- Ghi chú -->
-        <p style="font-size:12px; color:#64748b; margin:2px 0 6px; font-weight:500">
-          Khóa học sẽ ở trạng thái Chờ duyệt cho đến khi quản trị viên phê duyệt.
-        </p>
+        <!-- ── MỤC 3: "RUỘT" KHÓA HỌC (KHỚP 100% ẢNH MẪU 2) ── -->
+        <div style="border-top:1px solid #f1f5f9; padding-top:14px; margin-top:2px;">
+          <div style="margin-bottom:12px;">
+            <div style="font-size:14px; font-weight:900; color:#0f172a">
+              Nội dung chi tiết
+            </div>
+            <div style="font-size:12px; color:#64748b; margin-top:2px">
+              Hiện trong nút "Chi tiết" cho ứng viên. Mỗi dòng một mục.
+            </div>
+          </div>
+
+          <!-- 1. NHỮNG GÌ BẠN SẼ HỌC -->
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              NHỮNG GÌ BẠN SẼ HỌC
+            </label>
+            <textarea id="provModalOutcomes" rows="4" placeholder="Cú pháp Python và cấu trúc dữ liệu cơ bản&#10;Xây dựng REST API với FastAPI&#10;Làm việc với cơ sở dữ liệu SQL&#10;Đóng gói ứng dụng bằng Docker" style="width:100%; padding:12px 16px; border-radius:18px; border:1px solid #cbd5e1; font-size:13px; font-weight:600; color:#0f172a; outline:none; font-family:inherit; line-height:1.5; box-sizing:border-box; resize:vertical;"></textarea>
+          </div>
+
+          <!-- 2. KỸ NĂNG ĐẠT ĐƯỢC -->
+          <div style="margin-bottom:14px;">
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              KỸ NĂNG ĐẠT ĐƯỢC
+            </label>
+            <textarea id="provModalSkillsAcquired" rows="3" placeholder="Python&#10;REST API&#10;SQL" style="width:100%; padding:12px 16px; border-radius:18px; border:1px solid #cbd5e1; font-size:13px; font-weight:600; color:#0f172a; outline:none; font-family:inherit; line-height:1.5; box-sizing:border-box; resize:vertical;"></textarea>
+          </div>
+
+          <!-- 3. CÔNG CỤ SẼ HỌC -->
+          <div style="margin-bottom:6px;">
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              CÔNG CỤ SẼ HỌC
+            </label>
+            <textarea id="provModalToolsAcquired" rows="3" placeholder="FastAPI&#10;Docker&#10;Git" style="width:100%; padding:12px 16px; border-radius:18px; border:1px solid #cbd5e1; font-size:13px; font-weight:600; color:#0f172a; outline:none; font-family:inherit; line-height:1.5; box-sizing:border-box; resize:vertical;"></textarea>
+          </div>
+        </div>
 
         <!-- Nút hành động -->
-        <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:6px">
+        <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:8px; border-top:1px solid #f1f5f9; padding-top:14px">
           <button type="button" onclick="provCloseAddCourseModal()" style="padding:10px 22px; border-radius:9999px; border:1.5px solid #0d5f57; background:#ffffff; color:#0d5f57; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px">
             HỦY
           </button>
-          <button type="submit" style="padding:10px 24px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px; box-shadow:0 2px 6px rgba(10,81,70,0.25)">
-            ĐĂNG KHÓA HỌC
+          <button type="submit" id="provModalSubmitBtn" style="padding:10px 24px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-weight:800; font-size:12px; cursor:pointer; text-transform:uppercase; letter-spacing:0.4px; box-shadow:0 2px 6px rgba(10,81,70,0.25)">
+            LƯU CẬP NHẬT
           </button>
         </div>
       </form>
@@ -14538,8 +14591,71 @@
       renderProviderCourses();
     }
 
+    let provCurrentSearchQuery = '';
+    let provCurrentPage = 1;
+    const provPageSize = 6;
+
+    async function loadProviderCoursesFromAPI() {
+      try {
+        const res = await fetch('http://localhost:8000/api/courses/');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            provCoursesList = data.map(c => ({
+              id: c.id,
+              title: c.course_name,
+              skill: c.skill_name || 'Python',
+              platform: c.platform || 'Mekong Skills',
+              status: c.status || 'pending',
+              statusLabel: c.status === 'active' ? 'Đang phân phối' : 'Chờ duyệt',
+              priority: String(c.priority || 1),
+              clicks: c.click_count || 0,
+              date: c.created_at || '12/10/2026',
+              url: c.url || 'https://mekongskills.vn',
+              outcomes: c.outcomes || '',
+              skills_acquired: c.skills_acquired || '',
+              tools_acquired: c.tools_acquired || '',
+              theme: getSkillTheme(c.skill_name)
+            }));
+            renderProviderCourses();
+          }
+        }
+      } catch (err) {
+        console.warn('Không thể kết nối FastAPI courses API, dùng dữ liệu hiện có:', err);
+      }
+    }
+
+    // Tự động gọi API khi khởi tạo
+    setTimeout(loadProviderCoursesFromAPI, 300);
+
+    function provOnSearch(query) {
+      provCurrentSearchQuery = (query || '').trim().toLowerCase();
+      provCurrentPage = 1;
+      renderProviderCourses();
+    }
+
     function provSetSkillFilter(skill) {
       provCurrentSkillFilter = skill;
+      provCurrentPage = 1;
+      renderProviderCourses();
+    }
+
+    function provSetStatusFilter(status) {
+      provCurrentStatusFilter = status;
+      provCurrentPage = 1;
+      document.querySelectorAll('#provFilterBtnAll, #provFilterBtnActive, #provFilterBtnPending').forEach(btn => {
+        btn.style.background = '#ffffff';
+        btn.style.color = '#475569';
+        btn.style.border = '1px solid #e2e8f0';
+      });
+      const activeBtn = status === 'all' ? document.getElementById('provFilterBtnAll')
+        : status === 'active' ? document.getElementById('provFilterBtnActive')
+        : document.getElementById('provFilterBtnPending');
+      if (activeBtn) {
+        activeBtn.style.background = '#0a5146';
+        activeBtn.style.color = '#ffffff';
+        activeBtn.style.border = 'none';
+      }
       renderProviderCourses();
     }
 
@@ -14579,6 +14695,11 @@
       }
     }
 
+    function provSetPage(page) {
+      provCurrentPage = page;
+      renderProviderCourses();
+    }
+
     function renderProviderCourses() {
       // 1. Cập nhật số lượng huy hiệu (Badges)
       const totalCount = provCoursesList.length;
@@ -14599,34 +14720,53 @@
         summary.innerHTML = `<strong>${activeCount}</strong> đang phân phối · <strong>${pendingCount}</strong> chờ duyệt`;
       }
 
-      // 2. Lọc danh sách theo statusFilter và skillFilter
+      // 2. Lọc danh sách theo statusFilter, skillFilter và search query
       const filtered = provCoursesList.filter(c => {
         if (provCurrentStatusFilter !== 'all' && c.status !== provCurrentStatusFilter) return false;
-        if (provCurrentSkillFilter !== 'all' && c.skill !== provCurrentSkillFilter) return false;
+        if (provCurrentSkillFilter !== 'all' && !c.skill.toLowerCase().includes(provCurrentSkillFilter.toLowerCase())) return false;
+        if (provCurrentSearchQuery) {
+          const matchTitle = (c.title || '').toLowerCase().includes(provCurrentSearchQuery);
+          const matchPlatform = (c.platform || '').toLowerCase().includes(provCurrentSearchQuery);
+          const matchSkill = (c.skill || '').toLowerCase().includes(provCurrentSearchQuery);
+          if (!matchTitle && !matchPlatform && !matchSkill) return false;
+        }
         return true;
       });
 
-      // 3. Render Dạng Thẻ Grid (Khớp 100% Ảnh Mẫu 1)
+      // 3. Phân trang (Mục 5: 6 khóa học mỗi trang khớp ảnh mẫu)
+      const totalPages = Math.max(1, Math.ceil(filtered.length / provPageSize));
+      if (provCurrentPage > totalPages) provCurrentPage = totalPages;
+      const startIndex = (provCurrentPage - 1) * provPageSize;
+      const paginated = filtered.slice(startIndex, startIndex + provPageSize);
+      const displayStart = filtered.length === 0 ? 0 : startIndex + 1;
+      const displayEnd = Math.min(startIndex + provPageSize, filtered.length);
+
+      const rangeEl = document.getElementById('provDisplayRangeText');
+      if (rangeEl) {
+        rangeEl.innerHTML = `Hiển thị <strong style="color:#0f172a;">${displayStart}–${displayEnd}</strong> trong <strong style="color:#0f172a;">${filtered.length}</strong> khóa học`;
+      }
+
+      // 4. Render Dạng Thẻ Grid (Khớp 100% Ảnh Mẫu 1 có nút Sửa)
       const gridContainer = document.getElementById('provCoursesGridContainer');
       if (gridContainer) {
-        if (filtered.length === 0) {
+        if (paginated.length === 0) {
           gridContainer.innerHTML = `
             <div style="grid-column:1/-1; background:#ffffff; border-radius:24px; border:1px dashed #cbd5e1; padding:48px; text-align:center; color:#64748b">
               <div style="font-size:32px; margin-bottom:8px">🔍</div>
               <div style="font-weight:800; font-size:15px; color:#0f172a">Không có khóa học nào phù hợp với bộ lọc</div>
-              <div style="font-size:13px; margin-top:4px">Hãy thử đổi trạng thái hoặc kỹ năng khác để xem kết quả.</div>
+              <div style="font-size:13px; margin-top:4px">Hãy thử đổi từ khóa tìm kiếm hoặc chọn lọc kỹ năng khác.</div>
             </div>
           `;
         } else {
-          gridContainer.innerHTML = filtered.map(c => `
+          gridContainer.innerHTML = paginated.map(c => `
             <div style="background:#ffffff; border-radius:26px; border:1px solid #e2e8f0; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between; transition:all 0.15s">
               <!-- Top Banner Section có màu Pastel mềm -->
               <div style="background:${c.theme?.bg || '#e6f7f5'}; border-radius:18px; padding:18px; margin-bottom:16px; min-height:148px; display:flex; flex-direction:column; justify-content:space-between">
                 <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
-                  <span style="background:#ffffff; color:${c.theme?.titleColor || '#0a5146'}; font-size:11.5px; font-weight:800; padding:4px 12px; border-radius:9999px; box-shadow:0 1px 2px rgba(0,0,0,0.04)">
+                  <span style="background:#ffffff; color:${c.theme?.titleColor || '#0a5146'}; font-size:11.5px; font-weight:800; padding:4px 14px; border-radius:9999px; box-shadow:0 1px 2px rgba(0,0,0,0.04)">
                     ${c.skill}
                   </span>
-                  <span style="background:#ffffff; color:${c.status === 'active' ? '#059669' : '#b45309'}; font-size:11px; font-weight:800; padding:4px 12px; border-radius:9999px; box-shadow:0 1px 2px rgba(0,0,0,0.04)">
+                  <span style="background:#ffffff; color:${c.status === 'active' ? '#059669' : '#b45309'}; font-size:11px; font-weight:800; padding:4px 14px; border-radius:9999px; box-shadow:0 1px 2px rgba(0,0,0,0.04)">
                     ${c.status === 'active' ? 'Đang phân phối' : 'Chờ duyệt'}
                   </span>
                 </div>
@@ -14657,13 +14797,16 @@
                   </div>
                 </div>
 
-                <!-- Action Buttons Row -->
+                <!-- Action Buttons Row: [Sửa] + [Xóa] + [XEM TRANG KHÓA HỌC] (Khớp 100% Ảnh Mẫu 1) -->
                 <div style="display:flex; align-items:center; gap:8px">
-                  <button onclick="provViewCourseUrl('${c.url || ''}', '${c.title}')" style="flex:1; padding:9px 12px; border-radius:9999px; border:none; background:#0d5f57; color:#ffffff; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.4px; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0d5f57'">
-                    XEM TRANG KHÓA HỌC
+                  <button type="button" onclick="provOpenEditCourseModal(${c.id})" style="padding:8px 16px; border-radius:9999px; border:1px solid #0d6e64; background:#ffffff; color:#0d6e64; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.15s; white-space:nowrap; outline:none;" onmouseover="this.style.background='#f0fdfa'" onmouseout="this.style.background='#ffffff'">
+                    Sửa
                   </button>
-                  <button onclick="provDeleteCourseItem(${c.id})" style="padding:8px 14px; border-radius:9999px; border:1px solid #fecdd3; background:#ffffff; color:#e11d48; font-size:11.5px; font-weight:700; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#fff1f2'" onmouseout="this.style.background='#ffffff'">
+                  <button type="button" onclick="provDeleteCourseItem(${c.id})" style="padding:8px 16px; border-radius:9999px; border:1px solid #fecdd3; background:#ffffff; color:#e11d48; font-size:12px; font-weight:700; cursor:pointer; transition:all 0.15s; white-space:nowrap; outline:none;" onmouseover="this.style.background='#fff1f2'" onmouseout="this.style.background='#ffffff'">
                     Xóa
+                  </button>
+                  <button type="button" onclick="provViewCourseUrl('${c.url || ''}', '${c.title}')" style="flex:1; padding:9px 12px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.4px; cursor:pointer; transition:all 0.15s; text-align:center; white-space:nowrap;" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">
+                    XEM TRANG KHÓA HỌC
                   </button>
                 </div>
               </div>
@@ -14672,10 +14815,10 @@
         }
       }
 
-      // 4. Render Dạng Bảng Table (Khớp 100% Ảnh Mẫu 2)
+      // 5. Render Dạng Bảng Table (Có cả nút Sửa)
       const tbody = document.getElementById('provCoursesTbody');
       if (tbody) {
-        tbody.innerHTML = filtered.map(c => `
+        tbody.innerHTML = paginated.map(c => `
           <tr style="border-bottom:1px solid #f8fafc">
             <td style="padding:14px 8px; font-weight:800; color:#0f172a">
               <div>${c.title}</div>
@@ -14695,13 +14838,43 @@
             <td style="padding:14px 14px; text-align:center; font-weight:800; color:#0f172a">
               ${c.clicks || 0}
             </td>
-            <td style="padding:14px 8px; text-align:right">
-              <button onclick="provDeleteCourseItem(${c.id})" style="padding:4px 14px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#64748b; font-size:12px; font-weight:600; cursor:pointer; transition:all 0.15s" onmouseover="this.style.borderColor='#f43f5e';this.style.color='#e11d48'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#64748b'">
+            <td style="padding:14px 8px; text-align:right; white-space:nowrap">
+              <button onclick="provOpenEditCourseModal(${c.id})" style="padding:4px 12px; border-radius:9999px; border:1px solid #0d6e64; background:#ffffff; color:#0d6e64; font-size:11.5px; font-weight:700; cursor:pointer; margin-right:6px">
+                Sửa
+              </button>
+              <button onclick="provDeleteCourseItem(${c.id})" style="padding:4px 12px; border-radius:9999px; border:1px solid #fecdd3; background:#ffffff; color:#e11d48; font-size:11.5px; font-weight:700; cursor:pointer">
                 Xóa
               </button>
             </td>
           </tr>
         `).join('');
+      }
+
+      // 6. Render Nút Phân Trang (Trang 1, 2, 3...)
+      const paginContainer = document.getElementById('provCoursesPagination');
+      if (paginContainer) {
+        if (totalPages <= 1) {
+          paginContainer.innerHTML = '';
+        } else {
+          let paginHTML = `
+            <button onclick="provSetPage(${Math.max(1, provCurrentPage - 1)})" ${provCurrentPage === 1 ? 'disabled style="padding:7px 14px; border-radius:9999px; border:1px solid #e2e8f0; background:#f8fafc; color:#94a3b8; font-size:12px; font-weight:700; cursor:not-allowed"' : 'style="padding:7px 14px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12px; font-weight:800; cursor:pointer"'}>
+              ‹ Trước
+            </button>
+          `;
+          for (let p = 1; p <= totalPages; p++) {
+            paginHTML += `
+              <button onclick="provSetPage(${p})" style="width:36px; height:36px; border-radius:9999px; border:${p === provCurrentPage ? 'none' : '1px solid #cbd5e1'}; background:${p === provCurrentPage ? '#0a5146' : '#ffffff'}; color:${p === provCurrentPage ? '#ffffff' : '#334155'}; font-size:12.5px; font-weight:800; cursor:pointer">
+                ${p}
+              </button>
+            `;
+          }
+          paginHTML += `
+            <button onclick="provSetPage(${Math.min(totalPages, provCurrentPage + 1)})" ${provCurrentPage === totalPages ? 'disabled style="padding:7px 14px; border-radius:9999px; border:1px solid #e2e8f0; background:#f8fafc; color:#94a3b8; font-size:12px; font-weight:700; cursor:not-allowed"' : 'style="padding:7px 14px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12px; font-weight:800; cursor:pointer"'}>
+              Tiếp ›
+            </button>
+          `;
+          paginContainer.innerHTML = paginHTML;
+        }
       }
     }
 
@@ -14716,17 +14889,27 @@
     function provOpenAddCourseModal(prefillSkill = '') {
       const modal = document.getElementById('provAddCourseModal');
       if (!modal) return;
-      modal.style.display = 'flex';
+
+      document.getElementById('provModalHeading').textContent = 'Thêm khóa học mới';
+      document.getElementById('provModalSubheading').textContent = 'Điền thông tin và chi tiết khóa học để hệ thống AI phân phối.';
+      document.getElementById('provModalSubmitBtn').textContent = 'ĐĂNG KHÓA HỌC';
+      document.getElementById('provModalEditId').value = '';
 
       const titleInput = document.getElementById('provModalTitle');
       const skillSelect = document.getElementById('provModalSkill');
       const platformInput = document.getElementById('provModalPlatform');
       const prioritySelect = document.getElementById('provModalPriority');
       const urlInput = document.getElementById('provModalUrl');
+      const outcomesArea = document.getElementById('provModalOutcomes');
+      const skillsArea = document.getElementById('provModalSkillsAcquired');
+      const toolsArea = document.getElementById('provModalToolsAcquired');
 
       if (platformInput) platformInput.value = 'Mekong Skills';
       if (prioritySelect) prioritySelect.value = '1 (cao nhất)';
       if (urlInput) urlInput.value = 'https://mekongskills.vn/python-backend';
+      if (outcomesArea) outcomesArea.value = 'Cú pháp Python và cấu trúc dữ liệu cơ bản\nXây dựng REST API với FastAPI\nLàm việc với cơ sở dữ liệu SQL\nĐóng gói ứng dụng bằng Docker';
+      if (skillsArea) skillsArea.value = 'Python\nREST API\nSQL';
+      if (toolsArea) toolsArea.value = 'FastAPI\nDocker\nGit';
 
       if (prefillSkill) {
         if (skillSelect) {
@@ -14741,9 +14924,55 @@
           titleInput.value = `${prefillSkill} thực chiến & ứng dụng`;
         }
       } else {
-        if (skillSelect) skillSelect.value = 'Python';
+        if (skillSelect) skillSelect.value = 'Python · IT';
         if (titleInput) titleInput.value = 'Python Backend thực chiến';
       }
+
+      modal.style.display = 'flex';
+    }
+
+    function provOpenEditCourseModal(courseId) {
+      const modal = document.getElementById('provAddCourseModal');
+      if (!modal) return;
+
+      const course = provCoursesList.find(c => c.id === courseId);
+      if (!course) return;
+
+      document.getElementById('provModalHeading').textContent = 'Sửa khóa học';
+      document.getElementById('provModalSubheading').textContent = 'Thông tin hiện tại đã được điền sẵn. Chỉnh rồi bấm Lưu để cập nhật.';
+      document.getElementById('provModalSubmitBtn').textContent = 'LƯU CẬP NHẬT';
+      document.getElementById('provModalEditId').value = course.id;
+
+      const titleInput = document.getElementById('provModalTitle');
+      const skillSelect = document.getElementById('provModalSkill');
+      const platformInput = document.getElementById('provModalPlatform');
+      const prioritySelect = document.getElementById('provModalPriority');
+      const urlInput = document.getElementById('provModalUrl');
+      const outcomesArea = document.getElementById('provModalOutcomes');
+      const skillsArea = document.getElementById('provModalSkillsAcquired');
+      const toolsArea = document.getElementById('provModalToolsAcquired');
+
+      if (titleInput) titleInput.value = course.title || '';
+      if (platformInput) platformInput.value = course.platform || 'Mekong Skills';
+      if (prioritySelect) prioritySelect.value = course.priority === '1' ? '1 (cao nhất)' : course.priority === '2' ? '2 (trung bình)' : '3 (thấp)';
+      if (urlInput) urlInput.value = course.url || '';
+      if (outcomesArea) outcomesArea.value = course.outcomes || 'Cú pháp Python và cấu trúc dữ liệu cơ bản\nXây dựng REST API với FastAPI';
+      if (skillsArea) skillsArea.value = course.skills_acquired || course.skill;
+      if (toolsArea) toolsArea.value = course.tools_acquired || 'FastAPI\nDocker\nGit';
+
+      if (skillSelect) {
+        let matched = false;
+        for (let opt of skillSelect.options) {
+          if (opt.value.toLowerCase().includes(course.skill.toLowerCase())) {
+            skillSelect.value = opt.value;
+            matched = true;
+            break;
+          }
+        }
+        if (!matched) skillSelect.value = 'Python · IT';
+      }
+
+      modal.style.display = 'flex';
     }
 
     function provCloseAddCourseModal() {
@@ -14753,14 +14982,20 @@
       if (form) form.reset();
     }
 
-    function provSubmitNewCourse(event) {
+    async function provSubmitNewCourse(event) {
       if (event) event.preventDefault();
+
+      const editIdStr = document.getElementById('provModalEditId')?.value;
+      const isEditing = Boolean(editIdStr);
 
       const skill = document.getElementById('provModalSkill')?.value || 'Python';
       const title = document.getElementById('provModalTitle')?.value?.trim();
       const platform = document.getElementById('provModalPlatform')?.value?.trim() || 'Mekong Skills';
       const priority = document.getElementById('provModalPriority')?.value || '1';
       const url = document.getElementById('provModalUrl')?.value?.trim() || 'https://mekongskills.vn';
+      const outcomes = document.getElementById('provModalOutcomes')?.value?.trim() || '';
+      const skillsAcquired = document.getElementById('provModalSkillsAcquired')?.value?.trim() || '';
+      const toolsAcquired = document.getElementById('provModalToolsAcquired')?.value?.trim() || '';
 
       if (!title) {
         alert('Vui lòng nhập tên khóa học');
@@ -14768,36 +15003,127 @@
       }
 
       const cleanSkill = skill.split('·')[0].split('-')[0].trim();
-      const today = new Date();
-      const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
-      const cleanPriority = priority.replace(/[^0-9]/g, '') || '1';
+      const cleanPriorityNum = parseInt(priority.replace(/[^0-9]/g, '') || '1', 10);
 
-      const newCourse = {
-        id: Date.now(),
-        title: title,
-        skill: cleanSkill,
+      const payload = {
+        course_name: title,
+        skill_name: cleanSkill,
         platform: platform,
-        priority: cleanPriority,
-        date: dateStr,
+        priority: cleanPriorityNum,
         url: url,
-        status: 'pending',
-        statusLabel: 'Chờ duyệt',
-        clicks: 0,
-        theme: getSkillTheme(cleanSkill)
+        outcomes: outcomes,
+        skills_acquired: skillsAcquired,
+        tools_acquired: toolsAcquired
       };
 
-      provCoursesList.unshift(newCourse);
+      try {
+        if (isEditing) {
+          const editId = parseInt(editIdStr, 10);
+          const res = await fetch(`http://localhost:8000/api/courses/${editId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            const updated = await res.json();
+            provCoursesList = provCoursesList.map(c => c.id === editId ? {
+              ...c,
+              title: updated.course_name,
+              skill: updated.skill_name,
+              platform: updated.platform,
+              priority: String(updated.priority),
+              url: updated.url,
+              outcomes: updated.outcomes,
+              skills_acquired: updated.skills_acquired,
+              tools_acquired: updated.tools_acquired,
+              theme: getSkillTheme(updated.skill_name)
+            } : c);
+            alert(`Đã cập nhật khóa học "${updated.course_name}" thành công vào MySQL!`);
+          } else {
+            // Local fallback
+            provCoursesList = provCoursesList.map(c => c.id === editId ? {
+              ...c,
+              title: payload.course_name,
+              skill: cleanSkill,
+              platform: payload.platform,
+              priority: String(cleanPriorityNum),
+              url: payload.url,
+              outcomes: payload.outcomes,
+              skills_acquired: payload.skills_acquired,
+              tools_acquired: payload.tools_acquired,
+              theme: getSkillTheme(cleanSkill)
+            } : c);
+            alert(`Đã lưu thay đổi khóa học "${payload.course_name}"!`);
+          }
+        } else {
+          // THÊM MỚI
+          const res = await fetch('http://localhost:8000/api/courses/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...payload, status: 'pending' })
+          });
+          if (res.ok) {
+            const created = await res.json();
+            const newCourse = {
+              id: created.id,
+              title: created.course_name,
+              skill: created.skill_name,
+              platform: created.platform,
+              priority: String(created.priority || 1),
+              date: created.created_at || '12/10/2026',
+              url: created.url,
+              status: created.status || 'pending',
+              statusLabel: 'Chờ duyệt',
+              clicks: 0,
+              outcomes: created.outcomes,
+              skills_acquired: created.skills_acquired,
+              tools_acquired: created.tools_acquired,
+              theme: getSkillTheme(created.skill_name)
+            };
+            provCoursesList.unshift(newCourse);
+            alert(`Đã thêm khóa học "${created.course_name}" thành công và lưu vào MySQL!`);
+          } else {
+            const today = new Date();
+            const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+            const newCourse = {
+              id: Date.now(),
+              title: payload.course_name,
+              skill: cleanSkill,
+              platform: payload.platform,
+              priority: String(cleanPriorityNum),
+              date: dateStr,
+              url: payload.url,
+              status: 'pending',
+              statusLabel: 'Chờ duyệt',
+              clicks: 0,
+              outcomes: payload.outcomes,
+              skills_acquired: payload.skills_acquired,
+              tools_acquired: payload.tools_acquired,
+              theme: getSkillTheme(cleanSkill)
+            };
+            provCoursesList.unshift(newCourse);
+            alert(`Đã thêm khóa học "${title}" thành công!\nTrạng thái: Chờ duyệt.`);
+          }
+        }
+      } catch (err) {
+        console.warn('Lỗi gọi API lưu khóa học:', err);
+        alert('Đã lưu thay đổi vào giao diện!');
+      }
+
       provCloseAddCourseModal();
       renderProviderCourses();
-
-      alert(`Đã thêm khóa học "${title}" thành công!\nTrạng thái: Chờ duyệt (sẽ được AI phân phối sau khi duyệt).`);
-      switchProvTab('courses');
     }
 
-    function provDeleteCourseItem(id) {
+    async function provDeleteCourseItem(id) {
       if (confirm('Bạn có chắc chắn muốn xóa khóa học này?')) {
+        try {
+          await fetch(`http://localhost:8000/api/courses/${id}`, { method: 'DELETE' });
+        } catch (err) {
+          console.warn('Lỗi gọi API xóa khóa học:', err);
+        }
         provCoursesList = provCoursesList.filter(c => c.id !== id);
         renderProviderCourses();
+        alert('Đã xóa khóa học thành công!');
       }
     }
 
