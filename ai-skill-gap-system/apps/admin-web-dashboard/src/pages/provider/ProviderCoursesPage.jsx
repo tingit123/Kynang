@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 const API_BASE = import.meta.env?.VITE_API_URL || 'http://localhost:8000';
 
-const FALLBACK_COURSES = [
+const INITIAL_COURSES = [
   {
     id: 1,
     title: 'Python Backend thực chiến',
     skill: 'Python',
+    industry: 'IT',
     platform: 'Mekong Skills',
     status: 'active',
     statusLabel: 'Đang phân phối',
@@ -27,6 +28,7 @@ const FALLBACK_COURSES = [
     id: 2,
     title: 'FastAPI & Docker cho người mới',
     skill: 'Python',
+    industry: 'IT',
     platform: 'Udemy',
     status: 'active',
     statusLabel: 'Đang phân phối',
@@ -47,6 +49,7 @@ const FALLBACK_COURSES = [
     id: 3,
     title: 'Nhập môn Machine Learning',
     skill: 'Machine Learning',
+    industry: 'IT',
     platform: 'Coursera',
     status: 'active',
     statusLabel: 'Đang phân phối',
@@ -67,6 +70,7 @@ const FALLBACK_COURSES = [
     id: 4,
     title: 'Phân tích dữ liệu với Power BI',
     skill: 'Data Analysis',
+    industry: 'economics',
     platform: 'Mekong Skills',
     status: 'active',
     statusLabel: 'Đang phân phối',
@@ -87,6 +91,7 @@ const FALLBACK_COURSES = [
     id: 5,
     title: 'IELTS 6.5 cho sinh viên',
     skill: 'English',
+    industry: 'all',
     platform: 'Mekong Skills',
     status: 'pending',
     statusLabel: 'Chờ duyệt',
@@ -107,6 +112,7 @@ const FALLBACK_COURSES = [
     id: 6,
     title: 'Giao tiếp và thuyết trình',
     skill: 'Communication',
+    industry: 'all',
     platform: 'Mekong Skills',
     status: 'pending',
     statusLabel: 'Chờ duyệt',
@@ -149,6 +155,7 @@ export default function ProviderCoursesPage() {
 
   // Filters & Search
   const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'active' | 'pending'
+  const [industryFilter, setIndustryFilter] = useState('all'); // 'all' | 'IT' | 'tourism' | 'logistics' | 'economics'
   const [skillFilter, setSkillFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table'
@@ -164,6 +171,7 @@ export default function ProviderCoursesPage() {
 
   // Form fields
   const [skill, setSkill] = useState('Python · IT');
+  const [courseIndustry, setCourseIndustry] = useState('IT');
   const [title, setTitle] = useState('');
   const [platform, setPlatform] = useState('Mekong Skills');
   const [priority, setPriority] = useState('1 (cao nhất)');
@@ -184,6 +192,7 @@ export default function ProviderCoursesPage() {
             id: c.id,
             title: c.course_name,
             skill: c.skill_name || 'Python',
+            industry: c.industry || 'IT',
             platform: c.platform || 'Mekong Skills',
             status: c.status || 'pending',
             statusLabel: c.status === 'active' ? 'Đang phân phối' : 'Chờ duyệt',
@@ -200,11 +209,10 @@ export default function ProviderCoursesPage() {
           return;
         }
       }
-      // Fallback nếu API trả mảng rỗng
-      setCourses(FALLBACK_COURSES);
+      setCourses(INITIAL_COURSES);
     } catch (err) {
       console.warn('Không thể kết nối API, dùng danh sách dự phòng:', err);
-      setCourses(FALLBACK_COURSES);
+      setCourses(INITIAL_COURSES);
     } finally {
       setLoading(false);
     }
@@ -217,7 +225,7 @@ export default function ProviderCoursesPage() {
   // Reset pagination when filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [statusFilter, skillFilter, searchQuery]);
+  }, [statusFilter, industryFilter, skillFilter, searchQuery]);
 
   // Counts
   const totalCount = courses.length;
@@ -227,6 +235,11 @@ export default function ProviderCoursesPage() {
   // Filtered courses
   const filteredCourses = courses.filter((c) => {
     if (statusFilter !== 'all' && c.status !== statusFilter) return false;
+    if (industryFilter !== 'all') {
+      if (c.industry && c.industry !== 'all' && c.industry.toLowerCase() !== industryFilter.toLowerCase()) {
+        return false;
+      }
+    }
     if (skillFilter !== 'all' && !c.skill.toLowerCase().includes(skillFilter.toLowerCase())) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase();
@@ -251,9 +264,11 @@ export default function ProviderCoursesPage() {
     setEditingCourseId(null);
     if (prefillSkill) {
       setSkill(`${prefillSkill} · IT`);
+      setCourseIndustry('IT');
       setTitle(`${prefillSkill} thực chiến & ứng dụng`);
     } else {
       setSkill('Python · IT');
+      setCourseIndustry('IT');
       setTitle('Python Backend thực chiến');
     }
     setPlatform('Mekong Skills');
@@ -270,6 +285,7 @@ export default function ProviderCoursesPage() {
     setModalMode('edit');
     setEditingCourseId(c.id);
     setSkill(`${c.skill} · IT`);
+    setCourseIndustry(c.industry || 'IT');
     setTitle(c.title);
     setPlatform(c.platform || 'Mekong Skills');
     setPriority(c.priority === '1' ? '1 (cao nhất)' : c.priority === '2' ? '2 (trung bình)' : '3 (thấp)');
@@ -294,6 +310,7 @@ export default function ProviderCoursesPage() {
     const payload = {
       course_name: title.trim(),
       skill_name: cleanSkill,
+      industry: courseIndustry || 'IT',
       platform: platform.trim() || 'Mekong Skills',
       priority: cleanPriorityNum,
       url: url.trim() || 'https://mekongskills.vn',
@@ -320,6 +337,7 @@ export default function ProviderCoursesPage() {
                     ...c,
                     title: updated.course_name,
                     skill: updated.skill_name,
+                    industry: updated.industry || courseIndustry,
                     platform: updated.platform,
                     priority: String(updated.priority),
                     url: updated.url,
@@ -341,6 +359,7 @@ export default function ProviderCoursesPage() {
                     ...c,
                     title: payload.course_name,
                     skill: cleanSkill,
+                    industry: courseIndustry,
                     platform: payload.platform,
                     priority: String(cleanPriorityNum),
                     url: payload.url,
@@ -368,6 +387,7 @@ export default function ProviderCoursesPage() {
             id: created.id,
             title: created.course_name,
             skill: created.skill_name,
+            industry: created.industry || courseIndustry,
             platform: created.platform,
             status: created.status || 'pending',
             statusLabel: 'Chờ duyệt',
@@ -390,6 +410,7 @@ export default function ProviderCoursesPage() {
             id: Date.now(),
             title: payload.course_name,
             skill: cleanSkill,
+            industry: courseIndustry,
             platform: payload.platform,
             status: 'pending',
             statusLabel: 'Chờ duyệt',
@@ -457,10 +478,10 @@ export default function ProviderCoursesPage() {
 
       {/* ── 2. KHUNG TÌM KIẾM & BỘ LỌC TABS (KHỚP 100% ẢNH MẪU 1) ── */}
       <div className="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-xs space-y-4">
-        {/* Hàng 1: Ô tìm kiếm dạng viên thuốc + Dropdown kỹ năng */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/* Hàng 1: Ô tìm kiếm dạng viên thuốc + Dropdown Ngành nghề + Dropdown kỹ năng */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-3">
           {/* Ô nhập tìm kiếm Search Text */}
-          <div className="relative flex-1 w-full max-w-2xl">
+          <div className="relative flex-1 w-full">
             <div className="flex items-center bg-white border border-slate-300 rounded-full px-5 py-2.5 focus-within:border-[#0a5146] transition-colors shadow-2xs">
               <input
                 type="text"
@@ -478,12 +499,26 @@ export default function ProviderCoursesPage() {
             </div>
           </div>
 
-          {/* Dropdown Mọi kỹ năng */}
-          <div className="w-full sm:w-auto">
+          {/* Cụm bên phải: Dropdown chọn ngành, kỹ năng */}
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto">
+            {/* THÊM DROPDOWN NGÀNH NGHỀ VÀO ĐÂY (BƯỚC 2.3) */}
+            <select
+              value={industryFilter}
+              onChange={(e) => setIndustryFilter(e.target.value)}
+              className="px-4 py-2.5 rounded-full border border-slate-300 text-xs font-bold text-slate-800 bg-white cursor-pointer focus:outline-none focus:border-[#0a5146] min-w-[150px] shadow-2xs"
+            >
+              <option value="all">Mọi ngành nghề</option>
+              <option value="IT">IT &amp; Công nghệ</option>
+              <option value="tourism">Du lịch &amp; Khách sạn</option>
+              <option value="logistics">Logistics &amp; XNK</option>
+              <option value="economics">Kinh tế &amp; Tài chính</option>
+            </select>
+
+            {/* Dropdown kỹ năng cũ giữ nguyên */}
             <select
               value={skillFilter}
               onChange={(e) => setSkillFilter(e.target.value)}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-slate-300 text-xs font-bold text-slate-800 bg-white cursor-pointer focus:outline-none focus:border-[#0a5146] min-w-[170px]"
+              className="px-4 py-2.5 rounded-full border border-slate-300 text-xs font-bold text-slate-800 bg-white cursor-pointer focus:outline-none focus:border-[#0a5146] min-w-[150px] shadow-2xs"
             >
               <option value="all">Mọi kỹ năng</option>
               <option value="Python">Python</option>
@@ -669,11 +704,11 @@ export default function ProviderCoursesPage() {
         <div className="bg-white rounded-3xl border border-slate-200/80 p-12 text-center text-slate-500">
           <div className="text-3xl mb-2">🔍</div>
           <div className="font-bold text-slate-800 text-base">Không tìm thấy khóa học nào phù hợp</div>
-          <div className="text-xs text-slate-400 mt-1">Thử đổi từ khóa tìm kiếm hoặc chọn lọc kỹ năng khác.</div>
+          <div className="text-xs text-slate-400 mt-1">Thử đổi ngành nghề, từ khóa tìm kiếm hoặc chọn lọc kỹ năng khác.</div>
         </div>
       )}
 
-      {/* ── 4. THANH PHÂN TRANG (Trang 1, 2, 3...) (MỤC 5) ── */}
+      {/* ── 4. THANH PHÂN TRANG (Trang 1, 2, 3...) ── */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 pt-4 pb-2">
           <button
@@ -742,27 +777,45 @@ export default function ProviderCoursesPage() {
             </div>
 
             <form onSubmit={handleSubmitCourse} className="space-y-4">
-              {/* KỸ NĂNG BÙ ĐẮP */}
-              <div>
-                <label className="block text-[11px] font-black text-slate-600 uppercase tracking-wider mb-1.5">
-                  KỸ NĂNG BÙ ĐẮP
-                </label>
-                <select
-                  value={skill}
-                  onChange={(e) => setSkill(e.target.value)}
-                  className="w-full px-5 py-2.5 rounded-full border border-slate-300 text-sm font-semibold text-slate-800 bg-white focus:outline-none focus:border-[#0a5146] cursor-pointer"
-                >
-                  <option value="Python · IT">Python · IT</option>
-                  <option value="Machine Learning · IT">Machine Learning · IT</option>
-                  <option value="Data Analysis · IT">Data Analysis · IT</option>
-                  <option value="Docker & DevOps · IT">Docker &amp; DevOps · IT</option>
-                  <option value="English · Ngoại ngữ">English · Ngoại ngữ</option>
-                  <option value="Communication · Kỹ năng mềm">Communication · Kỹ năng mềm</option>
-                  <option value="AI Ethics · IT">AI Ethics · IT</option>
-                  <option value="Logistics · Vận tải & XNK">Logistics · Vận tải &amp; XNK</option>
-                  <option value="Digital Marketing · Kinh tế">Digital Marketing · Kinh tế</option>
-                  <option value="Customer Service · Du lịch">Customer Service · Du lịch</option>
-                </select>
+              {/* KỸ NĂNG BÙ ĐẮP & NGÀNH NGHỀ */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                  <label className="block text-[11px] font-black text-slate-600 uppercase tracking-wider mb-1.5">
+                    KỸ NĂNG BÙ ĐẮP
+                  </label>
+                  <select
+                    value={skill}
+                    onChange={(e) => setSkill(e.target.value)}
+                    className="w-full px-5 py-2.5 rounded-full border border-slate-300 text-sm font-semibold text-slate-800 bg-white focus:outline-none focus:border-[#0a5146] cursor-pointer"
+                  >
+                    <option value="Python · IT">Python · IT</option>
+                    <option value="Machine Learning · IT">Machine Learning · IT</option>
+                    <option value="Data Analysis · IT">Data Analysis · IT</option>
+                    <option value="Docker & DevOps · IT">Docker &amp; DevOps · IT</option>
+                    <option value="English · Ngoại ngữ">English · Ngoại ngữ</option>
+                    <option value="Communication · Kỹ năng mềm">Communication · Kỹ năng mềm</option>
+                    <option value="AI Ethics · IT">AI Ethics · IT</option>
+                    <option value="Logistics · Vận tải & XNK">Logistics · Vận tải &amp; XNK</option>
+                    <option value="Digital Marketing · Kinh tế">Digital Marketing · Kinh tế</option>
+                    <option value="Customer Service · Du lịch">Customer Service · Du lịch</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-black text-slate-600 uppercase tracking-wider mb-1.5">
+                    NGÀNH NGHỀ
+                  </label>
+                  <select
+                    value={courseIndustry}
+                    onChange={(e) => setCourseIndustry(e.target.value)}
+                    className="w-full px-5 py-2.5 rounded-full border border-slate-300 text-sm font-semibold text-slate-800 bg-white focus:outline-none focus:border-[#0a5146] cursor-pointer"
+                  >
+                    <option value="IT">IT &amp; Công nghệ</option>
+                    <option value="economics">Kinh tế &amp; Tài chính</option>
+                    <option value="tourism">Du lịch &amp; Khách sạn</option>
+                    <option value="logistics">Logistics &amp; XNK</option>
+                    <option value="all">Kỹ năng mềm / Tất cả</option>
+                  </select>
+                </div>
               </div>
 
               {/* TÊN KHÓA HỌC */}

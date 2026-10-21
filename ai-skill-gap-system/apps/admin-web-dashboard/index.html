@@ -5782,6 +5782,13 @@
               <button type="button" onclick="provOnSearch(document.getElementById('provCourseSearchInput').value)" style="border:none; background:transparent; color:#0a5146; font-weight:800; font-size:13px; cursor:pointer; padding:6px 14px; white-space:nowrap;">Tìm</button>
             </div>
             <div style="display:flex; align-items:center; gap:12px;">
+              <select id="provCourseIndustryFilter" onchange="provSetIndustryFilter(this.value)" style="padding:10px 22px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:160px;">
+                <option value="all">Mọi ngành nghề</option>
+                <option value="IT">IT &amp; Công nghệ</option>
+                <option value="tourism">Du lịch &amp; Khách sạn</option>
+                <option value="logistics">Logistics &amp; XNK</option>
+                <option value="economics">Kinh tế &amp; Tài chính</option>
+              </select>
               <select id="provCourseSkillFilter" onchange="provSetSkillFilter(this.value)" style="padding:10px 22px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:170px;">
                 <option value="all">Mọi kỹ năng</option>
                 <option value="Python">Python</option>
@@ -6079,23 +6086,37 @@
       <form id="provAddCourseForm" onsubmit="provSubmitNewCourse(event)" style="display:flex; flex-direction:column; gap:16px">
         <input type="hidden" id="provModalEditId" value="" />
 
-        <!-- Kỹ năng bù đắp -->
-        <div>
-          <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
-            KỸ NĂNG BÙ ĐẮP
-          </label>
-          <select id="provModalSkill" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; outline:none">
-            <option value="Python · IT">Python · IT</option>
-            <option value="Machine Learning · IT">Machine Learning · IT</option>
-            <option value="Data Analysis · IT">Data Analysis · IT</option>
-            <option value="Docker & DevOps · IT">Docker &amp; DevOps · IT</option>
-            <option value="English · Ngoại ngữ">English · Ngoại ngữ</option>
-            <option value="Communication · Kỹ năng mềm">Communication · Kỹ năng mềm</option>
-            <option value="AI Ethics · IT">AI Ethics · IT</option>
-            <option value="Logistics · Vận tải & XNK">Logistics · Vận tải &amp; XNK</option>
-            <option value="Digital Marketing · Kinh tế">Digital Marketing · Kinh tế</option>
-            <option value="Customer Service · Du lịch">Customer Service · Du lịch</option>
-          </select>
+        <!-- Kỹ năng bù đắp & Ngành nghề (2 cột) -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px">
+          <div>
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              KỸ NĂNG BÙ ĐẮP
+            </label>
+            <select id="provModalSkill" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; outline:none">
+              <option value="Python · IT">Python · IT</option>
+              <option value="Machine Learning · IT">Machine Learning · IT</option>
+              <option value="Data Analysis · IT">Data Analysis · IT</option>
+              <option value="Docker & DevOps · IT">Docker &amp; DevOps · IT</option>
+              <option value="English · Ngoại ngữ">English · Ngoại ngữ</option>
+              <option value="Communication · Kỹ năng mềm">Communication · Kỹ năng mềm</option>
+              <option value="AI Ethics · IT">AI Ethics · IT</option>
+              <option value="Logistics · Vận tải & XNK">Logistics · Vận tải &amp; XNK</option>
+              <option value="Digital Marketing · Kinh tế">Digital Marketing · Kinh tế</option>
+              <option value="Customer Service · Du lịch">Customer Service · Du lịch</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block; font-size:11px; font-weight:900; color:#475569; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px">
+              NGÀNH NGHỀ
+            </label>
+            <select id="provModalIndustry" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; outline:none">
+              <option value="IT">IT &amp; Công nghệ</option>
+              <option value="economics">Kinh tế &amp; Tài chính</option>
+              <option value="tourism">Du lịch &amp; Khách sạn</option>
+              <option value="logistics">Logistics &amp; XNK</option>
+              <option value="all">Kỹ năng mềm / Tất cả</option>
+            </select>
+          </div>
         </div>
 
         <!-- Tên khóa học -->
@@ -15180,6 +15201,7 @@
         id: 1,
         title: 'Python Backend thực chiến',
         skill: 'Python',
+        industry: 'IT',
         platform: 'Mekong Skills',
         status: 'active',
         statusLabel: 'Đang phân phối',
@@ -15197,6 +15219,7 @@
         id: 2,
         title: 'FastAPI & Docker cho người mới',
         skill: 'Python',
+        industry: 'IT',
         platform: 'Udemy',
         status: 'active',
         statusLabel: 'Đang phân phối',
@@ -15214,6 +15237,7 @@
         id: 3,
         title: 'Nhập môn Machine Learning',
         skill: 'Machine Learning',
+        industry: 'IT',
         platform: 'Coursera',
         status: 'active',
         statusLabel: 'Đang phân phối',
@@ -15231,6 +15255,7 @@
         id: 4,
         title: 'Phân tích dữ liệu với Power BI',
         skill: 'Data Analysis',
+        industry: 'economics',
         platform: 'Mekong Skills',
         status: 'active',
         statusLabel: 'Đang phân phối',
@@ -15248,6 +15273,7 @@
         id: 5,
         title: 'IELTS 6.5 cho sinh viên',
         skill: 'English',
+        industry: 'all',
         platform: 'Mekong Skills',
         status: 'pending',
         statusLabel: 'Chờ duyệt',
@@ -15265,6 +15291,7 @@
         id: 6,
         title: 'Giao tiếp và thuyết trình',
         skill: 'Communication',
+        industry: 'all',
         platform: 'Mekong Skills',
         status: 'pending',
         statusLabel: 'Chờ duyệt',
@@ -15281,8 +15308,15 @@
     ];
 
     let provCurrentStatusFilter = 'all';
+    let provCurrentIndustryFilter = 'all';
     let provCurrentSkillFilter = 'all';
     let provCurrentViewMode = 'grid';
+
+    function provSetIndustryFilter(industry) {
+      provCurrentIndustryFilter = industry;
+      provCurrentPage = 1;
+      renderProviderCourses();
+    }
 
     function getSkillTheme(skill) {
       const s = String(skill || '').toLowerCase();
@@ -15465,6 +15499,7 @@
               id: c.id,
               title: c.course_name,
               skill: c.skill_name || 'Python',
+              industry: c.industry || 'IT',
               platform: c.platform || 'Mekong Skills',
               status: c.status || 'pending',
               statusLabel: c.status === 'active' ? 'Đang phân phối' : 'Chờ duyệt',
@@ -15580,9 +15615,14 @@
         summary.innerHTML = `<strong>${activeCount}</strong> đang phân phối · <strong>${pendingCount}</strong> chờ duyệt`;
       }
 
-      // 2. Lọc danh sách theo statusFilter, skillFilter và search query
+      // 2. Lọc danh sách theo statusFilter, industryFilter, skillFilter và search query
       const filtered = provCoursesList.filter(c => {
         if (provCurrentStatusFilter !== 'all' && c.status !== provCurrentStatusFilter) return false;
+        if (provCurrentIndustryFilter !== 'all') {
+          if (c.industry && c.industry !== 'all' && c.industry.toLowerCase() !== provCurrentIndustryFilter.toLowerCase()) {
+            return false;
+          }
+        }
         if (provCurrentSkillFilter !== 'all' && !c.skill.toLowerCase().includes(provCurrentSkillFilter.toLowerCase())) return false;
         if (provCurrentSearchQuery) {
           const matchTitle = (c.title || '').toLowerCase().includes(provCurrentSearchQuery);
@@ -15759,12 +15799,14 @@
       const skillSelect = document.getElementById('provModalSkill');
       const platformInput = document.getElementById('provModalPlatform');
       const prioritySelect = document.getElementById('provModalPriority');
+      const industrySelect = document.getElementById('provModalIndustry');
       const urlInput = document.getElementById('provModalUrl');
       const outcomesArea = document.getElementById('provModalOutcomes');
       const skillsArea = document.getElementById('provModalSkillsAcquired');
       const toolsArea = document.getElementById('provModalToolsAcquired');
 
       if (platformInput) platformInput.value = 'Mekong Skills';
+      if (industrySelect) industrySelect.value = 'IT';
       if (prioritySelect) prioritySelect.value = '1 (cao nhất)';
       if (urlInput) urlInput.value = 'https://mekongskills.vn/python-backend';
       if (outcomesArea) outcomesArea.value = 'Cú pháp Python và cấu trúc dữ liệu cơ bản\nXây dựng REST API với FastAPI\nLàm việc với cơ sở dữ liệu SQL\nĐóng gói ứng dụng bằng Docker';
@@ -15807,12 +15849,14 @@
       const skillSelect = document.getElementById('provModalSkill');
       const platformInput = document.getElementById('provModalPlatform');
       const prioritySelect = document.getElementById('provModalPriority');
+      const industrySelect = document.getElementById('provModalIndustry');
       const urlInput = document.getElementById('provModalUrl');
       const outcomesArea = document.getElementById('provModalOutcomes');
       const skillsArea = document.getElementById('provModalSkillsAcquired');
       const toolsArea = document.getElementById('provModalToolsAcquired');
 
       if (titleInput) titleInput.value = course.title || '';
+      if (industrySelect) industrySelect.value = course.industry || 'IT';
       if (platformInput) platformInput.value = course.platform || 'Mekong Skills';
       if (prioritySelect) prioritySelect.value = course.priority === '1' ? '1 (cao nhất)' : course.priority === '2' ? '2 (trung bình)' : '3 (thấp)';
       if (urlInput) urlInput.value = course.url || '';
@@ -15849,6 +15893,7 @@
       const isEditing = Boolean(editIdStr);
 
       const skill = document.getElementById('provModalSkill')?.value || 'Python';
+      const industry = document.getElementById('provModalIndustry')?.value || 'IT';
       const title = document.getElementById('provModalTitle')?.value?.trim();
       const platform = document.getElementById('provModalPlatform')?.value?.trim() || 'Mekong Skills';
       const priority = document.getElementById('provModalPriority')?.value || '1';
@@ -15868,6 +15913,7 @@
       const payload = {
         course_name: title,
         skill_name: cleanSkill,
+        industry: industry,
         platform: platform,
         priority: cleanPriorityNum,
         url: url,
@@ -15890,6 +15936,7 @@
               ...c,
               title: updated.course_name,
               skill: updated.skill_name,
+              industry: updated.industry || industry,
               platform: updated.platform,
               priority: String(updated.priority),
               url: updated.url,
@@ -15905,6 +15952,7 @@
               ...c,
               title: payload.course_name,
               skill: cleanSkill,
+              industry: industry,
               platform: payload.platform,
               priority: String(cleanPriorityNum),
               url: payload.url,
@@ -15928,6 +15976,7 @@
               id: created.id,
               title: created.course_name,
               skill: created.skill_name,
+              industry: created.industry || industry,
               platform: created.platform,
               priority: String(created.priority || 1),
               date: created.created_at || '12/10/2026',
@@ -15949,6 +15998,7 @@
               id: Date.now(),
               title: payload.course_name,
               skill: cleanSkill,
+              industry: industry,
               platform: payload.platform,
               priority: String(cleanPriorityNum),
               date: dateStr,

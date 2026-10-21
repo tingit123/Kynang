@@ -15,6 +15,7 @@ class CourseRecommendation(Base):
     status      = Column(String(50), default="pending", nullable=False)
     click_count = Column(Integer, default=0, nullable=False)
     is_deleted  = Column(Boolean, default=False, nullable=False)
+    industry    = Column(String(50), nullable=True)
     outcomes    = Column(Text, nullable=True)
     skills_acquired = Column(Text, nullable=True)
     tools_acquired = Column(Text, nullable=True)

@@ -21,6 +21,7 @@ router = APIRouter()
 class CourseCreate(BaseModel):
     skill_id: Optional[int] = None
     skill_name: Optional[str] = None
+    industry: Optional[str] = "IT"
     course_name: str
     platform: Optional[str] = "Mekong Skills"
     url: Optional[str] = None
@@ -34,6 +35,7 @@ class CourseCreate(BaseModel):
 class CourseUpdate(BaseModel):
     skill_id: Optional[int] = None
     skill_name: Optional[str] = None
+    industry: Optional[str] = None
     course_name: Optional[str] = None
     platform: Optional[str] = None
     url: Optional[str] = None
@@ -91,7 +93,14 @@ def list_courses(
         query = query.filter(CourseRecommendation.skill_id == skill_id)
 
     if industry and industry != "Tất cả" and industry.lower() != "all":
-        query = query.filter(SkillCatalog.industry.in_([industry, "Tất cả"]))
+        query = query.filter(
+            or_(
+                CourseRecommendation.industry == industry,
+                CourseRecommendation.industry == "all",
+                SkillCatalog.industry == industry,
+                SkillCatalog.industry == "Tất cả",
+            )
+        )
 
     if q and q.strip():
         term = f"%{q.strip()}%"
@@ -110,7 +119,7 @@ def list_courses(
             provider_id=c.provider_id,
             skill_id=c.skill_id,
             skill_name=sk.skill_name,
-            industry=sk.industry,
+            industry=c.industry or sk.industry or "IT",
             course_name=c.course_name,
             platform=c.platform,
             url=c.url,
@@ -133,7 +142,6 @@ def create_course(
     current_user: Optional[User] = Depends(get_current_user_optional),
 ):
     """Thêm khóa học mới vào MySQL."""
-    # Tìm hoặc tạo skill tương ứng
     target_skill = None
     if course.skill_id:
         target_skill = db.query(SkillCatalog).filter(SkillCatalog.id == course.skill_id).first()
@@ -146,8 +154,7 @@ def create_course(
             .first()
         )
         if not target_skill:
-            # Tạo skill mới nếu chưa có
-            target_skill = SkillCatalog(skill_name=clean_name, industry="IT")
+            target_skill = SkillCatalog(skill_name=clean_name, industry=course.industry or "IT")
             db.add(target_skill)
             db.commit()
             db.refresh(target_skill)
@@ -169,6 +176,7 @@ def create_course(
         click_count=0,
         is_deleted=False,
         provider_id=current_user.id if current_user else 12,
+        industry=course.industry or (target_skill.industry if target_skill else "IT"),
         outcomes=course.outcomes,
         skills_acquired=course.skills_acquired,
         tools_acquired=course.tools_acquired,
@@ -183,7 +191,7 @@ def create_course(
         provider_id=db_course.provider_id,
         skill_id=db_course.skill_id,
         skill_name=target_skill.skill_name if target_skill else "Chung",
-        industry=target_skill.industry if target_skill else "IT",
+        industry=db_course.industry or (target_skill.industry if target_skill else "IT"),
         course_name=db_course.course_name,
         platform=db_course.platform,
         url=db_course.url,
@@ -223,6 +231,8 @@ def update_course(
         db_course.priority = course_data.priority
     if course_data.status is not None:
         db_course.status = course_data.status
+    if course_data.industry is not None:
+        db_course.industry = course_data.industry
     if course_data.outcomes is not None:
         db_course.outcomes = course_data.outcomes
     if course_data.skills_acquired is not None:
@@ -248,7 +258,7 @@ def update_course(
         provider_id=db_course.provider_id,
         skill_id=db_course.skill_id,
         skill_name=skill.skill_name if skill else "Chung",
-        industry=skill.industry if skill else "IT",
+        industry=db_course.industry or (skill.industry if skill else "IT"),
         course_name=db_course.course_name,
         platform=db_course.platform,
         url=db_course.url,
