@@ -1519,7 +1519,7 @@
     .course-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 24px;
     }
 
     @media (max-width: 1024px) {
@@ -1562,26 +1562,9 @@
       overflow: hidden;
     }
 
-    .course-banner::after {
-      content: "";
-      position: absolute;
-      right: -20px;
-      bottom: -20px;
-      width: 100px;
-      height: 100px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-    }
-
+    .course-banner::after,
     .course-banner::before {
-      content: "";
-      position: absolute;
-      right: 40px;
-      top: -10px;
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
+      display: none !important;
     }
 
     .course-banner-top {
@@ -2605,14 +2588,15 @@
 
     /* ──────────────── COURSE PAGE FILTER TOOLBAR ──────────────── */
     .course-filter-toolbar {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin-bottom: 18px;
+      background: #ffffff !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 24px !important;
+      padding: 22px 28px !important;
+      margin-bottom: 24px !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .course-filter-row {
@@ -2626,62 +2610,65 @@
     .course-filter-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px
+      gap: 8px;
     }
 
     .course-filter-chip {
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 11px;
+      padding: 7px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      border: 1px solid var(--border2);
-      background: var(--bg3);
-      color: var(--text2);
-      transition: var(--transition);
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #334155;
+      transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
     .course-filter-chip:hover {
-      border-color: var(--primary);
-      color: var(--primary)
+      border-color: #0d6e64;
+      color: #0d6e64;
     }
 
     .course-filter-chip.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary)
+      background: #0d6e64 !important;
+      color: #ffffff !important;
+      border-color: #0d6e64 !important;
+      font-weight: 700 !important;
     }
 
     .course-search-wrap {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: var(--bg3);
-      border: 1px solid var(--border2);
-      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 9999px;
       padding: 6px 14px;
       min-width: 260px;
       flex: 1;
-      max-width: 400px;
+      max-width: 600px;
     }
 
     .course-search-wrap input {
       background: none;
       border: none;
       outline: none;
-      font-size: 12px;
-      color: var(--text);
+      font-size: 13.5px;
+      color: #0f172a;
       font-family: inherit;
       width: 100%;
     }
 
     .course-stat-badge {
-      font-size: 11px;
+      font-size: 12.5px;
       font-weight: 700;
-      color: var(--primary);
-      background: var(--primary-glow);
-      padding: 4px 10px;
-      border-radius: 20px;
+      color: #0284c7;
+      background: #e0f2fe;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      display: inline-block;
     }
 
     .shift-charts-row {
@@ -4928,54 +4915,43 @@
 
       <!-- ══ PAGE: KHÓA HỌC ══ -->
       <div class="page" id="page-courses">
-        <div class="page-header">
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
           <div>
-            <h1 class="page-title">Thư Viện Khóa Học Chuẩn Hóa Theo Kỹ Năng</h1>
-            <p class="page-sub">Chương trình đào tạo thực chiến &amp; quốc tế có chứng chỉ · Bấm "Truy Cập Khóa Học
-              Ngay" để mở trực tiếp trang học</p>
+            <h1 class="page-title" style="font-size:32px; font-weight:800; color:#ffffff; margin:0 0 8px 0; letter-spacing:-0.5px;">Thư viện khóa học chuẩn hóa theo kỹ năng</h1>
+            <p class="page-sub" style="font-size:14px; color:#ccfbf1; margin:0; line-height:1.5; font-weight:500;">Chương trình đào tạo thực chiến và quốc tế có chứng chỉ. Bấm "Chi tiết" để xem nội dung, hoặc "Truy cập khóa học ngay" để mở trang học.</p>
           </div>
-          <button class="btn btn-primary" onclick="alert('Tính năng dành cho Nhà Cung Cấp Khóa Học đang kết nối.')"><svg
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>Đăng Khóa Học Mới</button>
+          <button style="background:#5eead4; color:#042f2e; border:none; border-radius:9999px; padding:12px 24px; font-size:12.5px; font-weight:800; letter-spacing:0.3px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; white-space:nowrap; transition:all 0.15s; outline:none;" onmouseover="this.style.background='#2dd4bf'" onmouseout="this.style.background='#5eead4'" onclick="alert('Tính năng dành cho Nhà Cung Cấp Khóa Học đang kết nối.')">+ ĐĂNG KHÓA HỌC MỚI</button>
         </div>
 
         <!-- Filter & Search Toolbar for Courses -->
         <div class="course-filter-toolbar">
-          <div class="course-filter-row">
-            <div class="course-filter-chips" id="courseIndustryFilters">
-              <div class="course-filter-chip active" onclick="filterCoursesByIndustry('all',this)">Tất Cả Ngành</div>
-              <div class="course-filter-chip" onclick="filterCoursesByIndustry('IT',this)">💻 IT &amp; Công nghệ</div>
-              <div class="course-filter-chip" onclick="filterCoursesByIndustry('tourism',this)">✈️ Du lịch &amp; Khách
-                sạn</div>
-              <div class="course-filter-chip" onclick="filterCoursesByIndustry('logistics',this)">📦 Logistics &amp; XNK
-              </div>
-              <div class="course-filter-chip" onclick="filterCoursesByIndustry('economics',this)">📊 Kinh tế &amp; Tài
-                chính</div>
-              <div class="course-filter-chip" onclick="filterCoursesByIndustry('agriculture',this)">🌾 Nông nghiệp</div>
-              <div class="course-filter-chip" onclick="filterCoursesByIndustry('softskills',this)">🌟 Kỹ Năng Mềm</div>
-            </div>
-            <div class="course-stat-badge" id="courseStatCount">
-              Đang hiển thị: 0 khóa học
-            </div>
+          <!-- Industry Chips -->
+          <div class="course-filter-chips" id="courseIndustryFilters">
+            <div class="course-filter-chip active" onclick="filterCoursesByIndustry('all',this)">Tất cả ngành</div>
+            <div class="course-filter-chip" onclick="filterCoursesByIndustry('IT',this)">IT &amp; Công nghệ</div>
+            <div class="course-filter-chip" onclick="filterCoursesByIndustry('tourism',this)">Du lịch &amp; Khách sạn</div>
+            <div class="course-filter-chip" onclick="filterCoursesByIndustry('logistics',this)">Logistics &amp; XNK</div>
+            <div class="course-filter-chip" onclick="filterCoursesByIndustry('economics',this)">Kinh tế &amp; Tài chính</div>
+            <div class="course-filter-chip" onclick="filterCoursesByIndustry('agriculture',this)">Nông nghiệp</div>
+            <div class="course-filter-chip" onclick="filterCoursesByIndustry('softskills',this)">Kỹ năng mềm</div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-            <div class="course-search-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                style="width:16px;height:16px;color:var(--text3)">
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
-              </svg>
-              <input type="text" id="courseSearchInput" placeholder="Tìm theo tên khóa học, kỹ năng, trường..."
-                oninput="onCourseSearch(this.value)" />
+
+          <!-- Counter Pill -->
+          <div>
+            <span class="course-stat-badge" id="courseStatCount">
+              Đang hiển thị: 36 / 36 khóa học
+            </span>
+          </div>
+
+          <!-- Search & Skill Filter Row -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+            <div style="flex:1; max-width:600px; min-width:280px;">
+              <input type="text" id="courseSearchInput" placeholder="Tìm theo tên khóa học, kỹ năng, trường..." oninput="onCourseSearch(this.value)" style="width:100%; box-sizing:border-box; background:#ffffff; border:1px solid #cbd5e1; border-radius:9999px; padding:11px 22px; font-size:13.5px; color:#0f172a; outline:none; font-family:inherit; transition:border-color 0.15s;" onfocus="this.style.borderColor='#0d6e64'" onblur="this.style.borderColor='#cbd5e1'" />
             </div>
-            <div style="display:flex;align-items:center;gap:6px">
-              <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase">Lọc theo kỹ
-                năng:</span>
-              <select class="filter-select" id="courseSkillSelect" onchange="onCourseSkillSelect(this.value)"
-                style="min-width:180px">
-                <option value="all">-- Tất cả kỹ năng --</option>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:12px; font-weight:800; color:#334155; text-transform:uppercase; letter-spacing:0.5px; white-space:nowrap;">LỌC THEO KỸ NĂNG</span>
+              <select class="filter-select" id="courseSkillSelect" onchange="onCourseSkillSelect(this.value)" style="border:1px solid #cbd5e1; border-radius:9999px; padding:10px 22px; font-size:13px; font-weight:600; color:#0f172a; background:#ffffff; min-width:190px; outline:none; cursor:pointer;">
+                <option value="all">Tất cả kỹ năng</option>
               </select>
             </div>
           </div>
@@ -12537,7 +12513,7 @@
     function populateCourseSkillDropdown() {
       const select = document.getElementById('courseSkillSelect');
       if (!select) return;
-      select.innerHTML = '<option value="all">-- Tất cả kỹ năng --</option>';
+      select.innerHTML = '<option value="all">Tất cả kỹ năng</option>';
 
       // Get unique skills
       const skills = Array.from(new Set(COURSES_DATA.map(c => c.skill))).sort();
@@ -12599,33 +12575,128 @@
       return c.color || '#0fa39e';
     }
 
-    function getCourseColorTheme(skillName) {
+    function getCourseColorTheme(skillName, group, industry) {
       const s = (skillName || '').toLowerCase();
-      if (s.includes('data') || s.includes('ai') || s.includes('machine learning') || s.includes('python')) {
-        return { bg: '#E9D5FF', text: '#6B21A8' }; // Purple 200
+      const g = (group || '').toLowerCase();
+      const ind = (industry || '').toLowerCase();
+
+      // Python / IT
+      if (s === 'python' || s.includes('python')) {
+        return {
+          bg: '#f0fdfa',
+          tagColor: '#0d6e64',
+          providerColor: '#0d6e64',
+          titleColor: '#042f2e'
+        };
       }
-      if (s.includes('frontend') || s.includes('ui/ux') || s.includes('reactjs') || s.includes('html') || s.includes('css')) {
-        return { bg: '#FBCFE8', text: '#BE185D' }; // Pink 200
+
+      // Machine Learning / AI
+      if (s.includes('machine learning') || s.includes('ai') || g.includes('ai')) {
+        return {
+          bg: '#f3e8ff',
+          tagColor: '#7c3aed',
+          providerColor: '#7c3aed',
+          titleColor: '#581c87'
+        };
       }
-      if (s.includes('backend') || s.includes('sql') || s.includes('database') || s.includes('c#') || s.includes('java')) {
-        return { bg: '#BFDBFE', text: '#1D4ED8' }; // Blue 200
+
+      // Data Analysis / SQL / Power BI
+      if (s.includes('data') || s.includes('sql') || s.includes('bi')) {
+        return {
+          bg: '#e0f2fe',
+          tagColor: '#0284c7',
+          providerColor: '#0284c7',
+          titleColor: '#1e3a8a'
+        };
       }
-      if (s.includes('devops') || s.includes('docker') || s.includes('cloud') || s.includes('aws') || s.includes('kubernetes')) {
-        return { bg: '#99F6E4', text: '#0F766E' }; // Teal 200
+
+      // React / Web / Frontend
+      if (s.includes('react') || s.includes('frontend') || s.includes('ui/ux') || s.includes('javascript')) {
+        return {
+          bg: '#ecfeff',
+          tagColor: '#0891b2',
+          providerColor: '#0891b2',
+          titleColor: '#164e63'
+        };
       }
-      if (s.includes('mobile') || s.includes('android') || s.includes('ios') || s.includes('flutter')) {
-        return { bg: '#C7D2FE', text: '#4338CA' }; // Indigo 200
+
+      // Docker / DevOps / Cloud / AWS / Git
+      if (s.includes('docker') || s.includes('devops') || s.includes('cloud') || s.includes('aws') || s.includes('git')) {
+        return {
+          bg: '#fff7ed',
+          tagColor: '#ea580c',
+          providerColor: '#ea580c',
+          titleColor: '#7c2d12'
+        };
       }
-      if (s.includes('security') || s.includes('network') || s.includes('linux')) {
-        return { bg: '#FECACA', text: '#B91C1C' }; // Red 200
+
+      // Cybersecurity / Security
+      if (s.includes('security') || s.includes('cyber')) {
+        return {
+          bg: '#fef2f2',
+          tagColor: '#dc2626',
+          providerColor: '#dc2626',
+          titleColor: '#991b1b'
+        };
       }
-      if (s.includes('business') || s.includes('agile') || s.includes('scrum') || s.includes('management')) {
-        return { bg: '#FED7AA', text: '#C2410C' }; // Orange 200
+
+      // Tourism & Hospitality
+      if (ind === 'tourism' || s.includes('du lịch') || s.includes('khách sạn') || s.includes('tour') || s.includes('tourism') || s.includes('hospitality')) {
+        return {
+          bg: '#fdf2f8',
+          tagColor: '#db2777',
+          providerColor: '#db2777',
+          titleColor: '#831843'
+        };
       }
-      if (s.includes('soft skill') || s.includes('english') || s.includes('communication') || s.includes('tiếng anh') || s.includes('giao tiếp')) {
-        return { bg: '#BBF7D0', text: '#15803D' }; // Green 200
+
+      // Logistics & Supply Chain
+      if (ind === 'logistics' || s.includes('logistics') || s.includes('chuỗi cung ứng') || s.includes('hải quan') || s.includes('kho')) {
+        return {
+          bg: '#fef3c7',
+          tagColor: '#d97706',
+          providerColor: '#d97706',
+          titleColor: '#78350f'
+        };
       }
-      return { bg: '#E5E7EB', text: '#374151' }; // Default Gray 200
+
+      // Economics / Finance / Marketing / Accounting
+      if (ind === 'economics' || s.includes('marketing') || s.includes('tài chính') || s.includes('kế toán') || s.includes('excel')) {
+        return {
+          bg: '#ecfdf5',
+          tagColor: '#059669',
+          providerColor: '#059669',
+          titleColor: '#064e3b'
+        };
+      }
+
+      // Agriculture
+      if (ind === 'agriculture' || s.includes('nông nghiệp') || s.includes('farm') || s.includes('gis')) {
+        return {
+          bg: '#f0fdf4',
+          tagColor: '#16a34a',
+          providerColor: '#16a34a',
+          titleColor: '#14532d'
+        };
+      }
+
+      // Soft skills
+      if (ind === 'softskills' || s.includes('giao tiếp') || s.includes('tư duy') || s.includes('quản lý thời gian') || s.includes('kỹ năng')) {
+        return {
+          bg: '#f5f3ff',
+          tagColor: '#8b5cf6',
+          providerColor: '#8b5cf6',
+          titleColor: '#4c1d95'
+        };
+      }
+
+      // Default pastel
+      return {
+        bg: '#f1f5f9',
+        tagColor: '#475569',
+        providerColor: '#475569',
+        titleColor: '#0f172a'
+      };
     }
 
     function renderCourses() {
@@ -12677,7 +12748,7 @@
         <div class="empty-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px">Không tìm thấy khóa học phù hợp</div>
-          <div style="font-size:12px;color:var(--text3);margin-bottom:14px">Thử chọn "Tất Cả Ngành" hoặc tìm từ khóa khác</div>
+          <div style="font-size:12px;color:var(--text3);margin-bottom:14px">Thử chọn "Tất cả ngành" hoặc tìm từ khóa khác</div>
           <button class="btn btn-outline" onclick="resetCourseFilters()" style="margin:0 auto">Đặt Lại Bộ Lọc</button>
         </div>
       </div>
@@ -12687,53 +12758,48 @@
 
       grid.innerHTML = filtered.map(c => {
         const isFree = c.price && (c.price.toLowerCase().includes('miễn phí') || c.price.toLowerCase().includes('free') || c.price.toLowerCase().includes('audit'));
-        const priceHTML = isFree
-          ? `<span class="meta-free" style="font-size:14px">🎁 Miễn phí</span>`
-          : `<span class="meta-paid" style="font-size:14px">💰 ${c.price}</span>`;
-
-        const theme = getCourseColorTheme(c.skill || c.group || '');
+        const priceText = isFree ? 'Miễn phí' : c.price;
+        const theme = getCourseColorTheme(c.skill, c.group, c.industry);
 
         return `
-    <div class="course-card">
-      <div class="course-banner" onclick="openCourseDetailModal('${c.id}')" style="cursor:pointer;min-height:140px;background:linear-gradient(135deg, ${theme.bg} 0%, rgba(255,255,255,0.4) 100%)">
-        <div class="course-banner-top">
-          <span class="course-skill-tag" style="color:${theme.text}">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    <div class="course-card" style="background:#ffffff; border-radius:24px; padding:16px; display:flex; flex-direction:column; box-shadow:0 8px 24px rgba(0,0,0,0.06); transition:transform 0.2s ease, box-shadow 0.2s ease;">
+      <div class="course-banner" onclick="openCourseDetailModal('${c.id}')" style="cursor:pointer; background:${theme.bg}; border-radius:20px; padding:18px 18px 22px 18px; min-height:175px; display:flex; flex-direction:column; justify-content:space-between; margin-bottom:14px; position:relative; overflow:hidden;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; z-index:1;">
+          <span style="background:#ffffff; color:${theme.tagColor}; padding:5px 16px; border-radius:9999px; font-size:12.5px; font-weight:700; box-shadow:0 2px 6px rgba(0,0,0,0.04); display:inline-block;">
             ${c.skill}
           </span>
-          <span class="course-rating">
-            <span class="course-rating-star">⭐</span> ${c.rating || 4.8}
+          <span style="background:#ffffff; color:#0f172a; padding:5px 14px; border-radius:9999px; font-size:12.5px; font-weight:800; box-shadow:0 2px 6px rgba(0,0,0,0.04); display:inline-block;">
+            ${c.rating || 4.8}
           </span>
         </div>
-        <div class="course-banner-text" style="margin-top:16px">
-          <div class="course-banner-logo" style="font-size:13px;font-weight:500;color:${theme.text};display:flex;align-items:center;gap:6px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <div style="z-index:1; margin-top:20px;">
+          <div style="font-size:13px; font-weight:700; color:${theme.providerColor}; margin-bottom:8px;">
             ${c.provider}
           </div>
-          <div class="course-banner-sub" style="font-size:16px;font-weight:700;color:${theme.text};margin-top:8px;max-width:100%;line-height:1.4" title="${c.title}">${c.title}</div>
+          <div style="font-size:19px; font-weight:800; color:${theme.titleColor}; line-height:1.3; letter-spacing:-0.2px;">
+            ${c.title}
+          </div>
         </div>
       </div>
       
-      <div class="course-meta" style="margin-top:8px;margin-bottom:20px;justify-content:space-between;padding:0 4px">
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <span style="font-size:11px;color:#64748b;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Thời lượng</span>
-          <span style="color:#0f172a;font-size:14px;font-weight:500">${c.duration}</span>
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; padding:6px 6px 16px 6px;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <span style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">THỜI LƯỢNG</span>
+          <span style="font-size:15px; font-weight:800; color:#0f172a;">${c.duration}</span>
         </div>
-        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
-          <span style="font-size:11px;color:#64748b;font-weight:500;text-transform:uppercase;letter-spacing:0.5px">Học phí</span>
-          ${priceHTML}
+        <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-end;">
+          <span style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">HỌC PHÍ</span>
+          <span style="font-size:15px; font-weight:800; color:#0d6e64;">${priceText}</span>
         </div>
       </div>
       
-      <!-- Hàng nút: [Chi Tiết] & [Truy Cập Khóa Học Ngay] (Khớp yêu cầu người dùng) -->
-      <div style="display:grid; grid-template-columns: 1fr 1.35fr; gap:8px; margin-top:auto">
-        <button type="button" onclick="openCourseDetailModal('${c.id}')" style="display:flex; align-items:center; justify-content:center; gap:6px; padding:11px 10px; border-radius:12px; background:#f0fdfa; color:#0d9488; border:1.5px solid #5eead4; font-size:13.5px; font-weight:700; cursor:pointer; transition:all 0.15s; outline:none; white-space:nowrap;" onmouseover="this.style.background='#ccfbf1'" onmouseout="this.style.background='#f0fdfa'">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          Chi Tiết
+      <!-- Hàng nút: [Chi tiết] & [TRUY CẬP KHÓA HỌC NGAY] -->
+      <div style="display:flex; align-items:center; gap:12px; margin-top:auto;">
+        <button type="button" onclick="openCourseDetailModal('${c.id}')" style="background:#ffffff; color:#0d6e64; border:1.5px solid #0d6e64; border-radius:9999px; padding:11px 22px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; outline:none; transition:all 0.15s;" onmouseover="this.style.background='#f0fdfa'" onmouseout="this.style.background='#ffffff'">
+          Chi tiết
         </button>
-        <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="course-cta" style="margin-top:0; padding:11px 12px; font-size:13.5px; border-radius:12px; display:flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          Vào Học
+        <a href="${c.url}" target="_blank" rel="noopener noreferrer" style="flex:1; text-align:center; background:#0d6e64; color:#ffffff; border:none; border-radius:9999px; padding:11px 16px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.3px; text-decoration:none; cursor:pointer; white-space:nowrap; display:inline-block; transition:all 0.15s;" onmouseover="this.style.background='#0a564e'" onmouseout="this.style.background='#0d6e64'">
+          TRUY CẬP KHÓA HỌC NGAY
         </a>
       </div>
     </div>`;
