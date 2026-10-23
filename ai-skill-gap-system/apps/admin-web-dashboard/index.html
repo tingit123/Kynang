@@ -3031,9 +3031,16 @@
     body.candidate-purple-theme #page-cv-upload .page-sub {
       color: #ccfbf1 !important;
     }
+    /* ẨN HOÀN TOÀN 4 Ô KPI TRÊN GIAO DIỆN NGƯỜI DÙNG (CANDIDATE) - CHỈ HIỂN THỊ Ở ADMIN */
+    body.candidate-purple-theme #page-dashboard .kpi-grid,
+    body.candidate-purple-theme #dashboardKpiGrid,
+    body.candidate-purple-theme .admin-only-kpi,
+    body.candidate-purple-theme .kpi-card {
+      display: none !important;
+    }
+
     body.candidate-purple-theme #page-dashboard .card,
-    body.candidate-purple-theme #page-cv-upload .card,
-    body.candidate-purple-theme #page-dashboard .kpi-card {
+    body.candidate-purple-theme #page-cv-upload .card {
       background: #ffffff !important;
       border: none !important;
       border-radius: 20px !important;
@@ -3708,8 +3715,8 @@
           </button>
         </div>
 
-        <!-- KPI -->
-        <div class="kpi-grid">
+        <!-- KPI (Chỉ hiển thị cho Quản trị viên Admin) -->
+        <div class="kpi-grid admin-only-kpi" id="dashboardKpiGrid">
           <div class="kpi-card blue">
             <div class="kpi-icon blue"><svg viewBox="0 0 24 24" fill="none">
                 <rect x="2" y="7" width="20" height="14" rx="2" />
@@ -9263,6 +9270,8 @@
         if (publicNavbar) publicNavbar.style.display = 'none';
         if (sidebar) sidebar.style.display = 'flex';
         if (adminTopbar) adminTopbar.style.display = 'flex';
+        const kpiGrid = document.getElementById('dashboardKpiGrid');
+        if (kpiGrid) kpiGrid.style.display = '';
         if (mainEl) {
           mainEl.style.marginLeft = '';
           mainEl.style.paddingTop = '';
@@ -9293,6 +9302,8 @@
         if (publicNavbar) publicNavbar.style.display = 'flex';
         if (sidebar) sidebar.style.display = 'none'; // BỎ HOÀN TOÀN THANH SIDEBAR XANH LÁ CÂY
         if (adminTopbar) adminTopbar.style.display = 'none';
+        const kpiGrid = document.getElementById('dashboardKpiGrid');
+        if (kpiGrid) kpiGrid.style.display = 'none';
         if (mainEl) {
           mainEl.style.marginLeft = '0px';
           mainEl.style.paddingTop = '140px';
@@ -9465,6 +9476,13 @@
       if (nav) nav.classList.add('active');
       const bc = document.getElementById('breadcrumbText');
       if (bc) bc.textContent = PAGE_LABELS[name] || name;
+      if (name === 'dashboard') {
+        const isCandidate = document.body.classList.contains('candidate-purple-theme') || (document.getElementById('sidebar') && document.getElementById('sidebar').style.display === 'none');
+        const kpiGrid = document.getElementById('dashboardKpiGrid');
+        if (kpiGrid) {
+          kpiGrid.style.display = isCandidate ? 'none' : '';
+        }
+      }
       initPage(name);
 
       if (updateRoute) {
