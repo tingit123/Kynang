@@ -5202,7 +5202,7 @@
               Đăng tin mới, gắn thẻ kỹ năng và quản lý các tin đã đăng.
             </p>
           </div>
-          <button onclick="document.getElementById('empJobTitleInput').focus()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.12)">
+          <button onclick="openJobModal()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.12)">
             ĐĂNG TIN MỚI
           </button>
         </div>
@@ -5360,14 +5360,18 @@
         </div>
 
         <!-- Filter Dropdown Row -->
-        <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px">
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px; flex-wrap:wrap">
           <span style="font-size:11.5px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
             LỌC THEO TIN TUYỂN DỤNG
           </span>
-          <select style="padding:10px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:320px">
-            <option>Python Backend Developer · 34 hồ sơ</option>
-            <option>Data Analyst / BI Specialist · 21 hồ sơ</option>
-            <option>DevOps & Cloud Engineer · 40 hồ sơ</option>
+          <select id="empCandFilterJob" onchange="renderEmployerCandidatesList()" style="padding:10px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:320px">
+            <option value="all">Tất cả tin tuyển dụng</option>
+          </select>
+          <select id="empCandFilterStatus" onchange="renderEmployerCandidatesList()" style="padding:10px 20px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:180px">
+            <option value="all">Tất cả trạng thái</option>
+            <option value="Mới nộp">Mới nộp</option>
+            <option value="Mời phỏng vấn">Đã mời PV</option>
+            <option value="Chưa phù hợp">Đã từ chối</option>
           </select>
         </div>
 
@@ -5473,11 +5477,23 @@
             </div>
 
             <!-- Nhận xét của AI -->
-            <div style="background:#f8fafc; border-radius:18px; border:1px solid #f1f5f9; padding:20px; margin-bottom:28px">
+            <div style="background:#f8fafc; border-radius:18px; border:1px solid #f1f5f9; padding:20px; margin-bottom:16px">
               <h3 style="font-size:13px; font-weight:800; color:#0f172a; margin-bottom:8px">Nhận xét của AI</h3>
               <p style="font-size:13px; color:#475569; line-height:1.6; margin:0" id="empCandDetailComment">
                 Ứng viên nắm chắc nền tảng Python và cơ sở dữ liệu, đã có dự án REST API. Còn thiếu FastAPI và Docker nhưng nền tảng đủ để đào tạo thêm trong thời gian thử việc.
               </p>
+            </div>
+
+            <!-- Trạng thái ứng viên -->
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px">
+              <span style="font-size:12px; font-weight:800; color:#475569">Trạng thái:</span>
+              <span id="empCandDetailStatusBadge" style="background:#e0f2fe; color:#0369a1; font-size:12px; font-weight:800; padding:5px 14px; border-radius:9999px">🆕 Mới nộp</span>
+            </div>
+
+            <!-- Ghi chú nội bộ HR -->
+            <div style="background:#fefce8; border-radius:18px; border:1px solid #fef08a; padding:20px; margin-bottom:28px">
+              <h3 style="font-size:13px; font-weight:800; color:#854d0e; margin-bottom:8px">📝 Ghi chú nội bộ (HR)</h3>
+              <textarea id="empCandInternalNote" rows="3" placeholder="Nhập ghi chú riêng cho ứng viên này (chỉ nhà tuyển dụng nhìn thấy)..." oninput="empSaveCandidateNote()" style="width:100%; padding:10px 14px; border-radius:12px; border:1px solid #fde68a; font-size:13px; font-weight:500; font-family:inherit; resize:none; line-height:1.5; background:#fffef5; color:#78350f"></textarea>
             </div>
 
             <!-- Action buttons -->
@@ -14575,6 +14591,12 @@
 
       // Load jobs count into KPI
       loadEmployerPortalJobs();
+
+      // Render dynamic KPI and recent jobs table
+      setTimeout(() => {
+        renderEmpDashboardKPI();
+        renderEmpRecentJobsTable();
+      }, 300);
     }
 
     function switchEmpTab(tab) {
@@ -14601,7 +14623,10 @@
       if (activeView) activeView.style.display = 'block';
 
       // Specific tab initializations
-      if (tab === 'jobs') {
+      if (tab === 'dashboard') {
+        renderEmpDashboardKPI();
+        renderEmpRecentJobsTable();
+      } else if (tab === 'jobs') {
         renderEmployerPortalJobsTab();
       } else if (tab === 'candidates') {
         renderEmployerCandidatesList();
@@ -14672,22 +14697,46 @@
       const countHeader = document.getElementById('empPostedJobsCountHeader');
       if (countHeader) countHeader.textContent = `Tin đã đăng (${empPortalJobsData.length})`;
       if (!container) return;
-      container.innerHTML = empPortalJobsData.map(j => `
-        <div class="emp-job-card" style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
+
+      container.innerHTML = empPortalJobsData.map(j => {
+        const status = j.status || 'Đang mở';
+        const isPaused = status === 'Tạm dừng';
+        const isExpired = status === 'Đã hết hạn';
+        const statusClass = isPaused ? 'emp-status-expiring' : (isExpired ? 'emp-status-expired' : 'emp-status-open');
+        const statusText = isPaused ? 'Tạm dừng' : (isExpired ? 'Đã hết hạn' : 'Đang mở');
+
+        // Count real applications for this job
+        let realAppCount = j.applications_count || 0;
+        try {
+          const rawApps = localStorage.getItem('global_job_applications');
+          if (rawApps) {
+            const apps = JSON.parse(rawApps);
+            const jobApps = apps.filter(a => a.jobId === j.id);
+            if (jobApps.length > 0) realAppCount = Math.max(realAppCount, jobApps.length);
+          }
+        } catch(e){}
+
+        return `
+        <div class="emp-job-card" id="empJobCard-${j.id}" style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.04); opacity:${isPaused ? '0.7' : '1'}">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px">
             <h3 style="font-size:16px; font-weight:800; color:#0f172a">${j.title}</h3>
-            <span class="emp-status-badge emp-status-open">Đang mở</span>
+            <span class="emp-status-badge ${statusClass}">${statusText}</span>
           </div>
-          <div style="font-size:12px; color:#64748b; margin-bottom:12px">${j.location || 'Cần Thơ'} · ${j.salary_text || '15–25 triệu'} · Đăng ${j.posted_date}</div>
+          <div style="font-size:12px; color:#64748b; margin-bottom:12px">${j.location || 'Cần Thơ'} · ${j.salary_text || 'Thỏa thuận'} · Đăng ${j.posted_date}</div>
           <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px">
             ${(j.skills || []).map(s => `<span style="background:#dcfce7; color:#0f766e; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">${s}</span>`).join('')}
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f8fafc">
-            <span style="font-size:12.5px; color:#475569"><strong>${j.applications_count || 0}</strong> hồ sơ đã nộp</span>
-            <button onclick="empDeleteJobCard(this, ${j.id})" style="padding:4px 14px; border-radius:9999px; border:1px solid #fecdd3; color:#e11d48; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer">Xóa tin</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f8fafc; flex-wrap:wrap; gap:8px">
+            <span style="font-size:12.5px; color:#475569"><strong>${realAppCount}</strong> hồ sơ đã nộp</span>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+              <button onclick="empViewJobCandidates(${j.id})" style="padding:5px 14px; border-radius:9999px; border:1px solid #0d9488; color:#0d5f57; background:#f0fdfa; font-size:11.5px; font-weight:700; cursor:pointer" title="Xem danh sách ứng viên đã nộp vào tin này">👥 Ứng viên (${realAppCount})</button>
+              <button onclick="empEditJob(${j.id})" style="padding:5px 14px; border-radius:9999px; border:1px solid #cbd5e1; color:#334155; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer" title="Chỉnh sửa tin tuyển dụng">✏️ Sửa</button>
+              <button onclick="empToggleJobStatus(${j.id})" style="padding:5px 14px; border-radius:9999px; border:1px solid ${isPaused ? '#a7f3d0' : '#fde68a'}; color:${isPaused ? '#047857' : '#b45309'}; background:${isPaused ? '#ecfdf5' : '#fffbeb'}; font-size:11.5px; font-weight:700; cursor:pointer" title="${isPaused ? 'Mở lại tin tuyển dụng' : 'Tạm dừng tuyển dụng'}">${isPaused ? '▶ Mở lại' : '⏸ Tạm dừng'}</button>
+              <button onclick="empDeleteJobCard(this, ${j.id})" style="padding:5px 14px; border-radius:9999px; border:1px solid #fecdd3; color:#e11d48; background:#fff; font-size:11.5px; font-weight:700; cursor:pointer" title="Xóa tin tuyển dụng">🗑 Xóa</button>
+            </div>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
     }
 
     async function renderEmployerPortalJobsTab() {
@@ -14817,9 +14866,20 @@
       alert('Đăng tin tuyển dụng thành công!');
     }
 
-    function empDeleteJobCard(el, id) {
+    async function empDeleteJobCard(el, id) {
       if (!confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) return;
       if (id) {
+        // Call DELETE API to sync with backend database
+        try {
+          const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+          if (token) {
+            await fetch(`${API_BASE}/api/jobs/${id}`, {
+              method: 'DELETE',
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+          }
+        } catch (err) { console.warn('API delete job error:', err); }
+
         empPortalJobsData = empPortalJobsData.filter(j => j.id !== id);
         // Sync deletion with global_job_postings
         try {
@@ -14902,15 +14962,22 @@
                 list.unshift({
                   id: app.id,
                   jobId: app.jobId,
+                  jobTitle: app.jobTitle,
                   name: app.candidateName,
                   email: app.candidateEmail,
                   appliedDate: app.appliedDate || 'Hôm nay',
                   matchScore: app.matchScore || app.matchPct || 67,
                   title: `${app.jobTitle} · Ứng viên mới nộp`,
+                  status: app.status || 'Mới nộp',
+                  interviewInfo: app.interviewInfo || '',
                   skillsOwned: app.skillsOwned || ['Python', 'SQL', 'Git', 'REST API'],
                   skillsMissing: app.skillsMissing || ['FastAPI', 'Docker'],
                   aiComment: app.aiComment || `Ứng viên đã nộp hồ sơ trực tuyến cho vị trí ${app.jobTitle}. Độ phù hợp ${app.matchScore || 67}%. Các kỹ năng khớp: ${(app.skillsOwned || []).join(', ')}.`
                 });
+              } else if (exists && app.status) {
+                exists.status = app.status;
+                if (app.interviewInfo) exists.interviewInfo = app.interviewInfo;
+                if (app.jobTitle) exists.jobTitle = app.jobTitle;
               }
             });
           }
@@ -14922,21 +14989,82 @@
     function renderEmployerCandidatesList() {
       const container = document.getElementById('empCandCardsList');
       if (!container) return;
-      const list = getEmployerCandidatesList();
+      let list = getEmployerCandidatesList();
+
+      // Populate job filter dropdown dynamically
+      const jobFilter = document.getElementById('empCandFilterJob');
+      if (jobFilter) {
+        const currentVal = jobFilter.value;
+        const jobTitles = {};
+        list.forEach(c => {
+          const jt = c.jobTitle || c.title?.split(' · ')[0] || 'Chung';
+          if (!jobTitles[jt]) jobTitles[jt] = 0;
+          jobTitles[jt]++;
+        });
+        // Also add from empPortalJobsData
+        empPortalJobsData.forEach(j => {
+          if (!jobTitles[j.title]) jobTitles[j.title] = 0;
+        });
+        let opts = '<option value="all">Tất cả tin tuyển dụng (' + list.length + ' hồ sơ)</option>';
+        Object.keys(jobTitles).forEach(jt => {
+          opts += `<option value="${jt}">${jt} · ${jobTitles[jt]} hồ sơ</option>`;
+        });
+        jobFilter.innerHTML = opts;
+        if (currentVal && currentVal !== 'all') jobFilter.value = currentVal;
+      }
+
+      // Apply job filter
+      const selectedJob = jobFilter?.value || 'all';
+      if (selectedJob !== 'all') {
+        list = list.filter(c => {
+          const cJobTitle = c.jobTitle || c.title?.split(' · ')[0] || '';
+          return cJobTitle === selectedJob;
+        });
+      }
+
+      // Apply status filter
+      const statusFilter = document.getElementById('empCandFilterStatus');
+      const selectedStatus = statusFilter?.value || 'all';
+      if (selectedStatus !== 'all') {
+        list = list.filter(c => {
+          const st = c.status || 'Mới nộp';
+          return st === selectedStatus;
+        });
+      }
 
       if (!list.some(c => c.id === currentSelectedCandidateId)) {
         currentSelectedCandidateId = list[0]?.id || 2;
       }
 
-      container.innerHTML = list.map(c => `
-        <div onclick="empSelectCandidate(${c.id})" id="empCandItem-${c.id}" class="emp-cand-item ${c.id === currentSelectedCandidateId ? 'active' : ''}" style="background:#fff; border-radius:18px; border:${c.id === currentSelectedCandidateId ? '2px solid #0d5f57' : '1px solid #e2e8f0'}; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; transition:all 0.15s">
-          <div>
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:18px; padding:30px 20px; text-align:center">
+            <div style="font-size:28px; margin-bottom:8px">📋</div>
+            <div style="font-size:14px; font-weight:700; color:#475569">Không có ứng viên nào phù hợp bộ lọc</div>
+            <div style="font-size:12px; color:#94a3b8; margin-top:4px">Thử thay đổi bộ lọc tin tuyển dụng hoặc trạng thái</div>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(c => {
+        const status = c.status || 'Mới nộp';
+        let statusBg = '#e0f2fe'; let statusColor = '#0369a1'; let statusIcon = '🆕';
+        if (status === 'Mời phỏng vấn') { statusBg = '#dcfce7'; statusColor = '#047857'; statusIcon = '📩'; }
+        else if (status === 'Chưa phù hợp') { statusBg = '#ffe4e6'; statusColor = '#be123c'; statusIcon = '✗'; }
+        else if (status === 'Đã ứng tuyển') { statusBg = '#e0f2fe'; statusColor = '#0369a1'; statusIcon = '📄'; }
+
+        return `
+        <div onclick="empSelectCandidate(${c.id})" id="empCandItem-${c.id}" class="emp-cand-item ${c.id === currentSelectedCandidateId ? 'active' : ''}" style="background:#fff; border-radius:18px; border:${c.id === currentSelectedCandidateId ? '2px solid #0d5f57' : '1px solid #e2e8f0'}; padding:16px 20px; cursor:pointer; transition:all 0.15s${status === 'Chưa phù hợp' ? '; opacity:0.65' : ''}">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
             <div style="font-size:14px; font-weight:800; color:#0f172a">${c.name}</div>
-            <div style="font-size:12px; color:#64748b; margin-top:2px">${c.email} · Nộp ${c.appliedDate}</div>
+            <span style="background:${c.matchScore >= 75 ? '#dcfce7' : (c.matchScore >= 50 ? '#fef9c3' : '#ffe4e6')}; color:${c.matchScore >= 75 ? '#0f766e' : (c.matchScore >= 50 ? '#a16207' : '#e11d48')}; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">${c.matchScore}%</span>
           </div>
-          <span style="background:${c.matchScore >= 75 ? '#dcfce7' : (c.matchScore >= 50 ? '#fef9c3' : '#ffe4e6')}; color:${c.matchScore >= 75 ? '#0f766e' : (c.matchScore >= 50 ? '#a16207' : '#e11d48')}; font-size:12px; font-weight:800; padding:4px 10px; border-radius:10px">${c.matchScore}%</span>
-        </div>
-      `).join('');
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <div style="font-size:12px; color:#64748b">${c.email} · Nộp ${c.appliedDate}</div>
+            <span style="background:${statusBg}; color:${statusColor}; font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:9999px; white-space:nowrap">${statusIcon} ${status}</span>
+          </div>
+        </div>`;
+      }).join('');
 
       empSelectCandidate(currentSelectedCandidateId);
     }
@@ -14988,6 +15116,37 @@
 
       const commentEl = document.getElementById('empCandDetailComment');
       if (commentEl) commentEl.textContent = cand.aiComment;
+
+      // Update status badge
+      const statusBadge = document.getElementById('empCandDetailStatusBadge');
+      if (statusBadge) {
+        const status = cand.status || 'Mới nộp';
+        let statusBg = '#e0f2fe'; let statusColor = '#0369a1'; let statusIcon = '🆕';
+        if (status === 'Mời phỏng vấn') { statusBg = '#dcfce7'; statusColor = '#047857'; statusIcon = '📩'; }
+        else if (status === 'Chưa phù hợp') { statusBg = '#ffe4e6'; statusColor = '#be123c'; statusIcon = '✗'; }
+        statusBadge.style.background = statusBg;
+        statusBadge.style.color = statusColor;
+        statusBadge.textContent = statusIcon + ' ' + status;
+      }
+
+      // Load HR internal note
+      const noteEl = document.getElementById('empCandInternalNote');
+      if (noteEl) {
+        try {
+          const notes = JSON.parse(localStorage.getItem('emp_candidate_notes') || '{}');
+          noteEl.value = notes[cand.id] || '';
+        } catch(e) { noteEl.value = ''; }
+      }
+    }
+
+    function empSaveCandidateNote() {
+      const noteEl = document.getElementById('empCandInternalNote');
+      if (!noteEl || !currentSelectedCandidateId) return;
+      try {
+        const notes = JSON.parse(localStorage.getItem('emp_candidate_notes') || '{}');
+        notes[currentSelectedCandidateId] = noteEl.value;
+        localStorage.setItem('emp_candidate_notes', JSON.stringify(notes));
+      } catch(e) {}
     }
 
     function empInviteCurrentCandidate() {
@@ -15025,6 +15184,7 @@
 
       alert(`✅ Đã gửi thư mời phỏng vấn và thông báo tới ứng viên: ${cand.name}!`);
       if (typeof renderAppliedJobsList === 'function') renderAppliedJobsList();
+      renderEmployerCandidatesList();
     }
 
     function empRejectCurrentCandidate() {
@@ -15060,6 +15220,7 @@
 
         alert(`✅ Đã gửi phản hồi và thông báo tới ứng viên: ${cand.name}`);
         if (typeof renderAppliedJobsList === 'function') renderAppliedJobsList();
+        renderEmployerCandidatesList();
       }
     }
 
@@ -15299,6 +15460,180 @@
         }
       } catch(e) {}
       empSyncProfilePreview();
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    // EMPLOYER UTILITY ACTIONS: View Candidates, Edit Job, Toggle Status
+    // ══════════════════════════════════════════════════════════════════
+
+    function empViewJobCandidates(jobId) {
+      const job = empPortalJobsData.find(j => j.id === jobId);
+      if (!job) return;
+      // Switch to candidates tab
+      switchEmpTab('candidates');
+      // Set the filter dropdown to this job
+      setTimeout(() => {
+        const filter = document.getElementById('empCandFilterJob');
+        if (filter) {
+          // Find option matching this job title
+          for (let opt of filter.options) {
+            if (opt.value === job.title) { filter.value = job.title; break; }
+          }
+          renderEmployerCandidatesList();
+        }
+      }, 100);
+    }
+
+    function empEditJob(jobId) {
+      const job = empPortalJobsData.find(j => j.id === jobId);
+      if (!job) return;
+      // Open Glints modal and prefill with this job's data
+      openJobModal();
+      setTimeout(() => {
+        const titleEl = document.getElementById('jobModalTitle');
+        if (titleEl) titleEl.value = job.title || '';
+        const compEl = document.getElementById('jobModalCompany');
+        if (compEl) compEl.value = job.company || currentUser?.company_name || '';
+        const cityEl = document.getElementById('jobModalCity');
+        if (cityEl) cityEl.value = job.location?.split(',')[0]?.trim() || 'Cần Thơ';
+        const addressEl = document.getElementById('jobModalAddress');
+        if (addressEl) {
+          addressEl.value = job.location || '';
+          if (typeof jobModalUpdateAddressCounter === 'function') jobModalUpdateAddressCounter();
+        }
+        const industryEl = document.getElementById('jobModalIndustry');
+        if (industryEl && job.industry) industryEl.value = job.industry;
+        const minEl = document.getElementById('jobModalSalaryMin');
+        if (minEl && job.salary_min) minEl.value = (job.salary_min / 1000000).toFixed(0);
+        const maxEl = document.getElementById('jobModalSalaryMax');
+        if (maxEl && job.salary_max) maxEl.value = (job.salary_max / 1000000).toFixed(0);
+        const descEl = document.getElementById('jobModalDesc');
+        if (descEl && job.description) descEl.value = job.description;
+
+        // Clear existing skill tags and add this job's skills
+        const tagsContainer = document.getElementById('jobModalSkillTags');
+        if (tagsContainer) {
+          tagsContainer.querySelectorAll('.jm-skill-tag').forEach(t => t.remove());
+          (job.skills || []).forEach(skill => {
+            const span = document.createElement('span');
+            span.className = 'jm-skill-tag';
+            span.style.cssText = 'background:#dcfce7;color:#065f46;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:9999px;display:inline-flex;align-items:center;gap:6px';
+            span.innerHTML = skill + ' <span onclick="jobModalRemoveSkillTag(this)" style="cursor:pointer;font-weight:900;color:#dc2626;font-size:14px">✕</span>';
+            const addBtn = tagsContainer.querySelector('button');
+            if (addBtn) tagsContainer.insertBefore(span, addBtn);
+            else tagsContainer.appendChild(span);
+          });
+        }
+
+        // Store editing job id for update logic
+        window._editingJobId = jobId;
+      }, 200);
+    }
+
+    function empToggleJobStatus(jobId) {
+      const job = empPortalJobsData.find(j => j.id === jobId);
+      if (!job) return;
+      const currentStatus = job.status || 'Đang mở';
+      if (currentStatus === 'Tạm dừng') {
+        job.status = 'Đang mở';
+        if (typeof showJobModalToast === 'function') showJobModalToast('✅ Tin tuyển dụng đã được mở lại!');
+      } else {
+        job.status = 'Tạm dừng';
+        if (typeof showJobModalToast === 'function') showJobModalToast('⏸ Tin tuyển dụng đã được tạm dừng.');
+      }
+      // Sync with global_job_postings
+      try {
+        const raw = localStorage.getItem('global_job_postings');
+        if (raw) {
+          const list = JSON.parse(raw);
+          const found = list.find(x => x.id === jobId);
+          if (found) {
+            found.status = job.status;
+            localStorage.setItem('global_job_postings', JSON.stringify(list));
+          }
+        }
+      } catch(e) {}
+      renderEmployerJobsList();
+      renderEmpDashboardKPI();
+      renderEmpRecentJobsTable();
+    }
+
+    // ══════════════════════════════════════════════════════════════════
+    // DYNAMIC DASHBOARD KPI & RECENT JOBS TABLE
+    // ══════════════════════════════════════════════════════════════════
+
+    function renderEmpDashboardKPI() {
+      // Count open jobs (not paused, not expired)
+      const openJobs = empPortalJobsData.filter(j => !j.status || j.status === 'Đang mở').length;
+      const kpiJobs = document.getElementById('empKpiOpenJobs');
+      if (kpiJobs) kpiJobs.textContent = openJobs;
+
+      // Count total applications
+      let totalApps = 0;
+      empPortalJobsData.forEach(j => { totalApps += (j.applications_count || 0); });
+      try {
+        const rawApps = localStorage.getItem('global_job_applications');
+        if (rawApps) {
+          const apps = JSON.parse(rawApps);
+          if (apps.length > totalApps) totalApps = apps.length;
+        }
+      } catch(e) {}
+      const kpiApps = document.getElementById('empKpiApplications');
+      if (kpiApps) kpiApps.textContent = totalApps;
+
+      // Sub-text for KPI cards
+      const expiringCount = empPortalJobsData.filter(j => j.status === 'Tạm dừng').length;
+      const kpiJobsSub = kpiJobs?.parentElement?.querySelector('div:last-child');
+      if (kpiJobsSub) kpiJobsSub.textContent = expiringCount > 0 ? `${expiringCount} tin đang tạm dừng` : 'Tất cả tin đang hoạt động';
+
+      // Update company name on dashboard header
+      const dashName = document.getElementById('empDashboardCompanyName');
+      if (dashName && currentUser?.company_name) dashName.textContent = currentUser.company_name;
+    }
+
+    function renderEmpRecentJobsTable() {
+      const tbody = document.getElementById('empRecentJobsTbody');
+      if (!tbody) return;
+
+      // Merge empPortalJobsData with any localStorage jobs
+      let allJobs = [...empPortalJobsData];
+      try {
+        const rawPosts = localStorage.getItem('global_job_postings');
+        if (rawPosts) {
+          const posts = JSON.parse(rawPosts);
+          posts.forEach(p => {
+            if (!allJobs.find(j => j.id === p.id)) {
+              allJobs.push(p);
+            }
+          });
+        }
+      } catch(e) {}
+
+      // Take first 5 most recent
+      const recent = allJobs.slice(0, 5);
+
+      tbody.innerHTML = recent.map((j, idx) => {
+        const status = j.status || 'Đang mở';
+        const statusClass = status === 'Tạm dừng' ? 'emp-status-expiring' : (status === 'Đã hết hạn' ? 'emp-status-expired' : 'emp-status-open');
+
+        let appCount = j.applications_count || 0;
+        try {
+          const rawApps = localStorage.getItem('global_job_applications');
+          if (rawApps) {
+            const apps = JSON.parse(rawApps);
+            const jobApps = apps.filter(a => a.jobId === j.id);
+            if (jobApps.length > 0) appCount = Math.max(appCount, jobApps.length);
+          }
+        } catch(e){}
+
+        return `
+          <tr style="border-bottom:${idx < recent.length - 1 ? '1px solid #f8fafc' : 'none'}">
+            <td style="padding:16px 10px; font-weight:700; color:#0f172a">${j.title}</td>
+            <td style="padding:16px 10px; color:#64748b">${j.posted_date || 'Hôm nay'}</td>
+            <td style="padding:16px 10px; color:#334155"><strong>${appCount}</strong> hồ sơ</td>
+            <td style="padding:16px 10px; text-align:right"><span class="emp-status-badge ${statusClass}">${status}</span></td>
+          </tr>`;
+      }).join('');
     }
 
     async function empHandleSaveProfile(event) {
