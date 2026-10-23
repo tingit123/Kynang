@@ -5019,89 +5019,211 @@
   <!-- 3. EMPLOYER PORTAL LAYOUT (/employer/*)                            -->
   <!-- THIẾT KẾ ĐỘC LẬP TÔNG DARK TEAL (#0a5146) KHỚP 100% ẢNH MẪU         -->
   <!-- ══════════════════════════════════════════════════════════════════ -->
-  <div id="employerPortalLayout" class="employer-portal-layout" style="display:none">
-    <!-- Sidebar Trái Cố Định -->
-    <aside class="emp-sidebar">
-      <div class="emp-sidebar-header">
-        <div class="emp-logo-title">SkillGap<span>AI</span></div>
-        <div class="emp-logo-sub">NHÀ TUYỂN DỤNG</div>
+  <div id="employerPortalLayout" class="employer-portal-layout" style="display:none; flex-direction:column; min-height:100vh; background-color:#f8fafc; width:100%">
+    <!-- ══ TOP NAVBAR CHO NHÀ TUYỂN DỤNG (KHỚP 100% ẢNH MẪU) ══ -->
+    <header class="emp-top-navbar" style="background:#ffffff; border-bottom:1px solid #e2e8f0; height:64px; padding:0 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; box-shadow:0 1px 3px rgba(0,0,0,0.03)">
+      <!-- Trái: Nút Menu + Logo + Breadcrumb -->
+      <div style="display:flex; align-items:center; gap:16px">
+        <!-- Nút Menu mở Drawer trượt từ trái -->
+        <button onclick="empOpenDrawer()" style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>Menu</span>
+        </button>
+
+        <!-- Logo SkillGapAi NHÀ TUYỂN DỤNG -->
+        <div style="display:flex; align-items:center; gap:8px">
+          <span style="font-size:20px; font-weight:900; color:#0f172a; letter-spacing:-0.5px">SkillGap<span style="color:#0d9488">Ai</span></span>
+          <span style="font-size:10.5px; font-weight:800; color:#0a5146; letter-spacing:0.8px; text-transform:uppercase; background:#f0fdfa; border:1px solid #ccfbf1; padding:2px 10px; border-radius:9999px">NHÀ TUYỂN DỤNG</span>
+        </div>
+
+        <!-- Dấu phân cách & Tên trang hiện tại -->
+        <span style="color:#cbd5e1; margin:0 4px">|</span>
+        <span id="empBreadcrumbTitle" style="font-size:13.5px; font-weight:600; color:#64748b">Tổng quan</span>
       </div>
 
-      <nav class="emp-sidebar-nav">
-        <a class="emp-nav-item active" id="empNavDashboard" onclick="switchEmpTab('dashboard')">Tổng quan</a>
-        <a class="emp-nav-item" id="empNavJobs" onclick="switchEmpTab('jobs')">Tin tuyển dụng</a>
-        <a class="emp-nav-item" id="empNavCandidates" onclick="switchEmpTab('candidates')">Ứng viên</a>
-        <a class="emp-nav-item" id="empNavSkills" onclick="switchEmpTab('skills')">Kỹ năng thị trường</a>
-        <a class="emp-nav-item" id="empNavProfile" onclick="switchEmpTab('profile')">Hồ sơ công ty</a>
-      </nav>
+      <!-- Phải: User Chip & Dropdown Menu -->
+      <div style="position:relative">
+        <div id="empUserChip" onclick="empToggleUserDropdown(event)" style="display:inline-flex; align-items:center; gap:10px; padding:5px 14px 5px 6px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; cursor:pointer; box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:all 0.15s" onmouseover="this.style.borderColor='#cbd5e1'" onmouseout="this.style.borderColor='#e2e8f0'">
+          <div id="empAvatarInitial" style="width:32px; height:32px; border-radius:50%; background:#0a5146; color:#ffffff; font-size:13.5px; font-weight:800; display:flex; align-items:center; justify-content:center">T</div>
+          <div style="text-align:left">
+            <div id="empTopbarCompanyName" style="font-size:13px; font-weight:800; color:#0f172a; line-height:1.2">thanhhoang</div>
+            <div id="empTopbarContactName" style="font-size:11px; color:#64748b">Nhà tuyển dụng</div>
+          </div>
+          <span style="font-size:10px; color:#94a3b8; margin-left:2px">▾</span>
+        </div>
 
-      <div class="emp-sidebar-profile">
-        <div class="emp-profile-row">
-          <div class="emp-avatar-circle" id="empAvatarInitial">M</div>
-          <div class="emp-profile-info">
-            <div class="emp-profile-company" id="empSidebarCompanyName">Mekong Tech</div>
-            <div class="emp-profile-name" id="empSidebarContactName">Nguyễn Minh Khoa</div>
+        <!-- Dropdown Menu Tài Khoản (Khớp 100% Ảnh 2) -->
+        <div id="empUserDropdown" style="display:none; position:absolute; top:48px; right:0; width:270px; background:#ffffff; border-radius:20px; box-shadow:0 15px 40px rgba(0,0,0,0.18); border:1px solid #e2e8f0; z-index:1001; overflow:hidden">
+          <div style="display:flex; align-items:center; gap:12px; padding:16px; border-bottom:1px solid #f1f5f9; background:#f8fafc">
+            <div id="empDropdownAvatar" style="width:38px; height:38px; border-radius:50%; background:#0a5146; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800">T</div>
+            <div style="min-width:0; flex:1">
+              <div id="empDropdownCompName" style="font-size:14px; font-weight:800; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">thanhhoang</div>
+              <div id="empDropdownEmail" style="font-size:11.5px; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">employer@skillgap.com</div>
+            </div>
+          </div>
+          <div style="padding:8px">
+            <button onclick="switchEmpTab('profile'); empCloseUserDropdown();" style="width:100%; text-align:left; padding:10px 14px; border:none; background:none; border-radius:12px; cursor:pointer; font-size:13px; font-weight:700; color:#0f172a; transition:background 0.15s" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+              <div>🏢 Hồ sơ công ty</div>
+              <div style="font-size:11px; color:#94a3b8; font-weight:500; margin-top:2px">Logo, quy mô, địa chỉ & phúc lợi</div>
+            </button>
+            <button onclick="openProfileModal(); empCloseUserDropdown();" style="width:100%; text-align:left; padding:10px 14px; border:none; background:none; border-radius:12px; cursor:pointer; font-size:13px; font-weight:700; color:#0f172a; transition:background 0.15s" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
+              <div>👤 Hồ sơ cá nhân</div>
+              <div style="font-size:11px; color:#94a3b8; font-weight:500; margin-top:2px">Tên người đại diện, mật khẩu</div>
+            </button>
+            <button onclick="quickLoginRole('provider');" style="width:100%; text-align:left; padding:10px 14px; border:none; background:none; border-radius:12px; cursor:pointer; font-size:13px; font-weight:700; color:#0d9488; transition:background 0.15s" onmouseover="this.style.background='#f0fdfa'" onmouseout="this.style.background='none'">
+              <div>📚 Trung tâm khóa học</div>
+              <div style="font-size:11px; color:#94a3b8; font-weight:500; margin-top:2px">Xem thị trường khóa học & kỹ năng</div>
+            </button>
+            <div style="height:1px; background:#f1f5f9; margin:6px 0"></div>
+            <button onclick="handleLogout()" style="width:100%; text-align:left; padding:10px 14px; border:none; background:none; border-radius:12px; cursor:pointer; font-size:13px; font-weight:700; color:#ef4444; transition:background 0.15s" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">
+              Đăng xuất
+            </button>
           </div>
         </div>
-        <button class="emp-logout-btn" onclick="handleLogout()">ĐĂNG XUẤT</button>
-        <button onclick="quickLoginRole('provider')" style="margin-top:10px; width:100%; padding:9px 12px; border-radius:12px; border:1px solid rgba(94,234,212,0.35); background:rgba(94,234,212,0.1); color:#5eead4; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.15s" onmouseover="this.style.background='rgba(94,234,212,0.2)'" onmouseout="this.style.background='rgba(94,234,212,0.1)'">
-          <span>📚</span> Trung tâm khóa học
+      </div>
+    </header>
+
+    <!-- ══ BACKDROP KHI MỞ DRAWER ══ -->
+    <div id="empDrawerBackdrop" onclick="empCloseDrawer()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:99998; backdrop-filter:blur(2px)"></div>
+
+    <!-- ══ SLIDE-OVER DRAWER MENU TRƯỢT TỪ TRÁI (KHỚP 100% ẢNH 1) ══ -->
+    <aside id="empSlideDrawer" style="position:fixed; top:0; bottom:0; left:0; width:310px; background:#0a5146; z-index:99999; display:flex; flex-direction:column; padding:24px 20px; box-shadow:8px 0 35px rgba(0,0,0,0.3); font-family:'Be Vietnam Pro',system-ui,sans-serif; transform:translateX(-100%); transition:transform 0.25s ease">
+      <!-- Drawer Header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px">
+        <div>
+          <div style="font-size:22px; font-weight:900; color:#ffffff; letter-spacing:-0.5px">SkillGap<span style="color:#5eead4">Ai</span></div>
+          <div style="font-size:10px; font-weight:800; color:#99f6e4; letter-spacing:0.8px; text-transform:uppercase; margin-top:2px">NHÀ TUYỂN DỤNG</div>
+        </div>
+        <button onclick="empCloseDrawer()" style="padding:6px 16px; border-radius:9999px; border:1px solid rgba(255,255,255,0.25); background:rgba(255,255,255,0.12); color:#ffffff; font-size:12px; font-weight:700; cursor:pointer" onmouseover="this.style.background='rgba(255,255,255,0.22)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">
+          Đóng
+        </button>
+      </div>
+
+      <!-- Section Label: CHỨC NĂNG -->
+      <div style="font-size:11px; font-weight:800; color:#5eead4; letter-spacing:1px; text-transform:uppercase; margin-bottom:12px; padding-left:10px">
+        CHỨC NĂNG
+      </div>
+
+      <!-- Navigation Items (5 Tab chức năng chính) -->
+      <nav style="display:flex; flex-direction:column; gap:8px; flex:1; overflow-y:auto">
+        <!-- 1. Tổng quan -->
+        <a id="empDrawerItemDashboard" onclick="switchEmpTab('dashboard'); empCloseDrawer();" class="emp-drawer-item active" style="display:block; padding:12px 16px; border-radius:16px; background:rgba(255,255,255,0.18); color:#ffffff; cursor:pointer; text-decoration:none; transition:all 0.15s">
+          <div style="font-size:14px; font-weight:800">Tổng quan</div>
+          <div style="font-size:11.5px; color:#d1fae5; margin-top:2px">Tình hình tuyển dụng thời gian thực</div>
+        </a>
+
+        <!-- 2. Tin tuyển dụng -->
+        <a id="empDrawerItemJobs" onclick="switchEmpTab('jobs'); empCloseDrawer();" class="emp-drawer-item" style="display:block; padding:12px 16px; border-radius:16px; background:transparent; color:#ffffff; cursor:pointer; text-decoration:none; transition:all 0.15s">
+          <div style="font-size:14px; font-weight:800">Tin tuyển dụng</div>
+          <div style="font-size:11.5px; color:#a7f3d0; margin-top:2px">Quản lý, tạo &amp; chỉnh sửa tin tuyển dụng</div>
+        </a>
+
+        <!-- 3. Ứng viên -->
+        <a id="empDrawerItemCandidates" onclick="switchEmpTab('candidates'); empCloseDrawer();" class="emp-drawer-item" style="display:block; padding:12px 16px; border-radius:16px; background:transparent; color:#ffffff; cursor:pointer; text-decoration:none; transition:all 0.15s">
+          <div style="font-size:14px; font-weight:800">Ứng viên</div>
+          <div style="font-size:11.5px; color:#a7f3d0; margin-top:2px">Danh sách hồ sơ &amp; đối soát CV ứng tuyển</div>
+        </a>
+
+        <!-- 4. Kỹ năng thị trường -->
+        <a id="empDrawerItemSkills" onclick="switchEmpTab('skills'); empCloseDrawer();" class="emp-drawer-item" style="display:block; padding:12px 16px; border-radius:16px; background:transparent; color:#ffffff; cursor:pointer; text-decoration:none; transition:all 0.15s">
+          <div style="font-size:14px; font-weight:800">Kỹ năng thị trường</div>
+          <div style="font-size:11.5px; color:#a7f3d0; margin-top:2px">Kỹ năng hot &amp; gợi ý AI tạo tin tuyển dụng</div>
+        </a>
+
+        <!-- 5. Hồ sơ công ty -->
+        <a id="empDrawerItemProfile" onclick="switchEmpTab('profile'); empCloseDrawer();" class="emp-drawer-item" style="display:block; padding:12px 16px; border-radius:16px; background:transparent; color:#ffffff; cursor:pointer; text-decoration:none; transition:all 0.15s">
+          <div style="font-size:14px; font-weight:800">Hồ sơ công ty</div>
+          <div style="font-size:11.5px; color:#a7f3d0; margin-top:2px">Thông tin doanh nghiệp, logo &amp; phúc lợi</div>
+        </a>
+
+        <!-- Section Label: LIÊN KẾT HỆ THỐNG -->
+        <div style="font-size:11px; font-weight:800; color:#5eead4; letter-spacing:1px; text-transform:uppercase; margin-top:14px; margin-bottom:4px; padding-left:10px">
+          HỆ SINH THÁI
+        </div>
+        <a onclick="quickLoginRole('provider');" class="emp-drawer-item" style="display:block; padding:12px 16px; border-radius:16px; background:rgba(255,255,255,0.08); color:#ffffff; cursor:pointer; text-decoration:none; transition:all 0.15s">
+          <div style="font-size:14px; font-weight:800">📚 Thị trường khóa học</div>
+          <div style="font-size:11.5px; color:#a7f3d0; margin-top:2px">Xem khóa đào tạo bù đắp kỹ năng</div>
+        </a>
+      </nav>
+
+      <!-- Drawer Footer -->
+      <div style="padding-top:18px; border-top:1px solid rgba(255,255,255,0.15); display:flex; justify-content:space-between; align-items:center">
+        <div style="display:flex; align-items:center; gap:10px">
+          <div id="empDrawerAvatarInitial" style="width:34px; height:34px; border-radius:50%; background:#ffffff; color:#0a5146; font-size:13.5px; font-weight:800; display:flex; align-items:center; justify-content:center">T</div>
+          <div>
+            <div id="empDrawerCompanyName" style="font-size:13px; font-weight:800; color:#ffffff">thanhhoang</div>
+            <div style="font-size:11px; color:#a7f3d0">Nhà tuyển dụng</div>
+          </div>
+        </div>
+        <button onclick="handleLogout()" style="padding:6px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.25); background:transparent; color:#ffffff; font-size:11.5px; font-weight:700; cursor:pointer">
+          Thoát
         </button>
       </div>
     </aside>
 
-    <!-- Khu Vực Nội Dung Phải -->
-    <main class="emp-main-content">
-      <!-- ── TAB 1: TỔNG QUAN (DASHBOARD - CHÍNH THEO ẢNH MẪU) ── -->
-      <div id="empTabDashboard" class="emp-tab-view" style="max-width:1150px; margin:0 auto">
-        <!-- Header Chào mừng -->
-        <div style="margin-bottom:28px">
-          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
-            Xin chào, <span id="empDashboardCompanyName">Mekong Tech</span>
+    <!-- ══ MAIN CONTENT (KHU VỰC NỘI DUNG CHÍNH) ══ -->
+    <main class="emp-main-content" style="flex:1; padding:28px 36px 60px; min-width:0; background:#f8fafc; max-width:1400px; margin:0 auto; width:100%; box-sizing:border-box">
+      <!-- ── TAB 1: TỔNG QUAN (DASHBOARD - THIẾT KẾ THEO ẢNH MẪU) ── -->
+      <div id="empTabDashboard" class="emp-tab-view" style="display:block">
+        <!-- Title & Subtitle -->
+        <div style="margin-bottom:20px">
+          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:6px">
+            Tổng quan tuyển dụng
           </h1>
-          <p style="font-size:14px; color:#64748b">
-            Tình hình tuyển dụng của bạn trong thời gian thực.
+          <p style="font-size:14px; color:#64748b; margin:0">
+            Xin chào, <strong id="empDashboardCompanyName" style="color:#0f172a">thanhhoang</strong>. Tình hình tuyển dụng và hồ sơ ứng viên của bạn trong thời gian thực.
           </p>
         </div>
 
-        <!-- 3 Thẻ KPI Thống Kê (Top Row) -->
+        <!-- Info Notice Alert Banner (Khớp 100% Ảnh 2) -->
+        <div style="background:#ecfeff; border:1px solid #a5f3fc; border-radius:16px; padding:16px 22px; margin-bottom:26px; font-size:13px; color:#0e7490; line-height:1.5">
+          <strong style="color:#0891b2">Lưu ý &amp; Gợi ý AI:</strong> Hệ thống AI đang tự động theo dõi, đối soát CV và chấm điểm độ tương thích với các vị trí tuyển dụng của bạn. Bạn có thể bấm <strong style="color:#0891b2; cursor:pointer" onclick="switchEmpTab('candidates')">Quản lý ứng viên</strong> để xem hồ sơ mới hoặc <strong style="color:#0891b2; cursor:pointer" onclick="switchEmpTab('skills')">Kỹ năng thị trường</strong> để tham khảo nhu cầu tuyển dụng.
+        </div>
+
+        <!-- 3 Thẻ KPI Thống Kê (Phong cách Pastel 2 tầng hiện đại khớp Ảnh mẫu) -->
         <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-bottom:28px">
           <!-- Card 1: TIN ĐANG MỞ -->
-          <div class="emp-kpi-card teal">
-            <div style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
-              TIN ĐANG MỞ
+          <div style="background:#ffffff; border-radius:20px; border:1px solid #e2e8f0; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 3px 12px rgba(0,0,0,0.03); transition:all 0.2s ease" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 24px rgba(0,0,0,0.06)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 3px 12px rgba(0,0,0,0.03)'">
+            <div style="background:#e6f7f5; padding:18px 22px 14px; border-bottom:1px solid rgba(0,0,0,0.04)">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+                <span style="background:rgba(255,255,255,0.7); color:#0891b2; font-size:11.5px; font-weight:700; padding:4px 12px; border-radius:9999px">Tuyển dụng</span>
+                <span style="background:#0a5146; color:#ffffff; font-size:11px; font-weight:800; padding:4px 12px; border-radius:9999px">Đang hoạt động</span>
+              </div>
+              <div style="font-size:11px; font-weight:800; color:#0891b2; letter-spacing:0.8px; text-transform:uppercase">TIN ĐANG MỞ</div>
             </div>
-            <div style="font-size:42px; font-weight:900; color:#0f172a; margin:10px 0 6px" id="empKpiOpenJobs">
-              4
-            </div>
-            <div style="font-size:12px; color:#64748b; font-weight:500">
-              1 tin sắp hết hạn
+            <div style="background:#ffffff; padding:16px 22px 20px">
+              <div style="font-size:40px; font-weight:900; color:#0f172a; line-height:1.1; margin-bottom:6px" id="empKpiOpenJobs">4</div>
+              <div style="font-size:12.5px; color:#64748b; font-weight:600">Tất cả tin đang hoạt động</div>
             </div>
           </div>
 
           <!-- Card 2: HỒ SƠ NHẬN ĐƯỢC -->
-          <div class="emp-kpi-card amber">
-            <div style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
-              HỒ SƠ NHẬN ĐƯỢC
+          <div style="background:#ffffff; border-radius:20px; border:1px solid #e2e8f0; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 3px 12px rgba(0,0,0,0.03); transition:all 0.2s ease" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 24px rgba(0,0,0,0.06)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 3px 12px rgba(0,0,0,0.03)'">
+            <div style="background:#fff2e8; padding:18px 22px 14px; border-bottom:1px solid rgba(0,0,0,0.04)">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+                <span style="background:rgba(255,255,255,0.7); color:#ea580c; font-size:11.5px; font-weight:700; padding:4px 12px; border-radius:9999px">Ứng viên</span>
+                <span style="background:#c2410c; color:#ffffff; font-size:11px; font-weight:800; padding:4px 12px; border-radius:9999px">+22 mới</span>
+              </div>
+              <div style="font-size:11px; font-weight:800; color:#ea580c; letter-spacing:0.8px; text-transform:uppercase">HỒ SƠ NHẬN ĐƯỢC</div>
             </div>
-            <div style="font-size:42px; font-weight:900; color:#0f172a; margin:10px 0 6px" id="empKpiApplications">
-              148
-            </div>
-            <div style="font-size:12px; color:#64748b; font-weight:500">
-              +22 hồ sơ trong 7 ngày qua
+            <div style="background:#ffffff; padding:16px 22px 20px">
+              <div style="font-size:40px; font-weight:900; color:#0f172a; line-height:1.1; margin-bottom:6px" id="empKpiApplications">148</div>
+              <div style="font-size:12.5px; color:#64748b; font-weight:600">+22 hồ sơ trong 7 ngày qua</div>
             </div>
           </div>
 
           <!-- Card 3: LƯỢT XEM TIN -->
-          <div class="emp-kpi-card blue">
-            <div style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
-              LƯỢT XEM TIN
+          <div style="background:#ffffff; border-radius:20px; border:1px solid #e2e8f0; overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 3px 12px rgba(0,0,0,0.03); transition:all 0.2s ease" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 24px rgba(0,0,0,0.06)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 3px 12px rgba(0,0,0,0.03)'">
+            <div style="background:#eeeffc; padding:18px 22px 14px; border-bottom:1px solid rgba(0,0,0,0.04)">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+                <span style="background:rgba(255,255,255,0.7); color:#4f46e5; font-size:11.5px; font-weight:700; padding:4px 12px; border-radius:9999px">Tương tác</span>
+                <span style="background:#4338ca; color:#ffffff; font-size:11px; font-weight:800; padding:4px 12px; border-radius:9999px">+12% tuần</span>
+              </div>
+              <div style="font-size:11px; font-weight:800; color:#4f46e5; letter-spacing:0.8px; text-transform:uppercase">LƯỢT XEM TIN</div>
             </div>
-            <div style="font-size:42px; font-weight:900; color:#0f172a; margin:10px 0 6px" id="empKpiViews">
-              3.250
-            </div>
-            <div style="font-size:12px; color:#64748b; font-weight:500">
-              +12% so với tuần trước
+            <div style="background:#ffffff; padding:16px 22px 20px">
+              <div style="font-size:40px; font-weight:900; color:#0f172a; line-height:1.1; margin-bottom:6px" id="empKpiViews">3.250</div>
+              <div style="font-size:12.5px; color:#64748b; font-weight:600">+12% so với tuần trước</div>
             </div>
           </div>
         </div>
@@ -5109,7 +5231,7 @@
         <!-- 2 Thẻ Hành Động (Action Cards) -->
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:28px">
           <!-- Card Trái: Đăng tin mới -->
-          <div class="emp-action-card-teal">
+          <div class="emp-action-card-teal" style="background:#0a5146; color:#ffffff; border-radius:24px; padding:28px 30px; display:flex; flex-direction:column; justify-content:space-between; min-height:180px">
             <div>
               <h2 style="font-size:21px; font-weight:800; margin-bottom:8px">Đăng tin tuyển dụng mới</h2>
               <p style="font-size:13.5px; color:rgba(255,255,255,0.9); line-height:1.55; margin-bottom:28px; max-width:440px">
@@ -5117,15 +5239,15 @@
               </p>
             </div>
             <div>
-              <button onclick="openJobModal()" style="background:#ffffff; color:#0d5f57; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 22px; border-radius:9999px; border:none; cursor:pointer; display:inline-flex; align-items:center; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.1)">
-                ĐĂNG TIN MỚI
-                <span class="emp-circle-arrow" style="background:#0a5146; color:#ffffff">›</span>
+              <button onclick="openJobModal()" style="background:#ffffff; color:#0d5f57; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:11px 22px; border-radius:9999px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px; text-transform:uppercase; box-shadow:0 2px 6px rgba(0,0,0,0.1)">
+                <span>ĐĂNG TIN MỚI</span>
+                <span style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:#0a5146; color:#ffffff; font-size:11px">›</span>
               </button>
             </div>
           </div>
 
           <!-- Card Phải: Quản lý ứng viên -->
-          <div class="emp-action-card-white">
+          <div class="emp-action-card-white" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:24px; padding:28px 30px; display:flex; flex-direction:column; justify-content:space-between; min-height:180px">
             <div>
               <h2 style="font-size:21px; font-weight:800; color:#0f172a; margin-bottom:8px">Quản lý ứng viên</h2>
               <p style="font-size:13.5px; color:#64748b; line-height:1.55; margin-bottom:28px; max-width:440px">
@@ -5133,15 +5255,15 @@
               </p>
             </div>
             <div>
-              <button onclick="switchEmpTab('candidates')" style="background:#ffffff; border:2px solid #0d5f57; color:#0d5f57; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:10px 22px; border-radius:9999px; cursor:pointer; display:inline-flex; align-items:center; text-transform:uppercase">
-                XEM ỨNG VIÊN
-                <span class="emp-circle-arrow" style="background:#0d5f57; color:#ffffff">›</span>
+              <button onclick="switchEmpTab('candidates')" style="background:#ffffff; border:2px solid #0d5f57; color:#0d5f57; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:10px 22px; border-radius:9999px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; text-transform:uppercase">
+                <span>XEM ỨNG VIÊN</span>
+                <span style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:#0d5f57; color:#ffffff; font-size:11px">›</span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Bảng Tin Tuyển Dụng Gần Đây (Khớp 100% Mockup) -->
+        <!-- Bảng Tin Tuyển Dụng Gần Đây -->
         <div style="background:#ffffff; border-radius:20px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
           <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:18px; border-bottom:1px solid #f1f5f9; margin-bottom:14px">
             <h3 style="font-size:17px; font-weight:800; color:#0f172a">Tin tuyển dụng gần đây</h3>
@@ -5192,7 +5314,6 @@
           </table>
         </div>
       </div>
-
       <!-- ── TAB 2: QUẢN LÝ TIN TUYỂN DỤNG (KHỚP 100% MOCKUP MEDIA 1) ── -->
       <div id="empTabJobs" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
         <!-- Header -->
@@ -14904,6 +15025,41 @@
     // ══════════════════════════════════════════════════════════════════
     // EMPLOYER PORTAL CONTROLLER FUNCTIONS (MATCHING MOCKUP)
     // ══════════════════════════════════════════════════════════════════
+        function empOpenDrawer() {
+      const drawer = document.getElementById('empSlideDrawer');
+      const backdrop = document.getElementById('empDrawerBackdrop');
+      if (drawer) drawer.style.transform = 'translateX(0)';
+      if (backdrop) backdrop.style.display = 'block';
+    }
+
+    function empCloseDrawer() {
+      const drawer = document.getElementById('empSlideDrawer');
+      const backdrop = document.getElementById('empDrawerBackdrop');
+      if (drawer) drawer.style.transform = 'translateX(-100%)';
+      if (backdrop) backdrop.style.display = 'none';
+    }
+
+    function empToggleUserDropdown(e) {
+      if (e) e.stopPropagation();
+      const dd = document.getElementById('empUserDropdown');
+      if (dd) {
+        dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+      }
+    }
+
+    function empCloseUserDropdown() {
+      const dd = document.getElementById('empUserDropdown');
+      if (dd) dd.style.display = 'none';
+    }
+
+    document.addEventListener('click', function(e) {
+      const chip = document.getElementById('empUserChip');
+      const dd = document.getElementById('empUserDropdown');
+      if (dd && dd.style.display === 'block' && !dd.contains(e.target) && !chip?.contains(e.target)) {
+        dd.style.display = 'none';
+      }
+    });
+
     function updateEmployerPortalInfo() {
       try {
         const raw = localStorage.getItem('current_user');
@@ -14928,6 +15084,27 @@
 
       const avatar = document.getElementById('empAvatarInitial');
       if (avatar) avatar.textContent = initial;
+
+      const dAvatar = document.getElementById('empDropdownAvatar');
+      if (dAvatar) dAvatar.textContent = initial;
+
+      const drAvatar = document.getElementById('empDrawerAvatarInitial');
+      if (drAvatar) drAvatar.textContent = initial;
+
+      const topComp = document.getElementById('empTopbarCompanyName');
+      if (topComp) topComp.textContent = compName;
+
+      const topContact = document.getElementById('empTopbarContactName');
+      if (topContact) topContact.textContent = contact;
+
+      const drComp = document.getElementById('empDrawerCompanyName');
+      if (drComp) drComp.textContent = compName;
+
+      const ddComp = document.getElementById('empDropdownCompName');
+      if (ddComp) ddComp.textContent = compName;
+
+      const ddEmail = document.getElementById('empDropdownEmail');
+      if (ddEmail) ddEmail.textContent = currentUser.email || 'employer@skillgap.com';
 
       // Inputs on profile tab
       const inpRep = document.getElementById('empProfileInputRepresentative');
@@ -14957,17 +15134,35 @@
     function switchEmpTab(tab) {
       if (!tab) tab = 'dashboard';
       const tabMap = {
-        'dashboard': { nav: 'empNavDashboard', view: 'empTabDashboard' },
-        'jobs': { nav: 'empNavJobs', view: 'empTabJobs' },
-        'candidates': { nav: 'empNavCandidates', view: 'empTabCandidates' },
-        'skills': { nav: 'empNavSkills', view: 'empTabSkills' },
-        'market-skills': { nav: 'empNavSkills', view: 'empTabSkills' },
-        'profile': { nav: 'empNavProfile', view: 'empTabProfile' }
+        'dashboard': { nav: 'empNavDashboard', drawer: 'empDrawerItemDashboard', view: 'empTabDashboard', title: 'Tổng quan' },
+        'jobs': { nav: 'empNavJobs', drawer: 'empDrawerItemJobs', view: 'empTabJobs', title: 'Tin tuyển dụng' },
+        'candidates': { nav: 'empNavCandidates', drawer: 'empDrawerItemCandidates', view: 'empTabCandidates', title: 'Ứng viên' },
+        'skills': { nav: 'empNavSkills', drawer: 'empDrawerItemSkills', view: 'empTabSkills', title: 'Kỹ năng thị trường' },
+        'market-skills': { nav: 'empNavSkills', drawer: 'empDrawerItemSkills', view: 'empTabSkills', title: 'Kỹ năng thị trường' },
+        'profile': { nav: 'empNavProfile', drawer: 'empDrawerItemProfile', view: 'empTabProfile', title: 'Hồ sơ công ty' }
       };
 
       const selected = tabMap[tab] || tabMap['dashboard'];
 
-      // Update Nav active classes
+      // Update Topbar Breadcrumb Title
+      const breadcrumb = document.getElementById('empBreadcrumbTitle');
+      if (breadcrumb) breadcrumb.textContent = selected.title;
+
+      // Update Drawer items active state
+      ['empDrawerItemDashboard', 'empDrawerItemJobs', 'empDrawerItemCandidates', 'empDrawerItemSkills', 'empDrawerItemProfile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (id === selected.drawer) {
+            el.classList.add('active');
+            el.style.background = 'rgba(255,255,255,0.18)';
+          } else {
+            el.classList.remove('active');
+            el.style.background = 'transparent';
+          }
+        }
+      });
+
+      // Update Nav active classes (if any legacy sidebar elements exist)
       document.querySelectorAll('.emp-nav-item').forEach(el => el.classList.remove('active'));
       const activeNav = document.getElementById(selected.nav);
       if (activeNav) activeNav.classList.add('active');
