@@ -7158,16 +7158,14 @@
     };
 
     let authCheckedUser = null;
-    // currentUser is initialized at the top of script
-    if (typeof currentUser === 'undefined') {
-      window.currentUser = {
-        is_guest: true,
-        id: 0,
-        username: 'guest',
-        full_name: 'Khách',
-        role: 'guest'
-      };
-    }
+    var currentUser = {
+      is_guest: true,
+      id: 0,
+      username: 'guest',
+      full_name: 'Khách',
+      role: 'guest'
+    };
+    var candidateSavedJobIds = [];
 
     async function checkAuthAndProtectDashboard() {
       try {
@@ -9701,7 +9699,7 @@
 
     let currentSelectedJobId = 1;
     let currentCandidateCategory = 'all';
-    let candidateSavedJobIds = [];
+    candidateSavedJobIds = candidateSavedJobIds || [];
     let applyingJobId = null;
 
     function getCandidateSkills() {
@@ -14234,7 +14232,7 @@
     // ══════════════════════════════════════════════════════
     //  AUTH, PROFILE, ROLE GUARDS & DROPDOWN LOGIC
     // ══════════════════════════════════════════════════════
-    let currentUser = {
+    currentUser = currentUser || {
       is_guest: true,
       id: 0,
       username: 'guest',
