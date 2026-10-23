@@ -83,6 +83,7 @@ services:
       - "8080:80"
     volumes:
       - ./apps/admin-web-dashboard:/usr/share/nginx/html:ro
+      - ./apps/admin-web-dashboard/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   # ─── Auth Web (Đăng nhập / Đăng ký Halloween) ─
   auth-web:
