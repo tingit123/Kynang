@@ -5720,123 +5720,290 @@
   <!-- 4. PROVIDER PORTAL LAYOUT (/provider/*)                            -->
   <!-- THIẾT KẾ ĐỘC LẬP TÔNG DARK TEAL (#0a5146) KHỚP 100% ẢNH MẪU         -->
   <!-- ══════════════════════════════════════════════════════════════════ -->
-  <div id="providerPortalLayout" class="employer-portal-layout" style="display:none">
-    <!-- Sidebar Trái Cố Định -->
-    <aside class="emp-sidebar">
-      <div class="emp-sidebar-header">
-        <div class="emp-logo-title">SkillGap<span>AI</span></div>
-        <div class="emp-logo-sub">TRUNG TÂM KHÓA HỌC</div>
-      </div>
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- 4. PROVIDER PORTAL LAYOUT (/provider/*) - REDESIGNED KHỚP 100% ẢNH MẪU -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="providerPortalLayout" style="display:none; min-height:100vh; background-color:#f8fafc; flex-direction:column; width:100%; font-family:'Be Vietnam Pro',system-ui,sans-serif; color:#0f172a; position:relative;">
+    
+    <!-- ── 1. TOP HEADER (Khớp 100% Ảnh 1) ── -->
+    <header style="background:#ffffff; border-bottom:1px solid #e2e8f0; padding:12px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:90; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
+      
+      <!-- Cụm Trái: Nút Icon Sidebar (BỎ chữ Menu) + Logo + Tên Cổng + Breadcrumb -->
+      <div style="display:flex; align-items:center; gap:16px;">
+        <!-- Nút icon mở sidebar (Không có chữ Menu) -->
+        <button id="btnToggleProvSidebar" onclick="toggleProvSidebar()" type="button" style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:12px; border:1.5px solid #cbd5e1; background:#ffffff; color:#0a5146; cursor:pointer; transition:all 0.15s; outline:none;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'" title="Danh mục chức năng">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
 
-      <nav class="emp-sidebar-nav">
-        <a class="emp-nav-item active" id="provNavGap" onclick="switchProvTab('gap-analytics')">Phân tích kỹ năng</a>
-        <a class="emp-nav-item" id="provNavCourses" onclick="switchProvTab('courses')">Quản lý khóa học</a>
-        <a class="emp-nav-item" id="provNavAnalytics" onclick="switchProvTab('analytics')">Thống kê lượt click</a>
-      </nav>
-
-      <div class="emp-sidebar-profile">
-        <div class="emp-profile-row">
-          <div class="emp-avatar-circle" id="provAvatarInitial">P</div>
-          <div class="emp-profile-info">
-            <div class="emp-profile-company" id="provSidebarName">Coursera Partner</div>
-            <div class="emp-profile-name" id="provSidebarSub">Đơn vị đào tạo</div>
+        <!-- Brand -->
+        <div style="display:flex; flex-direction:column; line-height:1.15;">
+          <div style="font-size:20px; font-weight:900; color:#0a5146; letter-spacing:-0.4px;">
+            SkillGap<span style="color:#0d9488">AI</span>
+          </div>
+          <div style="font-size:9px; font-weight:800; color:#64748b; letter-spacing:0.8px; text-transform:uppercase;">
+            TRUNG TÂM KHÓA HỌC
           </div>
         </div>
-        <button class="emp-logout-btn" onclick="handleLogout()">ĐĂNG XUẤT</button>
+
+        <!-- Vertical Divider & Breadcrumb subtitle -->
+        <div style="height:24px; width:1.5px; background:#e2e8f0; margin:0 4px;"></div>
+        <div id="provHeaderSubtitle" style="font-size:13.5px; font-weight:600; color:#64748b;">
+          Thị trường khóa học
+        </div>
+      </div>
+
+      <!-- Cụm Phải: Nút Dropdown Tài Khoản (Khớp 100% Ảnh 1) -->
+      <div style="position:relative;">
+        <button id="btnProvUserDropdown" onclick="toggleProvUserDropdown(event)" type="button" style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e2e8f0; border-radius:9999px; padding:6px 14px 6px 8px; cursor:pointer; transition:all 0.15s; outline:none;" onmouseover="this.style.borderColor='#cbd5e1'" onmouseout="this.style.borderColor='#e2e8f0'">
+          <div id="provTopAvatar" style="width:34px; height:34px; border-radius:50%; background:#0d9488; color:#ffffff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0;">
+            M
+          </div>
+          <div style="text-align:left; line-height:1.2;">
+            <div id="provTopCompanyName" style="font-size:12.5px; font-weight:800; color:#0f172a;">Mekong Skills</div>
+            <div id="provTopUserName" style="font-size:11px; color:#64748b;">Trần Thanh Hải</div>
+          </div>
+          <span style="font-size:10px; color:#64748b; margin-left:4px;">▼</span>
+        </button>
+
+        <!-- Menu Dropdown Tài Khoản (Khớp 100% Ảnh 1) -->
+        <div id="provUserDropdownMenu" style="display:none; position:absolute; right:0; top:calc(100% + 8px); width:280px; background:#ffffff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:0 14px 40px rgba(0,0,0,0.12); padding:10px; z-index:120; font-family:inherit;">
+          <!-- User Info Box -->
+          <div style="display:flex; align-items:center; gap:12px; padding:12px; border-bottom:1px solid #f1f5f9; margin-bottom:6px;">
+            <div id="provDropdownAvatar" style="width:42px; height:42px; border-radius:50%; background:#0d9488; color:#ffffff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:16px; flex-shrink:0;">
+              M
+            </div>
+            <div style="overflow:hidden;">
+              <div id="provDropdownCompanyName" style="font-size:13.5px; font-weight:800; color:#0f172a; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">Mekong Skills</div>
+              <div id="provDropdownEmail" style="font-size:11.5px; color:#64748b; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">hai.tran@mekongskills.vn</div>
+            </div>
+          </div>
+
+          <!-- Item 1: Thông tin trung tâm -->
+          <a href="javascript:void(0)" id="provMenuCenterInfo" onclick="switchProvTab('center-info')" style="display:block; padding:10px 14px; border-radius:12px; text-decoration:none; transition:background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+            <div style="font-size:13px; font-weight:700; color:#0f172a;">Thông tin trung tâm</div>
+            <div style="font-size:11px; color:#64748b;">Logo, tên, giới thiệu trung tâm</div>
+          </a>
+
+          <!-- Item 2: Hồ sơ cá nhân -->
+          <a href="javascript:void(0)" id="provMenuProfile" onclick="switchProvTab('profile')" style="display:block; padding:10px 14px; border-radius:12px; text-decoration:none; transition:background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+            <div style="font-size:13px; font-weight:700; color:#0f172a;">Hồ sơ cá nhân</div>
+            <div style="font-size:11px; color:#64748b;">Tên người đại diện, email, mật khẩu</div>
+          </a>
+
+          <div style="height:1px; background:#f1f5f9; margin:6px 0;"></div>
+
+          <!-- Item 3: Đăng xuất -->
+          <a href="javascript:void(0)" onclick="handleLogout()" style="display:block; padding:10px 14px; border-radius:12px; text-decoration:none; color:#ef4444; font-size:12.5px; font-weight:700; transition:background 0.15s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='transparent'">
+            Đăng xuất
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── 2. DRAWER SIDEBAR (Khớp 100% Ảnh 2: BỎ chữ Đóng, dùng nút icon) ── -->
+    <!-- Backdrop Overlay -->
+    <div id="provSidebarDrawerOverlay" onclick="closeProvSidebar()" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); backdrop-filter:blur(3px); z-index:998; transition:all 0.2s;"></div>
+
+    <!-- Drawer Panel (Trượt từ trái sang) -->
+    <aside id="provSidebarDrawer" style="display:none; transform:translateX(-100%); transition:transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); position:fixed; top:0; left:0; bottom:0; width:300px; max-width:85vw; background:#073d35; color:#ffffff; z-index:999; flex-direction:column; padding:24px 20px; box-shadow:8px 0 32px rgba(0,0,0,0.25); overflow-y:auto;">
+      
+      <!-- Header Drawer: Logo & Nút Icon Sidebar (BỎ chữ Đóng) -->
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.12);">
+        <div>
+          <div style="font-size:22px; font-weight:900; color:#ffffff; letter-spacing:-0.5px;">
+            SkillGap<span style="color:#5eead4">AI</span>
+          </div>
+          <div style="font-size:10px; font-weight:800; color:#5eead4; letter-spacing:0.8px; text-transform:uppercase; margin-top:2px;">
+            TRUNG TÂM KHÓA HỌC
+          </div>
+        </div>
+
+        <!-- Nút toggle đóng drawer: ICON ONLY, KHÔNG CÓ CHỮ ĐÓNG -->
+        <button id="btnCloseProvSidebar" onclick="closeProvSidebar()" type="button" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:12px; border:1.5px solid rgba(255,255,255,0.22); background:rgba(255,255,255,0.08); color:#ffffff; cursor:pointer; transition:all 0.15s; outline:none;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'" title="Thu gọn menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation List: CHỨC NĂNG (Gồm 4 chức năng như Ảnh 2) -->
+      <div style="font-size:10.5px; font-weight:900; color:#5eead4; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; padding-left:4px;">
+        CHỨC NĂNG
+      </div>
+
+      <nav style="display:flex; flex-direction:column; gap:10px; flex:1;">
+        <!-- Item 1: Thị trường khóa học -->
+        <a id="provDrawerNavMarket" href="javascript:void(0)" onclick="switchProvTab('market')" style="display:block; padding:14px 16px; border-radius:16px; text-decoration:none; background:#0a5146; border:1px solid #14b8a6; transition:all 0.15s;">
+          <div style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:2px;">Thị trường khóa học</div>
+          <div style="font-size:11px; color:#d1fae5; line-height:1.35;">Xem khóa học công khai của mọi đơn vị!</div>
+        </a>
+
+        <!-- Item 2: Khóa học của tôi -->
+        <a id="provDrawerNavCourses" href="javascript:void(0)" onclick="switchProvTab('courses')" style="display:block; padding:14px 16px; border-radius:16px; text-decoration:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); transition:all 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.06)'">
+          <div style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:2px;">Khóa học của tôi</div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.7); line-height:1.35;">Thêm, sửa, xóa khóa học bạn đăng</div>
+        </a>
+
+        <!-- Item 3: Phân tích kỹ năng -->
+        <a id="provDrawerNavGap" href="javascript:void(0)" onclick="switchProvTab('gap-analytics')" style="display:block; padding:14px 16px; border-radius:16px; text-decoration:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); transition:all 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.06)'">
+          <div style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:2px;">Phân tích kỹ năng</div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.7); line-height:1.35;">Kỹ năng đang thiếu để thiết kế khóa học</div>
+        </a>
+
+        <!-- Item 4: Thống kê lượt click -->
+        <a id="provDrawerNavAnalytics" href="javascript:void(0)" onclick="switchProvTab('analytics')" style="display:block; padding:14px 16px; border-radius:16px; text-decoration:none; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); transition:all 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.06)'">
+          <div style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:2px;">Thống kê lượt click</div>
+          <div style="font-size:11px; color:rgba(255,255,255,0.7); line-height:1.35;">Mức độ quan tâm tới khóa học của bạn</div>
+        </a>
+      </nav>
+
+      <!-- Bottom Profile Shortcut -->
+      <div style="margin-top:24px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; gap:10px;">
+        <div style="width:36px; height:36px; border-radius:50%; background:#5eead4; color:#063830; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px;">M</div>
+        <div style="flex:1; overflow:hidden;">
+          <div style="font-size:12.5px; font-weight:800; color:#ffffff; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">Mekong Skills</div>
+          <div style="font-size:11px; color:#5eead4;">Đơn vị đào tạo</div>
+        </div>
+        <button onclick="handleLogout()" style="background:transparent; border:none; color:#fda4af; font-size:12px; font-weight:700; cursor:pointer;" title="Đăng xuất">Đăng xuất</button>
       </div>
     </aside>
 
-    <!-- Khu Vực Nội Dung Phải -->
-    <main class="emp-main-content">
-      <!-- ── TAB 1: PHÂN TÍCH KỸ NĂNG THIẾU HỤT (KHỚP 100% ẢNH MẪU) ── -->
-      <div id="provTabGapAnalytics" class="emp-tab-view" style="max-width:1150px; margin:0 auto">
+    <!-- ── 3. KHU VỰC NỘI DUNG CHÍNH (FULL WIDTH) ── -->
+    <main id="provMainContent" style="flex:1; padding:32px 36px; max-width:1300px; width:100%; margin:0 auto; box-sizing:border-box;">
+
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <!-- TAB 1: THỊ TRƯỜNG KHÓA HỌC (KHỚP 100% ẢNH 1)                  -->
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <div id="provTabMarket" class="prov-tab-view" style="display:block;">
         <!-- Header -->
-        <div style="margin-bottom:24px">
-          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
-            Phân tích kỹ năng thiếu hụt
+        <div style="margin-bottom:20px;">
+          <h1 style="font-size:28px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin:0 0 6px 0;">
+            Thị trường khóa học
           </h1>
-          <p style="font-size:14px; color:#64748b">
-            Biết sinh viên đang yếu kỹ năng nào nhất để thiết kế khóa học trúng đích.
+          <p style="font-size:14px; color:#64748b; margin:0;">
+            Xem các khóa học công khai của tất cả đơn vị đào tạo để tham khảo nội dung, kỹ năng và mức độ quan tâm.
           </p>
         </div>
 
-        <!-- Filter Row -->
-        <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px">
-          <label style="font-size:11.5px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px">
-            NGÀNH NGHỀ
-          </label>
-          <select id="provIndustrySelect" onchange="provFilterSkills(this.value)" style="padding:10px 24px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:200px">
-            <option value="all">Tất cả</option>
-            <option value="IT">IT &amp; Công nghệ</option>
-            <option value="tourism">Du lịch &amp; Khách sạn</option>
-            <option value="logistics">Logistics &amp; XNK</option>
-            <option value="economics">Kinh tế &amp; Tài chính</option>
-          </select>
-          <span style="font-size:12.5px; color:#64748b; font-weight:500">
-            Có thể chọn: IT, Du lịch, Logistics, Kinh tế
+        <!-- Banner lưu ý màu xanh mint/teal (Khớp Ảnh 1) -->
+        <div style="background:#e6f7f5; border:1px solid #99f6e4; border-radius:18px; padding:14px 20px; margin-bottom:24px; display:flex; align-items:center; gap:8px;">
+          <span style="font-size:13px; color:#0f766e; line-height:1.5;">
+            <strong>Lưu ý:</strong> đây là khu vực chỉ để xem. Bạn xem được các khóa học đã công khai của mọi đơn vị, nhưng chỉ sửa hoặc xóa được khóa học của mình trong mục <strong>Khóa học của tôi</strong>.
           </span>
         </div>
 
-        <!-- Recommendation Banner -->
-        <div style="background:#e6f7f5; border:1px solid #99f6e4; border-radius:18px; padding:16px 24px; margin-bottom:24px; box-shadow:0 1px 3px rgba(0,0,0,0.02)">
-          <div style="font-size:13px; color:#1e293b; line-height:1.55">
-            <strong style="color:#0d5f57; font-weight:900">Gợi ý:</strong> Hãy ưu tiên xây dựng khóa học cho Top 3 kỹ năng thiếu hụt trên để được AI hệ thống ưu tiên đề xuất cho 100% ứng viên.
+        <!-- Filter & Search Card (Khớp Ảnh 1) -->
+        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:20px 24px; margin-bottom:28px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; gap:16px;">
+          <!-- Top Row: Search input + Selects -->
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+            <!-- Ô tìm kiếm -->
+            <div style="display:flex; align-items:center; background:#ffffff; border:1px solid #cbd5e1; border-radius:9999px; padding:3px 8px 3px 18px; flex:1; min-width:280px; max-width:420px;">
+              <input type="text" id="provMarketSearchInput" placeholder="Tìm theo tên khóa học, kỹ năng, đơn vị đào tạo..." oninput="provOnMarketSearch(this.value)" style="border:none; outline:none; background:transparent; font-size:13px; width:100%; color:#0f172a;" />
+              <button type="button" onclick="provOnMarketSearch(document.getElementById('provMarketSearchInput').value)" style="border:none; background:transparent; color:#0a5146; font-weight:800; font-size:13px; cursor:pointer; padding:6px 12px;">Tìm</button>
+            </div>
+
+            <!-- Dropdowns -->
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <select id="provMarketIndustrySelect" onchange="provOnMarketIndustryChange(this.value)" style="padding:9px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:140px;">
+                <option value="all">Mọi ngành</option>
+                <option value="IT">IT &amp; Công nghệ</option>
+                <option value="tourism">Du lịch &amp; Khách sạn</option>
+                <option value="logistics">Logistics &amp; XNK</option>
+                <option value="economics">Kinh tế &amp; Tài chính</option>
+              </select>
+
+              <select id="provMarketSkillSelect" onchange="provOnMarketSkillChange(this.value)" style="padding:9px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:140px;">
+                <option value="all">Mọi kỹ năng</option>
+                <option value="Python">Python</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Data Analysis">Data Analysis</option>
+                <option value="Tax Compliance">Tax Compliance</option>
+                <option value="Customs Compliance">Customs Compliance</option>
+              </select>
+
+              <select id="provMarketUnitSelect" onchange="provOnMarketUnitSelect(this.value)" style="padding:9px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:140px;">
+                <option value="all">Mọi đơn vị</option>
+                <option value="Mekong Skills">Mekong Skills</option>
+                <option value="Coursera">Coursera</option>
+                <option value="Hội Kế toán Cần Thơ">Hội Kế toán Cần Thơ</option>
+                <option value="VCCI Cần Thơ">VCCI Cần Thơ</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bottom Row: Filter Pills & Display range -->
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button id="btnProvMarketUnit_all" onclick="provSetMarketUnitFilter('all')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #0a5146; background:#0a5146; color:#ffffff; font-size:12.5px; font-weight:800; cursor:pointer;">
+                <span>Tất cả đơn vị</span>
+                <span style="background:rgba(255,255,255,0.25); color:#ffffff; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">118</span>
+              </button>
+
+              <button id="btnProvMarketUnit_mine" onclick="provSetMarketUnitFilter('mine')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:700; cursor:pointer;">
+                <span>Của tôi</span>
+                <span style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">4</span>
+              </button>
+
+              <button id="btnProvMarketUnit_other" onclick="provSetMarketUnitFilter('other')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:700; cursor:pointer;">
+                <span>Đơn vị khác</span>
+                <span style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">114</span>
+              </button>
+            </div>
+
+            <div style="font-size:12px; font-weight:700; color:#64748b;">
+              Hiển thị <strong style="color:#0f172a;">1–6</strong> trong <strong style="color:#0f172a;">118</strong> khóa học công khai
+            </div>
           </div>
         </div>
 
-        <!-- Bảng xếp hạng kỹ năng thiếu hụt -->
-        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-            <h2 style="font-size:17px; font-weight:800; color:#0f172a">
-              Bảng xếp hạng kỹ năng thiếu hụt
-            </h2>
-            <span style="font-size:12px; color:#94a3b8; font-weight:500">
-              Xếp theo gap giảm dần · Gap = Nhu cầu - Cung
-            </span>
-          </div>
+        <!-- Grid 6 khóa học công khai (Khớp Ảnh 1: 3 cột thẻ bo góc) -->
+        <div id="provMarketCoursesGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:22px; margin-bottom:30px;">
+          <!-- Rendered via JS -->
+        </div>
 
-          <table style="width:100%; border-collapse:collapse; text-align:left">
-            <thead>
-              <tr style="border-bottom:1px solid #f1f5f9; font-size:11.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
-                <th style="padding:10px 8px; width:44px">#</th>
-                <th style="padding:10px 14px">KỸ NĂNG</th>
-                <th style="padding:10px 14px; width:100px">NHU CẦU</th>
-                <th style="padding:10px 14px; width:100px">CUNG</th>
-                <th style="padding:10px 14px; width:220px">THIẾU HỤT (GAP)</th>
-                <th style="padding:10px 8px; text-align:right"></th>
-              </tr>
-            </thead>
-            <tbody id="provSkillsTbody" style="font-size:13.5px">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
+        <!-- Pagination (Khớp Ảnh 1: < 1 2 3 ... 20 >) -->
+        <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin-top:20px; font-size:13px; font-weight:700; color:#64748b;">
+          <span style="cursor:pointer; padding:6px 10px;">&lsaquo;</span>
+          <span style="cursor:pointer; padding:6px 10px; color:#0a5146; font-weight:900;">1</span>
+          <span style="cursor:pointer; padding:6px 10px;">2</span>
+          <span style="cursor:pointer; padding:6px 10px;">3</span>
+          <span>...</span>
+          <span style="cursor:pointer; padding:6px 10px;">20</span>
+          <span style="cursor:pointer; padding:6px 10px;">&rsaquo;</span>
         </div>
       </div>
 
-      <!-- ── TAB 2: QUẢN LÝ KHÓA HỌC (KHỚP 100% MOCKUP IMAGE 1 & 2) ── -->
-      <div id="provTabCourses" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <!-- TAB 2: KHÓA HỌC CỦA TÔI (GIỮ NGUYÊN FORM ĐẦY ĐỦ ĐÃ CÓ)        -->
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <div id="provTabCourses" class="prov-tab-view" style="display:none;">
         <!-- Header -->
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
           <div>
-            <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
-              Quản lý khóa học
+            <h1 style="font-size:28px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin:0 0 4px 0;">
+              Khóa học của tôi
             </h1>
-            <p style="font-size:14px; color:#64748b">
-              Đăng khóa học và gắn kỹ năng để hệ thống AI gợi ý đúng người cần.
+            <p style="font-size:14px; color:#64748b; margin:0;">
+              Đăng khóa học và gắn kỹ năng để hệ thống AI gợi ý đúng học viên cần.
             </p>
           </div>
-          <button onclick="provOpenAddCourseModal()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:12px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 3px 10px rgba(10,81,70,0.2); transition:all 0.15s" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">
-            THÊM KHÓA HỌC
+          <button onclick="provOpenAddCourseModal()" style="background:#0a5146; color:#ffffff; font-weight:900; font-size:11.5px; letter-spacing:0.8px; padding:12px 24px; border-radius:9999px; border:none; cursor:pointer; text-transform:uppercase; box-shadow:0 3px 10px rgba(10,81,70,0.2); transition:all 0.15s;" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">
+            + THÊM KHÓA HỌC
           </button>
         </div>
 
-        <!-- Filter & Search Box (Matching Image 1) -->
+        <!-- Filter & Search Box -->
         <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:20px 24px; margin-bottom:24px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; gap:16px;">
-          <!-- Top Row: Search Input & Skill Dropdown -->
           <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-            <div style="display:flex; align-items:center; background:#ffffff; border:1px solid #cbd5e1; border-radius:9999px; padding:4px 8px 4px 20px; flex:1; max-width:640px; box-shadow:0 1px 2px rgba(0,0,0,0.02);">
-              <input type="text" id="provCourseSearchInput" placeholder="Tìm theo tên khóa học, nền tảng..." oninput="provOnSearch(this.value)" style="border:none; outline:none; background:transparent; font-size:13.5px; width:100%; font-family:inherit; color:#0f172a;" />
-              <button type="button" onclick="provOnSearch(document.getElementById('provCourseSearchInput').value)" style="border:none; background:transparent; color:#0a5146; font-weight:800; font-size:13px; cursor:pointer; padding:6px 14px; white-space:nowrap;">Tìm</button>
+            <div style="display:flex; align-items:center; background:#ffffff; border:1px solid #cbd5e1; border-radius:9999px; padding:4px 8px 4px 20px; flex:1; max-width:640px;">
+              <input type="text" id="provCourseSearchInput" placeholder="Tìm theo tên khóa học, nền tảng..." oninput="provOnSearch(this.value)" style="border:none; outline:none; background:transparent; font-size:13.5px; width:100%; color:#0f172a;" />
+              <button type="button" onclick="provOnSearch(document.getElementById('provCourseSearchInput').value)" style="border:none; background:transparent; color:#0a5146; font-weight:800; font-size:13px; cursor:pointer; padding:6px 14px;">Tìm</button>
             </div>
             <div style="display:flex; align-items:center; gap:12px;">
               <select id="provCourseIndustryFilter" onchange="provSetIndustryFilter(this.value)" style="padding:10px 22px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:160px;">
@@ -5866,18 +6033,17 @@
             </div>
           </div>
 
-          <!-- Bottom Row: Status Tabs & Display Count -->
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <div style="display:flex; align-items:center; gap:10px;">
-              <button id="provFilterBtnAll" onclick="provSetStatusFilter('all')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.15s;">
+              <button id="provFilterBtnAll" onclick="provSetStatusFilter('all')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:13px; font-weight:800; cursor:pointer;">
                 <span>Tất cả</span>
                 <span id="provBadgeAll" style="background:#073d35; color:#ffffff; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px;">6</span>
               </button>
-              <button id="provFilterBtnActive" onclick="provSetStatusFilter('active')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s;">
+              <button id="provFilterBtnActive" onclick="provSetStatusFilter('active')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer;">
                 <span>Đang phân phối</span>
                 <span id="provBadgeActive" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px;">4</span>
               </button>
-              <button id="provFilterBtnPending" onclick="provSetStatusFilter('pending')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s;">
+              <button id="provFilterBtnPending" onclick="provSetStatusFilter('pending')" style="display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:9999px; border:1px solid #e2e8f0; background:#ffffff; color:#475569; font-size:13px; font-weight:700; cursor:pointer;">
                 <span>Chờ duyệt</span>
                 <span id="provBadgePending" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:2px 8px; border-radius:9999px;">2</span>
               </button>
@@ -5888,237 +6054,341 @@
           </div>
         </div>
 
-        <!-- 1. GRID VIEW (Matching Image 1: 3 Columns of Cards) -->
-        <div id="provCoursesGridContainer" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; margin-bottom:30px">
+        <div id="provCoursesGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:22px; margin-bottom:30px;">
           <!-- Rendered via JS -->
         </div>
 
-        <!-- 2. TABLE VIEW (Matching Image 2: Table Card) -->
-        <div id="provCoursesTableContainer" style="display:none; background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-            <h2 style="font-size:17px; font-weight:800; color:#0f172a">
-              Khóa học đã đăng
+        <div id="provCoursesTableContainer" style="display:none; background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <!-- TAB 3: PHÂN TÍCH KỸ NĂNG THIẾU HỤT                             -->
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <div id="provTabGapAnalytics" class="prov-tab-view" style="display:none;">
+        <div style="margin-bottom:24px;">
+          <h1 style="font-size:28px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin:0 0 4px 0;">
+            Phân tích kỹ năng thiếu hụt
+          </h1>
+          <p style="font-size:14px; color:#64748b; margin:0;">
+            Biết sinh viên đang yếu kỹ năng nào nhất để thiết kế khóa học trúng đích.
+          </p>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+          <label style="font-size:11.5px; font-weight:800; color:#475569; text-transform:uppercase; letter-spacing:0.8px;">
+            NGÀNH NGHỀ
+          </label>
+          <select id="provIndustrySelect" onchange="provFilterSkills(this.value)" style="padding:10px 24px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; background:#fff; cursor:pointer; min-width:200px;">
+            <option value="all">Tất cả</option>
+            <option value="IT">IT &amp; Công nghệ</option>
+            <option value="tourism">Du lịch &amp; Khách sạn</option>
+            <option value="logistics">Logistics &amp; XNK</option>
+            <option value="economics">Kinh tế &amp; Tài chính</option>
+          </select>
+        </div>
+
+        <div style="background:#e6f7f5; border:1px solid #99f6e4; border-radius:18px; padding:16px 24px; margin-bottom:24px;">
+          <div style="font-size:13px; color:#1e293b; line-height:1.55;">
+            <strong style="color:#0d5f57; font-weight:900;">Gợi ý:</strong> Hãy ưu tiên xây dựng khóa học cho Top 3 kỹ năng thiếu hụt trên để được AI hệ thống ưu tiên đề xuất cho 100% ứng viên.
+          </div>
+        </div>
+
+        <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 32px; box-shadow:0 1px 4px rgba(0,0,0,0.04);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="font-size:17px; font-weight:800; color:#0f172a; margin:0;">
+              Bảng xếp hạng kỹ năng thiếu hụt
             </h2>
-            <span id="provCoursesSummaryText" style="font-size:12.5px; color:#64748b; font-weight:600">
-              4 đang phân phối · 2 chờ duyệt
+            <span style="font-size:12px; color:#94a3b8; font-weight:500;">
+              Xếp theo gap giảm dần · Gap = Nhu cầu - Cung
             </span>
           </div>
 
-          <table style="width:100%; border-collapse:collapse; text-align:left">
+          <table style="width:100%; border-collapse:collapse; text-align:left;">
             <thead>
-              <tr style="border-bottom:1px solid #f1f5f9; font-size:11.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
-                <th style="padding:10px 8px">TÊN KHÓA HỌC</th>
-                <th style="padding:10px 14px; width:160px">KỸ NĂNG BÙ ĐẮP</th>
-                <th style="padding:10px 14px; width:150px">TRẠNG THÁI</th>
-                <th style="padding:10px 14px; width:110px; text-align:center">LƯỢT CLICK</th>
-                <th style="padding:10px 8px; text-align:right; width:90px"></th>
+              <tr style="border-bottom:1px solid #f1f5f9; font-size:11.5px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px;">
+                <th style="padding:10px 8px; width:44px;">#</th>
+                <th style="padding:10px 14px;">KỸ NĂNG</th>
+                <th style="padding:10px 14px; width:100px;">NHU CẦU</th>
+                <th style="padding:10px 14px; width:100px;">CUNG</th>
+                <th style="padding:10px 14px; width:220px;">THIẾU HỤT (GAP)</th>
+                <th style="padding:10px 8px; text-align:right;"></th>
               </tr>
             </thead>
-            <tbody id="provCoursesTbody" style="font-size:13.5px">
+            <tbody id="provSkillsTbody" style="font-size:13.5px;">
               <!-- Rendered via JS -->
             </tbody>
           </table>
         </div>
-
-        <!-- Pagination Controls (Trang 1, 2, 3...) -->
-        <div id="provCoursesPagination" style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:28px; margin-bottom:20px;"></div>
       </div>
 
-      <!-- ── TAB 3: THỐNG KÊ LƯỢT CLICK (KHỚP 100% MOCKUP IMAGE 2) ── -->
-      <div id="provTabClicks" class="emp-tab-view" style="display:none; max-width:1150px; margin:0 auto">
-        <div style="margin-bottom:28px">
-          <h1 style="font-size:30px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin-bottom:4px">
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <!-- TAB 4: THỐNG KÊ LƯỢT CLICK                                     -->
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <div id="provTabClicks" class="prov-tab-view" style="display:none;">
+        <div style="margin-bottom:24px;">
+          <h1 style="font-size:28px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin:0 0 4px 0;">
             Thống kê lượt click
           </h1>
-          <p style="font-size:14px; color:#64748b">
-            Đo hiệu quả: có bao nhiêu sinh viên bấm vào khóa học từ gợi ý của AI.
+          <p style="font-size:14px; color:#64748b; margin:0;">
+            Theo dõi mức độ quan tâm của học viên đến các khóa học của trung tâm bạn.
           </p>
         </div>
 
-        <!-- 3 KPI Cards -->
-        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; margin-bottom:28px">
-          <!-- Card 1: Tổng lượt truy cập -->
-          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:26px 28px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-            <div style="position:absolute; top:0; left:0; right:0; height:6px; background:#0d9488"></div>
-            <div style="font-size:11px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:0.8px">
-              TỔNG LƯỢT TRUY CẬP
-            </div>
-            <div style="font-size:46px; font-weight:900; color:#0f172a; margin:10px 0 6px">
-              359
-            </div>
-            <div style="font-size:12px; color:#64748b; font-weight:500">
-              Sinh viên bấm vào khóa học từ gợi ý của AI
-            </div>
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; margin-bottom:28px;">
+          <div style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+            <div style="font-size:11.5px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">TỔNG LƯỢT CLICK</div>
+            <div style="font-size:32px; font-weight:900; color:#0f172a;">359</div>
+            <div style="font-size:12px; color:#059669; font-weight:700; margin-top:4px;">↑ +18.4% so với tháng trước</div>
           </div>
-
-          <!-- Card 2: Khóa học đang phân phối -->
-          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:26px 28px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-            <div style="position:absolute; top:0; left:0; right:0; height:6px; background:#f59e0b"></div>
-            <div style="font-size:11px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:0.8px">
-              KHÓA HỌC ĐANG PHÂN PHỐI
-            </div>
-            <div style="font-size:46px; font-weight:900; color:#0f172a; margin:10px 0 6px">
-              4
-            </div>
-            <div style="font-size:12px; color:#64748b; font-weight:500">
-              Trên tổng số 6 khóa học đã đăng
-            </div>
+          <div style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+            <div style="font-size:11.5px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">KHÓA HỌC HOT NHẤT</div>
+            <div style="font-size:20px; font-weight:900; color:#0f172a; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;">Python Backend thực chiến</div>
+            <div style="font-size:12px; color:#64748b; font-weight:600; margin-top:6px;">128 click (Chiếm 35.6%)</div>
           </div>
-
-          <!-- Card 3: Thu hút nhất -->
-          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:26px 28px; position:relative; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.04); display:flex; flex-direction:column; justify-content:space-between">
-            <div style="position:absolute; top:0; left:0; right:0; height:6px; background:#2563eb"></div>
-            <div>
-              <div style="font-size:11px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:0.8px">
-                THU HÚT NHẤT
-              </div>
-              <div style="font-size:22px; font-weight:900; color:#0f172a; margin-top:8px; line-height:1.3">
-                Python Backend thực chiến
-              </div>
-            </div>
-            <div style="font-size:12px; color:#64748b; font-weight:500; margin-top:10px">
-              128 lượt click
-            </div>
+          <div style="background:#ffffff; border-radius:22px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+            <div style="font-size:11.5px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">TỶ LỆ CHUYỂN ĐỔI (CTR)</div>
+            <div style="font-size:32px; font-weight:900; color:#0a5146;">8.4%</div>
+            <div style="font-size:12px; color:#059669; font-weight:700; margin-top:4px;">Cao hơn 2.1% mức TB thị trường</div>
           </div>
         </div>
+      </div>
 
-        <!-- 2 Columns Bottom: Khóa học thu hút nhất & Tỷ trọng lượt click theo khóa học -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:flex-start">
-          <!-- Cột Trái: Khóa học thu hút nhất (Bảng) -->
-          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-            <h2 style="font-size:16.5px; font-weight:800; color:#0f172a; margin-bottom:18px">
-              Khóa học thu hút nhất
-            </h2>
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <!-- TAB 5: THÔNG TIN TRUNG TÂM (KHỚP 100% ẢNH 3)                   -->
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <div id="provTabCenterInfo" class="prov-tab-view" style="display:none;">
+        <!-- Header -->
+        <div style="margin-bottom:24px;">
+          <h1 style="font-size:28px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin:0 0 6px 0;">
+            Thông tin trung tâm
+          </h1>
+          <p style="font-size:14px; color:#64748b; margin:0;">
+            Logo, tên và phần giới thiệu hiển thị cho ứng viên trên các khóa học của bạn.
+          </p>
+        </div>
 
-            <table style="width:100%; border-collapse:collapse; text-align:left">
-              <thead>
-                <tr style="border-bottom:1px solid #f1f5f9; font-size:11px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.8px">
-                  <th style="padding:8px 4px; width:30px">#</th>
-                  <th style="padding:8px 10px">KHÓA HỌC</th>
-                  <th style="padding:8px 10px; width:130px">KỸ NĂNG BÙ ĐẮP</th>
-                  <th style="padding:8px 6px; text-align:right; width:60px">CLICK</th>
-                </tr>
-              </thead>
-              <tbody style="font-size:13.5px">
-                <tr style="border-bottom:1px solid #f8fafc">
-                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">1</td>
-                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Python Backend thực chiến</td>
-                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Python</span></td>
-                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">128</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f8fafc">
-                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">2</td>
-                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Nhập môn Machine Learning</td>
-                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Machine Learning</span></td>
-                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">96</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f8fafc">
-                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">3</td>
-                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">FastAPI &amp; Docker cho người mới</td>
-                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Python</span></td>
-                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">74</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f8fafc">
-                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">4</td>
-                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Phân tích dữ liệu với Power BI</td>
-                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Data Analysis</span></td>
-                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">61</td>
-                </tr>
-                <tr style="border-bottom:1px solid #f8fafc">
-                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">5</td>
-                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">IELTS 6.5 cho sinh viên</td>
-                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">English</span></td>
-                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">0</td>
-                </tr>
-                <tr>
-                  <td style="padding:14px 4px; color:#94a3b8; font-weight:700">6</td>
-                  <td style="padding:14px 10px; font-weight:800; color:#0f172a">Giao tiếp và thuyết trình</td>
-                  <td style="padding:14px 10px"><span style="background:#f1f5f9; color:#334155; font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:9999px">Communication</span></td>
-                  <td style="padding:14px 6px; text-align:right; font-weight:900; color:#0f172a">0</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- 2 Columns Layout (Khớp 100% Ảnh 3) -->
+        <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:28px; align-items:start;">
+          
+          <!-- Cột Trái: Form chỉnh sửa -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+            <div style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:2px;">Thông tin trung tâm</div>
+            <div style="font-size:13px; color:#64748b; margin-bottom:22px;">Hiển thị trên mọi khóa học bạn đăng.</div>
+
+            <!-- Avatar & Đường dẫn logo -->
+            <div style="display:flex; align-items:center; gap:18px; margin-bottom:22px;">
+              <div id="provCenterPreviewAvatar" style="width:56px; height:56px; border-radius:16px; background:#0d9488; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; flex-shrink:0; box-shadow:0 2px 6px rgba(13,148,136,0.25);">
+                M
+              </div>
+              <div style="flex:1;">
+                <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                  ĐƯỜNG DẪN LOGO
+                </label>
+                <input type="text" id="provCenterLogoUrl" oninput="provSyncCenterPreview()" value="https://mekongskills.vn/logo.png" placeholder="https://..." style="width:100%; padding:10px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box; transition:border 0.15s;" onfocus="this.style.borderColor='#0a5146'" onblur="this.style.borderColor='#cbd5e1'" />
+                <div style="font-size:11px; color:#94a3b8; margin-top:5px; line-height:1.4;">
+                  Ảnh vuông, tối thiểu 256 × 256 px. Để trống thì dùng chữ cái đầu của tên trung tâm.
+                </div>
+              </div>
+            </div>
+
+            <!-- Tên trung tâm -->
+            <div style="margin-bottom:22px;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                TÊN TRUNG TÂM
+              </label>
+              <input type="text" id="provCenterNameInput" oninput="provSyncCenterPreview()" value="Mekong Skills" placeholder="VD: Mekong Skills" style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:700; color:#0f172a; outline:none; box-sizing:border-box; transition:border 0.15s;" onfocus="this.style.borderColor='#0a5146'" onblur="this.style.borderColor='#cbd5e1'" />
+            </div>
+
+            <!-- Giới thiệu trung tâm -->
+            <div style="margin-bottom:26px;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                GIỚI THIỆU TRUNG TÂM
+              </label>
+              <textarea id="provCenterAboutInput" oninput="provSyncCenterPreview()" maxlength="500" rows="5" style="width:100%; padding:14px 18px; border-radius:16px; border:1px solid #cbd5e1; font-size:13px; font-family:inherit; color:#0f172a; line-height:1.6; outline:none; box-sizing:border-box; resize:vertical; transition:border 0.15s;" onfocus="this.style.borderColor='#0a5146'" onblur="this.style.borderColor='#cbd5e1'">Mekong Skills là trung tâm đào tạo kỹ năng nghề tại Cần Thơ, tập trung vào lập trình, phân tích dữ liệu và ngoại ngữ cho sinh viên và người đi làm khu vực ĐBSCL.</textarea>
+              <div style="text-align:right; font-size:11.5px; color:#94a3b8; margin-top:6px;">
+                <span id="provCenterCharCount">168 / 500 ký tự</span>
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+              <button onclick="provCancelCenterInfo()" type="button" style="padding:10px 24px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+                HỦY THAY ĐỔI
+              </button>
+              <button onclick="provSaveCenterInfo()" type="button" style="padding:10px 28px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:12.5px; font-weight:800; cursor:pointer; box-shadow:0 3px 10px rgba(10,81,70,0.2); transition:all 0.15s;" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">
+                LƯU THAY ĐỔI
+              </button>
+            </div>
           </div>
 
-          <!-- Cột Phải: Tỷ trọng lượt click theo khóa học (Bars) -->
-          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.04)">
-            <h2 style="font-size:16.5px; font-weight:800; color:#0f172a">
-              Tỷ trọng lượt click theo khóa học
-            </h2>
-            <p style="font-size:12px; color:#94a3b8; font-weight:500; margin-top:2px; margin-bottom:24px">
-              Thanh càng dài thì khóa học càng được quan tâm
-            </p>
+          <!-- Cột Phải: Xem trước & Thống kê (Khớp 100% Ảnh 3) -->
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <!-- Khung Xem trước -->
+            <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:24px 26px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+              <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:2px;">XEM TRƯỚC</div>
+              <div style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:18px;">Ứng viên sẽ thấy thế này</div>
 
-            <div style="display:flex; flex-direction:column; gap:18px">
-              <!-- Item 1 -->
+              <!-- Thẻ preview mẫu (Khớp Ảnh 3) -->
+              <div style="background:#e6f7f5; border-radius:20px; padding:20px; border:1px solid #a7f3d0; margin-bottom:16px;">
+                <span style="background:#ffffff; color:#0a5146; font-size:11px; font-weight:800; padding:3px 10px; border-radius:9999px; display:inline-block; margin-bottom:12px;">
+                  Python
+                </span>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                  <div id="provCardLiveAvatar" style="width:32px; height:32px; border-radius:10px; background:#0d9488; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:900;">
+                    M
+                  </div>
+                  <div id="provLivePreviewName" style="font-size:14px; font-weight:800; color:#0a5146;">
+                    Mekong Skills
+                  </div>
+                </div>
+                <h3 style="font-size:17px; font-weight:900; color:#0a5146; margin:0 0 10px 0;">
+                  Python Backend thực chiến
+                </h3>
+                <p id="provLivePreviewDesc" style="font-size:12.5px; color:#334155; line-height:1.55; margin:0;">
+                  Mekong Skills là trung tâm đào tạo kỹ năng nghề tại Cần Thơ, tập trung vào lập trình, phân tích dữ liệu và ngoại ngữ cho sinh viên và người đi làm khu vực ĐBSCL.
+                </p>
+              </div>
+            </div>
+
+            <!-- Stats Box (Khớp Ảnh 3) -->
+            <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:24px 26px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:grid; grid-template-columns:1fr 1fr; gap:16px;">
               <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-                  <span style="font-size:13px; font-weight:800; color:#0f172a">Python Backend thực chiến</span>
-                  <span style="font-size:12px; font-weight:600; color:#64748b">128 click · 35.7%</span>
+                <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">
+                  ĐANG PHÂN PHỐI
                 </div>
-                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
-                  <div style="background:#0d5f57; height:100%; border-radius:9999px; width:100%"></div>
+                <div style="font-size:32px; font-weight:900; color:#0a5146; line-height:1.1;">4</div>
+                <div style="font-size:12px; color:#64748b; margin-top:2px;">khóa học</div>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">
+                  TỔNG LƯỢT CLICK
                 </div>
+                <div style="font-size:32px; font-weight:900; color:#0d9488; line-height:1.1;">359</div>
+                <div style="font-size:12px; color:#64748b; margin-top:2px;">từ gợi ý của AI</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <!-- TAB 6: HỒ SƠ CÁ NHÂN (HOÀN THIỆN ĐẦY ĐỦ FORM & MẬT KHẨU)      -->
+      <!-- ══════════════════════════════════════════════════════════════ -->
+      <div id="provTabProfile" class="prov-tab-view" style="display:none;">
+        <!-- Header -->
+        <div style="margin-bottom:24px;">
+          <h1 style="font-size:28px; font-weight:900; color:#0f172a; letter-spacing:-0.5px; margin:0 0 6px 0;">
+            Hồ sơ cá nhân
+          </h1>
+          <p style="font-size:14px; color:#64748b; margin:0;">
+            Tên người đại diện, email và mật khẩu tài khoản đơn vị đào tạo.
+          </p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:28px; align-items:start;">
+          <!-- Cột Trái: Form hồ sơ người đại diện & đổi mật khẩu -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+            
+            <div style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:2px;">Người đại diện đơn vị</div>
+            <div style="font-size:13px; color:#64748b; margin-bottom:22px;">Thông tin liên hệ trực tiếp cho đối tác và học viên.</div>
+
+            <div style="margin-bottom:18px;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                TÊN NGƯỜI ĐẠI DIỆN
+              </label>
+              <input type="text" id="provProfileNameInput" value="Trần Thanh Hải" placeholder="Họ và tên..." style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:700; color:#0f172a; outline:none; box-sizing:border-box;" />
+            </div>
+
+            <div style="margin-bottom:18px;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                EMAIL ĐĂNG NHẬP
+              </label>
+              <input type="email" id="provProfileEmailInput" value="hai.tran@mekongskills.vn" placeholder="email@..." style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box;" />
+            </div>
+
+            <div style="margin-bottom:24px;">
+              <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                SỐ ĐIỆN THOẠI
+              </label>
+              <input type="tel" id="provProfilePhoneInput" value="0912 345 678" placeholder="09..." style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box;" />
+            </div>
+
+            <!-- Section Đổi Mật Khẩu -->
+            <div style="padding-top:20px; border-top:1px solid #f1f5f9; margin-bottom:24px;">
+              <div style="font-size:15px; font-weight:800; color:#0f172a; margin-bottom:2px;">Đổi mật khẩu</div>
+              <div style="font-size:12px; color:#64748b; margin-bottom:16px;">Bỏ trống các ô mật khẩu bên dưới nếu không muốn đổi.</div>
+
+              <div style="margin-bottom:14px;">
+                <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                  MẬT KHẨU HIỆN TẠI
+                </label>
+                <input type="password" id="provOldPassword" placeholder="Nhập mật khẩu cũ..." style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box;" />
               </div>
 
-              <!-- Item 2 -->
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-                  <span style="font-size:13px; font-weight:800; color:#0f172a">Nhập môn Machine Learning</span>
-                  <span style="font-size:12px; font-weight:600; color:#64748b">96 click · 26.7%</span>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px;">
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                    MẬT KHẨU MỚI
+                  </label>
+                  <input type="password" id="provNewPassword" placeholder="Tối thiểu 6 ký tự..." style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box;" />
                 </div>
-                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
-                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:75%"></div>
-                </div>
-              </div>
-
-              <!-- Item 3 -->
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-                  <span style="font-size:13px; font-weight:800; color:#0f172a">FastAPI &amp; Docker cho người mới</span>
-                  <span style="font-size:12px; font-weight:600; color:#64748b">74 click · 20.6%</span>
-                </div>
-                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
-                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:58%"></div>
+                <div>
+                  <label style="display:block; font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">
+                    XÁC NHẬN MẬT KHẨU
+                  </label>
+                  <input type="password" id="provConfirmPassword" placeholder="Nhập lại mật khẩu mới..." style="width:100%; padding:11px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13.5px; font-weight:600; color:#0f172a; outline:none; box-sizing:border-box;" />
                 </div>
               </div>
+            </div>
 
-              <!-- Item 4 -->
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-                  <span style="font-size:13px; font-weight:800; color:#0f172a">Phân tích dữ liệu với Power BI</span>
-                  <span style="font-size:12px; font-weight:600; color:#64748b">61 click · 17.0%</span>
-                </div>
-                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
-                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:48%"></div>
-                </div>
+            <!-- Action buttons -->
+            <div style="display:flex; justify-content:flex-end; gap:12px;">
+              <button onclick="provCancelProfileInfo()" type="button" style="padding:10px 24px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+                HỦY THAY ĐỔI
+              </button>
+              <button onclick="provSaveProfileInfo()" type="button" style="padding:10px 28px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:12.5px; font-weight:800; cursor:pointer; box-shadow:0 3px 10px rgba(10,81,70,0.2); transition:all 0.15s;" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">
+                LƯU THAY ĐỔI
+              </button>
+            </div>
+          </div>
+
+          <!-- Cột Phải: Thẻ Tóm tắt tài khoản -->
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 26px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+            <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:16px;">
+              TÀI KHOẢN ĐẠI DIỆN
+            </div>
+            
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+              <div id="provProfileSummaryAvatar" style="width:52px; height:52px; border-radius:50%; background:#0a5146; color:#5eead4; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; flex-shrink:0;">
+                T
               </div>
-
-              <!-- Item 5 -->
               <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-                  <span style="font-size:13px; font-weight:800; color:#0f172a">IELTS 6.5 cho sinh viên</span>
-                  <span style="font-size:12px; font-weight:600; color:#64748b">0 click · 0.0%</span>
-                </div>
-                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
-                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:0%"></div>
-                </div>
+                <div id="provProfileSummaryName" style="font-size:17px; font-weight:800; color:#0f172a;">Trần Thanh Hải</div>
+                <div id="provProfileSummaryEmail" style="font-size:12.5px; color:#64748b;">hai.tran@mekongskills.vn</div>
               </div>
+            </div>
 
-              <!-- Item 6 -->
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
-                  <span style="font-size:13px; font-weight:800; color:#0f172a">Giao tiếp và thuyết trình</span>
-                  <span style="font-size:12px; font-weight:600; color:#64748b">0 click · 0.0%</span>
-                </div>
-                <div style="background:#f1f5f9; border-radius:9999px; height:12px; overflow:hidden">
-                  <div style="background:#5eead4; height:100%; border-radius:9999px; width:0%"></div>
-                </div>
+            <div style="display:flex; flex-direction:column; gap:12px; font-size:13px; color:#334155; padding:16px; background:#f8fafc; border-radius:16px; border:1px solid #f1f5f9;">
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:#64748b;">Vai trò:</span>
+                <strong style="color:#0a5146;">📚 Đơn vị đào tạo</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:#64748b;">Đơn vị:</span>
+                <strong id="provProfileSummaryCompany">Mekong Skills</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span style="color:#64748b;">Trạng thái:</span>
+                <span style="background:#dcfce7; color:#047857; font-size:11.5px; font-weight:800; padding:2px 10px; border-radius:9999px;">✓ Đã xác thực</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </main>
   </div>
 
@@ -9336,7 +9606,7 @@
           providerLayout.style.display = 'flex';
           updateProviderPortalInfo();
           const cleanProv = currentPath.replace(/^\/provider\/?/, '');
-          const provPart = cleanProv.split('/').filter(Boolean)[0] || 'gap-analytics';
+          const provPart = cleanProv.split('/').filter(Boolean)[0] || 'market';
           switchProvTab(provPart);
         }
         return;
@@ -16101,54 +16371,558 @@
       } catch(e) {}
 
       const company = currentUser.company_name || 'Mekong Skills';
-      const name = currentUser.full_name || 'Trần Thanh Hải';
+      const name = currentUser.full_name || currentUser.display_name || 'Trần Thanh Hải';
+      const email = currentUser.email || 'hai.tran@mekongskills.vn';
       const initial = (company || name).charAt(0).toUpperCase() || 'M';
 
-      const sName = document.getElementById('provSidebarName');
-      if (sName) sName.textContent = company;
+      // Top Header
+      const topComp = document.getElementById('provTopCompanyName');
+      if (topComp) topComp.textContent = company;
+      const topUser = document.getElementById('provTopUserName');
+      if (topUser) topUser.textContent = name;
+      const topAvatar = document.getElementById('provTopAvatar');
+      if (topAvatar) topAvatar.textContent = initial;
 
-      const sSub = document.getElementById('provSidebarSub');
-      if (sSub) sSub.textContent = name;
+      // Dropdown
+      const dropComp = document.getElementById('provDropdownCompanyName');
+      if (dropComp) dropComp.textContent = company;
+      const dropEmail = document.getElementById('provDropdownEmail');
+      if (dropEmail) dropEmail.textContent = email;
+      const dropAvatar = document.getElementById('provDropdownAvatar');
+      if (dropAvatar) dropAvatar.textContent = initial;
 
-      const avatar = document.getElementById('provAvatarInitial');
-      if (avatar) avatar.textContent = initial;
-
-      renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
-      renderProviderCourses();
+      provSyncCenterPreview();
     }
 
     function switchProvTab(tab) {
-      if (!tab) tab = 'gap-analytics';
+      if (!tab) tab = 'market';
+
       const tabMap = {
-        'gap-analytics': { nav: 'provNavGap', view: 'provTabGapAnalytics' },
-        'courses': { nav: 'provNavCourses', view: 'provTabCourses' },
-        'analytics': { nav: 'provNavAnalytics', view: 'provTabClicks' }
+        'market': { title: 'Thị trường khóa học', nav: 'provDrawerNavMarket', view: 'provTabMarket' },
+        'courses': { title: 'Khóa học của tôi', nav: 'provDrawerNavCourses', view: 'provTabCourses' },
+        'gap-analytics': { title: 'Phân tích kỹ năng', nav: 'provDrawerNavGap', view: 'provTabGapAnalytics' },
+        'analytics': { title: 'Thống kê lượt click', nav: 'provDrawerNavAnalytics', view: 'provTabClicks' },
+        'center-info': { title: 'Tài khoản > Thông tin trung tâm', nav: null, view: 'provTabCenterInfo' },
+        'profile': { title: 'Tài khoản > Hồ sơ cá nhân', nav: null, view: 'provTabProfile' }
       };
 
-      const selected = tabMap[tab] || tabMap['gap-analytics'];
+      const selected = tabMap[tab] || tabMap['market'];
 
-      // Nav items active class
-      ['provNavGap', 'provNavCourses', 'provNavAnalytics'].forEach(id => {
+      // Update subtitle in top header
+      const subTitleEl = document.getElementById('provHeaderSubtitle');
+      if (subTitleEl) subTitleEl.textContent = selected.title;
+
+      // Drawer nav item highlights
+      ['provDrawerNavMarket', 'provDrawerNavCourses', 'provDrawerNavGap', 'provDrawerNavAnalytics'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.classList.remove('active');
+        if (el) {
+          if (id === selected.nav) {
+            el.style.background = '#0a5146';
+            el.style.border = '1px solid #14b8a6';
+          } else {
+            el.style.background = 'rgba(255,255,255,0.06)';
+            el.style.border = '1px solid rgba(255,255,255,0.12)';
+          }
+        }
       });
-      const activeNav = document.getElementById(selected.nav);
-      if (activeNav) activeNav.classList.add('active');
 
-      // Views
-      ['provTabGapAnalytics', 'provTabCourses', 'provTabClicks'].forEach(id => {
+      // Show selected view, hide others
+      ['provTabMarket', 'provTabCourses', 'provTabGapAnalytics', 'provTabClicks', 'provTabCenterInfo', 'provTabProfile'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = 'none';
       });
       const activeView = document.getElementById(selected.view);
       if (activeView) activeView.style.display = 'block';
 
-      if (tab === 'gap-analytics') {
-        renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
+      // Close drawer and dropdown
+      closeProvSidebar();
+      closeProvUserDropdown();
+
+      // Trigger specific initializers
+      if (tab === 'market') {
+        renderProviderMarketCourses();
       } else if (tab === 'courses') {
         renderProviderCourses();
+      } else if (tab === 'gap-analytics') {
+        renderProviderSkillsTable(document.getElementById('provIndustrySelect')?.value || 'all');
+      } else if (tab === 'center-info') {
+        initProvCenterInfoForm();
+      } else if (tab === 'profile') {
+        initProvProfileForm();
       }
     }
+    // ══════════════════════════════════════════════════════════════════
+    // THỊ TRƯỜNG KHÓA HỌC DỮ LIỆU & CONTROLLER (KHỚP 100% ẢNH 1)
+    // ══════════════════════════════════════════════════════════════════
+    const PROV_MARKET_COURSES = [
+      {
+        id: 101,
+        title: 'Python for Everybody Specialization',
+        skill: 'Python',
+        industry: 'IT',
+        platform: 'Coursera',
+        avatarBg: '#0284c7',
+        avatarText: 'C',
+        isMine: false,
+        clicks: 214,
+        rating: 4.8,
+        url: 'https://coursera.org/specializations/python',
+        theme: { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' },
+        outcomes: 'Nắm vững cú pháp Python, xử lý dữ liệu với cấu trúc danh sách, từ điển và kết nối cơ sở dữ liệu SQLite.',
+        skills_acquired: 'Python, Lập trình hướng đối tượng, SQL cơ bản, Xử lý dữ liệu',
+        tools_acquired: 'Python 3, VS Code, SQLite Browser'
+      },
+      {
+        id: 1,
+        title: 'Python Backend thực chiến',
+        skill: 'Python',
+        industry: 'IT',
+        platform: 'Mekong Skills',
+        avatarBg: '#0d9488',
+        avatarText: 'M',
+        isMine: true,
+        clicks: 128,
+        rating: 4.9,
+        url: 'https://mekongskills.vn/khoa-hoc/python-backend',
+        theme: { bg: '#eff6ff', titleColor: '#1e3a8a', badgeColor: '#1e3a8a' },
+        outcomes: 'Xây dựng RESTful API chuyên nghiệp với FastAPI, tối ưu hóa truy vấn MySQL và triển khai ứng dụng lên Cloud.',
+        skills_acquired: 'Python, FastAPI, SQLAlchemy, RESTful API, Docker cơ bản',
+        tools_acquired: 'FastAPI, Docker, Postman, MySQL Workbench, Git'
+      },
+      {
+        id: 102,
+        title: 'Machine Learning Specialization',
+        skill: 'Machine Learning',
+        industry: 'IT',
+        platform: 'Coursera',
+        avatarBg: '#581c87',
+        avatarText: 'C',
+        isMine: false,
+        clicks: 187,
+        rating: 4.9,
+        url: 'https://coursera.org/specializations/machine-learning-introduction',
+        theme: { bg: '#f5f3ff', titleColor: '#581c87', badgeColor: '#581c87' },
+        outcomes: 'Hiểu bản chất các thuật toán Học máy có giám sát và không giám sát, xây dựng mô hình dự đoán thực tế.',
+        skills_acquired: 'Machine Learning, Scikit-Learn, Regression, Classification',
+        tools_acquired: 'Python, Jupyter Notebook, Scikit-Learn, NumPy'
+      },
+      {
+        id: 103,
+        title: 'Kế toán thuế doanh nghiệp 2026',
+        skill: 'Tax Compliance',
+        industry: 'economics',
+        platform: 'Hội Kế toán Cần Thơ',
+        avatarBg: '#b45309',
+        avatarText: 'H',
+        isMine: false,
+        clicks: 93,
+        rating: 4.7,
+        url: 'https://hoiketoancantho.vn',
+        theme: { bg: '#fff7ed', titleColor: '#9a3412', badgeColor: '#9a3412' },
+        outcomes: 'Nắm vững các quy định mới về thuế GTGT, thuế TNDN, quyết toán thuế cuối năm và lập báo cáo tài chính chuẩn.',
+        skills_acquired: 'Kế toán thuế, Báo cáo tài chính, Kê khai HTKK',
+        tools_acquired: 'Phần mềm MISA, HTKK, Excel kế toán'
+      },
+      {
+        id: 4,
+        title: 'Phân tích dữ liệu với Power BI',
+        skill: 'Data Analysis',
+        industry: 'economics',
+        platform: 'Mekong Skills',
+        avatarBg: '#0d9488',
+        avatarText: 'M',
+        isMine: true,
+        clicks: 61,
+        rating: 4.8,
+        url: 'https://mekongskills.vn/khoa-hoc/power-bi',
+        theme: { bg: '#fdf2f8', titleColor: '#9d174d', badgeColor: '#9d174d' },
+        outcomes: 'Thiết kế Dashboard báo cáo kinh doanh trực quan, viết biểu thức DAX nâng cao và kết nối đa nguồn dữ liệu.',
+        skills_acquired: 'Power BI, DAX, Data Modeling, Trực quan hóa dữ liệu',
+        tools_acquired: 'Power BI Desktop, Power Query, Excel'
+      },
+      {
+        id: 104,
+        title: 'Thủ tục hải quan VNACCS/VCIS',
+        skill: 'Customs Compliance',
+        industry: 'logistics',
+        platform: 'VCCI Cần Thơ',
+        avatarBg: '#0f766e',
+        avatarText: 'V',
+        isMine: false,
+        clicks: 76,
+        rating: 4.6,
+        url: 'https://vccicantho.vn',
+        theme: { bg: '#fefce8', titleColor: '#854d0e', badgeColor: '#854d0e' },
+        outcomes: 'Quy trình khai báo hải quan điện tử qua phần mềm ECUS5-VNACCS, thông quan hàng hóa xuất nhập khẩu thuận lợi.',
+        skills_acquired: 'Thủ tục hải quan, Logistics quốc tế, Khai báo VNACCS',
+        tools_acquired: 'ECUS5-VNACCS, Bộ chứng từ xuất nhập khẩu'
+      }
+    ];
+
+    let provMarketFilterUnit = 'all'; // 'all' | 'mine' | 'other'
+    let provMarketSearch = '';
+    let provMarketIndustry = 'all';
+    let provMarketSkill = 'all';
+
+    // ── DRAWER SIDEBAR CONTROLS (Nút icon mở/đóng, BỎ chữ Đóng & chữ Menu) ──
+    function toggleProvSidebar() {
+      const drawer = document.getElementById('provSidebarDrawer');
+      if (!drawer) return;
+      const isOpen = drawer.style.display === 'flex' && drawer.style.transform === 'translateX(0px)';
+      if (isOpen) {
+        closeProvSidebar();
+      } else {
+        openProvSidebar();
+      }
+    }
+
+    function openProvSidebar() {
+      const overlay = document.getElementById('provSidebarDrawerOverlay');
+      const drawer = document.getElementById('provSidebarDrawer');
+      if (overlay) overlay.style.display = 'block';
+      if (drawer) {
+        drawer.style.display = 'flex';
+        setTimeout(() => {
+          drawer.style.transform = 'translateX(0px)';
+        }, 10);
+      }
+    }
+
+    function closeProvSidebar() {
+      const overlay = document.getElementById('provSidebarDrawerOverlay');
+      const drawer = document.getElementById('provSidebarDrawer');
+      if (drawer) {
+        drawer.style.transform = 'translateX(-100%)';
+      }
+      if (overlay) {
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          if (drawer) drawer.style.display = 'none';
+        }, 220);
+      }
+    }
+
+    // ── USER DROPDOWN CONTROLS (Khớp 100% Ảnh 1) ──
+    function toggleProvUserDropdown(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('provUserDropdownMenu');
+      if (!menu) return;
+      const isShown = menu.style.display === 'block';
+      menu.style.display = isShown ? 'none' : 'block';
+    }
+
+    function closeProvUserDropdown() {
+      const menu = document.getElementById('provUserDropdownMenu');
+      if (menu) menu.style.display = 'none';
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('provUserDropdownMenu');
+      if (menu && menu.style.display === 'block' && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+
+    // ── THỊ TRƯỜNG KHÓA HỌC CONTROLLER ──
+    function provSetMarketUnitFilter(val) {
+      provMarketFilterUnit = val;
+      ['all', 'mine', 'other'].forEach(u => {
+        const btn = document.getElementById('btnProvMarketUnit_' + u);
+        if (btn) {
+          if (u === val) {
+            btn.style.background = '#0a5146';
+            btn.style.color = '#ffffff';
+            btn.style.borderColor = '#0a5146';
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#334155';
+            btn.style.borderColor = '#cbd5e1';
+          }
+        }
+      });
+      renderProviderMarketCourses();
+    }
+
+    function provOnMarketSearch(val) {
+      provMarketSearch = String(val || '').toLowerCase().trim();
+      renderProviderMarketCourses();
+    }
+
+    function provOnMarketIndustryChange(val) {
+      provMarketIndustry = val;
+      renderProviderMarketCourses();
+    }
+
+    function provOnMarketSkillChange(val) {
+      provMarketSkill = val;
+      renderProviderMarketCourses();
+    }
+
+    function provOnMarketUnitSelect(val) {
+      if (val === 'Mekong Skills') {
+        provSetMarketUnitFilter('mine');
+      } else if (val === 'all') {
+        provSetMarketUnitFilter('all');
+      } else {
+        provSetMarketUnitFilter('other');
+      }
+    }
+
+    function renderProviderMarketCourses() {
+      const grid = document.getElementById('provMarketCoursesGrid');
+      if (!grid) return;
+
+      const filtered = PROV_MARKET_COURSES.filter(c => {
+        // Unit filter
+        if (provMarketFilterUnit === 'mine' && !c.isMine) return false;
+        if (provMarketFilterUnit === 'other' && c.isMine) return false;
+
+        // Industry filter
+        if (provMarketIndustry !== 'all' && c.industry !== provMarketIndustry && c.industry !== 'all') return false;
+
+        // Skill filter
+        if (provMarketSkill !== 'all' && !c.skill.toLowerCase().includes(provMarketSkill.toLowerCase())) return false;
+
+        // Search text
+        if (provMarketSearch) {
+          const matchTitle = c.title.toLowerCase().includes(provMarketSearch);
+          const matchSkill = c.skill.toLowerCase().includes(provMarketSearch);
+          const matchPlat = c.platform.toLowerCase().includes(provMarketSearch);
+          if (!matchTitle && !matchSkill && !matchPlat) return false;
+        }
+
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1; background:#ffffff; border-radius:20px; border:1.5px dashed #cbd5e1; padding:48px 20px; text-align:center;">
+            <div style="font-size:36px; margin-bottom:10px;">🔍</div>
+            <div style="font-size:16px; font-weight:800; color:#0f172a; margin-bottom:4px;">Không tìm thấy khóa học phù hợp</div>
+            <div style="font-size:13px; color:#64748b;">Hãy thử điều chỉnh lại bộ lọc ngành nghề, kỹ năng hoặc từ khóa tìm kiếm.</div>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(c => {
+        const theme = c.theme || { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' };
+        const isMineBadge = c.isMine
+          ? `<span style="background:#0a5146; color:#5eead4; font-size:11px; font-weight:800; padding:3px 12px; border-radius:9999px;">Của bạn</span>`
+          : `<span style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:700; padding:3px 12px; border-radius:9999px;">Công khai</span>`;
+
+        const actionBtn = c.isMine
+          ? `<button onclick="switchProvTab('courses')" type="button" style="padding:9px 18px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#0f172a; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">Quản lý khóa học này</button>`
+          : `<button onclick="window.open('${c.url}', '_blank')" type="button" style="padding:9px 20px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:12px; font-weight:900; letter-spacing:0.5px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">TRUY CẬP KHÓA HỌC</button>`;
+
+        return `
+          <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between; gap:16px; transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.06)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 1px 4px rgba(0,0,0,0.03)'">
+            <div>
+              <!-- Top Tag Row -->
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <span style="background:${theme.bg}; color:${theme.badgeColor}; font-size:11.5px; font-weight:800; padding:3px 12px; border-radius:9999px;">
+                  ${c.skill}
+                </span>
+                ${isMineBadge}
+              </div>
+
+              <!-- Unit info -->
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <div style="width:24px; height:24px; border-radius:6px; background:${c.avatarBg || '#0d9488'}; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900;">
+                  ${c.avatarText || c.platform.charAt(0)}
+                </div>
+                <div style="font-size:12px; font-weight:700; color:#64748b;">
+                  ${c.platform}
+                </div>
+              </div>
+
+              <!-- Title -->
+              <h3 style="font-size:18px; font-weight:900; color:${c.isMine ? '#0a5146' : '#0f172a'}; line-height:1.35; margin:0 0 10px 0; min-height:48px;">
+                ${c.title}
+              </h3>
+            </div>
+
+            <!-- Stats & Action row -->
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-end; padding-top:14px; border-top:1px solid #f1f5f9; margin-bottom:16px;">
+                <div>
+                  <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:2px;">
+                    LƯỢT QUAN TÂM
+                  </div>
+                  <div style="font-size:18px; font-weight:900; color:#0f172a;">
+                    ${c.clicks}
+                  </div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:2px;">
+                    ĐƠN VỊ ĐÀO TẠO
+                  </div>
+                  <div style="font-size:12px; font-weight:700; color:#334155;">
+                    ${c.platform}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons Row (Khớp Ảnh 1) -->
+              <div style="display:flex; gap:10px; align-items:center;">
+                <button onclick="openCourseDetailModal(${c.id})" type="button" style="padding:9px 18px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+                  Chi tiết
+                </button>
+                ${actionBtn}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ── THÔNG TIN TRUNG TÂM CONTROLLER (KHỚP 100% ẢNH 3) ──
+    function initProvCenterInfoForm() {
+      const company = currentUser.company_name || 'Mekong Skills';
+      const about = currentUser.company_about || 'Mekong Skills là trung tâm đào tạo kỹ năng nghề tại Cần Thơ, tập trung vào lập trình, phân tích dữ liệu và ngoại ngữ cho sinh viên và người đi làm khu vực ĐBSCL.';
+      const logoUrl = currentUser.company_logo || 'https://mekongskills.vn/logo.png';
+
+      const inpName = document.getElementById('provCenterNameInput');
+      if (inpName) inpName.value = company;
+      const inpAbout = document.getElementById('provCenterAboutInput');
+      if (inpAbout) inpAbout.value = about;
+      const inpLogo = document.getElementById('provCenterLogoUrl');
+      if (inpLogo) inpLogo.value = logoUrl;
+
+      provSyncCenterPreview();
+    }
+
+    function provSyncCenterPreview() {
+      const name = document.getElementById('provCenterNameInput')?.value?.trim() || 'Mekong Skills';
+      const about = document.getElementById('provCenterAboutInput')?.value || '';
+      const initial = (name.charAt(0) || 'M').toUpperCase();
+
+      const previewAvatar = document.getElementById('provCenterPreviewAvatar');
+      if (previewAvatar) previewAvatar.textContent = initial;
+
+      const cardAvatar = document.getElementById('provCardLiveAvatar');
+      if (cardAvatar) cardAvatar.textContent = initial;
+
+      const previewName = document.getElementById('provLivePreviewName');
+      if (previewName) previewName.textContent = name;
+
+      const previewDesc = document.getElementById('provLivePreviewDesc');
+      if (previewDesc) previewDesc.textContent = about;
+
+      const countEl = document.getElementById('provCenterCharCount');
+      if (countEl) countEl.textContent = `${about.length} / 500 ký tự`;
+    }
+
+    function provSaveCenterInfo() {
+      const name = document.getElementById('provCenterNameInput')?.value?.trim();
+      const about = document.getElementById('provCenterAboutInput')?.value?.trim();
+      const logoUrl = document.getElementById('provCenterLogoUrl')?.value?.trim();
+
+      if (!name) {
+        alert('Vui lòng nhập tên trung tâm đào tạo!');
+        return;
+      }
+
+      currentUser.company_name = name;
+      currentUser.company_about = about;
+      currentUser.company_logo = logoUrl;
+
+      try {
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+        localStorage.setItem('provider_center_info', JSON.stringify({
+          company_name: name,
+          company_about: about,
+          company_logo: logoUrl
+        }));
+      } catch(e) {}
+
+      updateProviderPortalInfo();
+      alert('✅ Đã lưu thông tin trung tâm đào tạo thành công!');
+    }
+
+    function provCancelCenterInfo() {
+      initProvCenterInfoForm();
+    }
+
+    // ── HỒ SƠ CÁ NHÂN CONTROLLER ──
+    function initProvProfileForm() {
+      const name = currentUser.full_name || currentUser.display_name || 'Trần Thanh Hải';
+      const email = currentUser.email || 'hai.tran@mekongskills.vn';
+      const phone = currentUser.phone || '0912 345 678';
+      const company = currentUser.company_name || 'Mekong Skills';
+
+      const inpName = document.getElementById('provProfileNameInput');
+      if (inpName) inpName.value = name;
+      const inpEmail = document.getElementById('provProfileEmailInput');
+      if (inpEmail) inpEmail.value = email;
+      const inpPhone = document.getElementById('provProfilePhoneInput');
+      if (inpPhone) inpPhone.value = phone;
+
+      const sumName = document.getElementById('provProfileSummaryName');
+      if (sumName) sumName.textContent = name;
+      const sumEmail = document.getElementById('provProfileSummaryEmail');
+      if (sumEmail) sumEmail.textContent = email;
+      const sumComp = document.getElementById('provProfileSummaryCompany');
+      if (sumComp) sumComp.textContent = company;
+      const sumAvatar = document.getElementById('provProfileSummaryAvatar');
+      if (sumAvatar) sumAvatar.textContent = (name.charAt(0) || 'T').toUpperCase();
+    }
+
+    function provSaveProfileInfo() {
+      const repName = document.getElementById('provProfileNameInput')?.value?.trim();
+      const repEmail = document.getElementById('provProfileEmailInput')?.value?.trim();
+      const repPhone = document.getElementById('provProfilePhoneInput')?.value?.trim();
+      const oldPass = document.getElementById('provOldPassword')?.value;
+      const newPass = document.getElementById('provNewPassword')?.value;
+      const confirmPass = document.getElementById('provConfirmPassword')?.value;
+
+      if (!repName) {
+        alert('Vui lòng nhập tên người đại diện!');
+        return;
+      }
+      if (!repEmail) {
+        alert('Vui lòng nhập email đăng nhập!');
+        return;
+      }
+      if (newPass) {
+        if (newPass.length < 6) {
+          alert('Mật khẩu mới phải có tối thiểu 6 ký tự!');
+          return;
+        }
+        if (newPass !== confirmPass) {
+          alert('Mật khẩu xác nhận không khớp với mật khẩu mới!');
+          return;
+        }
+      }
+
+      currentUser.full_name = repName;
+      currentUser.display_name = repName;
+      currentUser.email = repEmail;
+      currentUser.phone = repPhone;
+
+      try {
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+        localStorage.setItem('provider_profile_info', JSON.stringify({
+          full_name: repName,
+          email: repEmail,
+          phone: repPhone
+        }));
+      } catch(e) {}
+
+      updateProviderPortalInfo();
+      initProvProfileForm();
+
+      if (document.getElementById('provOldPassword')) document.getElementById('provOldPassword').value = '';
+      if (document.getElementById('provNewPassword')) document.getElementById('provNewPassword').value = '';
+      if (document.getElementById('provConfirmPassword')) document.getElementById('provConfirmPassword').value = '';
+
+      alert('✅ Đã cập nhật hồ sơ cá nhân thành công!');
+    }
+
+    function provCancelProfileInfo() {
+      initProvProfileForm();
+    }
+
 
     function renderProviderSkillsTable(industry = 'all') {
       const tbody = document.getElementById('provSkillsTbody');

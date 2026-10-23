@@ -23,9 +23,12 @@ import EmployerCandidatesPage from '../pages/employer/EmployerCandidatesPage';
 import EmployerProfilePage from '../pages/employer/EmployerProfilePage';
 
 // ── 4. PROVIDER PAGES (Cổng Đơn Vị Đào Tạo / Trung Tâm Khóa Học) ──
+import ProviderMarketPage from '../pages/provider/ProviderMarketPage';
 import ProviderGapAnalyticsPage from '../pages/provider/ProviderGapAnalyticsPage';
 import ProviderCoursesPage from '../pages/provider/ProviderCoursesPage';
 import ProviderAnalyticsPage from '../pages/provider/ProviderAnalyticsPage';
+import ProviderCenterInfoPage from '../pages/provider/ProviderCenterInfoPage';
+import ProviderProfilePage from '../pages/provider/ProviderProfilePage';
 
 // ── 5. ADMIN PAGES (Cổng Quản Trị Hệ Thống) ──
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
@@ -115,10 +118,13 @@ export default function AppRouter() {
           </AuthGuard>
         }
       >
-        <Route index element={<Navigate to="/provider/gap-analytics" replace />} />
-        <Route path="gap-analytics" element={<ProviderGapAnalyticsPage />} />
+        <Route index element={<Navigate to="/provider/market" replace />} />
+        <Route path="market" element={<ProviderMarketPage />} />
         <Route path="courses" element={<ProviderCoursesPage />} />
+        <Route path="gap-analytics" element={<ProviderGapAnalyticsPage />} />
         <Route path="analytics" element={<ProviderAnalyticsPage />} />
+        <Route path="center-info" element={<ProviderCenterInfoPage />} />
+        <Route path="profile" element={<ProviderProfilePage />} />
       </Route>
 
       {/* Fallback điều hướng về trang chủ */}
