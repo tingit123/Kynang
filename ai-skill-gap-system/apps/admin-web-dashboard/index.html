@@ -5911,11 +5911,13 @@
             <!-- Dropdowns -->
             <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
               <select id="provMarketIndustrySelect" onchange="provOnMarketIndustryChange(this.value)" style="padding:9px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:140px;">
-                <option value="all">Mọi ngành</option>
+                <option value="all">Mọi ngành nghề</option>
                 <option value="IT">IT &amp; Công nghệ</option>
                 <option value="tourism">Du lịch &amp; Khách sạn</option>
                 <option value="logistics">Logistics &amp; XNK</option>
                 <option value="economics">Kinh tế &amp; Tài chính</option>
+                <option value="agriculture">Nông nghiệp CNC</option>
+                <option value="softskills">Kỹ năng mềm</option>
               </select>
 
               <select id="provMarketSkillSelect" onchange="provOnMarketSkillChange(this.value)" style="padding:9px 18px; border-radius:9999px; border:1px solid #cbd5e1; font-size:13px; font-weight:700; color:#0f172a; background:#ffffff; cursor:pointer; outline:none; min-width:140px;">
@@ -5940,24 +5942,24 @@
           <!-- Bottom Row: Filter Pills & Display range -->
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <div style="display:flex; align-items:center; gap:8px;">
-              <button id="btnProvMarketUnit_all" onclick="provSetMarketUnitFilter('all')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #0a5146; background:#0a5146; color:#ffffff; font-size:12.5px; font-weight:800; cursor:pointer;">
+              <button id="btnProvMarketUnit_all" onclick="provSetMarketUnitFilter('all')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #0a5146; background:#0a5146; color:#ffffff; font-size:12.5px; font-weight:800; cursor:pointer; transition:all 0.15s;">
                 <span>Tất cả đơn vị</span>
-                <span style="background:rgba(255,255,255,0.25); color:#ffffff; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">118</span>
+                <span id="provMarketCount_all" style="background:rgba(255,255,255,0.25); color:#ffffff; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">0</span>
               </button>
 
-              <button id="btnProvMarketUnit_mine" onclick="provSetMarketUnitFilter('mine')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:700; cursor:pointer;">
+              <button id="btnProvMarketUnit_mine" onclick="provSetMarketUnitFilter('mine')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.15s;">
                 <span>Của tôi</span>
-                <span style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">4</span>
+                <span id="provMarketCount_mine" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">0</span>
               </button>
 
-              <button id="btnProvMarketUnit_other" onclick="provSetMarketUnitFilter('other')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:700; cursor:pointer;">
+              <button id="btnProvMarketUnit_other" onclick="provSetMarketUnitFilter('other')" type="button" style="display:inline-flex; align-items:center; gap:6px; padding:7px 16px; border-radius:9999px; border:1px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.15s;">
                 <span>Đơn vị khác</span>
-                <span style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">114</span>
+                <span id="provMarketCount_other" style="background:#f1f5f9; color:#475569; font-size:11px; font-weight:800; padding:1px 7px; border-radius:9999px;">0</span>
               </button>
             </div>
 
-            <div style="font-size:12px; font-weight:700; color:#64748b;">
-              Hiển thị <strong style="color:#0f172a;">1–6</strong> trong <strong style="color:#0f172a;">118</strong> khóa học công khai
+            <div id="provMarketRangeText" style="font-size:12px; font-weight:700; color:#64748b;">
+              Đang tải danh sách khóa học...
             </div>
           </div>
         </div>
@@ -5967,16 +5969,8 @@
           <!-- Rendered via JS -->
         </div>
 
-        <!-- Pagination (Khớp Ảnh 1: < 1 2 3 ... 20 >) -->
-        <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin-top:20px; font-size:13px; font-weight:700; color:#64748b;">
-          <span style="cursor:pointer; padding:6px 10px;">&lsaquo;</span>
-          <span style="cursor:pointer; padding:6px 10px; color:#0a5146; font-weight:900;">1</span>
-          <span style="cursor:pointer; padding:6px 10px;">2</span>
-          <span style="cursor:pointer; padding:6px 10px;">3</span>
-          <span>...</span>
-          <span style="cursor:pointer; padding:6px 10px;">20</span>
-          <span style="cursor:pointer; padding:6px 10px;">&rsaquo;</span>
-        </div>
+        <!-- Dynamic Pagination Container -->
+        <div id="provMarketPaginationContainer" style="display:flex; justify-content:center; align-items:center; margin-top:24px;"></div>
       </div>
 
       <!-- ══════════════════════════════════════════════════════════════ -->
@@ -16452,117 +16446,91 @@
       }
     }
     // ══════════════════════════════════════════════════════════════════
-    // THỊ TRƯỜNG KHÓA HỌC DỮ LIỆU & CONTROLLER (KHỚP 100% ẢNH 1)
+    // THỊ TRƯỜNG KHÓA HỌC DỮ LIỆU & CONTROLLER (TÍCH HỢP TẤT CẢ KHÓA HỌC CÓ SẴN CỦA DỰ ÁN)
     // ══════════════════════════════════════════════════════════════════
-    const PROV_MARKET_COURSES = [
-      {
-        id: 101,
-        title: 'Python for Everybody Specialization',
-        skill: 'Python',
-        industry: 'IT',
-        platform: 'Coursera',
-        avatarBg: '#0284c7',
-        avatarText: 'C',
-        isMine: false,
-        clicks: 214,
-        rating: 4.8,
-        url: 'https://coursera.org/specializations/python',
-        theme: { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' },
-        outcomes: 'Nắm vững cú pháp Python, xử lý dữ liệu với cấu trúc danh sách, từ điển và kết nối cơ sở dữ liệu SQLite.',
-        skills_acquired: 'Python, Lập trình hướng đối tượng, SQL cơ bản, Xử lý dữ liệu',
-        tools_acquired: 'Python 3, VS Code, SQLite Browser'
-      },
-      {
-        id: 1,
-        title: 'Python Backend thực chiến',
-        skill: 'Python',
-        industry: 'IT',
-        platform: 'Mekong Skills',
-        avatarBg: '#0d9488',
-        avatarText: 'M',
-        isMine: true,
-        clicks: 128,
-        rating: 4.9,
-        url: 'https://mekongskills.vn/khoa-hoc/python-backend',
-        theme: { bg: '#eff6ff', titleColor: '#1e3a8a', badgeColor: '#1e3a8a' },
-        outcomes: 'Xây dựng RESTful API chuyên nghiệp với FastAPI, tối ưu hóa truy vấn MySQL và triển khai ứng dụng lên Cloud.',
-        skills_acquired: 'Python, FastAPI, SQLAlchemy, RESTful API, Docker cơ bản',
-        tools_acquired: 'FastAPI, Docker, Postman, MySQL Workbench, Git'
-      },
-      {
-        id: 102,
-        title: 'Machine Learning Specialization',
-        skill: 'Machine Learning',
-        industry: 'IT',
-        platform: 'Coursera',
-        avatarBg: '#581c87',
-        avatarText: 'C',
-        isMine: false,
-        clicks: 187,
-        rating: 4.9,
-        url: 'https://coursera.org/specializations/machine-learning-introduction',
-        theme: { bg: '#f5f3ff', titleColor: '#581c87', badgeColor: '#581c87' },
-        outcomes: 'Hiểu bản chất các thuật toán Học máy có giám sát và không giám sát, xây dựng mô hình dự đoán thực tế.',
-        skills_acquired: 'Machine Learning, Scikit-Learn, Regression, Classification',
-        tools_acquired: 'Python, Jupyter Notebook, Scikit-Learn, NumPy'
-      },
-      {
-        id: 103,
-        title: 'Kế toán thuế doanh nghiệp 2026',
-        skill: 'Tax Compliance',
-        industry: 'economics',
-        platform: 'Hội Kế toán Cần Thơ',
-        avatarBg: '#b45309',
-        avatarText: 'H',
-        isMine: false,
-        clicks: 93,
-        rating: 4.7,
-        url: 'https://hoiketoancantho.vn',
-        theme: { bg: '#fff7ed', titleColor: '#9a3412', badgeColor: '#9a3412' },
-        outcomes: 'Nắm vững các quy định mới về thuế GTGT, thuế TNDN, quyết toán thuế cuối năm và lập báo cáo tài chính chuẩn.',
-        skills_acquired: 'Kế toán thuế, Báo cáo tài chính, Kê khai HTKK',
-        tools_acquired: 'Phần mềm MISA, HTKK, Excel kế toán'
-      },
-      {
-        id: 4,
-        title: 'Phân tích dữ liệu với Power BI',
-        skill: 'Data Analysis',
-        industry: 'economics',
-        platform: 'Mekong Skills',
-        avatarBg: '#0d9488',
-        avatarText: 'M',
-        isMine: true,
-        clicks: 61,
-        rating: 4.8,
-        url: 'https://mekongskills.vn/khoa-hoc/power-bi',
-        theme: { bg: '#fdf2f8', titleColor: '#9d174d', badgeColor: '#9d174d' },
-        outcomes: 'Thiết kế Dashboard báo cáo kinh doanh trực quan, viết biểu thức DAX nâng cao và kết nối đa nguồn dữ liệu.',
-        skills_acquired: 'Power BI, DAX, Data Modeling, Trực quan hóa dữ liệu',
-        tools_acquired: 'Power BI Desktop, Power Query, Excel'
-      },
-      {
-        id: 104,
-        title: 'Thủ tục hải quan VNACCS/VCIS',
-        skill: 'Customs Compliance',
-        industry: 'logistics',
-        platform: 'VCCI Cần Thơ',
-        avatarBg: '#0f766e',
-        avatarText: 'V',
-        isMine: false,
-        clicks: 76,
-        rating: 4.6,
-        url: 'https://vccicantho.vn',
-        theme: { bg: '#fefce8', titleColor: '#854d0e', badgeColor: '#854d0e' },
-        outcomes: 'Quy trình khai báo hải quan điện tử qua phần mềm ECUS5-VNACCS, thông quan hàng hóa xuất nhập khẩu thuận lợi.',
-        skills_acquired: 'Thủ tục hải quan, Logistics quốc tế, Khai báo VNACCS',
-        tools_acquired: 'ECUS5-VNACCS, Bộ chứng từ xuất nhập khẩu'
-      }
-    ];
-
     let provMarketFilterUnit = 'all'; // 'all' | 'mine' | 'other'
     let provMarketSearch = '';
     let provMarketIndustry = 'all';
     let provMarketSkill = 'all';
+    let provMarketCurrentPage = 1;
+    const provMarketPageSize = 6;
+
+    // ── HÀM LẤY TOÀN BỘ KHÓA HỌC THẬT ĐANG CÓ TRONG HỆ THỐNG ──
+    function getProvMarketCoursesList() {
+      const result = [];
+      const seenTitles = new Set();
+
+      // 1. Khóa học của chính đơn vị hiện tại (Mekong Skills / provCoursesList)
+      if (Array.isArray(provCoursesList) && provCoursesList.length > 0) {
+        provCoursesList.forEach((c, idx) => {
+          const rawTitle = (c.title || c.course_name || '').trim();
+          if (!rawTitle || seenTitles.has(rawTitle.toLowerCase())) return;
+          seenTitles.add(rawTitle.toLowerCase());
+
+          result.push({
+            id: c.id || ('mine_' + idx),
+            title: rawTitle,
+            skill: c.skill || c.skill_name || 'Kỹ năng chuyên môn',
+            industry: c.industry || 'IT',
+            platform: c.platform || 'Mekong Skills',
+            provider: c.provider || c.platform || 'Mekong Skills',
+            avatarBg: '#0d9488',
+            avatarText: (c.platform || 'Mekong Skills').trim().charAt(0).toUpperCase() || 'M',
+            isMine: true,
+            clicks: c.clicks || c.click_count || (120 + (idx * 15)),
+            rating: c.rating || 4.9,
+            url: c.url || 'https://mekongskills.vn',
+            theme: { bg: '#eff6ff', titleColor: '#1e3a8a', badgeColor: '#1e3a8a' },
+            outcomes: c.outcomes || 'Trang bị kỹ năng nghề thực chiến cho học viên khu vực ĐBSCL.',
+            skills_acquired: c.skills_acquired || c.skill || 'Kỹ năng ứng dụng',
+            tools_acquired: c.tools_acquired || 'Công cụ thực hành chuyên sâu'
+          });
+        });
+      }
+
+      // 2. Toàn bộ 36 khóa học công khai có sẵn trong dự án (COURSES_DATA)
+      if (typeof COURSES_DATA !== 'undefined' && Array.isArray(COURSES_DATA)) {
+        COURSES_DATA.forEach((c, idx) => {
+          const rawTitle = (c.title || '').trim();
+          if (!rawTitle || seenTitles.has(rawTitle.toLowerCase())) return;
+          seenTitles.add(rawTitle.toLowerCase());
+
+          const details = (typeof COURSE_DETAILS_DATA !== 'undefined' && COURSE_DETAILS_DATA[c.id]) || {};
+          const platformName = c.platform || c.provider || 'Coursera';
+          const initial = (platformName.trim().charAt(0) || 'C').toUpperCase();
+
+          // Palette màu nhận diện đẹp mắt
+          const palette = ['#0284c7', '#581c87', '#15803d', '#d97706', '#b91c1c', '#4338ca', '#0f766e', '#be185d'];
+          const avatarBg = c.color || palette[idx % palette.length];
+
+          // Xác định isMine nếu là Mekong Skills
+          const isMine = (platformName.toLowerCase().includes('mekong') || (c.provider && c.provider.toLowerCase().includes('mekong')));
+
+          result.push({
+            id: c.id,
+            title: rawTitle,
+            skill: c.skill || 'Kỹ năng chuyên môn',
+            industry: c.industry || 'IT',
+            platform: platformName,
+            provider: c.provider || platformName,
+            avatarBg: avatarBg,
+            avatarText: initial,
+            isMine: isMine,
+            clicks: Math.floor(75 + ((idx * 37 + 13) % 245)),
+            rating: c.rating || 4.8,
+            url: c.url || 'https://coursera.org',
+            theme: isMine
+              ? { bg: '#eff6ff', titleColor: '#1e3a8a', badgeColor: '#1e3a8a' }
+              : { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' },
+            outcomes: Array.isArray(details.outcomes) ? details.outcomes.slice(0, 3).join(', ') : (details.outcomes || ''),
+            skills_acquired: Array.isArray(details.skills) ? details.skills.join(', ') : (details.skills || c.skill || ''),
+            tools_acquired: Array.isArray(details.tools) ? details.tools.join(', ') : (details.tools || '')
+          });
+        });
+      }
+
+      return result;
+    }
 
     // ── DRAWER SIDEBAR CONTROLS (Nút icon mở/đóng, BỎ chữ Đóng & chữ Menu) ──
     function toggleProvSidebar() {
@@ -16623,9 +16591,10 @@
       }
     });
 
-    // ── THỊ TRƯỜNG KHÓA HỌC CONTROLLER ──
+    // ── THỊ TRƯỜNG KHÓA HỌC CONTROLLERS & PHÂN TRANG ĐỘNG ──
     function provSetMarketUnitFilter(val) {
       provMarketFilterUnit = val;
+      provMarketCurrentPage = 1; // Reset trang về 1
       ['all', 'mine', 'other'].forEach(u => {
         const btn = document.getElementById('btnProvMarketUnit_' + u);
         if (btn) {
@@ -16645,20 +16614,24 @@
 
     function provOnMarketSearch(val) {
       provMarketSearch = String(val || '').toLowerCase().trim();
+      provMarketCurrentPage = 1;
       renderProviderMarketCourses();
     }
 
     function provOnMarketIndustryChange(val) {
       provMarketIndustry = val;
+      provMarketCurrentPage = 1;
       renderProviderMarketCourses();
     }
 
     function provOnMarketSkillChange(val) {
       provMarketSkill = val;
+      provMarketCurrentPage = 1;
       renderProviderMarketCourses();
     }
 
     function provOnMarketUnitSelect(val) {
+      provMarketCurrentPage = 1;
       if (val === 'Mekong Skills') {
         provSetMarketUnitFilter('mine');
       } else if (val === 'all') {
@@ -16668,44 +16641,175 @@
       }
     }
 
+    function provGoToMarketPage(p) {
+      provMarketCurrentPage = p;
+      renderProviderMarketCourses();
+      const grid = document.getElementById('provMarketCoursesGrid');
+      if (grid) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // ── HÀM VẼ GIAO DIỆN PHÂN TRANG THỰC TẾ ──
+    function renderProvMarketPagination(totalFiltered, currentPage, totalPages) {
+      const container = document.getElementById('provMarketPaginationContainer');
+      if (!container) return;
+
+      if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let html = `<div style="display:flex; justify-content:center; align-items:center; gap:8px; font-size:13px; font-weight:700; color:#64748b; user-select:none;">`;
+
+      // Nút Lùi (Prev)
+      const prevDisabled = currentPage <= 1;
+      html += `
+        <button type="button" onclick="${prevDisabled ? '' : 'provGoToMarketPage(' + (currentPage - 1) + ')'}" 
+          style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid #e2e8f0; background:${prevDisabled ? '#f8fafc' : '#ffffff'}; color:${prevDisabled ? '#cbd5e1' : '#0f172a'}; cursor:${prevDisabled ? 'not-allowed' : 'pointer'}; transition:all 0.15s; font-size:16px; font-weight:800;" 
+          ${prevDisabled ? 'disabled' : ''} title="Trang trước">
+          &lsaquo;
+        </button>
+      `;
+
+      // Các trang
+      const pages = [];
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (currentPage > 3) pages.push('...');
+        const start = Math.max(2, currentPage - 1);
+        const end = Math.min(totalPages - 1, currentPage + 1);
+        for (let i = start; i <= end; i++) {
+          pages.push(i);
+        }
+        if (currentPage < totalPages - 2) pages.push('...');
+        pages.push(totalPages);
+      }
+
+      pages.forEach(p => {
+        if (p === '...') {
+          html += `<span style="padding:4px 6px; color:#94a3b8; font-weight:800;">...</span>`;
+        } else {
+          const isActive = p === currentPage;
+          html += `
+            <button type="button" onclick="provGoToMarketPage(${p})" 
+              style="display:inline-flex; align-items:center; justify-content:center; min-width:36px; height:36px; padding:0 8px; border-radius:12px; border:1.5px solid ${isActive ? '#0a5146' : '#e2e8f0'}; background:${isActive ? '#0a5146' : '#ffffff'}; color:${isActive ? '#ffffff' : '#0f172a'}; font-weight:${isActive ? '900' : '700'}; cursor:pointer; transition:all 0.15s; box-shadow:${isActive ? '0 2px 6px rgba(10,81,70,0.25)' : 'none'};" 
+              onmouseover="if(!${isActive}) this.style.background='#f8fafc'" onmouseout="if(!${isActive}) this.style.background='#ffffff'">
+              ${p}
+            </button>
+          `;
+        }
+      });
+
+      // Nút Tiến (Next)
+      const nextDisabled = currentPage >= totalPages;
+      html += `
+        <button type="button" onclick="${nextDisabled ? '' : 'provGoToMarketPage(' + (currentPage + 1) + ')'}" 
+          style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid #e2e8f0; background:${nextDisabled ? '#f8fafc' : '#ffffff'}; color:${nextDisabled ? '#cbd5e1' : '#0f172a'}; cursor:${nextDisabled ? 'not-allowed' : 'pointer'}; transition:all 0.15s; font-size:16px; font-weight:800;" 
+          ${nextDisabled ? 'disabled' : ''} title="Trang sau">
+          &rsaquo;
+        </button>
+      `;
+
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    // ── HÀM RENDER KHÓA HỌC THỊ TRƯỜNG VỚI DỮ LIỆU THẬT & ĐẾM ĐỘNG ──
     function renderProviderMarketCourses() {
       const grid = document.getElementById('provMarketCoursesGrid');
       if (!grid) return;
 
-      const filtered = PROV_MARKET_COURSES.filter(c => {
-        // Unit filter
+      // 1. Lấy toàn bộ khóa học có sẵn trong hệ thống
+      const allCourses = getProvMarketCoursesList();
+
+      // 2. Cập nhật số lượng trên các nút Pill Đơn vị
+      const countAll = allCourses.length;
+      const countMine = allCourses.filter(c => c.isMine).length;
+      const countOther = allCourses.filter(c => !c.isMine).length;
+
+      const elCountAll = document.getElementById('provMarketCount_all');
+      if (elCountAll) elCountAll.textContent = countAll;
+
+      const elCountMine = document.getElementById('provMarketCount_mine');
+      if (elCountMine) elCountMine.textContent = countMine;
+
+      const elCountOther = document.getElementById('provMarketCount_other');
+      if (elCountOther) elCountOther.textContent = countOther;
+
+      // 3. Thực hiện lọc danh sách
+      const filtered = allCourses.filter(c => {
+        // Lọc đơn vị (Unit pill)
         if (provMarketFilterUnit === 'mine' && !c.isMine) return false;
         if (provMarketFilterUnit === 'other' && c.isMine) return false;
 
-        // Industry filter
-        if (provMarketIndustry !== 'all' && c.industry !== provMarketIndustry && c.industry !== 'all') return false;
+        // Lọc ngành nghề
+        if (provMarketIndustry !== 'all') {
+          const courseInd = String(c.industry || '').toLowerCase();
+          const targetInd = provMarketIndustry.toLowerCase();
+          if (courseInd !== targetInd && courseInd !== 'all') return false;
+        }
 
-        // Skill filter
-        if (provMarketSkill !== 'all' && !c.skill.toLowerCase().includes(provMarketSkill.toLowerCase())) return false;
+        // Lọc kỹ năng
+        if (provMarketSkill !== 'all') {
+          const courseSkill = String(c.skill || '').toLowerCase();
+          const targetSkill = provMarketSkill.toLowerCase();
+          if (!courseSkill.includes(targetSkill)) return false;
+        }
 
-        // Search text
+        // Tìm kiếm theo từ khóa
         if (provMarketSearch) {
-          const matchTitle = c.title.toLowerCase().includes(provMarketSearch);
-          const matchSkill = c.skill.toLowerCase().includes(provMarketSearch);
-          const matchPlat = c.platform.toLowerCase().includes(provMarketSearch);
-          if (!matchTitle && !matchSkill && !matchPlat) return false;
+          const q = provMarketSearch;
+          const matchTitle = (c.title || '').toLowerCase().includes(q);
+          const matchSkill = (c.skill || '').toLowerCase().includes(q);
+          const matchPlat = (c.platform || '').toLowerCase().includes(q);
+          const matchProv = (c.provider || '').toLowerCase().includes(q);
+          if (!matchTitle && !matchSkill && !matchPlat && !matchProv) return false;
         }
 
         return true;
       });
 
-      if (filtered.length === 0) {
+      // 4. Tính toán phân trang
+      const totalFiltered = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(totalFiltered / provMarketPageSize));
+      if (provMarketCurrentPage > totalPages) {
+        provMarketCurrentPage = totalPages;
+      }
+
+      // 5. Cập nhật dòng hiển thị số lượng "Hiển thị X-Y trong Z khóa học công khai"
+      const elRangeText = document.getElementById('provMarketRangeText');
+      if (elRangeText) {
+        if (totalFiltered === 0) {
+          elRangeText.innerHTML = `Hiển thị <strong style="color:#0f172a;">0</strong> trong <strong style="color:#0f172a;">0</strong> khóa học công khai`;
+        } else {
+          const startIndex = (provMarketCurrentPage - 1) * provMarketPageSize;
+          const endIndex = Math.min(startIndex + provMarketPageSize, totalFiltered);
+          elRangeText.innerHTML = `Hiển thị <strong style="color:#0f172a;">${startIndex + 1}–${endIndex}</strong> trong <strong style="color:#0f172a;">${totalFiltered}</strong> khóa học công khai`;
+        }
+      }
+
+      // 6. Xử lý trường hợp không tìm thấy kết quả
+      if (totalFiltered === 0) {
         grid.innerHTML = `
-          <div style="grid-column:1/-1; background:#ffffff; border-radius:20px; border:1.5px dashed #cbd5e1; padding:48px 20px; text-align:center;">
-            <div style="font-size:36px; margin-bottom:10px;">🔍</div>
-            <div style="font-size:16px; font-weight:800; color:#0f172a; margin-bottom:4px;">Không tìm thấy khóa học phù hợp</div>
+          <div style="grid-column:1/-1; background:#ffffff; border-radius:24px; border:1.5px dashed #cbd5e1; padding:54px 20px; text-align:center;">
+            <div style="font-size:40px; margin-bottom:12px;">🔍</div>
+            <div style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:4px;">Không tìm thấy khóa học phù hợp</div>
             <div style="font-size:13px; color:#64748b;">Hãy thử điều chỉnh lại bộ lọc ngành nghề, kỹ năng hoặc từ khóa tìm kiếm.</div>
           </div>
         `;
+        renderProvMarketPagination(0, 1, 1);
         return;
       }
 
-      grid.innerHTML = filtered.map(c => {
+      // 7. Lấy danh sách khóa học cho trang hiện tại
+      const startIndex = (provMarketCurrentPage - 1) * provMarketPageSize;
+      const pageCourses = filtered.slice(startIndex, startIndex + provMarketPageSize);
+
+      // 8. Render các thẻ khóa học
+      grid.innerHTML = pageCourses.map(c => {
         const theme = c.theme || { bg: '#e6f7f5', titleColor: '#0a5146', badgeColor: '#0a5146' };
         const isMineBadge = c.isMine
           ? `<span style="background:#0a5146; color:#5eead4; font-size:11px; font-weight:800; padding:3px 12px; border-radius:9999px;">Của bạn</span>`
@@ -16714,6 +16818,8 @@
         const actionBtn = c.isMine
           ? `<button onclick="switchProvTab('courses')" type="button" style="padding:9px 18px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#0f172a; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">Quản lý khóa học này</button>`
           : `<button onclick="window.open('${c.url}', '_blank')" type="button" style="padding:9px 20px; border-radius:9999px; border:none; background:#0a5146; color:#ffffff; font-size:12px; font-weight:900; letter-spacing:0.5px; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#073d35'" onmouseout="this.style.background='#0a5146'">TRUY CẬP KHÓA HỌC</button>`;
+
+        const courseIdArg = typeof c.id === 'string' ? `'${c.id}'` : c.id;
 
         return `
           <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:22px 24px; box-shadow:0 1px 4px rgba(0,0,0,0.03); display:flex; flex-direction:column; justify-content:space-between; gap:16px; transition:transform 0.15s, box-shadow 0.15s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.06)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 1px 4px rgba(0,0,0,0.03)'">
@@ -16731,13 +16837,13 @@
                 <div style="width:24px; height:24px; border-radius:6px; background:${c.avatarBg || '#0d9488'}; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900;">
                   ${c.avatarText || c.platform.charAt(0)}
                 </div>
-                <div style="font-size:12px; font-weight:700; color:#64748b;">
+                <div style="font-size:12px; font-weight:700; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                   ${c.platform}
                 </div>
               </div>
 
               <!-- Title -->
-              <h3 style="font-size:18px; font-weight:900; color:${c.isMine ? '#0a5146' : '#0f172a'}; line-height:1.35; margin:0 0 10px 0; min-height:48px;">
+              <h3 style="font-size:17px; font-weight:900; color:${c.isMine ? '#0a5146' : '#0f172a'}; line-height:1.35; margin:0 0 10px 0; min-height:46px;">
                 ${c.title}
               </h3>
             </div>
@@ -16757,15 +16863,15 @@
                   <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:2px;">
                     ĐƠN VỊ ĐÀO TẠO
                   </div>
-                  <div style="font-size:12px; font-weight:700; color:#334155;">
+                  <div style="font-size:12px; font-weight:700; color:#334155; max-width:160px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                     ${c.platform}
                   </div>
                 </div>
               </div>
 
-              <!-- Action Buttons Row (Khớp Ảnh 1) -->
+              <!-- Action Buttons Row -->
               <div style="display:flex; gap:10px; align-items:center;">
-                <button onclick="openCourseDetailModal(${c.id})" type="button" style="padding:9px 18px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
+                <button onclick="provViewMarketCourseDetails(${courseIdArg})" type="button" style="padding:9px 18px; border-radius:9999px; border:1.5px solid #cbd5e1; background:#ffffff; color:#334155; font-size:12px; font-weight:800; cursor:pointer; transition:all 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#ffffff'">
                   Chi tiết
                 </button>
                 ${actionBtn}
@@ -16774,6 +16880,67 @@
           </div>
         `;
       }).join('');
+
+      // 9. Render thanh phân trang
+      renderProvMarketPagination(totalFiltered, provMarketCurrentPage, totalPages);
+    }
+
+    // ── XEM CHI TIẾT KHÓA HỌC TRÊN THỊ TRƯỜNG ──
+    function provViewMarketCourseDetails(courseId) {
+      if (typeof openCourseDetailModal === 'function') {
+        const found = (typeof COURSES_DATA !== 'undefined' && COURSES_DATA.find(c => c.id === courseId));
+        if (found) {
+          openCourseDetailModal(courseId);
+          return;
+        }
+      }
+
+      // Nếu là khóa học của provider (provCoursesList)
+      const all = getProvMarketCoursesList();
+      const c = all.find(item => item.id == courseId || item.id === courseId);
+      if (c) {
+        // Điền vào modal courseDetailModal nếu có
+        const modal = document.getElementById('courseDetailModal');
+        if (modal) {
+          const skillBadge = document.getElementById('cdmSkillBadge');
+          if (skillBadge) skillBadge.textContent = c.skill || 'Khóa học';
+
+          const provEl = document.getElementById('cdmProvider');
+          if (provEl) provEl.textContent = c.platform || c.provider || 'Mekong Skills';
+
+          const titleEl = document.getElementById('cdmTitle');
+          if (titleEl) titleEl.textContent = c.title;
+
+          const durEl = document.getElementById('cdmDuration');
+          if (durEl) durEl.textContent = 'Khóa học theo lộ trình thực chiến';
+
+          const priceEl = document.getElementById('cdmPrice');
+          if (priceEl) priceEl.textContent = 'Miễn phí';
+
+          const outcomesEl = document.getElementById('cdmOutcomesList');
+          if (outcomesEl) {
+            outcomesEl.innerHTML = `<li>${c.outcomes || 'Nắm vững kỹ năng nền tảng và chuyên môn ứng dụng.'}</li>`;
+          }
+
+          const skillsEl = document.getElementById('cdmSkillsAcquiredList');
+          if (skillsEl) {
+            skillsEl.innerHTML = `<span style="background:#e0f2fe; color:#0369a1; padding:4px 10px; border-radius:9999px; font-size:11px; font-weight:800;">${c.skills_acquired || c.skill}</span>`;
+          }
+
+          const toolsEl = document.getElementById('cdmToolsList');
+          if (toolsEl) {
+            toolsEl.innerHTML = `<span style="background:#f1f5f9; color:#475569; padding:4px 10px; border-radius:9999px; font-size:11px; font-weight:800;">${c.tools_acquired || 'Công cụ chuyên ngành'}</span>`;
+          }
+
+          modal.style.display = 'flex';
+          return;
+        }
+      }
+
+      // Fallback
+      if (typeof openCourseDetailModal === 'function') {
+        openCourseDetailModal(courseId);
+      }
     }
 
     // ── THÔNG TIN TRUNG TÂM CONTROLLER (KHỚP 100% ẢNH 3) ──
