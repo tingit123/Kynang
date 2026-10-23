@@ -6232,16 +6232,6 @@
         <div class="public-nav-right" id="publicNavRight">
           <!-- 1. Trạng thái Chưa đăng nhập (Guest) -->
           <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:8px">
-            <button onclick="openAppliedDrawer()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);font-weight:600;font-size:12px;padding:7px 15px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px;display:inline-flex;align-items:center;gap:5px" title="Danh sách việc làm bạn đã nộp hồ sơ">
-              <span>📋</span> Việc đã nộp <span class="pubAppliedBadge" style="background:#0d9488;color:#ffffff;border-radius:9999px;padding:1px 6px;font-size:10px;font-weight:800;display:inline-block">0</span>
-            </button>
-            <button onclick="openSavedJobsDrawer()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);font-weight:600;font-size:12px;padding:7px 15px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px;display:inline-flex;align-items:center;gap:5px" title="Danh sách việc làm bạn đã lưu">
-              <span style="color:#f59e0b">★</span> Tin đã lưu <span class="pubSavedCountBadge" style="background:#f59e0b;color:#ffffff;border-radius:9999px;padding:1px 6px;font-size:10px;font-weight:800;display:inline-block">0</span>
-            </button>
-            <button onclick="toggleNotificationDropdown(event)" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);border-radius:50%;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all 0.15s" title="Thông báo ứng tuyển">
-              <span style="font-size:15px">🔔</span>
-              <span class="notifBadge" style="position:absolute;top:-2px;right:-2px;background:#ef4444;color:#ffffff;border-radius:9999px;font-size:9.5px;font-weight:900;padding:1px 5px;min-width:12px;text-align:center;display:none;border:1.5px solid #042f2e">0</span>
-            </button>
             <button onclick="handleEmployerPortalClick()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);font-weight:600;font-size:12px;padding:7px 15px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px">
               Đăng tuyển &amp; tìm hồ sơ
             </button>
@@ -7168,6 +7158,16 @@
     };
 
     let authCheckedUser = null;
+    // currentUser is initialized at the top of script
+    if (typeof currentUser === 'undefined') {
+      window.currentUser = {
+        is_guest: true,
+        id: 0,
+        username: 'guest',
+        full_name: 'Khách',
+        role: 'guest'
+      };
+    }
 
     async function checkAuthAndProtectDashboard() {
       try {
@@ -9794,23 +9794,74 @@
       return list;
     }
 
+    function isCandidateGuest() {
+      const u = (typeof currentUser !== 'undefined' && currentUser) ? currentUser : null;
+      if (!u) {
+        try {
+          const raw = localStorage.getItem('current_user');
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && !parsed.is_guest && parsed.role !== 'guest' && (parsed.id || parsed.user_id)) {
+              currentUser = parsed;
+              return false;
+            }
+          }
+        } catch (e) {}
+        return true;
+      }
+      if (u.is_guest) return true;
+      const role = String(u.role || 'guest').toLowerCase().trim().replace('userrole.', '');
+      if (role === 'guest') return true;
+      if (!u.id && !u.user_id) return true;
+      return false;
+    }
+
+    function getCandidateUserKey() {
+      if (isCandidateGuest()) return null;
+      const u = (typeof currentUser !== 'undefined' && currentUser) ? currentUser : null;
+      if (!u) return null;
+      return String(u.id || u.user_id || u.email || 'user');
+    }
+
     function getCandidateAppliedJobIds() {
-      let ids = [3]; // Seed applied job as in mockup
+      if (isCandidateGuest()) return [];
+      const userKey = getCandidateUserKey();
+      const userEmail = (currentUser && currentUser.email ? currentUser.email : '').toLowerCase();
+      const ids = [];
+
+      try {
+        const rawIds = localStorage.getItem('cand_applied_ids_' + userKey);
+        if (rawIds) {
+          const parsed = JSON.parse(rawIds);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(id => {
+              if (!ids.includes(id)) ids.push(id);
+            });
+          }
+        }
+      } catch (e) {}
+
       try {
         const raw = localStorage.getItem('global_job_applications');
         if (raw) {
           const apps = JSON.parse(raw);
           if (Array.isArray(apps)) {
             apps.forEach(a => {
-              if (a.jobId && !ids.includes(a.jobId)) ids.push(a.jobId);
+              const matchUser = (a.userId && String(a.userId) === userKey) ||
+                                (a.candidateEmail && userEmail && a.candidateEmail.toLowerCase() === userEmail);
+              if (matchUser && a.jobId && !ids.includes(a.jobId)) {
+                ids.push(a.jobId);
+              }
             });
           }
         }
       } catch (e) {}
+
       return ids;
     }
 
     function initCandidateJobs() {
+      candidateSavedJobIds = getSavedJobIds();
       updateAppliedCountBadge();
       updateSavedJobsBadges();
       updateNotificationBadges();
@@ -10121,19 +10172,22 @@
     }
 
     function getSavedJobIds() {
+      if (isCandidateGuest()) return [];
+      const userKey = getCandidateUserKey();
       try {
-        const raw = localStorage.getItem('candidate_saved_jobs');
+        const raw = localStorage.getItem('candidate_saved_jobs_' + userKey);
         if (raw) {
           const list = JSON.parse(raw);
           if (Array.isArray(list)) return list;
         }
       } catch (e) {}
-      return [2]; // Mặc định lưu sẵn 1 việc làm mẫu để trực quan
+      return [];
     }
 
     candidateSavedJobIds = getSavedJobIds();
 
     function updateSavedJobsBadges() {
+      candidateSavedJobIds = getSavedJobIds();
       const count = candidateSavedJobIds.length;
       document.querySelectorAll('.pubSavedCountBadge').forEach(b => {
         b.textContent = count;
@@ -10143,20 +10197,32 @@
     }
 
     function toggleSaveJob(jobId) {
+      if (isCandidateGuest()) {
+        alert('Vui lòng đăng nhập tài khoản Người tìm việc để lưu tin tuyển dụng!');
+        openAuthModal('login');
+        return;
+      }
+      const userKey = getCandidateUserKey();
+      candidateSavedJobIds = getSavedJobIds();
       if (candidateSavedJobIds.includes(jobId)) {
         candidateSavedJobIds = candidateSavedJobIds.filter(id => id !== jobId);
       } else {
         candidateSavedJobIds.push(jobId);
       }
       try {
-        localStorage.setItem('candidate_saved_jobs', JSON.stringify(candidateSavedJobIds));
+        localStorage.setItem('candidate_saved_jobs_' + userKey, JSON.stringify(candidateSavedJobIds));
       } catch(e) {}
       updateSavedJobsBadges();
       renderCandidateJobs();
-      renderSavedJobsList();
+      if (typeof renderSavedJobsList === 'function') renderSavedJobsList();
     }
 
     function openSavedJobsDrawer() {
+      if (isCandidateGuest()) {
+        alert('Vui lòng đăng nhập tài khoản Người tìm việc để xem danh sách việc làm đã lưu!');
+        openAuthModal('login');
+        return;
+      }
       const drawer = document.getElementById('candidateSavedJobsDrawer');
       if (!drawer) return;
       renderSavedJobsList();
@@ -10171,6 +10237,18 @@
     function renderSavedJobsList() {
       const container = document.getElementById('candidateSavedJobsList');
       if (!container) return;
+      if (isCandidateGuest()) {
+        container.innerHTML = `
+          <div style="background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:18px;padding:40px 20px;text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">🔒</div>
+            <div style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px">Vui lòng đăng nhập</div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:16px">Đăng nhập tài khoản để xem các tin tuyển dụng bạn đã lưu</div>
+            <button onclick="closeSavedJobsDrawer();openAuthModal('login')" style="background:#0a5146;color:#ffffff;border:none;font-weight:700;font-size:13px;padding:9px 20px;border-radius:9999px;cursor:pointer">Đăng nhập ngay</button>
+          </div>
+        `;
+        return;
+      }
+      candidateSavedJobIds = getSavedJobIds();
       const allJobs = getAllCandidateJobs();
       const savedJobs = allJobs.filter(j => candidateSavedJobIds.includes(j.id));
       const appliedIds = getCandidateAppliedJobIds();
@@ -10221,6 +10299,11 @@
     }
 
     function openCandidateApplyModal(jobId) {
+      if (isCandidateGuest()) {
+        alert('Vui lòng đăng nhập tài khoản Người tìm việc để nộp hồ sơ ứng tuyển!');
+        openAuthModal('login');
+        return;
+      }
       applyingJobId = jobId;
       const allJobs = getAllCandidateJobs();
       const job = allJobs.find(j => j.id === jobId);
@@ -10248,13 +10331,13 @@
       if (scoreEl) scoreEl.textContent = `Phù hợp ${match.matchPct}%`;
 
       const nameEl = document.getElementById('candApplyName');
-      if (nameEl) nameEl.value = candidate.name;
+      if (nameEl) nameEl.value = (currentUser.full_name || currentUser.display_name || candidate.name || '').trim();
 
       const emailEl = document.getElementById('candApplyEmail');
-      if (emailEl) emailEl.value = candidate.email;
+      if (emailEl) emailEl.value = (currentUser.email || candidate.email || '').trim();
 
       const phoneEl = document.getElementById('candApplyPhone');
-      if (phoneEl) phoneEl.value = candidate.phone;
+      if (phoneEl) phoneEl.value = (currentUser.phone || candidate.phone || '').trim();
 
       modal.style.display = 'flex';
     }
@@ -10266,25 +10349,36 @@
     }
 
     function confirmSubmitApply() {
+      if (isCandidateGuest()) {
+        alert('Vui lòng đăng nhập tài khoản Người tìm việc để nộp hồ sơ!');
+        openAuthModal('login');
+        return;
+      }
       if (!applyingJobId) return;
       const allJobs = getAllCandidateJobs();
       const job = allJobs.find(j => j.id === applyingJobId);
       if (!job) return;
 
+      const userKey = getCandidateUserKey();
       const candidate = CANDIDATE_PROFILE;
       const match = calculateJobMatch(job.skills);
       const note = document.getElementById('candApplyNote')?.value || '';
+      const candName = (document.getElementById('candApplyName')?.value || currentUser.full_name || currentUser.display_name || candidate.name).trim();
+      const candEmail = (document.getElementById('candApplyEmail')?.value || currentUser.email || candidate.email).trim();
+      const candPhone = (document.getElementById('candApplyPhone')?.value || currentUser.phone || candidate.phone).trim();
 
       const application = {
         id: Date.now(),
+        userId: currentUser.id || currentUser.user_id,
+        userEmail: candEmail,
         jobId: job.id,
         jobTitle: job.title,
         company: job.company,
         location: job.location,
         salary: job.salary,
-        candidateName: candidate.name,
-        candidateEmail: candidate.email,
-        candidatePhone: candidate.phone,
+        candidateName: candName,
+        candidateEmail: candEmail,
+        candidatePhone: candPhone,
         skills: candidate.skills,
         skillsOwned: match.owned,
         skillsMissing: match.missing,
@@ -10302,6 +10396,15 @@
         const apps = raw ? JSON.parse(raw) : [];
         apps.unshift(application);
         localStorage.setItem('global_job_applications', JSON.stringify(apps));
+      } catch (e) {}
+
+      try {
+        const rawIds = localStorage.getItem('cand_applied_ids_' + userKey);
+        const ids = rawIds ? JSON.parse(rawIds) : [];
+        if (!ids.includes(job.id)) {
+          ids.push(job.id);
+          localStorage.setItem('cand_applied_ids_' + userKey, JSON.stringify(ids));
+        }
       } catch (e) {}
 
       // Synchronize applications count in global_job_postings
@@ -10369,6 +10472,11 @@
     }
 
     function openAppliedDrawer() {
+      if (isCandidateGuest()) {
+        alert('Vui lòng đăng nhập tài khoản Người tìm việc để xem danh sách việc làm đã nộp!');
+        openAuthModal('login');
+        return;
+      }
       const drawer = document.getElementById('candidateAppliedDrawer');
       if (!drawer) return;
       renderAppliedJobsList();
@@ -10384,29 +10492,48 @@
       const container = document.getElementById('candidateAppliedList');
       if (!container) return;
 
+      if (isCandidateGuest()) {
+        container.innerHTML = `
+          <div style="background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:18px;padding:40px 20px;text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">🔒</div>
+            <div style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px">Vui lòng đăng nhập</div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:16px">Đăng nhập tài khoản để xem các vị trí bạn đã ứng tuyển</div>
+            <button onclick="closeAppliedDrawer();openAuthModal('login')" style="background:#0a5146;color:#ffffff;border:none;font-weight:700;font-size:13px;padding:9px 20px;border-radius:9999px;cursor:pointer">Đăng nhập ngay</button>
+          </div>
+        `;
+        return;
+      }
+
+      const userKey = getCandidateUserKey();
+      const userEmail = (currentUser && currentUser.email ? currentUser.email : '').toLowerCase();
+
       let apps = [];
       try {
         const raw = localStorage.getItem('global_job_applications');
         if (raw) apps = JSON.parse(raw);
       } catch (e) {}
 
-      // If empty, add default applications
-      if (!apps || apps.length === 0) {
-        apps = [
-          {
-            id: 301,
-            jobId: 3,
-            jobTitle: 'DevOps & Cloud Engineer',
-            company: 'FPT Software Cần Thơ',
-            appliedDate: '10/10/2026',
-            status: 'Mời phỏng vấn',
-            interviewInfo: '09:00 AM ngày 24/10/2026 tại FPT Software Cần Thơ (hoặc Google Meet)',
-            matchScore: 80
-          }
-        ];
+      const userApps = apps.filter(a => {
+        if (a.userId && String(a.userId) === userKey) return true;
+        if (a.candidateEmail && userEmail && a.candidateEmail.toLowerCase() === userEmail) return true;
+        return false;
+      });
+
+      updateAppliedCountBadge();
+
+      if (!userApps || userApps.length === 0) {
+        container.innerHTML = `
+          <div style="background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:18px;padding:40px 20px;text-align:center">
+            <div style="font-size:36px;margin-bottom:10px">📋</div>
+            <div style="font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px">Chưa nộp hồ sơ nào</div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:16px">Bạn chưa ứng tuyển vị trí nào. Hãy khám phá và nộp hồ sơ vào các việc làm phù hợp!</div>
+            <button onclick="closeAppliedDrawer();navigate('/jobs')" style="background:#0a5146;color:#ffffff;border:none;font-weight:700;font-size:13px;padding:9px 20px;border-radius:9999px;cursor:pointer">Tìm việc ngay</button>
+          </div>
+        `;
+        return;
       }
 
-      container.innerHTML = apps.map(app => {
+      container.innerHTML = userApps.map(app => {
         let badgeStyle = 'background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd';
         let statusText = app.status || 'Đang xét duyệt';
         if (statusText === 'Mời phỏng vấn' || statusText.includes('mời') || statusText.includes('trúng')) {
@@ -10486,19 +10613,23 @@
     ];
 
     function getNotifications() {
+      if (isCandidateGuest()) return [];
+      const userKey = getCandidateUserKey();
       try {
-        const raw = localStorage.getItem('candidate_notifications');
+        const raw = localStorage.getItem('candidate_notifications_' + userKey);
         if (raw) {
           const list = JSON.parse(raw);
-          if (Array.isArray(list) && list.length > 0) return list;
+          if (Array.isArray(list)) return list;
         }
       } catch (e) {}
-      return [...DEFAULT_NOTIFICATIONS];
+      return [];
     }
 
     function saveNotifications(list) {
+      if (isCandidateGuest()) return;
+      const userKey = getCandidateUserKey();
       try {
-        localStorage.setItem('candidate_notifications', JSON.stringify(list));
+        localStorage.setItem('candidate_notifications_' + userKey, JSON.stringify(list));
       } catch (e) {}
       updateNotificationBadges();
       renderNotificationList();
@@ -10518,6 +10649,12 @@
     }
 
     function toggleNotificationDropdown(event) {
+      if (isCandidateGuest()) {
+        if (event) event.stopPropagation();
+        alert('Vui lòng đăng nhập để xem thông báo!');
+        openAuthModal('login');
+        return;
+      }
       if (event) event.stopPropagation();
       const dropdown = document.getElementById('candidateNotificationDropdown');
       if (!dropdown) return;
@@ -10588,24 +10725,34 @@
       saveNotifications([]);
     }
 
-    function addCandidateNotification(notif) {
-      const list = getNotifications();
-      const newNotif = {
-        id: Date.now(),
-        title: notif.title || 'Thông báo mới',
-        message: notif.message || '',
-        time: 'Vừa xong',
-        timestamp: Date.now(),
-        type: notif.type || 'info',
-        isRead: false,
-        linkText: notif.linkText || 'Xem chi tiết',
-        linkAction: notif.linkAction || 'openAppliedDrawer()'
-      };
-      list.unshift(newNotif);
-      saveNotifications(list);
-      if (typeof showJobModalToast === 'function') {
-        showJobModalToast(`🔔 ${newNotif.title}`);
-      }
+    function addCandidateNotification(notif, targetUserKey) {
+      const userKey = targetUserKey || getCandidateUserKey();
+      if (!userKey) return;
+      try {
+        const raw = localStorage.getItem('candidate_notifications_' + userKey);
+        let list = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(list)) list = [];
+        const newNotif = {
+          id: Date.now(),
+          title: notif.title || 'Thông báo mới',
+          message: notif.message || '',
+          time: 'Vừa xong',
+          timestamp: Date.now(),
+          type: notif.type || 'info',
+          isRead: false,
+          linkText: notif.linkText || 'Xem chi tiết',
+          linkAction: notif.linkAction || 'openAppliedDrawer()'
+        };
+        list.unshift(newNotif);
+        localStorage.setItem('candidate_notifications_' + userKey, JSON.stringify(list));
+        if (userKey === getCandidateUserKey()) {
+          updateNotificationBadges();
+          renderNotificationList();
+          if (typeof showJobModalToast === 'function') {
+            showJobModalToast(`🔔 ${newNotif.title}`);
+          }
+        }
+      } catch (e) {}
     }
 
     document.addEventListener('click', function(e) {
@@ -14243,9 +14390,11 @@
         }
       }
 
+      candidateSavedJobIds = getSavedJobIds();
       if (typeof updateAppliedCountBadge === 'function') updateAppliedCountBadge();
       if (typeof updateSavedJobsBadges === 'function') updateSavedJobsBadges();
       if (typeof updateNotificationBadges === 'function') updateNotificationBadges();
+      if (typeof renderCandidateJobs === 'function' && document.getElementById('candJobsList')) renderCandidateJobs();
 
       applyRoleGuards();
     }
