@@ -5044,6 +5044,9 @@
           </div>
         </div>
         <button class="emp-logout-btn" onclick="handleLogout()">ĐĂNG XUẤT</button>
+        <button onclick="quickLoginRole('provider')" style="margin-top:10px; width:100%; padding:9px 12px; border-radius:12px; border:1px solid rgba(94,234,212,0.35); background:rgba(94,234,212,0.1); color:#5eead4; font-size:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.15s" onmouseover="this.style.background='rgba(94,234,212,0.2)'" onmouseout="this.style.background='rgba(94,234,212,0.1)'">
+          <span>📚</span> Trung tâm khóa học
+        </button>
       </div>
     </aside>
 
@@ -5774,6 +5777,10 @@
               <div>Hồ sơ cá nhân</div>
               <div style="font-size:11px; color:#94a3b8; font-weight:500; margin-top:2px">Tên người đại diện, email, mật khẩu</div>
             </button>
+            <button onclick="quickLoginRole('employer')" style="width:100%; text-align:left; padding:10px 14px; border:none; background:none; border-radius:12px; cursor:pointer; font-size:13px; font-weight:700; color:#0d9488; transition:background 0.15s" onmouseover="this.style.background='#f0fdfa'" onmouseout="this.style.background='none'">
+              <div>🏢 Cổng Nhà tuyển dụng</div>
+              <div style="font-size:11px; color:#94a3b8; font-weight:500; margin-top:2px">Đăng tin & tìm hồ sơ ứng viên</div>
+            </button>
             <div style="height:1px; background:#f1f5f9; margin:6px 0"></div>
             <button onclick="handleLogout()" style="width:100%; text-align:left; padding:10px 14px; border:none; background:none; border-radius:12px; cursor:pointer; font-size:13px; font-weight:700; color:#ef4444; transition:background 0.15s" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='none'">
               Đăng xuất
@@ -6499,6 +6506,9 @@
         <div class="public-nav-right" id="publicNavRight">
           <!-- 1. Trạng thái Chưa đăng nhập (Guest) -->
           <div class="public-auth-guest" id="publicAuthGuest" style="display:flex;align-items:center;gap:8px">
+            <button onclick="quickLoginRole('provider')" style="background:rgba(255,255,255,0.08);color:#5eead4;border:1px solid rgba(94,234,212,0.35);font-weight:700;font-size:12px;padding:7px 15px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px;display:inline-flex;align-items:center;gap:5px">
+              <span>📚</span> Khóa học
+            </button>
             <button onclick="handleEmployerPortalClick()" style="background:rgba(255,255,255,0.08);color:#ffffff;border:1px solid rgba(255,255,255,0.22);font-weight:600;font-size:12px;padding:7px 15px;border-radius:9999px;cursor:pointer;letter-spacing:0.2px">
               Đăng tuyển &amp; tìm hồ sơ
             </button>
@@ -6552,7 +6562,7 @@
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
                 Cổng Nhà Tuyển Dụng (/employer)
               </button>
-              <button class="user-menu-item" id="publicMenuProviderPortal" onclick="navigate('/provider/gap-analytics'); if(document.getElementById('publicUserDropdown')) document.getElementById('publicUserDropdown').classList.remove('show');" style="display:none;color:#7c3aed;font-weight:700">
+              <button class="user-menu-item" id="publicMenuProviderPortal" onclick="navigate('/provider/market'); if(document.getElementById('publicUserDropdown')) document.getElementById('publicUserDropdown').classList.remove('show');" style="display:none;color:#7c3aed;font-weight:700">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 Cổng Đào Tạo Khóa Học (/provider)
               </button>
@@ -9501,14 +9511,19 @@
 
       // ── 4. AUTH GUARD: BẢO VỆ ROUTE ĐƠN VỊ ĐÀO TẠO (/provider) ──
       if (isProviderRoute && userRole !== 'provider' && userRole !== 'admin') {
-        if (isGuest) {
-          openAuthModal('login');
-          navigate('/', true, true);
-          return;
-        } else {
-          navigate('/', true, true);
-          return;
-        }
+        // Tự động chuyển tài khoản demo sang Mekong Skills (Provider) để xem ngay giao diện
+        currentUser = {
+          id: 15,
+          username: 'provider_test',
+          full_name: 'Trần Thanh Hải',
+          company_name: 'Mekong Skills',
+          role: 'provider',
+          email: 'hai.tran@mekongskills.vn',
+          is_guest: false
+        };
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
+        if (typeof updateUserUI === 'function') updateUserUI();
+        if (typeof applyRoleGuards === 'function') applyRoleGuards();
       }
 
       const adminLayout = document.getElementById('adminLayout');
@@ -17604,7 +17619,7 @@
         } else if (userRole === 'employer') {
           navigate('/employer/dashboard');
         } else if (userRole === 'course_provider' || userRole === 'provider') {
-          navigate('/provider/gap-analytics');
+          navigate('/provider/market');
         } else {
           navigate('/');
         }
@@ -17652,7 +17667,7 @@
         admin: { id: 1, username: 'admin', full_name: 'Admin Tổng', role: 'admin', email: 'admin@skillgap.com', is_guest: false },
         employer: { id: 14, username: 'employer_test', full_name: 'Doanh Nghiệp Mẫu', role: 'employer', email: 'employer_test@skillgap.com', company_name: 'Mekong Tech', is_guest: false },
         candidate: { id: 13, username: 'candidate_test', full_name: 'Sinh Viên Mẫu', role: 'candidate', email: 'candidate_test@skillgap.com', is_guest: false },
-        provider: { id: 15, username: 'provider_test', full_name: 'Trung Tâm Đào Tạo Mẫu', company_name: 'Mekong Skills', role: 'provider', email: 'provider_test@skillgap.com', is_guest: false }
+        provider: { id: 15, username: 'provider_test', full_name: 'Trần Thanh Hải', company_name: 'Mekong Skills', role: 'provider', email: 'hai.tran@mekongskills.vn', is_guest: false }
       };
 
       const target = demoAccounts[role] || demoAccounts.admin;
@@ -17696,7 +17711,7 @@
       } else if (userRole === 'employer') {
         navigate('/employer/dashboard');
       } else if (userRole === 'provider' || userRole === 'course_provider') {
-        navigate('/provider/gap-analytics');
+        navigate('/provider/market');
       } else {
         navigate('/');
       }
@@ -17788,7 +17803,7 @@
               } else if (userRole === 'employer') {
                 navigate('/employer/dashboard');
               } else if (userRole === 'provider' || userRole === 'course_provider') {
-                navigate('/provider/gap-analytics');
+                navigate('/provider/market');
               } else {
                 navigate('/');
               }
@@ -17857,7 +17872,7 @@
           } else if (userRole === 'employer') {
             navigate('/employer/dashboard');
           } else if (userRole === 'provider' || userRole === 'course_provider') {
-            navigate('/provider/gap-analytics');
+            navigate('/provider/market');
           } else {
             navigate('/');
           }
