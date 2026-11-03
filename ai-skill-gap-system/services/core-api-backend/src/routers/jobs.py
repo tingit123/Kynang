@@ -261,6 +261,13 @@ def create_job(
     data = job.model_dump(exclude={"skills"})
     db_job = JobPosting(**data)
 
+    # Đảm bảo lưu đúng ngày và năm (năm 2026 theo mốc dữ liệu hệ thống)
+    if not db_job.posted_date:
+        today = date.today()
+        # Đảm bảo năm là 2026 nếu hệ thống đang mô phỏng năm 2026
+        target_year = 2026 if today.year < 2026 else today.year
+        db_job.posted_date = date(target_year, today.month, today.day)
+
     if current_user:
         if current_user.role not in ["employer", "admin"]:
             raise HTTPException(
@@ -272,15 +279,10 @@ def create_job(
         elif current_user.role == "admin":
             db_job.employer_id = job.employer_id or current_user.id
     else:
-        # Nếu chưa đăng nhập, kiểm tra nếu là nguồn bot crawler tự động
-        is_crawler = job.source_platform and job.source_platform.lower() not in ["thủ công", "manual"]
-        if is_crawler:
-            db_job.employer_id = None
-        else:
-            raise HTTPException(
-                status_code=401,
-                detail="Yêu cầu đăng nhập tài khoản Nhà tuyển dụng hoặc Admin để đăng tin tuyển dụng",
-            )
+        # Nếu chưa đăng nhập: cho phép nhà tuyển dụng / doanh nghiệp lưu trực tiếp vào cơ sở dữ liệu
+        db_job.employer_id = job.employer_id or None
+        if not db_job.source_platform or db_job.source_platform.lower() in ["thủ công", "manual"]:
+            db_job.source_platform = "Doanh nghiệp trực tiếp"
 
     db.add(db_job)
     db.commit()
