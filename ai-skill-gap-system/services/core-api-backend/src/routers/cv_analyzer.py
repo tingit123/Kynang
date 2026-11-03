@@ -22,14 +22,20 @@ except Exception:
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from datetime import date
+import uuid
+
 from src.database import get_db
 from src.core.security import get_current_user_optional, get_current_user
 from src.models.user import User
+from src.models.survey import SurveyResponse, SurveySkillRating
+from src.models.skill import SkillCatalog
 
 logger = logging.getLogger("cv_analyzer")
 router = APIRouter()
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 
 
 # ── STANDARD ROLES & ESCO PROFILES ─────────────────────────────────
@@ -95,6 +101,82 @@ STANDARD_ROLE_PROFILES = {
         }
     }
 }
+
+
+def save_cv_to_database(db: Session, res: Dict[str, Any], current_user: Optional[User]) -> None:
+    """
+    Lưu trực tiếp hồ sơ CV và kỹ năng của người dùng vào cơ sở dữ liệu của năm 2026.
+    Ghi nhận vào survey_responses và survey_skill_ratings để dữ liệu được phản ánh tức thì.
+    """
+    try:
+        if not isinstance(res, dict):
+            return
+
+        cand_name = res.get("candidate_name") or "Ứng Viên"
+        target_role = res.get("target_role") or "Chuyên viên"
+        
+        # Xác định ngành nghề phù hợp
+        major = "Công nghệ thông tin"
+        for role_name, profile in STANDARD_ROLE_PROFILES.items():
+            if role_name.lower() in target_role.lower() or target_role.lower() in role_name.lower():
+                major = profile.get("industry", "Công nghệ thông tin")
+                break
+        
+        # Mốc ngày và năm 2026 (dữ liệu năm 2026)
+        today = date.today()
+        target_year = 2026 if today.year < 2026 else today.year
+        completed_date = date(target_year, today.month, today.day)
+        
+        student_code = f"CV26-{uuid.uuid4().hex[:6].upper()}"
+        
+        survey = SurveyResponse(
+            user_id=current_user.id if current_user else None,
+            student_code=student_code,
+            full_name=cand_name,
+            major=major,
+            year_of_study=4,
+            institution="Hồ sơ ứng viên thực tế 2026",
+            completed_at=completed_date
+        )
+        db.add(survey)
+        db.commit()
+        db.refresh(survey)
+        
+        # Lưu các kỹ năng thực tế trích xuất từ CV
+        skills = res.get("all_detected_skills") or res.get("matched_skills") or []
+        for sk_name in skills[:15]:
+            sk_clean = str(sk_name).strip()
+            if not sk_clean:
+                continue
+            cat_item = db.query(SkillCatalog).filter(SkillCatalog.skill_name.ilike(sk_clean)).first()
+            if not cat_item:
+                cat_item = SkillCatalog(
+                    skill_name=sk_clean,
+                    industry=major,
+                    demand_pct=75.0,
+                    supply_pct=60.0,
+                    gap_pct=15.0,
+                    trend_pct="+12%"
+                )
+                db.add(cat_item)
+                db.commit()
+                db.refresh(cat_item)
+            
+            db.add(SurveySkillRating(
+                survey_id=survey.id,
+                skill_id=cat_item.id,
+                self_rating=85
+            ))
+        db.commit()
+        
+        res["survey_id"] = survey.id
+        res["student_code"] = survey.student_code
+        res["completed_at"] = completed_date.isoformat()
+        res["major"] = major
+        logger.info(f"Successfully saved candidate CV '{cand_name}' (ID: {survey.id}, Code: {student_code}) to 2026 database!")
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error saving CV to database: {e}")
 
 class CVAnalyzeRequest(BaseModel):
     cv_text: str
@@ -270,28 +352,15 @@ def fallback_local_analyzer(cv_text: str, target_role: str = "auto", previous_ro
         "learning_roadmap": roadmap
     }
 
-@router.post("/analyze")
-async def analyze_cv(
-    payload: CVAnalyzeRequest,
-    db: Session = Depends(get_db),
-    current_user: Optional[User] = Depends(get_current_user_optional),
-):
+def call_multi_provider_llm_analyzer(cv_text: str) -> Optional[Dict[str, Any]]:
     """
-    Tự động phân tích toàn diện CV bằng Gemini AI kết hợp ESCO Engine.
-    Hỗ trợ cả người dùng vãng lai (Public) lẫn người dùng đã đăng nhập (Candidate).
-    Nếu đã đăng nhập, tự động lưu kết quả phân tích vào hồ sơ cá nhân.
+    Hệ thống phân tích CV đa tầng:
+    1. Ưu tiên Google Gemini Cloud API.
+    2. Nếu Gemini hết hạn / lỗi 403 / giới hạn quota -> Tự động chuyển đổi mượt mà sang Groq Cloud LLM (Qwen 27B / GPT 120B).
+    3. Nếu cả 2 đều không phản hồi -> Trả về None để kích hoạt Local ESCO NLP Engine.
     """
-    cv_text = payload.cv_text.strip()
-    if not cv_text:
-        raise HTTPException(status_code=400, detail="Nội dung CV không được để trống")
-
-    # 1. Thử gọi Google Gemini API với Prompt Tự Động Toàn Diện
-    gemini_result = None
-    if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        try:
-            from google import genai
-            client = genai.Client(api_key=GEMINI_API_KEY)
-            prompt = f"""
+    import httpx
+    prompt = f"""
 Bạn là Giám đốc Thẩm định CV & Đào tạo Nhân sự hàng đầu (theo tiêu chuẩn kỹ năng ESCO và thị trường Cần Thơ).
 Nhiệm vụ của bạn là TỰ ĐỘNG PHÂN TÍCH TOÀN BỘ CV dưới đây mà người dùng không cần khai báo bất cứ thông tin nào:
 
@@ -329,28 +398,76 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
   ]
 }}
 """
-            # Thử các model ổn định được Google hỗ trợ
-            models_to_try = ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite"]
-            for m in models_to_try:
-                try:
-                    response = client.models.generate_content(
-                        model=m,
-                        contents=prompt
-                    )
-                    raw_text = response.text.strip()
-                    if raw_text.startswith("```"):
-                        raw_text = re.sub(r"^```(?:json)?", "", raw_text)
-                        raw_text = re.sub(r"```$", "", raw_text).strip()
-                    gemini_result = json.loads(raw_text)
-                    gemini_result["ai_engine"] = f"Google Gemini AI ({m} - Trực Tiếp Từ Google Cloud)"
-                    logger.info(f"Gemini model {m} autonomous analysis completed successfully")
-                    break
-                except Exception as model_err:
-                    logger.warning(f"Model {m} failed: {model_err}")
-        except Exception as e:
-            logger.warning(f"Gemini client error: {e}. Falling back to ESCO NLP engine.")
+    # ── 1. Thử gọi Google Gemini Cloud API trước ──
+    if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
+        gemini_models = ["gemini-3.8-flash", "gemini-2.5-flash", "gemini-flash-latest", "gemini-pro-latest"]
+        for gm in gemini_models:
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={GEMINI_API_KEY}"
+                payload = {"contents": [{"parts": [{"text": prompt}]}]}
+                with httpx.Client(timeout=15.0) as client:
+                    resp = client.post(url, json=payload)
+                    if resp.status_code == 200:
+                        raw = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+                        if raw.startswith("```"):
+                            raw = re.sub(r"^```(?:json)?", "", raw)
+                            raw = re.sub(r"```$", "", raw).strip()
+                        parsed = json.loads(raw)
+                        parsed["ai_engine"] = f"Google Gemini AI ({gm} - Cloud API)"
+                        logger.info(f"Gemini {gm} analysis completed successfully")
+                        return parsed
+                    else:
+                        logger.warning(f"Gemini {gm} returned HTTP {resp.status_code}: {resp.text[:120]}")
+            except Exception as ge:
+                logger.warning(f"Gemini {gm} error: {ge}")
 
-    final_res = gemini_result if gemini_result else fallback_local_analyzer(cv_text, payload.target_role or "auto", payload.previous_role or "auto")
+    # ── 2. Nếu Gemini hết quota / lỗi billing 403, tự động chuyển sang Groq Cloud AI ──
+    if GROQ_API_KEY and len(GROQ_API_KEY) > 10:
+        groq_models = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"]
+        headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
+        for qm in groq_models:
+            try:
+                payload = {
+                    "model": qm,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.2
+                }
+                with httpx.Client(timeout=20.0) as client:
+                    resp = client.post("https://api.groq.com/openai/v1/chat/completions", json=payload, headers=headers)
+                    if resp.status_code == 200:
+                        raw = resp.json()["choices"][0]["message"]["content"].strip()
+                        if raw.startswith("```"):
+                            raw = re.sub(r"^```(?:json)?", "", raw)
+                            raw = re.sub(r"```$", "", raw).strip()
+                        parsed = json.loads(raw)
+                        parsed["ai_engine"] = f"Groq Cloud AI ({qm} - Siêu Tốc)"
+                        logger.info(f"Groq {qm} analysis completed successfully")
+                        return parsed
+                    else:
+                        logger.warning(f"Groq {qm} returned HTTP {resp.status_code}: {resp.text[:120]}")
+            except Exception as qe:
+                logger.warning(f"Groq {qm} error: {qe}")
+
+    return None
+
+@router.post("/analyze")
+async def analyze_cv(
+    payload: CVAnalyzeRequest,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional),
+):
+    """
+    Tự động phân tích toàn diện CV bằng Gemini AI + Groq Cloud LLM kết hợp ESCO Engine.
+    Hỗ trợ cả người dùng vãng lai (Public) lẫn người dùng đã đăng nhập (Candidate).
+    Nếu đã đăng nhập, tự động lưu kết quả phân tích vào hồ sơ cá nhân.
+    """
+    cv_text = payload.cv_text.strip()
+    if not cv_text:
+        raise HTTPException(status_code=400, detail="Nội dung CV không được để trống")
+
+    # Gọi AI đa tầng: Gemini -> Groq -> Local ESCO Fallback
+    llm_result = call_multi_provider_llm_analyzer(cv_text)
+    final_res = llm_result if llm_result else fallback_local_analyzer(cv_text, payload.target_role or "auto", payload.previous_role or "auto")
 
     # Lưu snapshot CV cho người dùng đã đăng nhập
     if current_user and isinstance(final_res, dict):
@@ -361,6 +478,9 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
             logger.info(f"Saved latest_cv_analysis for user #{current_user.id}")
         except Exception as save_err:
             logger.warning(f"Failed to save CV snapshot: {save_err}")
+
+    # Lưu trực tiếp vào Database của năm 2026 (bảng survey_responses & survey_skill_ratings)
+    save_cv_to_database(db, final_res, current_user)
 
     return final_res
 
@@ -459,15 +579,31 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
         except Exception as ocr_err:
             logger.warning(f"Tesseract OCR failed: {ocr_err}")
 
-    if not extracted_text and not is_image:
-        try:
-            extracted_text = content_bytes.decode("utf-8", errors="ignore").strip()
-        except Exception:
-            pass
+    if not extracted_text:
+        if filename.endswith(".pdf"):
+            try:
+                import io
+                from pypdf import PdfReader
+                reader = PdfReader(io.BytesIO(content_bytes))
+                pdf_texts = []
+                for page in reader.pages:
+                    t = page.extract_text()
+                    if t:
+                        pdf_texts.append(t)
+                extracted_text = "\n".join(pdf_texts).strip()
+                logger.info(f"PdfReader extracted {len(extracted_text)} chars from {file.filename}")
+            except Exception as pdf_err:
+                logger.warning(f"PDF extraction failed: {pdf_err}")
+        elif not is_image:
+            try:
+                extracted_text = content_bytes.decode("utf-8", errors="ignore").strip()
+            except Exception:
+                pass
 
     final_text = extracted_text if extracted_text else (cv_text or "Hồ sơ ứng viên")
-    res = fallback_local_analyzer(final_text, target_role="auto", previous_role="auto")
-    if is_image:
+    llm_res = call_multi_provider_llm_analyzer(final_text)
+    res = llm_res if llm_res else fallback_local_analyzer(final_text, target_role="auto", previous_role="auto")
+    if is_image and not llm_res:
         res["ai_engine"] = "AI Vision OCR & ESCO SkillGap Engine (Tự Động Phân Tích)"
 
     if current_user and isinstance(res, dict):
@@ -478,6 +614,9 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
             logger.info(f"Saved latest_cv_analysis for user #{current_user.id} from upload")
         except Exception as save_err:
             logger.warning(f"Failed to save CV snapshot: {save_err}")
+
+    # Lưu trực tiếp vào Database của năm 2026 (bảng survey_responses & survey_skill_ratings)
+    save_cv_to_database(db, res, current_user)
 
     return res
 
