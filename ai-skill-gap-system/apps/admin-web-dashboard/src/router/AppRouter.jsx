@@ -1,9 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// ── 0. PUBLIC AUTH PAGES ──
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
+// ── 0. PUBLIC AUTH PAGES ── (Old login/register pages removed to use apps/auth-web)
 
 // ── 1. LAYOUTS ──
 import CandidateLayout from '../layouts/CandidateLayout';
@@ -13,28 +11,41 @@ import ProviderLayout from '../layouts/ProviderLayout';
 
 // ── 2. CANDIDATE PAGES (Các trang chức năng Ứng viên / Sinh viên) ──
 import AiDiagnosisPage from '../pages/candidate/AiDiagnosisPage';
+import CandidateJobsPage from '../pages/candidate/CandidateJobsPage';
 import IndustryExplorePage from '../pages/candidate/IndustryExplorePage';
 import SoftSkillsGuidePage from '../pages/candidate/SoftSkillsGuidePage';
+import NotificationsPage from '../pages/candidate/NotificationsPage';
 
 // ── 3. EMPLOYER PAGES (Cổng Nhà Tuyển Dụng) ──
 import EmployerDashboardPage from '../pages/employer/EmployerDashboardPage';
 import EmployerMarketSkillsPage from '../pages/employer/EmployerMarketSkillsPage';
 import EmployerJobsPage from '../pages/employer/EmployerJobsPage';
 import EmployerCandidatesPage from '../pages/employer/EmployerCandidatesPage';
+import EmployerRecruitmentPage from '../pages/employer/EmployerRecruitmentPage';
 import EmployerProfilePage from '../pages/employer/EmployerProfilePage';
 
-// ── 4. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
+// ── 4. PROVIDER PAGES (Cổng Đơn Vị Đào Tạo / Trung Tâm Khóa Học) ──
+import ProviderMarketPage from '../pages/provider/ProviderMarketPage';
+import ProviderGapAnalyticsPage from '../pages/provider/ProviderGapAnalyticsPage';
+import ProviderCoursesPage from '../pages/provider/ProviderCoursesPage';
+import ProviderAnalyticsPage from '../pages/provider/ProviderAnalyticsPage';
+import ProviderCenterInfoPage from '../pages/provider/ProviderCenterInfoPage';
+import ProviderProfilePage from '../pages/provider/ProviderProfilePage';
+
+// ── 5. ADMIN PAGES (Cổng Quản Trị Hệ Thống) ──
+import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
+import AdminSoftSkillsPage from '../pages/admin/AdminSoftSkillsPage';
+
+// ── 6. ROUTE GUARDS (Bộ lọc phân quyền thông minh) ──
 import AuthGuard from '../components/guards/AuthGuard';
 import GuestGuard from '../components/guards/GuestGuard';
 
 export default function AppRouter() {
   return (
     <Routes>
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* CỤM 1: PUBLIC AUTH ROUTES (Không bị bọc bởi bất kỳ Guard nào)      */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      {/* CỤM 1: AUTH ROUTES REDIRECT TO AUTH-WEB (http://localhost:8081) */}
+      <Route path="/login" element={<Navigate to="/" replace />} />
+      <Route path="/register" element={<Navigate to="/" replace />} />
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* CỤM 2: CANDIDATE PORTAL (Dành cho Sinh viên/Người lao động/Khách)  */}
@@ -51,8 +62,10 @@ export default function AppRouter() {
       >
         <Route index element={<AiDiagnosisPage />} />
         <Route path="ai-diagnosis" element={<AiDiagnosisPage />} />
+        <Route path="jobs" element={<CandidateJobsPage />} />
         <Route path="explore-industries" element={<IndustryExplorePage />} />
         <Route path="soft-skills" element={<SoftSkillsGuidePage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
       </Route>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
@@ -72,6 +85,7 @@ export default function AppRouter() {
         <Route path="market-skills" element={<EmployerMarketSkillsPage />} />
         <Route path="jobs" element={<EmployerJobsPage />} />
         <Route path="candidates" element={<EmployerCandidatesPage />} />
+        <Route path="recruitment" element={<EmployerRecruitmentPage />} />
         <Route path="profile" element={<EmployerProfilePage />} />
       </Route>
 
@@ -88,8 +102,8 @@ export default function AppRouter() {
         }
       >
         <Route index element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="dashboard" element={<div className="p-6 bg-white rounded-xl shadow-xs">📊 Bảng Điều Khiển Tổng Quan KPI</div>} />
-        <Route path="skills" element={<div className="p-6 bg-white rounded-xl shadow-xs">🧠 Kỹ Năng Mềm &amp; Theo Ngành</div>} />
+        <Route path="dashboard" element={<AdminDashboardPage />} />
+        <Route path="skills" element={<AdminSoftSkillsPage />} />
         <Route path="workers" element={<div className="p-6 bg-white rounded-xl shadow-xs">👥 Quản Lý Người Lao Động</div>} />
         <Route path="employers" element={<div className="p-6 bg-white rounded-xl shadow-xs">🏢 Quản Lý Nhà Tuyển Dụng</div>} />
         <Route path="courses" element={<div className="p-6 bg-white rounded-xl shadow-xs">📚 Quản Lý Khóa Học</div>} />
@@ -108,10 +122,13 @@ export default function AppRouter() {
           </AuthGuard>
         }
       >
-        <Route index element={<Navigate to="/provider/gap-analytics" replace />} />
-        <Route path="gap-analytics" element={<div className="p-6 bg-white rounded-xl shadow-xs">🔍 Phân Tích Kỹ Năng Thiếu Hụt</div>} />
-        <Route path="courses" element={<div className="p-6 bg-white rounded-xl shadow-xs">🎓 Quản Lý Khóa Học Trung Tâm</div>} />
-        <Route path="analytics" element={<div className="p-6 bg-white rounded-xl shadow-xs">🖱️ Thống Kê Lượt Click &amp; Quan Tâm</div>} />
+        <Route index element={<Navigate to="/provider/market" replace />} />
+        <Route path="market" element={<ProviderMarketPage />} />
+        <Route path="courses" element={<ProviderCoursesPage />} />
+        <Route path="gap-analytics" element={<ProviderGapAnalyticsPage />} />
+        <Route path="analytics" element={<ProviderAnalyticsPage />} />
+        <Route path="center-info" element={<ProviderCenterInfoPage />} />
+        <Route path="profile" element={<ProviderProfilePage />} />
       </Route>
 
       {/* Fallback điều hướng về trang chủ */}

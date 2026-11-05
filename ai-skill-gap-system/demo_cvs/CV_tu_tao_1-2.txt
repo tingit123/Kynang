@@ -1,0 +1,20 @@
+HỒ SƠ ỨNG TUYỂN — Nguyễn Văn An
+============================================
+DỮ LIỆU TỰ TẠO — NHÂN VẬT HƯ CẤU — KHÔNG PHẢI HỒ SƠ THẬT
+
+Vị trí mong muốn: Backend Developer
+Khu vực: Cần Thơ
+Email thử nghiệm: authored.cv1-2@demo.local
+
+MỤC TIÊU
+Muốn học thêm triển khai dịch vụ; sẵn sàng nhận bài kiểm tra thực hành.
+
+HỌC VẤN
+Cử nhân Kỹ thuật phần mềm (giả định), 2026
+
+DỰ ÁN VÀ KINH NGHIỆM
+Đồ án quản lý thư viện, nhóm 4 người: viết API tra cứu sách bằng Python và FastAPI; thiết kế bảng mượn trả, viết truy vấn SQL.
+Dùng Git để review thay đổi; tự triển khai trên máy cá nhân. Chưa có kinh nghiệm vận hành hệ thống phục vụ khách hàng.
+
+GHI CHÚ NGUỒN
+CV được viết mới để thử nghiệm giao diện và đối chiếu dẫn chứng. Tên người, học vấn và kinh nghiệm đều hư cấu. Chưa xác minh năng lực thực tế.

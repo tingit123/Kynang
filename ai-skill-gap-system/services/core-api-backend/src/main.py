@@ -28,6 +28,8 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
     import src.models.skill    # noqa
     import src.models.survey   # noqa
     import src.models.course   # noqa
+    import src.models.evidence  # noqa
+    import src.models.quick_hire  # noqa
     import src.models.notification  # noqa
 
     for attempt in range(1, max_retries + 1):
@@ -53,9 +55,15 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                         except Exception as e:
                             log.warning(f"[DB] Lỗi thêm cột {table}.{col}: {e}")
 
+                    ensure_col("analysis_runs", "filter_profile_hash", "VARCHAR(64) NULL")
+                    ensure_col("application_status_events", "notification_batch_id", "INT NULL")
+                    ensure_col("job_applications", "cv_original_text", "TEXT NULL")
+                    ensure_col("job_applications", "cv_original_filename", "VARCHAR(255) NULL")
+                    ensure_col("job_applications", "cv_original_blob", "MEDIUMBLOB NULL")
+                    ensure_col("job_applications", "cv_original_mime", "VARCHAR(80) NULL")
                     ensure_col("users", "is_deleted", "BOOLEAN DEFAULT FALSE")
-                    ensure_col("users", "is_active", "BOOLEAN NOT NULL DEFAULT TRUE")
-                    ensure_col("users", "phone", "VARCHAR(30) NULL")
+                    ensure_col("users", "is_active", "BOOLEAN DEFAULT TRUE")
+                    ensure_col("users", "last_login_at", "TIMESTAMP NULL")
                     ensure_col("users", "company_name", "VARCHAR(200) NULL")
                     ensure_col("users", "company_logo_url", "VARCHAR(500) NULL")
                     ensure_col("users", "company_description", "TEXT NULL")
@@ -74,19 +82,15 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                     ensure_col("course_recommendations", "status", "VARCHAR(50) DEFAULT 'pending'")
                     ensure_col("course_recommendations", "click_count", "INT DEFAULT 0")
 
-                    # The original schema restricts industries to an ENUM. Tin uses
-                    # full industry names, so widen it without replacing any rows.
-                    industry_type = conn.execute(text(
-                        "SELECT DATA_TYPE FROM information_schema.columns "
-                        "WHERE table_schema = DATABASE() AND table_name = 'job_postings' "
-                        "AND column_name = 'industry'"
-                    )).scalar()
-                    if industry_type == "enum":
-                        conn.execute(text("ALTER TABLE job_postings MODIFY COLUMN industry VARCHAR(50) NOT NULL"))
-
                     conn.commit()
             except Exception as mig_err:
                 log.warning(f"[DB] Bổ sung cột khóa ngoại: {mig_err}")
+
+            from src.services.recruitment_migrations import migrate
+            from src.services.notification_delivery import recover_interrupted
+            migrate(engine, SessionLocal)
+            with SessionLocal() as notification_db:
+                recover_interrupted(notification_db)
 
             # Chèn tài khoản Admin mặc định nếu chưa có
             try:
@@ -99,6 +103,7 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                             password_hash="$2b$12$7SpBJ3oI.ZvL9uW1Id4MOuUYEHgm.WKCwkuyr93HFuf94q1zeawW2",
                             full_name="Hệ Thống Admin",
                             role="admin",
+                            is_active=True,
                         )
                         db.add(admin)
                         db.commit()
@@ -162,26 +167,56 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS – cho phép Dashboard gọi API
+# CORS: cấu hình allow_origins từ CORS_ORIGINS
+import os
+cors_origins_env = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:8080,http://127.0.0.1:8080,http://localhost:8081,http://127.0.0.1:8081,http://localhost:8000,http://127.0.0.1:8000,http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173"
+)
+ALLOWED_ORIGINS = [orig.strip() for orig in cors_origins_env.split(",") if orig.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080", "http://127.0.0.1:8080"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=r"^https?://.*$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Đăng ký các router
-from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer, users, notifications  # noqa
 
-app.include_router(notifications.router, prefix="/api/notifications", tags=["Notifications"])
-app.include_router(users.router, prefix="/api/users", tags=["Accounts"])
+@app.middleware("http")
+async def check_post_origin(request, call_next):
+    """Với request POST, từ chối nếu header Origin có gửi và không nằm trong danh sách cho phép."""
+    if request.method == "POST":
+        origin = request.headers.get("origin")
+        if origin and origin not in ALLOWED_ORIGINS:
+            from fastapi.responses import JSONResponse
+            return JSONResponse(
+                status_code=403,
+                content={"detail": "Origin không nằm trong danh sách cho phép."}
+            )
+    return await call_next(request)
+
+# Đăng ký các router
+from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer, application_evidence  # noqa
+from src.routers import quick_hire
+from src.routers import notifications
+
+
+app.include_router(notifications.router, prefix="/api", tags=["Thông báo tuyển dụng"])
+
+app.include_router(quick_hire.router, prefix="/api", tags=["Tuyển dụng nhanh theo bộ lọc"])
+
+app.include_router(application_evidence.router, prefix="/api", tags=["Đối chiếu CV có dẫn chứng"])
+
 app.include_router(auth.router,         prefix="/api/auth",     tags=["Xác Thực (Authentication & RBAC)"])
 app.include_router(jobs.router,         prefix="/api/jobs",     tags=["Tin Tuyển Dụng"])
 app.include_router(skills.router,       prefix="/api/skills",   tags=["Kỹ Năng & Skill Gap"])
 app.include_router(surveys.router,      prefix="/api/surveys",  tags=["Khảo Sát Sinh Viên"])
 app.include_router(crawler_data.router, prefix="/api/crawler",  tags=["Dữ Liệu Cào"])
 app.include_router(courses.router,      prefix="/api/courses",  tags=["Gợi Ý Khóa Học"])
+app.include_router(courses.router,      prefix="/api/v1/courses", tags=["Gợi Ý Khóa Học (v1)"])
 app.include_router(cv_analyzer.router,   prefix="/api/cv",       tags=["Phân Tích CV & Lộ Trình Học"])
 
 

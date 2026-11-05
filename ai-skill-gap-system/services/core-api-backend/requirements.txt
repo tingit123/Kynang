@@ -12,3 +12,8 @@ python-multipart==0.0.9
 passlib[bcrypt]==1.7.4
 bcrypt>=4.0.1
 python-jose[cryptography]==3.3.0
+PyJWT>=2.8.0
+email-validator>=2.1.0
+pillow>=10.0.0
+pytesseract>=0.3.10
+pypdf>=4.0.0

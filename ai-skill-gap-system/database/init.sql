@@ -12,10 +12,10 @@ CREATE TABLE IF NOT EXISTS users (
   email               VARCHAR(150) UNIQUE NOT NULL,
   password_hash       VARCHAR(255) NOT NULL,
   full_name           VARCHAR(150) NOT NULL,
-  role                ENUM('admin', 'candidate', 'employer', 'provider') NOT NULL DEFAULT 'candidate',
+  role                ENUM('admin', 'worker', 'employer', 'course_provider', 'candidate', 'provider') NOT NULL DEFAULT 'worker',
+  is_active           BOOLEAN DEFAULT TRUE,
   is_deleted          BOOLEAN DEFAULT FALSE,
-  is_active           BOOLEAN NOT NULL DEFAULT TRUE,
-  phone               VARCHAR(30) NULL,
+  last_login_at       TIMESTAMP NULL,
   company_name        VARCHAR(200) NULL,
   company_logo_url    VARCHAR(500) NULL,
   company_description TEXT NULL,
@@ -46,6 +46,39 @@ CREATE TABLE IF NOT EXISTS companies (
   FOREIGN KEY (employer_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+-- ─── BẢNG 0.3: Người lao động / Ứng viên (Workers) ──────────────
+CREATE TABLE IF NOT EXISTS workers (
+  worker_id   INT AUTO_INCREMENT PRIMARY KEY,
+  user_id     INT UNIQUE NULL,
+  full_name   VARCHAR(150) NULL,
+  created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ─── BẢNG 0.4: Nhà tuyển dụng (Employers) ─────────────────────
+CREATE TABLE IF NOT EXISTS employers (
+  employer_id  INT AUTO_INCREMENT PRIMARY KEY,
+  user_id      INT UNIQUE,
+  company_id   INT NULL,
+  contact_name VARCHAR(150) NULL,
+  phone        VARCHAR(50) NULL,
+  is_verified  TINYINT(1) DEFAULT 0,
+  created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ─── BẢNG 0.5: Đơn vị đào tạo (Course Providers) ───────────────
+CREATE TABLE IF NOT EXISTS course_providers (
+  provider_id   INT AUTO_INCREMENT PRIMARY KEY,
+  user_id       INT UNIQUE,
+  provider_name VARCHAR(200) UNIQUE,
+  website       VARCHAR(500) NULL,
+  description   TEXT NULL,
+  is_verified   TINYINT(1) DEFAULT 0,
+  created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 -- ─── BẢNG 1: Tin tuyển dụng ───────────────────────────────────
 CREATE TABLE IF NOT EXISTS job_postings (
   id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -74,10 +107,149 @@ CREATE TABLE IF NOT EXISTS job_applications (
   job_id           INT NOT NULL,
   candidate_id     INT NOT NULL,
   cv_snapshot_text TEXT,
+  cv_original_text TEXT,
+  cv_original_filename VARCHAR(255),
+  cv_original_blob MEDIUMBLOB,
+  cv_original_mime VARCHAR(80),
   status           VARCHAR(50) DEFAULT 'applied',
   applied_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (job_id) REFERENCES job_postings(id) ON DELETE CASCADE,
   FOREIGN KEY (candidate_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- CV evidence MVP: also created by SQLAlchemy for existing databases.
+CREATE TABLE IF NOT EXISTS analysis_runs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  application_id INT NOT NULL,
+  requirements_hash VARCHAR(64) NOT NULL,
+  filter_profile_hash VARCHAR(64) NULL,
+  requirements_snapshot TEXT NOT NULL,
+  cv_hash VARCHAR(64) NOT NULL,
+  provider VARCHAR(20) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  error_code VARCHAR(80) NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_analysis_runs_application_id (application_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id)
+);
+CREATE TABLE IF NOT EXISTS application_evidence (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  run_id INT NOT NULL,
+  requirement_name VARCHAR(100) NOT NULL,
+  result VARCHAR(20) NOT NULL,
+  quote TEXT NOT NULL,
+  source_start INT NULL,
+  source_end INT NULL,
+  ai_result_original VARCHAR(20) NOT NULL,
+  reviewer_id INT NULL,
+  review_result VARCHAR(20) NULL,
+  review_reason TEXT NULL,
+  reviewed_at DATETIME NULL,
+  INDEX ix_application_evidence_run_id (run_id),
+  FOREIGN KEY (run_id) REFERENCES analysis_runs(id),
+  FOREIGN KEY (reviewer_id) REFERENCES users(id)
+);
+
+-- Employer-owned filter and confirmed internal selection.
+CREATE TABLE IF NOT EXISTS filter_profiles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL UNIQUE,
+  owner_user_id INT NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  items JSON NOT NULL,
+  profile_hash VARCHAR(64) NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (job_id) REFERENCES job_postings(id),
+  FOREIGN KEY (owner_user_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS quick_hire_batches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  profile_snapshot JSON NOT NULL,
+  idempotency_key VARCHAR(100) NOT NULL UNIQUE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (job_id) REFERENCES job_postings(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS notification_templates (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  owner_id INT NOT NULL,
+  action_type VARCHAR(30) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  title_template VARCHAR(300) NOT NULL,
+  body_template TEXT NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_notification_template_owner (owner_id, action_type, name),
+  INDEX ix_notification_templates_owner_id (owner_id),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS notification_batches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  action_type VARCHAR(30) NOT NULL,
+  channels JSON NOT NULL,
+  content JSON NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'processing',
+  idempotency_key VARCHAR(100) NOT NULL UNIQUE,
+  request_hash VARCHAR(64) NOT NULL,
+  simulated BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_notification_batches_job_id (job_id),
+  FOREIGN KEY (job_id) REFERENCES job_postings(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS notification_recipients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  batch_id INT NOT NULL,
+  application_id INT NOT NULL,
+  channel VARCHAR(20) NOT NULL,
+  user_id INT NULL,
+  address VARCHAR(150),
+  candidate_name VARCHAR(150) NOT NULL,
+  title VARCHAR(300) NOT NULL,
+  body TEXT NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'queued',
+  attempt_count INT NOT NULL DEFAULT 0,
+  last_error TEXT,
+  error_kind VARCHAR(30),
+  retryable BOOLEAN NOT NULL DEFAULT FALSE,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_notification_target (batch_id, application_id, channel),
+  INDEX ix_notification_recipients_batch_id (batch_id),
+  FOREIGN KEY (batch_id) REFERENCES notification_batches(id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS user_notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  recipient_id INT NOT NULL UNIQUE,
+  title VARCHAR(300) NOT NULL,
+  body TEXT NOT NULL,
+  simulated BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  read_at DATETIME NULL,
+  INDEX ix_user_notifications_user_id (user_id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (recipient_id) REFERENCES notification_recipients(id)
+);
+CREATE TABLE IF NOT EXISTS application_status_events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  application_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  from_status VARCHAR(50) NOT NULL,
+  to_status VARCHAR(50) NOT NULL,
+  batch_id INT NULL,
+  notification_batch_id INT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_application_status_events_application_id (application_id),
+  INDEX ix_application_status_events_batch_id (batch_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id),
+  FOREIGN KEY (batch_id) REFERENCES quick_hire_batches(id),
+  FOREIGN KEY (notification_batch_id) REFERENCES notification_batches(id)
 );
 
 -- ─── BẢNG 2: Kỹ năng được AI trích xuất ──────────────────────
@@ -155,14 +327,3 @@ INSERT INTO skill_catalog (skill_name, industry, demand_pct, supply_pct, gap_pct
 ('Problem Solving',   'Tất cả',   38.1, 22.8, 15.3, '+5%'),
 ('Customer Service',  'Du lịch',  30.0, 20.0, 10.0, '+6%')
 ON DUPLICATE KEY UPDATE demand_pct = VALUES(demand_pct);
-
-
--- System announcements: only admins publish, all users can read.
-CREATE TABLE IF NOT EXISTS notifications (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(200) NOT NULL,
-  content TEXT NOT NULL,
-  author_id INT NULL,
-  created_at DATETIME NOT NULL,
-  FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE SET NULL
-);
