@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>SkillGap AI – Hệ Thống Phân Tích Kỹ Năng Lao Động | Cần Thơ</title>
+  <title>Skill Lens Lab – Hệ Thống Phân Tích Kỹ Năng Lao Động | Cần Thơ</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -3493,7 +3493,7 @@
           </svg>
         </div>
         <div>
-          <div class="logo-title">SkillGap<span style="color:var(--primary)">AI</span></div>
+          <div class="logo-title">Skill Lens <span style="color:var(--primary)">Lab</span></div>
           <div class="logo-sub">Phân Tích Kỹ Năng Lao Động</div>
         </div>
       </div>
@@ -3926,8 +3926,8 @@
               </svg></div>
             <div class="kpi-info">
               <div class="kpi-label">Tin Tuyển Dụng</div>
-              <div class="kpi-value" id="kpiOverviewJobs">3,000</div>
-              <div class="kpi-change up" id="kpiOverviewJobsSub">↗ Từ TopCV – Toàn quốc 2026</div>
+              <div class="kpi-value" id="kpiOverviewJobs">3,007</div>
+              <div class="kpi-change up" id="kpiOverviewJobsSub">↗ 3.007 tin tuyển dụng toàn quốc (TopCV) · 2026</div>
             </div>
           </div>
           <div class="kpi-card green">
@@ -5290,7 +5290,7 @@
         <div class="page-header">
           <div>
             <h1 class="page-title">Quản Lý Người Lao Động</h1>
-            <p class="page-sub">500 hồ sơ CV sinh viên đã được AI phân loại kỹ năng</p>
+            <p class="page-sub" id="workerPageSub">1.506 hồ sơ CV ứng viên toàn quốc (Hà Nội: 500, TP.HCM: 500, Cần Thơ: 506) đã được AI phân loại kỹ năng</p>
           </div>
           <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="12" y1="5" x2="12" y2="19" />
@@ -5348,7 +5348,7 @@
         <div class="page-header">
           <div>
             <h1 class="page-title">Cổng Nhà Tuyển Dụng</h1>
-            <p class="page-sub">Đăng tin tuyển dụng và tiếp cận ứng viên phù hợp nhất</p>
+            <p class="page-sub" id="jobPageSub">3.007 tin tuyển dụng toàn quốc (Hà Nội: 1.000, TP.HCM: 1.000, Cần Thơ: 1.007) thu thập từ TopCV &amp; đối tác</p>
           </div>
           <button class="btn btn-primary" id="btnCreateJobPosting" onclick="openJobModal()"><svg viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2">
@@ -13926,23 +13926,45 @@
       initYearShiftSection();
     }
 
-    function buildOverviewGapChart() {
+    function setOverviewChartType(type, btn) {
+      overviewHoriz = (type === 'horizontal');
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      buildOverviewGapChart();
+    }
+
+    async function buildOverviewGapChart() {
       const ctx = document.getElementById('overviewGapChart');
       if (!ctx) return;
       if (overviewChartInst) overviewChartInst.destroy();
 
       const yearKey = (typeof currentGlobalQuarter !== 'undefined' && currentGlobalQuarter.startsWith('2025')) ? '2025' : '2026';
       const locKey = (typeof currentGlobalLocation !== 'undefined') ? currentGlobalLocation : 'all';
-      const cityData = (typeof SIMULATED_DATA_BY_LOCATION !== 'undefined' && SIMULATED_DATA_BY_LOCATION[locKey]) ? SIMULATED_DATA_BY_LOCATION[locKey] : null;
+      const indKey = (typeof currentIndustry !== 'undefined' && currentIndustry) ? currentIndustry : 'IT';
 
       let topSkills = [];
-      if (cityData && cityData.skills && cityData.skills[yearKey]) {
-        topSkills = cityData.skills[yearKey].slice(0, 5);
-      } else if (locKey !== 'all' && locKey !== 'HN' && locKey !== 'HCM' && locKey !== 'CT') {
-        topSkills = []; // unsurveyed
-      } else {
-        topSkills = (typeof SOFT_SKILLS !== 'undefined' ? SOFT_SKILLS : []).slice(0, 5);
+
+      // Dữ liệu Top 5 kỹ năng thiếu hụt: Lấy trực tiếp từ nguồn dữ liệu chuẩn hóa duy nhất (Single Source of Truth)
+      const regionKey = (typeof getEffectiveRegionKey === 'function') ? getEffectiveRegionKey(locKey) : locKey;
+      let rawSkills = [];
+      if (typeof REGIONAL_INDUSTRY_DATA !== 'undefined' && REGIONAL_INDUSTRY_DATA[regionKey]) {
+        const indData = REGIONAL_INDUSTRY_DATA[regionKey][indKey] || REGIONAL_INDUSTRY_DATA[regionKey].IT;
+        if (indData && indData.skills && indData.skills.length > 0) {
+          rawSkills = indData.skills;
+        }
       }
+      if (!rawSkills.length) {
+        const cityData = (typeof SIMULATED_DATA_BY_LOCATION !== 'undefined' && SIMULATED_DATA_BY_LOCATION[locKey]) ? SIMULATED_DATA_BY_LOCATION[locKey] : null;
+        if (cityData && cityData.skills && cityData.skills[yearKey]) {
+          rawSkills = cityData.skills[yearKey];
+        }
+      }
+
+      // Luôn tính toán xếp hạng chính xác: Sắp xếp theo mức độ thiếu hụt (Gap) giảm dần!
+      const sortedSkills = [...rawSkills].sort((a, b) => (b.gap || 0) - (a.gap || 0));
+      topSkills = sortedSkills.slice(0, 5);
 
       overviewChartInst = new Chart(ctx, {
         type: 'bar',
@@ -13957,7 +13979,14 @@
         options: {
           indexAxis: overviewHoriz ? 'y' : 'x',
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed[overviewHoriz ? 'x' : 'y'].toFixed(1)}%` } } },
+          plugins: { 
+            legend: { display: false }, 
+            tooltip: { 
+              callbacks: { 
+                label: ctx => `${ctx.dataset.label}: ${ctx.parsed[overviewHoriz ? 'x' : 'y'].toFixed(1)}%` 
+              } 
+            } 
+          },
           scales: {
             x: { grid: { color: 'var(--grid-color,rgba(0,0,0,0.04))' }, ticks: { color: '#8892a4', font: { size: 10 } } },
             y: { min: 0, max: 100, grid: { color: 'var(--grid-color,rgba(0,0,0,0.04))' }, ticks: { color: '#8892a4', font: { size: 10 }, callback: v => v + '%' } }
@@ -22755,7 +22784,52 @@ KỸ NĂNG:
       filterAdminJobsByLocation(locKey);
     }
 
+    function updateAdminWorkerStatCards(locKey) {
+      const statsMap = {
+        all: { total: '1,506', analyzed: '1,268', pending: '238', sub: '1.506 hồ sơ CV ứng viên toàn quốc (Hà Nội: 500, TP.HCM: 500, Cần Thơ: 506) đã được AI phân loại kỹ năng' },
+        HN: { total: '500', analyzed: '442', pending: '58', sub: '500 hồ sơ CV ứng viên khu vực Hà Nội · Thế mạnh AI, Big Data & Tài chính' },
+        HCM: { total: '500', analyzed: '436', pending: '64', sub: '500 hồ sơ CV ứng viên khu vực TP.HCM · Thế mạnh Cloud, Fintech & E-Commerce' },
+        CT: { total: '506', analyzed: '390', pending: '116', sub: '506 hồ sơ CV khảo sát sinh viên tại Cần Thơ & ĐBSCL' }
+      };
+      const s = statsMap[locKey] || { total: '0', analyzed: '0', pending: '0', sub: 'Chưa có hồ sơ tại khu vực này' };
+      const elTotal = document.getElementById('workerStatTotal');
+      const elAnalyzed = document.getElementById('workerStatAnalyzed');
+      const elPending = document.getElementById('workerStatPending');
+      const elSub = document.getElementById('workerPageSub');
+      const badge = document.getElementById('navBadgeWorkers');
+      if (elTotal) elTotal.textContent = s.total;
+      if (elAnalyzed) elAnalyzed.textContent = s.analyzed;
+      if (elPending) elPending.textContent = s.pending;
+      if (elSub) elSub.textContent = s.sub;
+      if (badge && locKey === 'all') badge.textContent = '1,506';
+      else if (badge) badge.textContent = s.total;
+    }
+
+    function updateAdminJobStatCards(locKey) {
+      const statsMap = {
+        all: { total: '3,007', active: '2,526', expired: '481', sub: '3.007 tin tuyển dụng toàn quốc (Hà Nội: 1.000, TP.HCM: 1.000, Cần Thơ: 1.007) thu thập từ TopCV & đối tác' },
+        HN: { total: '1,000', active: '854', expired: '146', sub: '1.000 tin tuyển dụng khu vực Hà Nội từ TopCV · 2026' },
+        HCM: { total: '1,000', active: '862', expired: '138', sub: '1.000 tin tuyển dụng khu vực TP. Hồ Chí Minh từ TopCV · 2026' },
+        CT: { total: '1,007', active: '810', expired: '197', sub: '1.007 tin tuyển dụng khu vực Cần Thơ & ĐBSCL từ TopCV' }
+      };
+      const s = statsMap[locKey] || { total: '0', active: '0', expired: '0', sub: 'Chưa có tin tuyển dụng tại khu vực này' };
+      const elTotal = document.getElementById('jobStatTotal');
+      const elActive = document.getElementById('jobStatActive');
+      const elExpired = document.getElementById('jobStatExpired');
+      const elSub = document.getElementById('jobPageSub');
+      const elBadge = document.getElementById('jobCountBadge');
+      const badge = document.getElementById('navBadgeEmployers');
+      if (elTotal) elTotal.textContent = s.total;
+      if (elActive) elActive.textContent = s.active;
+      if (elExpired) elExpired.textContent = s.expired;
+      if (elSub) elSub.textContent = s.sub;
+      if (elBadge) elBadge.textContent = `${s.total} Tin Tuyển Dụng`;
+      if (badge && locKey === 'all') badge.textContent = '3,007';
+      else if (badge) badge.textContent = s.total;
+    }
+
     function filterAdminWorkersByLocation(locKey) {
+      updateAdminWorkerStatCards(locKey);
       const tbody = document.getElementById('workersTableBody');
       if (!tbody) return;
 
