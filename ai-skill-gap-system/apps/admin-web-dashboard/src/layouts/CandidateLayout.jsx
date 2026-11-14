@@ -51,7 +51,7 @@ export default function CandidateLayout() {
       <header className="sticky top-0 z-50 bg-[#083e38]/95 backdrop-blur-md border-b border-white/10 shadow-lg flex flex-col">
         {/* DÒNG 1: LOGO VÀ AUTH / TÁC VỤ */}
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
-
+          
           {/* CỤM TRÁI: LOGO "SkillGapAI" */}
           <Link to="/" className="flex items-center gap-2 text-decoration-none group">
             <span className="text-2xl font-black tracking-tight text-white">

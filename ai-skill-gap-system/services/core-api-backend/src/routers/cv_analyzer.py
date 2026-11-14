@@ -114,21 +114,21 @@ def save_cv_to_database(db: Session, res: Dict[str, Any], current_user: Optional
 
         cand_name = res.get("candidate_name") or "Ứng Viên"
         target_role = res.get("target_role") or "Chuyên viên"
-
+        
         # Xác định ngành nghề phù hợp
         major = "Công nghệ thông tin"
         for role_name, profile in STANDARD_ROLE_PROFILES.items():
             if role_name.lower() in target_role.lower() or target_role.lower() in role_name.lower():
                 major = profile.get("industry", "Công nghệ thông tin")
                 break
-
+        
         # Mốc ngày và năm 2026 (dữ liệu năm 2026)
         today = date.today()
         target_year = 2026 if today.year < 2026 else today.year
         completed_date = date(target_year, today.month, today.day)
-
+        
         student_code = f"CV26-{uuid.uuid4().hex[:6].upper()}"
-
+        
         survey = SurveyResponse(
             user_id=current_user.id if current_user else None,
             student_code=student_code,
@@ -141,7 +141,7 @@ def save_cv_to_database(db: Session, res: Dict[str, Any], current_user: Optional
         db.add(survey)
         db.commit()
         db.refresh(survey)
-
+        
         # Lưu các kỹ năng thực tế trích xuất từ CV
         skills = res.get("all_detected_skills") or res.get("matched_skills") or []
         for sk_name in skills[:15]:
@@ -161,14 +161,14 @@ def save_cv_to_database(db: Session, res: Dict[str, Any], current_user: Optional
                 db.add(cat_item)
                 db.commit()
                 db.refresh(cat_item)
-
+            
             db.add(SurveySkillRating(
                 survey_id=survey.id,
                 skill_id=cat_item.id,
                 self_rating=85
             ))
         db.commit()
-
+        
         res["survey_id"] = survey.id
         res["student_code"] = survey.student_code
         res["completed_at"] = completed_date.isoformat()

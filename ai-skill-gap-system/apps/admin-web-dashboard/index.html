@@ -4655,7 +4655,7 @@
         <!-- ─── VIEW 1: FORM HỒ SƠ RỘNG RÃI (HIỂN THỊ MẶC ĐỊNH) ─── -->
         <div id="recFormCardContainer" style="max-width:960px;width:100%;margin:0 auto;box-sizing:border-box">
           <div class="card" style="background:#ffffff;border-radius:24px;border:none;box-shadow:0 12px 40px rgba(0,0,0,0.12);padding:32px 36px;color:#1e293b">
-
+            
             <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid #f1f5f9;padding-bottom:18px;margin-bottom:22px;flex-wrap:wrap;gap:12px">
               <div>
                 <div style="font-size:22px;font-weight:800;color:#0f172a;display:flex;align-items:center;gap:10px">
@@ -4738,7 +4738,7 @@
                   </label>
                   <span id="selectedSkillsCountBadge" style="font-size:11px;font-weight:700;background:#ccfbf1;color:#0f766e;padding:3px 10px;border-radius:12px">0 đã chọn</span>
                 </div>
-
+                
                 <!-- Khung chứa các kỹ năng đã chọn -->
                 <div class="skill-tags" id="selectedSkillTags" style="min-height:50px;background:#f8fafc;padding:12px 14px;border-radius:14px;border:1.5px dashed #5eead4;margin-bottom:12px"></div>
 
@@ -4795,7 +4795,7 @@
 
         <!-- ─── VIEW 2: FORM KẾT QUẢ PHÂN TÍCH RIÊNG BIỆT (XUẤT HIỆN SAU KHI BẤM CHẨN ĐOÁN) ─── -->
         <div id="recResultContainer" style="display:none;max-width:1080px;width:100%;margin:0 auto;box-sizing:border-box">
-
+          
           <!-- Placeholder giữ id recEmptyState cho tương thích ngược -->
           <div id="recEmptyState" style="display:none"></div>
 
@@ -5004,7 +5004,7 @@
                 <textarea class="form-input" id="cvTextContent" rows="6"
                   style="resize:vertical;font-family:inherit;font-size:12px"
                   placeholder="Dán toàn bộ văn bản CV, quá trình học tập, kinh nghiệm và kỹ năng vào đây nếu bạn không tải ảnh lên..."></textarea>
-
+                
                 <!-- Thanh chọn nhanh CV mẫu tiện lợi -->
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px">
                   <span style="font-size:11px;color:var(--text3);font-weight:700">Mẫu CV nhanh:</span>
@@ -5040,7 +5040,7 @@
           <div>
             <!-- KHỐI HƯỚNG DẪN CHI TIẾT & TRẠNG THÁI CHỜ HỒ SƠ -->
             <div id="cvEmptyState" class="card" style="padding:26px;border-radius:20px;border:none;box-shadow:0 8px 30px rgba(0,0,0,0.08);background:var(--bg2)">
-
+              
               <!-- Tiêu đề Hướng Dẫn -->
               <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--border);padding-bottom:16px;margin-bottom:20px;flex-wrap:wrap;gap:12px">
                 <div style="display:flex;align-items:center;gap:12px">
@@ -5123,7 +5123,7 @@
                   </div>
                   <span style="font-size:11.5px;color:var(--text3)">Trải nghiệm ngay không cần chuẩn bị file</span>
                 </div>
-
+                
                 <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));gap:10px">
                   <!-- Mẫu 1: CNTT -->
                   <div onclick="loadSampleCv('it')" style="background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.03)" onmouseover="this.style.borderColor='var(--primary)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='translateY(0)'">
@@ -6318,10 +6318,10 @@
   <!-- 4. PROVIDER PORTAL LAYOUT (/provider/*) - REDESIGNED KHỚP 100% ẢNH MẪU -->
   <!-- ══════════════════════════════════════════════════════════════════ -->
   <div id="providerPortalLayout" style="display:none; min-height:100vh; background-color:#f8fafc; flex-direction:column; width:100%; font-family:'Be Vietnam Pro',system-ui,sans-serif; color:#0f172a; position:relative;">
-
+    
     <!-- ── 1. TOP HEADER (Khớp 100% Ảnh 1) ── -->
     <header style="background:#ffffff; border-bottom:1px solid #e2e8f0; padding:12px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:90; box-shadow:0 1px 3px rgba(0,0,0,0.02);">
-
+      
       <!-- Cụm Trái: Nút Icon Sidebar (BỎ chữ Menu) + Logo + Tên Cổng + Breadcrumb -->
       <div style="display:flex; align-items:center; gap:16px;">
         <!-- Nút icon mở sidebar (Không có chữ Menu) -->
@@ -6404,7 +6404,7 @@
 
     <!-- Drawer Panel (Trượt từ trái sang) -->
     <aside id="provSidebarDrawer" style="display:none; transform:translateX(-100%); transition:transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); position:fixed; top:0; left:0; bottom:0; width:300px; max-width:85vw; background:#073d35; color:#ffffff; z-index:999; flex-direction:column; padding:24px 20px; box-shadow:8px 0 32px rgba(0,0,0,0.25); overflow-y:auto;">
-
+      
       <!-- Header Drawer: Logo & Nút Icon Sidebar (BỎ chữ Đóng) -->
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:32px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.12);">
         <div>
@@ -6759,7 +6759,7 @@
 
         <!-- 2 Columns Layout (Khớp 100% Ảnh 3) -->
         <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:28px; align-items:start;">
-
+          
           <!-- Cột Trái: Form chỉnh sửa -->
           <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
             <div style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:2px;">Thông tin trung tâm</div>
@@ -6879,7 +6879,7 @@
         <div style="display:grid; grid-template-columns:1.25fr 1fr; gap:28px; align-items:start;">
           <!-- Cột Trái: Form hồ sơ người đại diện & đổi mật khẩu -->
           <div style="background:#ffffff; border-radius:24px; border:1px solid #e2e8f0; padding:28px 30px; box-shadow:0 1px 4px rgba(0,0,0,0.03);">
-
+            
             <div style="font-size:17px; font-weight:800; color:#0f172a; margin-bottom:2px;">Người đại diện đơn vị</div>
             <div style="font-size:13px; color:#64748b; margin-bottom:22px;">Thông tin liên hệ trực tiếp cho đối tác và học viên.</div>
 
@@ -6948,7 +6948,7 @@
             <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:16px;">
               TÀI KHOẢN ĐẠI DIỆN
             </div>
-
+            
             <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
               <div id="provProfileSummaryAvatar" style="width:52px; height:52px; border-radius:50%; background:#0a5146; color:#5eead4; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; flex-shrink:0;">
                 T
@@ -7248,7 +7248,7 @@
 
   <!-- ══ MODAL: CANDIDATE APPLY JOB ══ -->
   <div class="modal-overlay" id="candidateApplyModal" onclick="if(event.target===this) closeCandidateApplyModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:16px">
-    <div style="background:#ffffff;border-radius:24px;max-width:540px;width:100%;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,0.3);position:relative">
+    <div style="background:#ffffff;border-radius:24px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;padding:30px;box-shadow:0 20px 50px rgba(0,0,0,0.3);position:relative">
       <button onclick="closeCandidateApplyModal()" style="position:absolute;top:20px;right:20px;background:none;border:none;font-size:20px;cursor:pointer;color:#94a3b8">✕</button>
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
         <div id="candApplyAvatar" style="width:44px;height:44px;border-radius:12px;background:#0d9488;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800">M</div>
@@ -7260,10 +7260,10 @@
 
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between">
         <div>
-          <div style="font-size:12px;color:#166534;font-weight:700">Độ phù hợp kỹ năng AI:</div>
-          <div id="candApplyMatchScore" style="font-size:16px;font-weight:900;color:#047857">Phù hợp 67%</div>
+          <div style="font-size:12px;color:#166534;font-weight:700">Hồ sơ ứng tuyển:</div>
+          <div id="candApplyMatchScore" style="font-size:16px;font-weight:900;color:#047857">Đính kèm CV của bạn</div>
         </div>
-        <span style="font-size:11px;font-weight:800;background:#dcfce7;color:#065f46;padding:4px 10px;border-radius:9999px">CV Đã tối ưu AI</span>
+        <span style="font-size:11px;font-weight:800;background:#dcfce7;color:#065f46;padding:4px 10px;border-radius:9999px">Nộp trực tiếp</span>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">
@@ -7276,27 +7276,29 @@
           <input id="candApplyEmail" type="text" value="sinhvien@ctu.edu.vn" style="width:100%;height:40px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;background:#f8fafc;box-sizing:border-box" readonly />
         </div>
         <div>
-          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">SỐ ĐIỆN THOẠI</label>
-          <input id="candApplyPhone" type="text" value="0912 345 678" style="width:100%;height:40px;border:1.5px solid #e2e8f0;border-radius:10px;padding:0 12px;font-size:13px;background:#f8fafc;box-sizing:border-box" />
-        </div>
-        <div>
-          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">CV ĐÍNH KÈM (BẢN CHUẨN ĐÃ PHÂN TÍCH)</label>
-          <div style="display:flex;align-items:center;gap:10px;border:1.5px dashed #0d9488;border-radius:12px;padding:10px 14px;background:#f0fdfa">
-            <span style="font-size:22px">📄</span>
-            <div style="flex:1">
-              <div style="font-size:13px;font-weight:800;color:#0f766e">CV_NguyenVanAn_IT_Backend.pdf</div>
-              <div style="font-size:11px;color:#64748b">Cập nhật 14/10/2026 · Đính kèm hồ sơ kỹ năng AI</div>
+          <label for="candApplyFile" style="display:block;font-weight:700;margin-bottom:8px">CV đính kèm</label>
+          <input id="candApplyFile" type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt" onchange="CandidateApplications.selectFile()" aria-describedby="candApplyFileHelp candApplyFileError" style="width:100%">
+          <div id="candApplySelected" hidden style="margin-top:10px;padding:12px;border:1px solid #99d8cd;border-radius:12px;background:#f0fdfa;overflow-wrap:anywhere">
+            <strong id="candApplyFilename" style="display:block;color:#0f766e"></strong>
+            <span id="candApplyFilesize" style="font-size:12px;color:#64748b"></span>
+            <p id="candApplyFileStatus" role="status" aria-live="polite" style="font-size:12px;margin:6px 0;color:#0f766e"></p>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+              <a id="candApplyPreview" target="_blank" rel="noopener noreferrer" style="font-size:13px;font-weight:700;color:#0f766e">Xem CV đã chọn ↗</a>
+              <button id="candApplyRemoveFile" type="button" onclick="CandidateApplications.resetFile()" style="border:0;background:none;color:#b91c1c;font-size:13px;padding:6px;cursor:pointer">Bỏ CV</button>
             </div>
           </div>
+          <p id="candApplyFileError" role="alert" style="color:#b91c1c;font-size:13px;margin:6px 0"></p>
+          <p id="candApplyFileHelp" style="font-size:12px;color:#64748b">PDF, PNG, JPG, WEBP hoặc TXT · tối đa 5 MB. Khi đính kèm tệp, hệ thống dùng nội dung trong tệp.</p>
         </div>
         <div>
-          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">LỜI NHẮN GỬI NHÀ TUYỂN DỤNG</label>
-          <textarea id="candApplyNote" rows="3" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;font-size:13px;font-family:inherit;box-sizing:border-box">Tôi rất hào hứng với cơ hội việc làm này và tự tin các kỹ năng Python, SQL, REST API của tôi sẽ đóng góp hiệu quả cho công ty.</textarea>
+          <label style="font-size:11.5px;font-weight:800;color:#64748b;text-transform:uppercase;display:block;margin-bottom:4px">NỘI DUNG CV (NẾU KHÔNG ĐÍNH KÈM TỆP)</label>
+          <textarea id="candApplyNote" rows="3" style="width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;font-size:13px;font-family:inherit;box-sizing:border-box"></textarea>
         </div>
       </div>
 
       <div style="display:flex;gap:10px;justify-content:flex-end">
         <button onclick="closeCandidateApplyModal()" style="padding:10px 20px;border-radius:12px;border:1.5px solid #cbd5e1;background:#fff;font-weight:700;font-size:13px;color:#475569;cursor:pointer">Hủy</button>
+        <p id="candApplyError" role="alert" style="color:#b91c1c;font-size:13px"></p>
         <button id="btnConfirmSubmitApply" onclick="confirmSubmitApply()" style="padding:10px 24px;border-radius:12px;border:none;background:#0d9488;color:#fff;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
           <span>XÁC NHẬN NỘP HỒ SƠ</span>
           <span>→</span>
@@ -7351,7 +7353,7 @@
         <button onclick="closeNotificationDropdown()" style="border:none;background:none;color:#94a3b8;font-size:18px;cursor:pointer;line-height:1">✕</button>
       </div>
     </div>
-
+    
     <div id="candidateNotificationList" style="max-height:420px;overflow-y:auto;padding:8px 0;display:flex;flex-direction:column">
       <!-- Rendered dynamically -->
     </div>
@@ -7580,7 +7582,7 @@
   <!-- ══════════════════════════════════════════════════════ -->
   <div class="modal-overlay" id="marketDetailModal" onclick="if(event.target===this) closeMarketDetailModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.68);backdrop-filter:blur(5px);z-index:99999;align-items:center;justify-content:center;padding:16px;">
     <div style="background:#ffffff;width:min(1140px,96vw);max-height:92vh;border-radius:20px;box-shadow:0 25px 60px rgba(0,0,0,0.45);display:flex;flex-direction:column;overflow:hidden;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#0f172a;">
-
+      
       <!-- Modal Header (Dark Teal) -->
       <div style="background:#083e38;padding:22px 28px 20px;color:#ffffff;border-bottom:1px solid rgba(255,255,255,0.1);">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
@@ -7724,14 +7726,14 @@
     </div>
   </div>
 
-
+  
   <!-- ══════════════════════════════════════════════════════════════════ -->
   <!-- MODAL: CHI TIẾT KHÓA HỌC (NHỮNG GÌ SẼ HỌC, SKILLS, CÔNG CỤ)         -->
   <!-- KHỚP 100% ẢNH MẪU media_1792554350893_c7034fb0.png                 -->
   <!-- ══════════════════════════════════════════════════════════════════ -->
   <div id="courseDetailModal" onclick="if(event.target===this) closeCourseDetailModal()" style="display:none; position:fixed; inset:0; z-index:100020; background:rgba(5, 44, 40, 0.72); backdrop-filter:blur(5px); align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
     <div style="background:#ffffff; border-radius:28px; width:100%; max-width:680px; max-height:92vh; overflow-y:auto; box-shadow:0 25px 60px -15px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.4); position:relative; font-family:'Be Vietnam Pro', system-ui, -apple-system, sans-serif;">
-
+      
       <!-- HEADER (Nền xanh bạc hà nhạt #e6f7f4) -->
       <div style="background:linear-gradient(180deg, #e6f7f4 0%, #f0fdfa 100%); padding:24px 28px 20px; border-bottom:1px solid #ccfbf1; border-top-left-radius:28px; border-top-right-radius:28px;">
         <!-- Hàng 1: Badge Skill + Nút Đóng -->
@@ -7966,7 +7968,7 @@
       <button class="modal-close" onclick="closeAuthModal()"><svg viewBox="0 0 24 24" fill="none">
           <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
         </svg></button>
-
+      
       <!-- TABS CHUYỂN ĐỔI -->
       <div class="auth-tabs">
         <button class="auth-tab-btn active" id="authTabLoginBtn" onclick="switchAuthTab('login')">🔑 Đăng Nhập</button>
@@ -10510,7 +10512,7 @@
 
     function handleRouting(customPath, triggerPageSwitch = true) {
       let currentPath = customPath || getNormalizedRoute();
-
+      
       const userRole = String(currentUser?.role || 'guest').toLowerCase().trim().replace('userrole.', '');
       const isGuest = !currentUser || currentUser.is_guest || userRole === 'guest';
 
@@ -10770,14 +10772,14 @@
               <h2 style="font-size:24px;font-weight:800;color:var(--text)">Phân Tích CV &amp; Chẩn Đoán Kỹ Năng Thiếu Hụt</h2>
               <p style="color:var(--text2);font-size:13.5px;max-width:580px;margin:6px auto 0">Tải ảnh chụp CV hoặc dán nội dung để AI bóc tách kỹ năng, đo tỷ lệ khớp và kê đơn khóa học bù đắp.</p>
             </div>
-
+            
             <div style="display:flex;flex-direction:column;gap:16px">
               <div class="drop-zone" onclick="document.getElementById('cvFileInput').click()" style="border:2px dashed var(--primary);border-radius:12px;padding:36px;text-align:center;cursor:pointer;background:rgba(15,163,158,0.03)">
                 <div style="font-size:32px;margin-bottom:8px">📄</div>
                 <div style="font-weight:700;color:var(--text);font-size:14px" id="pubCvFileName">Kéo thả CV / Ảnh chụp vào đây hoặc click để chọn file</div>
                 <div style="font-size:12px;color:var(--text3);margin-top:4px">Hỗ trợ file ảnh (PNG, JPG), PDF hoặc TXT</div>
               </div>
-
+              
               <div>
                 <label style="font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:6px">Dán nội dung CV (Văn bản):</label>
                 <textarea id="pubCvTextContent" class="form-input" rows="5" placeholder="Dán nội dung hồ sơ của bạn vào đây..." style="width:100%;font-size:12.5px"></textarea>
@@ -11083,7 +11085,7 @@
           if (u.skills && Array.isArray(u.skills) && u.skills.length > 0) return u.skills;
         }
       } catch (e) {}
-      return CANDIDATE_PROFILE.skills;
+      return [];
     }
 
     function calculateJobMatch(jobSkills) {
@@ -11115,6 +11117,7 @@
     }
 
     function getAllCandidateJobs() {
+      if (window.CandidateApplications?.jobs !== null && window.CandidateApplications?.jobs) return window.CandidateApplications.jobs;
       let list = [...CANDIDATE_SEED_JOBS];
       try {
         const raw = localStorage.getItem('global_job_postings');
@@ -11195,6 +11198,7 @@
     }
 
     function getCandidateAppliedJobIds() {
+      if (window.CandidateApplications?.applications) return window.CandidateApplications.applications.map(a => a.jobId);
       if (isCandidateGuest()) return [];
       const userKey = getCandidateUserKey();
       const userEmail = (currentUser && currentUser.email ? currentUser.email : '').toLowerCase();
@@ -11232,6 +11236,7 @@
     }
 
     function initCandidateJobs() {
+      window.CandidateApplications?.load();
       candidateSavedJobIds = getSavedJobIds();
       updateAppliedCountBadge();
       updateSavedJobsBadges();
@@ -11308,6 +11313,7 @@
         `;
       } else {
         listEl.innerHTML = filtered.map(j => {
+          j = window.CandidateApplications.safeView(j);
           const isSelected = j.id === currentSelectedJobId;
           const isApplied = appliedIds.includes(j.id);
           const match = calculateJobMatch(j.skills);
@@ -11400,6 +11406,7 @@
     }
 
     function renderCandidateJobDetail(job, isApplied) {
+      job = window.CandidateApplications.safeView(job);
       const detailEl = document.getElementById('candJobDetailPanel');
       if (!detailEl) return;
 
@@ -11684,7 +11691,10 @@
       if (!modal) return;
 
       const match = calculateJobMatch(job.skills);
-      const candidate = CANDIDATE_PROFILE;
+      const candidate = {};
+      window.CandidateApplications.resetFile();
+      document.getElementById("candApplyNote").value="";
+      document.getElementById("candApplyError").textContent="";
 
       const titleEl = document.getElementById('candApplyJobTitle');
       if (titleEl) titleEl.textContent = job.title;
@@ -11699,7 +11709,7 @@
       }
 
       const scoreEl = document.getElementById('candApplyMatchScore');
-      if (scoreEl) scoreEl.textContent = `Phù hợp ${match.matchPct}%`;
+      if (scoreEl) scoreEl.textContent = "Đính kèm CV của bạn";
 
       const nameEl = document.getElementById('candApplyName');
       if (nameEl) nameEl.value = (currentUser.full_name || currentUser.display_name || candidate.name || '').trim();
@@ -11707,8 +11717,6 @@
       const emailEl = document.getElementById('candApplyEmail');
       if (emailEl) emailEl.value = (currentUser.email || candidate.email || '').trim();
 
-      const phoneEl = document.getElementById('candApplyPhone');
-      if (phoneEl) phoneEl.value = (currentUser.phone || candidate.phone || '').trim();
 
       modal.style.display = 'flex';
     }
@@ -11716,120 +11724,12 @@
     function closeCandidateApplyModal() {
       const modal = document.getElementById('candidateApplyModal');
       if (modal) modal.style.display = 'none';
+      window.CandidateApplications.resetFile();
       applyingJobId = null;
     }
 
-    function confirmSubmitApply() {
-      if (isCandidateGuest()) {
-        alert('Vui lòng đăng nhập tài khoản Người tìm việc để nộp hồ sơ!');
-        openAuthModal('login');
-        return;
-      }
-      if (!applyingJobId) return;
-      const allJobs = getAllCandidateJobs();
-      const job = allJobs.find(j => j.id === applyingJobId);
-      if (!job) return;
-
-      const userKey = getCandidateUserKey();
-      const candidate = CANDIDATE_PROFILE;
-      const match = calculateJobMatch(job.skills);
-      const note = document.getElementById('candApplyNote')?.value || '';
-      const candName = (document.getElementById('candApplyName')?.value || currentUser.full_name || currentUser.display_name || candidate.name).trim();
-      const candEmail = (document.getElementById('candApplyEmail')?.value || currentUser.email || candidate.email).trim();
-      const candPhone = (document.getElementById('candApplyPhone')?.value || currentUser.phone || candidate.phone).trim();
-
-      const application = {
-        id: Date.now(),
-        userId: currentUser.id || currentUser.user_id,
-        userEmail: candEmail,
-        jobId: job.id,
-        jobTitle: job.title,
-        company: job.company,
-        location: job.location,
-        salary: job.salary,
-        candidateName: candName,
-        candidateEmail: candEmail,
-        candidatePhone: candPhone,
-        skills: candidate.skills,
-        skillsOwned: match.owned,
-        skillsMissing: match.missing,
-        matchScore: match.matchPct,
-        matchPct: match.matchPct,
-        appliedDate: new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' }),
-        appliedDateFull: new Date().toLocaleDateString('vi-VN'),
-        status: 'Đã ứng tuyển',
-        note: note,
-        aiComment: `Ứng viên nắm vững ${match.owned.length}/${job.skills.length} kỹ năng yêu cầu (${match.matchPct}% phù hợp). Các kỹ năng sẵn có: ${match.owned.join(', ')}. Đánh giá tiềm năng cao.`
-      };
-
-      try {
-        const raw = localStorage.getItem('global_job_applications');
-        const apps = raw ? JSON.parse(raw) : [];
-        apps.unshift(application);
-        localStorage.setItem('global_job_applications', JSON.stringify(apps));
-      } catch (e) {}
-
-      try {
-        const rawIds = localStorage.getItem('cand_applied_ids_' + userKey);
-        const ids = rawIds ? JSON.parse(rawIds) : [];
-        if (!ids.includes(job.id)) {
-          ids.push(job.id);
-          localStorage.setItem('cand_applied_ids_' + userKey, JSON.stringify(ids));
-        }
-      } catch (e) {}
-
-      // Synchronize applications count in global_job_postings
-      try {
-        const rawPostings = localStorage.getItem('global_job_postings');
-        if (rawPostings) {
-          const list = JSON.parse(rawPostings);
-          const found = list.find(x => x.id === job.id);
-          if (found) {
-            found.applications_count = (found.applications_count || 0) + 1;
-            localStorage.setItem('global_job_postings', JSON.stringify(list));
-          }
-        }
-      } catch (e) {}
-
-      // Synchronize employer jobs data in memory
-      if (typeof empPortalJobsData !== 'undefined' && Array.isArray(empPortalJobsData)) {
-        const ej = empPortalJobsData.find(x => x.id === job.id);
-        if (ej) {
-          ej.applications_count = (ej.applications_count || 0) + 1;
-        }
-      }
-
-      // Update employer dashboard KPI for applications count
-      const kpiApps = document.getElementById('empKpiApplications');
-      if (kpiApps) {
-        const cur = parseInt(kpiApps.textContent) || 148;
-        kpiApps.textContent = cur + 1;
-      }
-
-      // Re-render employer portal tabs if functions exist
-      if (typeof renderEmployerJobsList === 'function') {
-        renderEmployerJobsList();
-      }
-      if (typeof renderEmployerCandidatesList === 'function') {
-        renderEmployerCandidatesList();
-      }
-
-      closeCandidateApplyModal();
-      renderCandidateJobs();
-      updateAppliedCountBadge();
-
-      // Gửi thông báo tới hộp thư thông báo của ứng viên
-      if (typeof addCandidateNotification === 'function') {
-        addCandidateNotification({
-          title: `Nộp hồ sơ thành công: ${job.title}`,
-          message: `Hồ sơ của bạn đã được gửi đến ${job.company}. Vui lòng theo dõi tiến trình tại mục Việc đã nộp.`,
-          type: 'applied',
-          linkText: 'Xem việc đã nộp',
-          linkAction: 'openAppliedDrawer()'
-        });
-      }
-
-      alert(`🎉 Ứng tuyển thành công vị trí "${job.title}" tại ${job.company}!\nHồ sơ của bạn đã được chuyển tới Nhà tuyển dụng.`);
+    async function confirmSubmitApply() {
+      await window.CandidateApplications.submit();
     }
 
     function updateAppliedCountBadge() {
@@ -11884,6 +11784,7 @@
         if (raw) apps = JSON.parse(raw);
       } catch (e) {}
 
+      apps = window.CandidateApplications?.applications || [];
       const userApps = apps.filter(a => {
         if (a.userId && String(a.userId) === userKey) return true;
         if (a.candidateEmail && userEmail && a.candidateEmail.toLowerCase() === userEmail) return true;
@@ -11905,6 +11806,7 @@
       }
 
       container.innerHTML = userApps.map(app => {
+        app = window.CandidateApplications.safeView(app);
         let badgeStyle = 'background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd';
         let statusText = app.status || 'Đang xét duyệt';
         if (statusText === 'Mời phỏng vấn' || statusText.includes('mời') || statusText.includes('trúng')) {
@@ -11922,7 +11824,7 @@
                 <div style="font-size:15.5px;font-weight:800;color:#0f172a;margin-bottom:2px">${app.jobTitle}</div>
                 <div style="font-size:13px;color:#64748b;margin-bottom:6px">🏢 ${app.company} · Nộp ngày ${app.appliedDate || app.appliedDateFull || '14/10/2026'}</div>
                 <div style="display:flex;gap:6px;align-items:center">
-                  <span style="background:#ecfdf5;color:#047857;font-size:11px;font-weight:800;padding:2px 8px;border-radius:9999px">Phù hợp ${app.matchScore || app.matchPct || 67}%</span>
+                  
                   <span style="background:#f1f5f9;color:#475569;font-size:11px;font-weight:700;padding:2px 8px;border-radius:9999px">📄 Hồ sơ nộp trực tuyến</span>
                 </div>
               </div>
@@ -12579,7 +12481,7 @@
       const btnText = document.getElementById('btnToggleSoftInlineText');
       const subTitle = document.getElementById('softBarChartSubTitle');
       const note = document.getElementById('softBarStatusNote');
-
+      
       if (softSkillsDisplayCount === 5) {
         if (btnText) btnText.textContent = '⭐ Xem Top 5 (Mặc định)';
         if (subTitle) subTitle.textContent = 'Đang xem Top 5 kỹ năng nghề trọng điểm · Hiện rõ tên ngành tương ứng bên dưới';
@@ -13048,8 +12950,8 @@
 
     function filterSoftTable(q) {
       const qLow = q.toLowerCase();
-      const filtered = SOFT_SKILLS.filter(s =>
-        s.skill.toLowerCase().includes(qLow) ||
+      const filtered = SOFT_SKILLS.filter(s => 
+        s.skill.toLowerCase().includes(qLow) || 
         (s.industry && s.industry.toLowerCase().includes(qLow)) ||
         (s.shortIndustry && s.shortIndustry.toLowerCase().includes(qLow))
       );
@@ -13148,7 +13050,7 @@
       renderIndustryTop10Chart(activeKey);
     }
 
-
+    
     let exploreSkillsShowAll = false;
 
     function toggleExploreIndustrySkillsView() {
@@ -14514,7 +14416,7 @@
 
     <!-- 2 CỘT: CHỨC VỤ ĐANG THIẾU GÌ (ĐỎ) vs KỸ NĂNG ĐÃ ĐÁP ỨNG (XANH) -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-
+      
       <!-- CỘT 1: CHỨC VỤ ĐANG THIẾU GÌ -->
       <div style="background:rgba(239,68,68,0.06);border:1.5px solid rgba(239,68,68,0.25);border-radius:var(--radius-sm);padding:16px">
         <div style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--red);margin-bottom:12px">
@@ -15048,7 +14950,7 @@
           </div>
         </div>
       </div>
-
+      
       <div style="display:flex; justify-content:space-between; align-items:flex-end; padding:6px 6px 16px 6px;">
         <div style="display:flex; flex-direction:column; gap:4px;">
           <span style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.5px;">THỜI LƯỢNG</span>
@@ -15059,7 +14961,7 @@
           <span style="font-size:15px; font-weight:800; color:#0d6e64;">${priceText}</span>
         </div>
       </div>
-
+      
       <!-- Hàng nút: [Chi tiết] & [TRUY CẬP KHÓA HỌC NGAY] -->
       <div style="display:flex; align-items:center; gap:12px; margin-top:auto;">
         <button type="button" onclick="openCourseDetailModal('${c.id}')" style="background:#ffffff; color:#0d6e64; border:1.5px solid #0d6e64; border-radius:9999px; padding:11px 22px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; outline:none; transition:all 0.15s;" onmouseover="this.style.background='#f0fdfa'" onmouseout="this.style.background='#ffffff'">
@@ -15689,7 +15591,7 @@
         <span style="background:rgba(16,185,129,0.1);color:#059669;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700">Mới đăng</span>
         <span class="course-rating" style="font-size:12px;padding:2px 8px;box-shadow:none;border:1px solid #e2e8f0"><span class="course-rating-star">⭐</span> ${rating}</span>
       </div>
-
+      
       <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px">
         <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--primary);font-weight:bold;font-size:18px">
           ${j.company ? j.company.charAt(0).toUpperCase() : 'C'}
@@ -16112,6 +16014,10 @@
 
     function switchEmpTab(tab) {
       if (!tab) tab = 'dashboard';
+      if (tab === 'interviews' || tab === 'reports') {
+        location.replace('#/employer/dashboard');
+        return;
+      }
       const tabMap = {
         'dashboard': { nav: 'empNavDashboard', view: 'empTabDashboard' },
         'jobs': { nav: 'empNavJobs', view: 'empTabJobs' },
@@ -16314,7 +16220,7 @@
       const salaryMin = document.getElementById('empJobSalaryMinInput')?.value || '15';
       const salaryMax = document.getElementById('empJobSalaryMaxInput')?.value || '25';
       const desc = document.getElementById('empJobDescInput')?.value || '';
-
+      
       const tags = [];
       document.querySelectorAll('#empSkillTagsContainer .emp-form-skill-tag').forEach(tagEl => {
         const text = tagEl.textContent.replace('✕', '').trim();
@@ -16542,8 +16448,8 @@
     let empIndustryTop10ChartInst = null;
 
     function renderEmployerMarketSkillsTab() {
-      const regionKey = (typeof getEffectiveRegionKey === 'function')
-        ? getEffectiveRegionKey(currentGlobalLocation)
+      const regionKey = (typeof getEffectiveRegionKey === 'function') 
+        ? getEffectiveRegionKey(currentGlobalLocation) 
         : 'CT';
       const regionData = (typeof REGIONAL_INDUSTRY_DATA !== 'undefined' && REGIONAL_INDUSTRY_DATA[regionKey])
         ? REGIONAL_INDUSTRY_DATA[regionKey]
@@ -17583,8 +17489,8 @@
       // Nút Lùi (Prev)
       const prevDisabled = currentPage <= 1;
       html += `
-        <button type="button" onclick="${prevDisabled ? '' : 'provGoToMarketPage(' + (currentPage - 1) + ')'}"
-          style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid #e2e8f0; background:${prevDisabled ? '#f8fafc' : '#ffffff'}; color:${prevDisabled ? '#cbd5e1' : '#0f172a'}; cursor:${prevDisabled ? 'not-allowed' : 'pointer'}; transition:all 0.15s; font-size:16px; font-weight:800;"
+        <button type="button" onclick="${prevDisabled ? '' : 'provGoToMarketPage(' + (currentPage - 1) + ')'}" 
+          style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid #e2e8f0; background:${prevDisabled ? '#f8fafc' : '#ffffff'}; color:${prevDisabled ? '#cbd5e1' : '#0f172a'}; cursor:${prevDisabled ? 'not-allowed' : 'pointer'}; transition:all 0.15s; font-size:16px; font-weight:800;" 
           ${prevDisabled ? 'disabled' : ''} title="Trang trước">
           &lsaquo;
         </button>
@@ -17612,8 +17518,8 @@
         } else {
           const isActive = p === currentPage;
           html += `
-            <button type="button" onclick="provGoToMarketPage(${p})"
-              style="display:inline-flex; align-items:center; justify-content:center; min-width:36px; height:36px; padding:0 8px; border-radius:12px; border:1.5px solid ${isActive ? '#0a5146' : '#e2e8f0'}; background:${isActive ? '#0a5146' : '#ffffff'}; color:${isActive ? '#ffffff' : '#0f172a'}; font-weight:${isActive ? '900' : '700'}; cursor:pointer; transition:all 0.15s; box-shadow:${isActive ? '0 2px 6px rgba(10,81,70,0.25)' : 'none'};"
+            <button type="button" onclick="provGoToMarketPage(${p})" 
+              style="display:inline-flex; align-items:center; justify-content:center; min-width:36px; height:36px; padding:0 8px; border-radius:12px; border:1.5px solid ${isActive ? '#0a5146' : '#e2e8f0'}; background:${isActive ? '#0a5146' : '#ffffff'}; color:${isActive ? '#ffffff' : '#0f172a'}; font-weight:${isActive ? '900' : '700'}; cursor:pointer; transition:all 0.15s; box-shadow:${isActive ? '0 2px 6px rgba(10,81,70,0.25)' : 'none'};" 
               onmouseover="if(!${isActive}) this.style.background='#f8fafc'" onmouseout="if(!${isActive}) this.style.background='#ffffff'">
               ${p}
             </button>
@@ -17624,8 +17530,8 @@
       // Nút Tiến (Next)
       const nextDisabled = currentPage >= totalPages;
       html += `
-        <button type="button" onclick="${nextDisabled ? '' : 'provGoToMarketPage(' + (currentPage + 1) + ')'}"
-          style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid #e2e8f0; background:${nextDisabled ? '#f8fafc' : '#ffffff'}; color:${nextDisabled ? '#cbd5e1' : '#0f172a'}; cursor:${nextDisabled ? 'not-allowed' : 'pointer'}; transition:all 0.15s; font-size:16px; font-weight:800;"
+        <button type="button" onclick="${nextDisabled ? '' : 'provGoToMarketPage(' + (currentPage + 1) + ')'}" 
+          style="display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid #e2e8f0; background:${nextDisabled ? '#f8fafc' : '#ffffff'}; color:${nextDisabled ? '#cbd5e1' : '#0f172a'}; cursor:${nextDisabled ? 'not-allowed' : 'pointer'}; transition:all 0.15s; font-size:16px; font-weight:800;" 
           ${nextDisabled ? 'disabled' : ''} title="Trang sau">
           &rsaquo;
         </button>
@@ -18021,7 +17927,7 @@
       tbody.innerHTML = filtered.map((item, idx) => {
         const rank = idx + 1;
         const isTop3 = rank <= 3;
-        const rankHtml = isTop3
+        const rankHtml = isTop3 
           ? `<div style="width:30px; height:30px; border-radius:50%; background:#0d5f57; color:#ffffff; font-weight:900; font-size:12px; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 3px rgba(13,95,87,0.25)">${rank}</div>`
           : `<div style="width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:700; color:#64748b; font-size:13.5px">${rank}</div>`;
 
@@ -19531,8 +19437,8 @@ KỸ NĂNG:
           <div style="font-size:11px;color:var(--primary);font-weight:700">📘 Khóa học chỉ định bù đắp:</div>
           <div style="font-size:13px;font-weight:700;color:var(--text);margin-top:2px">${course.title}</div>
           <div style="font-size:11px;color:var(--text3);margin-top:2px">
-            <span>🏫 ${course.src}</span> ·
-            <span>⏱ ${course.dur}</span> ·
+            <span>🏫 ${course.src}</span> · 
+            <span>⏱ ${course.dur}</span> · 
             <span>💰 ${course.price}</span>
           </div>
         </div>
@@ -19618,7 +19524,7 @@ KỸ NĂNG:
       }
     }
 
-
+  
     // ══════════════════════════════════════════════════════
     //  TOP 10 SKILLS GROUPED BAR CHARTS (KHÁM PHÁ NGÀNH & ADMIN)
     // ══════════════════════════════════════════════════════
@@ -20094,7 +20000,7 @@ KỸ NĂNG:
       applyGlobalLocationQuarterUpdate();
     }
 
-
+    
     function updateExploreIndustryLocation(locVal) {
       const yearKey = (typeof currentGlobalQuarter !== 'undefined' && currentGlobalQuarter.startsWith('2025')) ? '2025' : '2026';
       const kpiJobsEl = document.getElementById('exploreKpiJobs');
@@ -20281,11 +20187,13 @@ KỸ NĂNG:
     }
 
 </script>
-  <script src="src/recruitment-statuses.js?v=20261106-nhien1"></script>
-  <script src="src/worker-notifications.js?v=20261106-nhien1"></script>
-  <script src="src/skill-options.js?v=20261106-nhien1"></script>
-  <script src="src/employer-quick-hire.js?v=20261106-nhien1"></script>
-  <script src="src/employer-evidence.js?v=20261106-nhien1"></script>
+  <script src="src/candidate-applications.js?v=cv-file-feedback2"></script>
+  <script src="src/recruitment-statuses.js?v=gmail-delivery1"></script>
+  <script src="src/worker-notifications.js?v=20261105-appskills1"></script>
+  <script src="src/skill-options.js?v=20261105-appskills1"></script>
+  <script src="src/employer-quick-hire.js?v=gmail-delivery1"></script>
+  <script src="src/employer-pipeline.js?v=single-hr1"></script>
+  <script src="src/employer-evidence.js?v=single-hr1"></script>
 </body>
 
 </html>

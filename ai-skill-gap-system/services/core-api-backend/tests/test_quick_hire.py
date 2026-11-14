@@ -4,8 +4,10 @@ from test_evidence import system, auth, CV
 from src.models.user import User
 from src.models.job import JobPosting, JobApplication
 from src.models.evidence import ApplicationEvidence
+from src.models.notification import NotificationBatch, NotificationRecipient
 from src.routers.quick_hire import router
 from src.routers.notifications import router as notifications_router
+from src.routers.recruitment_process import router as pipeline_router
 from src.services.filter_counts import calculate, select_results
 
 PROFILE={"name":"HR filter","items":[{"label":"Python","kind":"skill","level":"must"},{"label":"SQL","kind":"skill","level":"nice"}]}
@@ -43,6 +45,83 @@ def test_counts_chips_and_filters(quick):
     r=client.get("/api/jobs/1/filter-results?missing_must=true",headers=auth(1)).json();assert r["applications"][0]["x"]==0
     r=client.get("/api/jobs/1/filter-results?unassessed=true",headers=auth(1)).json();assert r["applications"][0]["x"] is None
     assert client.get("/api/jobs/1/filter-results?xs=3",headers=auth(1)).status_code==422
+
+def test_minimum_percentage_uses_rounded_coverage_for_results_and_preview(quick):
+    client, _ = quick
+    headers = auth(1)
+    items = PROFILE["items"] + [{"label": "Docker", "kind": "skill", "level": "nice"}]
+    profile = client.put("/api/jobs/1/filter-profile", headers=headers, json={**PROFILE, "items": items}).json()
+    evaluate(client)
+
+    path = "/api/jobs/1/filter-results"
+    result = client.get(path, headers=headers, params={"min_pct": 67}).json()
+    assert result["matching_ids"] == [1]
+    assert client.get(path, headers=headers, params={"min_pct": 68}).json()["matching_ids"] == []
+    assert client.get(path, headers=headers, params={"min_pct": 0}).json()["matching_ids"] == [1, 3, 4]
+    assert client.get(path, headers=headers, params={"min_pct": 0, "min_x": 2}).json()["matching_ids"] == [1]
+    assert client.get(path, headers=headers, params={"min_pct": 101}).status_code == 422
+
+    preview = client.post("/api/jobs/1/notification-batches/preview", headers=headers, json={
+        "profile_hash": profile["profile_hash"],
+        "all_matching": True,
+        "filters": {"min_pct": 67},
+        "action_type": "acknowledge",
+        "channels": ["in_app"],
+    })
+    assert preview.status_code == 200
+    assert [row["application_id"] for row in preview.json()["applications"]] == result["matching_ids"]
+
+
+def test_contact_filters_use_delivery_history_and_keep_preview_scope(quick):
+    client, db = quick
+    headers = auth(1)
+    evaluate(client)
+    profile = client.get("/api/jobs/1/filter-profile", headers=headers).json()
+    for batch_id, action, recipients in [
+        (1, "acknowledge", [(1, "in_app", "read")]),
+        (2, "invite", [(1, "email", "failed"), (1, "in_app", "sent"), (3, "in_app", "sent")]),
+    ]:
+        db.add(NotificationBatch(id=batch_id, job_id=1, actor_id=1, action_type=action,
+                                 channels=["in_app", "email"], content={}, status="completed",
+                                 idempotency_key=f"contact-test-{batch_id}", request_hash="hash"))
+        db.flush()
+        for application_id, channel, status in recipients:
+            db.add(NotificationRecipient(batch_id=batch_id, application_id=application_id,
+                                         channel=channel, status=status, candidate_name="Demo",
+                                         title="Demo", body="Demo"))
+    for application_id in (1, 3):
+        db.get(JobApplication, application_id).status = "invited"
+    db.commit()
+
+    path = "/api/jobs/1/filter-results"
+    counts = {"unconfirmed": 2, "never_sent": 1, "send_failed": 1}
+    for contact, ids in {"unconfirmed": [3, 4], "never_sent": [4], "send_failed": [1]}.items():
+        response = client.get(path, headers=headers, params={"contact": contact}).json()
+        assert response["matching_ids"] == ids
+        assert response["contact_counts"] == counts
+    client.app.include_router(pipeline_router, prefix="/api")
+    pipeline = client.get("/api/jobs/1/pipeline", headers=headers)
+    assert pipeline.status_code == 200
+    states = {row["id"]: set(row["contact_states"]) for row in pipeline.json()["applications"]}
+    assert states == {
+        1: {"send_failed"},
+        3: {"unconfirmed"},
+        4: {"unconfirmed", "never_sent"},
+        5: {"unconfirmed", "never_sent"},
+    }
+    filtered = client.get(path, headers=headers, params={"contact": "unconfirmed", "min_pct": 50}).json()
+    assert filtered["matching_ids"] == [3]
+    assert filtered["contact_counts"] == {"unconfirmed": 1, "never_sent": 0, "send_failed": 1}
+    assert client.get(path, headers=headers, params={"contact": "bad"}).status_code == 422
+
+    preview = client.post("/api/jobs/1/notification-batches/preview", headers=headers, json={
+        "profile_hash": profile["profile_hash"], "all_matching": True,
+        "filters": {"contact": "unconfirmed", "min_pct": 50},
+        "action_type": "acknowledge", "channels": ["in_app"],
+    })
+    assert preview.status_code == 200
+    assert [row["application_id"] for row in preview.json()["applications"]] == filtered["matching_ids"]
+
 
 def test_fixed_page_size_and_all_matching_ids(quick):
     client,db=quick

@@ -16,7 +16,7 @@ export default function AiDiagnosisPage() {
   const [fullName, setFullName] = useState('Nguyễn Văn An');
   const [currentRole, setCurrentRole] = useState('Sinh viên năm cuối CNTT / Thực tập sinh');
   const [experienceLevel, setExperienceLevel] = useState('4');
-
+  
   // Bước 1: Mục tiêu ngành nghề (Industry)
   const [selectedIndustry, setSelectedIndustry] = useState('IT');
 
@@ -101,10 +101,10 @@ export default function AiDiagnosisPage() {
 
   // Tính toán kết quả Gap
   const targetRequiredSkills = activeTargetRole ? (activeTargetRole.mustSkills || []) : [];
-  const matchedSkills = targetRequiredSkills.filter(s =>
+  const matchedSkills = targetRequiredSkills.filter(s => 
     selectedSkills.some(userSkill => userSkill.toLowerCase() === s.toLowerCase())
   );
-  const missingSkills = targetRequiredSkills.filter(s =>
+  const missingSkills = targetRequiredSkills.filter(s => 
     !selectedSkills.some(userSkill => userSkill.toLowerCase() === s.toLowerCase())
   );
   const matchPct = targetRequiredSkills.length > 0
@@ -114,7 +114,7 @@ export default function AiDiagnosisPage() {
   // Lọc khóa học phù hợp với kỹ năng thiếu
   const recommendedCourses = useMemo(() => {
     if (missingSkills.length === 0) return DEFAULT_COURSES.slice(0, 3);
-    const matched = DEFAULT_COURSES.filter(c =>
+    const matched = DEFAULT_COURSES.filter(c => 
       missingSkills.some(m => c.skill.toLowerCase().includes(m.toLowerCase()) || m.toLowerCase().includes(c.skill.toLowerCase()))
     );
     return matched.length > 0 ? matched : DEFAULT_COURSES.slice(0, 3);

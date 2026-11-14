@@ -8,6 +8,14 @@ from src.services.evidence_matcher import digest
 def migrate(engine, session_factory):
     if engine.dialect.name == "mysql":
         with engine.begin() as connection:
+            role = next(c for c in inspect(connection).get_columns("users") if c["name"] == "role")
+            existing = getattr(role["type"], "enums", None)
+            required = ["admin", "worker", "employer", "course_provider", "candidate", "provider"]
+            if existing and any(value not in existing for value in required):
+                # Append new values to preserve all historical enum values and their order.
+                values = existing + [value for value in required if value not in existing]
+                enum = ", ".join("'" + value.replace("'", "''") + "'" for value in values)
+                connection.execute(text(f"ALTER TABLE users MODIFY COLUMN role ENUM({enum}) NOT NULL DEFAULT 'worker'"))
             for table, column in [("filter_profiles", "cutpoints"), ("application_status_events", "batch_id")]:
                 definition = next((c for c in inspect(connection).get_columns(table) if c["name"] == column), None)
                 if definition and not definition["nullable"]:

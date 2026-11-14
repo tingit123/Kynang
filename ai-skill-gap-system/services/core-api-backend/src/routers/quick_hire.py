@@ -11,9 +11,9 @@ from src.models.job import JobPosting, JobApplication
 from src.models.user import User
 from src.models.evidence import AnalysisRun, ApplicationEvidence
 from src.models.quick_hire import FilterProfile
-from src.models.notification import NotificationRecipient
+from src.models.notification import NotificationBatch, NotificationRecipient
 from src.services.evidence_matcher import digest, requirements_for
-from src.services.filter_counts import calculate, select_results
+from src.services.filter_counts import CONTACT_FILTERS, ContactFilter, calculate, matches_contact, select_results
 from src.routers.application_evidence import persist_analysis
 
 router = APIRouter()
@@ -69,7 +69,15 @@ def latest_run(db,application,profile,lock=False):
     query=db.query(AnalysisRun).filter_by(application_id=application.id,filter_profile_hash=profile.profile_hash).order_by(AnalysisRun.id.desc())
     return (query.populate_existing().with_for_update() if lock else query).first()
 
-def application_result(db,application,profile,lock=False):
+def contact_fields(application, contact):
+    return {
+        "acknowledged": application.status == "acknowledged" or bool(contact and contact["acknowledged"]),
+        "last_batch_failed": bool(contact and contact["last_batch_failed"]),
+        "last_delivery": contact["last_delivery"] if contact else None,
+    }
+
+
+def application_result(db,application,profile,lock=False,*,contact=None):
     run=latest_run(db,application,profile,lock)
     query=db.query(ApplicationEvidence).filter_by(run_id=run.id).order_by(ApplicationEvidence.id) if run else None
     rows=(query.populate_existing().with_for_update() if lock else query).all() if query is not None else []
@@ -78,19 +86,46 @@ def application_result(db,application,profile,lock=False):
     fresh=bool(run and run.cv_hash==cv_hash)
     value=calculate(profile.items,evidence,run.status if fresh else None)
     candidate=db.get(User,application.candidate_id)
-    delivery=db.query(NotificationRecipient).filter_by(application_id=application.id).order_by(NotificationRecipient.updated_at.desc(),NotificationRecipient.id.desc()).first()
     return {**value,"application_id":application.id,"candidate_name":candidate.full_name if candidate else "",
             "candidate_email":candidate.email if candidate else "","is_demo":bool(candidate and (candidate.email.lower().endswith("@demo.local") or candidate.email.lower().endswith(".demo.local"))),
             "status":application.status,"applied_at":application.applied_at,"run_id":run.id if run else None,
             "provider":run.provider if run else None,"error_code":run.error_code if run else None,
             "evaluation_fingerprint":digest(json.dumps({"run":run.id if run else None,"cv":cv_hash,"rows":evidence,"state":run.status if run else None},sort_keys=True)),
             "needs_evaluation":not fresh or (run is not None and run.status=="error"),
-            "last_delivery":({"status":delivery.status,"channel":delivery.channel,"last_error":delivery.last_error,"batch_id":delivery.batch_id} if delivery else None)}
+            **contact_fields(application, contact)}
+
+
+def contact_history(db, job_id):
+    """Summarize actual delivery records, including all channels of the newest batch."""
+    recipient = NotificationRecipient
+    batch = NotificationBatch
+    records = (
+        db.query(recipient.application_id, recipient.status, recipient.channel, recipient.last_error,
+                 recipient.batch_id, batch.action_type)
+        .join(batch, batch.id == recipient.batch_id)
+        .filter(batch.job_id == job_id)
+        .order_by(recipient.batch_id.desc(), recipient.updated_at.desc(), recipient.id.desc())
+        .all()
+    )
+    history = {}
+    for row in records:
+        summary = history.setdefault(row.application_id, {
+            "last_delivery": {"status": row.status, "channel": row.channel,
+                              "last_error": row.last_error, "batch_id": row.batch_id},
+            "acknowledged": False,
+            "last_batch_failed": False,
+        })
+        if row.action_type == "acknowledge" and row.status in {"sent", "read"}:
+            summary["acknowledged"] = True
+        if row.batch_id == summary["last_delivery"]["batch_id"] and row.status == "failed":
+            summary["last_batch_failed"] = True
+    return history
 
 def all_results(db,job_id,profile,lock=False):
     query=db.query(JobApplication).filter_by(job_id=job_id)
     applications=(query.populate_existing().with_for_update() if lock else query).all()
-    return [application_result(db,a,profile,lock) for a in applications]
+    history = contact_history(db, job_id)
+    return [application_result(db, a, profile, lock, contact=history.get(a.id)) for a in applications]
 
 @router.get("/jobs/{job_id}/filter-profile")
 def get_profile(job_id:int,db:Session=Depends(get_db),user:User=Depends(allowed_user)):
@@ -148,6 +183,8 @@ def evaluate(job_id: int, payload: EvaluationRequest = EvaluationRequest(), db: 
 def get_results(job_id:int,xs:list[int]|None=Query(None),min_x:int|None=Query(None,ge=0),
                 missing_must:bool=False,unassessed:bool=False,page:int=Query(1,ge=1),
                 priority_skills:list[str]|None=Query(None),
+                min_pct:int|None=Query(None,ge=0,le=100),
+                contact: ContactFilter | None = Query(None),
                 db:Session=Depends(get_db),user:User=Depends(allowed_user)):
     owned_job(db,job_id,user)
     profile=saved_profile(db,job_id)
@@ -156,12 +193,14 @@ def get_results(job_id:int,xs:list[int]|None=Query(None),min_x:int|None=Query(No
     if any(x<0 or x>y for x in (xs or [])) or (min_x is not None and min_x>y): raise HTTPException(422,"Số mục đạt nằm ngoài bộ lọc")
     if len(priority_skills or []) > 30 or any(label not in {item["label"] for item in profile.items} for label in (priority_skills or [])):
         raise HTTPException(422,"Kỹ năng ưu tiên phải thuộc các kỹ năng đã dùng để lọc")
-    filtered=select_results(values,xs,min_x,missing_must,unassessed,priority_skills)
+    matching = select_results(values,xs,min_x,missing_must,unassessed,priority_skills,min_pct=min_pct)
+    filtered = [row for row in matching if matches_contact(row, contact)]
     return {"profile":profile_data(profile),"y":y,"items":profile.items,
             "counts_by_x":{str(x):sum(r["x"]==x for r in values) for x in range(y+1)},
             "unassessed_count":sum(r["x"] is None for r in values),
             "missing_must_count":sum(bool(r["missing_must"]) for r in values),
             "pending_count":sum(bool(r["needs_evaluation"]) for r in values),
             "pending_ids":[r["application_id"] for r in values if r["needs_evaluation"]],
+            "contact_counts": {key: sum(matches_contact(row, key) for row in matching) for key in CONTACT_FILTERS},
             "total":len(filtered),"page":page,"page_size":10,"applications":filtered[(page-1)*10:page*10],
             "matching_ids":[r["application_id"] for r in filtered]}

@@ -78,14 +78,18 @@ def validate_rows(cv, requirements, response):
     return rows
 
 
+def keyword_match(cv, requirement):
+    for word in [requirement] + ALIASES.get(requirement.casefold(), []):
+        match = re.search(r"(?<!\w)" + re.escape(word) + r"(?!\w)", cv, re.IGNORECASE)
+        if match:
+            return match
+    return None
+
+
 def keyword_rows(cv, requirements):
     rows = []
     for requirement in requirements:
-        match = None
-        for word in [requirement] + ALIASES.get(requirement.casefold(), []):
-            match = re.search(r"(?<!\w)" + re.escape(word) + r"(?!\w)", cv, re.IGNORECASE)
-            if match:
-                break
+        match = keyword_match(cv, requirement)
         quote = cv[max(0, match.start() - 60):min(len(cv), match.end() + 90)] if match else ""
         rows.append({"requirement_name": requirement, "result": "supported" if match else "not_found", "quote": quote})
     return validate_rows(cv, requirements, rows)

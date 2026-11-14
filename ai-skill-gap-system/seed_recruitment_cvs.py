@@ -20,6 +20,15 @@ GROUPS = [
         ("Phạm Gia Hân", "Sinh viên Công nghệ thông tin (giả định), năm cuối",
          "Dự án website câu lạc bộ: xây giao diện bằng React và JavaScript, dùng HTML/CSS cho trang giới thiệu.\nDùng Git phối hợp nhóm ba người; phụ trách form đăng ký và kiểm tra hiển thị trên điện thoại. Đây là dự án học tập, chưa có kinh nghiệm doanh nghiệp.",
          "Tìm thực tập frontend; làm được 4 ngày mỗi tuần."),
+        ("Đặng Minh Khang", "Cử nhân Công nghệ thông tin (giả định), 2026",
+         "Đồ án quản lý mượn thiết bị: viết API bằng Python và FastAPI, tạo bảng kiểm kê bằng SQL.\nDùng Git để chia nhánh, đóng gói bản demo bằng Docker và viết ca Testing cho luồng trả thiết bị.",
+         "Tìm vị trí backend fresher; muốn phụ trách API và cơ sở dữ liệu."),
+        ("Nguyễn Thảo My", "Cử nhân Hệ thống thông tin (giả định), 2026",
+         "Dự án nhóm theo dõi bảo hành: viết Python để nhập dữ liệu và dùng SQL tạo báo cáo lỗi theo tháng.\nDùng Git để góp ý và tích hợp thay đổi trong nhóm ba người.",
+         "Tìm việc thực tập backend; có thể làm bốn ngày mỗi tuần."),
+        ("Trần Hoàng Duy", "Sinh viên Kỹ thuật phần mềm (giả định), năm cuối",
+         "Dự án cá nhân: làm trang tổng hợp tài liệu bằng React, quản lý mã nguồn bằng Git.\nThử nghiệm giao diện trên điện thoại và ghi lại các lỗi tìm kiếm.",
+         "Tìm vị trí thực tập phát triển phần mềm có người hướng dẫn."),
     ]),
     ("Du lịch", "Nhân viên dịch vụ du lịch", ["Tiếng Anh", "Giao tiếp", "Chăm sóc khách hàng", "Nghiệp vụ lễ tân", "Đặt phòng", "Excel"], [
         ("Võ Thảo Vy", "Cao đẳng Quản trị khách sạn (giả định), 2026", "Thực tập tại cơ sở lưu trú giả định, 07–09/2026: thực hành Nghiệp vụ lễ tân, Đặt phòng và cập nhật lịch phòng bằng Excel.\nDùng Tiếng Anh trong bài tập check-in; thực hành Giao tiếp và Chăm sóc khách hàng khi mô phỏng xử lý khách đến muộn.", "Tìm việc lễ tân; có thể làm ca chiều."),
@@ -59,9 +68,10 @@ def documents():
 def write_files():
     folder = Path(__file__).parent / "demo_cvs"
     folder.mkdir(exist_ok=True)
-    for *_, filename, content in documents():
+    entries = list(documents())
+    for *_, filename, content in entries:
         (folder / filename).write_bytes(content.encode("utf-8"))
-    print(f"Wrote 16 authored original CV documents: {folder}")
+    print(f"Wrote {len(entries)} authored original CV documents: {folder}")
 
 
 def seed():
@@ -78,9 +88,10 @@ def seed():
     hashed = get_password_hash(password)
     role_type = next(c["type"] for c in inspect(engine).get_columns("users") if c["name"] == "role")
     role = "worker" if "worker" in getattr(role_type, "enums", ["worker"]) else "candidate"
+    entries = list(documents())
     with SessionLocal() as db:
         employer = db.query(User).filter_by(email="evidence.employer@demo.local").one()
-        for industry, title, skills, key, name, filename, content in documents():
+        for industry, title, skills, key, name, filename, content in entries:
             job_title = f"[CV tự tạo] {title}"
             job = db.query(JobPosting).filter_by(employer_id=employer.id, title=job_title).first()
             if not job:
@@ -98,7 +109,7 @@ def seed():
                 db.add(JobApplication(job_id=job.id, candidate_id=candidate.id, cv_snapshot_text=content,
                                       cv_original_text=content, cv_original_filename=filename, status="applied"))
         db.commit()
-        print("Added/kept 4 fictional jobs and 16 authored CVs. Existing applications were not changed.")
+        print(f"Added/kept {len(GROUPS)} fictional jobs and {len(entries)} authored CVs. Existing applications were not changed.")
         print("Employer: evidence.employer@demo.local (existing password unchanged)")
         print("New worker demo password:", password)
 

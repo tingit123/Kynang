@@ -1,5 +1,25 @@
 """Equal-item CV evidence counts. No inferred proficiency assessment."""
 
+from typing import Literal
+
+
+ContactFilter = Literal["unconfirmed", "never_sent", "send_failed"]
+CONTACT_FILTERS = ("unconfirmed", "never_sent", "send_failed")
+
+
+def matches_contact(row, contact):
+    if contact == "unconfirmed":
+        return not row["acknowledged"]
+    if contact == "never_sent":
+        return row["last_delivery"] is None
+    if contact == "send_failed":
+        return row["last_batch_failed"]
+    return True
+
+
+def contact_states(row):
+    return [key for key in CONTACT_FILTERS if matches_contact(row, key)]
+
 
 def calculate(items, evidence, run_status):
     counts = {"supported": 0, "not_found": 0, "needs_review": 0, "unreadable": 0}
@@ -22,11 +42,17 @@ def calculate(items, evidence, run_status):
     return {**value, "x": counts["supported"], "missing_must": missing, "skill_states": states}
 
 
-def select_results(rows, xs=None, min_x=None, missing=False, unassessed=False, priority_skills=None):
+def select_results(rows, xs=None, min_x=None, missing=False, unassessed=False, priority_skills=None, *, min_pct=None, contact=None):
     """Numeric chips and the two special chips are combined with OR."""
     active = bool(xs) or min_x is not None or missing or unassessed
     selected = []
     for row in rows:
+        if not matches_contact(row, contact):
+            continue
+        if min_pct is not None:
+            x, y = row["x"], row["y"]
+            if x is None or y <= 0 or (200 * x + y) // (2 * y) < min_pct:
+                continue
         match = ((row["x"] is not None and (row["x"] in (xs or []) or (min_x is not None and row["x"] >= min_x)))
                  or (missing and bool(row["missing_must"])) or (unassessed and row["x"] is None))
         if match or (not active and row["x"] is not None):

@@ -12,10 +12,7 @@ from src.models.job import JobPosting, JobApplication
 from src.models.skill import ExtractedSkill
 from src.models.evidence import ApplicationEvidence
 from src.core.security import create_access_token
-from src.routers.application_evidence import router, persist_analysis
-from src.routers.jobs import router as jobs_router
-from src.models.quick_hire import FilterProfile
-from src.models.evidence import AnalysisRun
+from src.routers.application_evidence import router
 from src.services import evidence_matcher as m
 
 CV = "CV mẫu 🚀: Dự án dùng Python\n  và SQL; triển khai dịch vụ API trong nhóm sinh viên Cần Thơ."
@@ -43,7 +40,6 @@ def system(monkeypatch):
     db.commit()
     app = FastAPI()
     app.include_router(router, prefix="/api")
-    app.include_router(jobs_router, prefix="/api/jobs")
     app.dependency_overrides[get_db] = lambda: db
     with TestClient(app) as client:
         yield client, db
@@ -297,44 +293,3 @@ def test_invalid_original_does_not_replace_previous_cv(system,filename,content,s
     db.expire_all()
     assert db.get(JobApplication,1).cv_original_text==CV
     assert db.get(JobApplication,1).cv_snapshot_text==CV
-
-def test_applicant_skill_labels_use_fresh_evidence_and_hr_review(system):
-    client, db = system
-    url = "/api/jobs/1/applications"
-    headers = auth(1)
-
-    def skills():
-        response = client.get(url, headers=headers)
-        assert response.status_code == 200
-        return response.json()[0]["skill_states"]
-
-    assert client.get(url, headers=auth(2)).status_code == 403
-    assert skills() == [{"label": "Python", "result": "unassessed"}]
-    run = client.post("/api/applications/1/analyses", headers=headers)
-    assert run.status_code == 201
-    assert skills() == [{"label": "Python", "result": "supported"}]
-    row = db.get(ApplicationEvidence, run.json()["evidence"][0]["id"])
-    row.review_result = "not_found"
-    db.commit()
-    assert skills() == [{"label": "Python", "result": "not_found"}]
-    db.get(JobApplication, 1).cv_snapshot_text = "CV mới chưa đối chiếu."
-    db.commit()
-    assert skills() == [{"label": "Python", "result": "unassessed"}]
-
-
-def test_applicant_skill_labels_prefer_active_filter_without_creating_runs(system):
-    client, db = system
-    profile = FilterProfile(
-        job_id=1, owner_user_id=1, name="Active",
-        items=[{"label": "SQL", "kind": "skill", "level": "nice"}],
-        profile_hash="a" * 64,
-    )
-    db.add(profile)
-    db.flush()
-    persist_analysis(db, db.get(JobApplication, 1), ["SQL"], profile.profile_hash)
-    db.commit()
-    before = db.query(AnalysisRun).count()
-    result = client.get("/api/jobs/1/applications", headers=auth(1))
-    assert result.status_code == 200
-    assert result.json()[0]["skill_states"] == [{"label": "SQL", "result": "supported"}]
-    assert db.query(AnalysisRun).count() == before

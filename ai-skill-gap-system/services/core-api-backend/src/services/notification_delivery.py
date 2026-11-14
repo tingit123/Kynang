@@ -6,6 +6,7 @@ import smtplib
 import ssl
 from datetime import datetime
 from email.message import EmailMessage
+from email.utils import formatdate, make_msgid
 
 from sqlalchemy import update
 from src.database import SessionLocal
@@ -23,12 +24,29 @@ def simulated():
 
 
 def smtp_enabled():
-    if not all(os.getenv(key, "").strip() for key in ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "SMTP_FROM")):
-        return False
+    return not smtp_configuration_error()
+
+
+def smtp_configuration_error():
+    required = ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "SMTP_FROM")
+    missing = [key for key in required if not os.getenv(key, "").strip()]
+    if missing:
+        return "Thiếu cấu hình: " + ", ".join(missing)
     try:
-        return 0 < int(os.environ["SMTP_PORT"]) < 65536
+        port = int(os.environ["SMTP_PORT"])
     except ValueError:
-        return False
+        return "SMTP_PORT phải là số"
+    if not 0 < port < 65536:
+        return "SMTP_PORT không hợp lệ"
+    mode = os.getenv("SMTP_SECURITY", "starttls")
+    if mode not in {"starttls", "ssl", "none"}:
+        return "SMTP_SECURITY không hợp lệ"
+    if not valid_email(os.environ["SMTP_FROM"]):
+        return "SMTP_FROM phải là địa chỉ email hợp lệ"
+    if os.environ["SMTP_HOST"].strip().lower() == "smtp.gmail.com":
+        if (port, mode) not in {(587, "starttls"), (465, "ssl")}:
+            return "Gmail cần cổng 587/STARTTLS hoặc 465/SSL"
+    return None
 
 
 def valid_email(value):
@@ -43,7 +61,7 @@ class DeliveryError(Exception):
 
 def send_email(address, title, body):
     if not smtp_enabled():
-        raise DeliveryError("Chưa cấu hình SMTP", kind="configuration", retryable=False)
+        raise DeliveryError(smtp_configuration_error(), kind="configuration", retryable=False)
     if not valid_email(address) or "\r" in title or "\n" in title:
         raise DeliveryError("Địa chỉ hoặc tiêu đề không hợp lệ", kind="input", retryable=False)
     try:
@@ -51,25 +69,41 @@ def send_email(address, title, body):
         message["From"] = os.environ["SMTP_FROM"]
         message["To"] = address
         message["Subject"] = title
+        message["Date"] = formatdate(localtime=False, usegmt=True)
+        message["Message-ID"] = make_msgid(domain=os.environ["SMTP_FROM"].split("@")[-1])
         message.set_content(body)
     except ValueError:
         raise DeliveryError("Thông tin tiêu đề hoặc người gửi không hợp lệ", kind="configuration", retryable=False)
     attempted = False
+    authenticating = False
     try:
         mode = os.getenv("SMTP_SECURITY", "starttls")
         if mode not in {"starttls", "ssl", "none"}:
             raise DeliveryError("SMTP_SECURITY không hợp lệ", kind="configuration", retryable=False)
         factory = smtplib.SMTP_SSL if mode == "ssl" else smtplib.SMTP
-        with factory(os.environ["SMTP_HOST"], int(os.environ["SMTP_PORT"]), timeout=15) as client:
+        connection = {"timeout": 15}
+        if mode == "ssl":
+            connection["context"] = ssl.create_default_context()
+        with factory(os.environ["SMTP_HOST"], int(os.environ["SMTP_PORT"]), **connection) as client:
             if mode == "starttls":
                 client.starttls(context=ssl.create_default_context())
-            client.login(os.environ["SMTP_USER"], os.environ["SMTP_PASS"])
+            password = os.environ["SMTP_PASS"]
+            if os.environ["SMTP_HOST"].strip().lower() == "smtp.gmail.com":
+                password = "".join(password.split())
+            authenticating = True
+            client.login(os.environ["SMTP_USER"].strip(), password)
+            authenticating = False
             attempted = True
             refused = client.send_message(message, to_addrs=[address])
             if refused:
                 raise smtplib.SMTPRecipientsRefused(refused)
     except DeliveryError:
         raise
+    except smtplib.SMTPAuthenticationError:
+        raise DeliveryError("Đăng nhập SMTP thất bại. Với Gmail, kiểm tra địa chỉ gửi và Mật khẩu ứng dụng Google.",
+                            kind="configuration", retryable=False)
+    except ssl.SSLCertVerificationError:
+        raise DeliveryError("Không xác minh được chứng chỉ TLS của máy chủ thư", kind="configuration", retryable=False)
     except smtplib.SMTPRecipientsRefused as error:
         temporary = any(int(code) < 500 for code, _ in error.recipients.values())
         raise DeliveryError("Máy chủ thư từ chối người nhận", kind="temporary" if temporary else "input", retryable=temporary)
@@ -79,6 +113,9 @@ def send_email(address, title, body):
     except (socket.timeout, TimeoutError, smtplib.SMTPServerDisconnected, OSError):
         if attempted:
             raise DeliveryError("Mất kết nối sau khi gọi gửi; chưa xác định máy chủ đã nhận hay chưa", "unknown", "uncertain", False)
+        if authenticating:
+            raise DeliveryError("Máy chủ ngắt kết nối trong bước đăng nhập SMTP. Kiểm tra Mật khẩu ứng dụng Google và kết nối mạng.",
+                                kind="configuration", retryable=False)
         raise DeliveryError("Chưa kết nối được máy chủ SMTP")
     except smtplib.SMTPException:
         raise DeliveryError("Lỗi giao thức SMTP", "unknown" if attempted else "failed", "uncertain" if attempted else "temporary", not attempted)

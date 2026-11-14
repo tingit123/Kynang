@@ -299,7 +299,7 @@ export default function AdminSoftSkillsPage() {
                     const values = trendMetric === 'gap' ? s.gapHistory : s.demandHistory;
                     const maxVal = trendMetric === 'gap' ? 50 : 100;
                     const minVal = trendMetric === 'gap' ? 0 : 30;
-
+                    
                     const points = values.map((val, qIdx) => {
                       const x = (qIdx / (SOFT_TREND_DATA.quarters.length - 1)) * 350;
                       const y = 130 - ((val - minVal) / (maxVal - minVal)) * 120;

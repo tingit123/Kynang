@@ -274,11 +274,23 @@ trò demo khác giữ cách hoạt động cũ. Lỗi có thông báo trong form
 Đã kiểm tra 12 trường hợp cho tính năng này, cùng Chrome trắng: bấm Employer khi
 hai ô đăng nhập rỗng, API /me trả employer thật, tải lại trang vẫn giữ phiên.
 
+## Quản lý hồ sơ ứng viên
+
+Vào **Ứng viên** → chọn tin → xem **Danh sách / Bảng tiến trình**.
+Mỗi tin thuộc nhà tuyển dụng sở hữu; không có phân công hoặc danh bạ nhiều HR.
+Bấm hồ sơ → **Thông tin** để đổi trạng thái, ghi lý do và lưu; có ghi chú và lịch sử.
+Dẫn chứng, CV gốc và Tuyển dụng vẫn nằm trong hồ sơ. Đổi trạng thái không tự gửi thư.
+
+Trang việc làm HTML đang chạy lấy tin đã có nhà tuyển dụng từ API. Người tìm việc
+nộp CV PDF/PNG/JPG/WEBP/TXT (tối đa 5 MB) hoặc nhập nội dung CV. Hồ sơ lưu database,
+không thông báo thành công chỉ bằng localStorage. Tệp gốc được nhà tuyển dụng mở lại.
+Chi tiết và giới hạn: [Quản lý ứng viên](docs/APPLICANT_WORKFLOW_TRIAL.md).
+
 ## Ứng viên và Tuyển dụng nhanh — giao diện mới
 
 Hai mục độc lập trên thanh bên trái:
 
-- **Ứng viên**: danh sách hồ sơ theo tin, có nhãn kỹ năng dựa trên kết quả đối chiếu đã lưu. Bấm một ứng viên để xem dẫn chứng và CV gốc, hoặc soạn thông báo ngay trong hồ sơ.
+- **Ứng viên**: danh sách hồ sơ theo tin. Bấm một ứng viên để xem tiến trình, nội dung và dẫn chứng.
   Dùng danh sách chọn hoặc nút trước/sau để đổi người ngay trong phần chi tiết.
   Hai nút **Dẫn chứng / CV gốc** nằm cạnh nhau phía trên. Nút **Tuyển dụng** mở ngay
   trình soạn thông báo cho đúng người đang xem, không đổi trang hoặc chạy lại bộ lọc.
@@ -373,13 +385,14 @@ Không có nút xem trước thứ hai ở cuối form.
 
 ```powershell
 docker compose exec -T core-api mkdir -p /app/tests
-foreach ($testFile in @('test_evidence.py','test_quick_hire.py','test_notifications.py','test_demo_login.py')) {
+foreach ($testFile in @('test_evidence.py','test_quick_hire.py','test_notifications.py','test_demo_login.py','test_recruitment_process.py')) {
   docker compose cp "services/core-api-backend/tests/$testFile" "core-api:/app/tests/$testFile"
 }
 docker compose exec -T core-api pip install 'pytest>=8,<9'
 docker compose exec -T core-api python -m pytest tests -q -p no:cacheprovider
 ```
 
+05/11/2026: **248 passed**, 5 cảnh báo deprecation của thư viện.
 Bản nginx HTML đã thử bằng Chrome trên desktop và chiều rộng 390px. SMTP chưa gửi thực tế.
 Chi tiết bản mới: [Báo cáo giao diện tuyển dụng](docs/RECRUITMENT_UI_REPORT.md).
 Báo cáo giai đoạn trước: [Lọc và thông báo](docs/QUICK_HIRE_MVP_REPORT.md).

@@ -253,6 +253,42 @@ CREATE TABLE IF NOT EXISTS application_status_events (
 );
 
 -- ─── BẢNG 2: Kỹ năng được AI trích xuất ──────────────────────
+CREATE TABLE IF NOT EXISTS recruiter_contacts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  owner_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL DEFAULT '',
+  title VARCHAR(100) NOT NULL DEFAULT '',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_recruiter_contact (owner_id, name, email),
+  INDEX ix_recruiter_contacts_owner_id (owner_id),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS application_processes (
+  application_id INT PRIMARY KEY,
+  stage VARCHAR(40) NOT NULL DEFAULT 'new',
+  assignee_id INT NULL,
+  version INT NOT NULL DEFAULT 0,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX ix_application_processes_stage (stage),
+  INDEX ix_application_processes_assignee_id (assignee_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (assignee_id) REFERENCES recruiter_contacts(id)
+);
+CREATE TABLE IF NOT EXISTS application_process_events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  application_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  actor_name VARCHAR(150) NOT NULL,
+  event_type VARCHAR(40) NOT NULL,
+  details JSON NOT NULL,
+  reason TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_application_process_events_application_id (application_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS extracted_skills (
   id              INT AUTO_INCREMENT PRIMARY KEY,
   job_id          INT NOT NULL,

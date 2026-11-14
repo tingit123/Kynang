@@ -202,7 +202,9 @@ async def check_post_origin(request, call_next):
 from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer, application_evidence  # noqa
 from src.routers import quick_hire
 from src.routers import notifications
+from src.routers import recruitment_process
 
+app.include_router(recruitment_process.router, prefix="/api", tags=["Tiến trình tuyển dụng — bản thử"])
 
 app.include_router(notifications.router, prefix="/api", tags=["Thông báo tuyển dụng"])
 

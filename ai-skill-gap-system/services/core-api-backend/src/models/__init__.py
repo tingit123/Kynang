@@ -6,6 +6,7 @@ from src.models.course import CourseRecommendation
 from src.models.evidence import AnalysisRun, ApplicationEvidence
 from src.models.quick_hire import FilterProfile, QuickHireBatch, ApplicationStatusEvent
 from src.models.notification import NotificationBatch, NotificationRecipient, UserNotification, NotificationTemplate
+from src.models.recruitment_process import RecruiterContact, ApplicationProcess, ApplicationProcessEvent
 
 __all__ = [
     "User",

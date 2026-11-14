@@ -18,8 +18,12 @@ def validate_extract(filename, content):
     try:
         if extension == ".pdf":
             from pypdf import PdfReader
-            if not content.startswith(b"%PDF-"): raise ValueError()
-            reader = PdfReader(io.BytesIO(content), strict=True)
+            # Some PDF exporters put whitespace before the header. Normalize only
+            # the parsing buffer; the original uploaded bytes are kept unchanged.
+            pdf_content = content.lstrip(b" \t\r\n\f")
+            if len(content) - len(pdf_content) > 1024 or not pdf_content.startswith(b"%PDF-"):
+                raise ValueError()
+            reader = PdfReader(io.BytesIO(pdf_content), strict=True)
             if reader.is_encrypted: raise HTTPException(422, "Hãy mở khóa PDF trước khi tải lên")
             if not 1 <= len(reader.pages) <= 30: raise HTTPException(422, "PDF phải có từ 1 đến 30 trang")
             text = "\n".join((page.extract_text() or "") for page in reader.pages)

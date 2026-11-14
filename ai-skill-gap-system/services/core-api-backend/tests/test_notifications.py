@@ -126,7 +126,9 @@ def test_all_pages_selection_and_hundred_limit(messaging):
 def test_smtp_disabled_and_defaults_simulation_off(messaging):
     client, _ = messaging
     config = client.get("/api/notifications/capabilities", headers=auth(1)).json()
-    assert config == {"email_enabled": False, "in_app_enabled": True, "simulated": False}
+    assert config == {"email_enabled": False, "email_error": d.smtp_configuration_error(),
+                      "in_app_enabled": True, "simulated": False}
+    assert "SMTP_PASS" in config["email_error"]
     profile = client.get("/api/jobs/1/filter-profile", headers=auth(1)).json()
     assert client.post("/api/jobs/1/notification-batches/preview", headers=auth(1), json={
         "application_ids": [1], "profile_hash": profile.get("profile_hash"), "action_type": "acknowledge", "channels": ["email"]}).status_code == 422
@@ -274,6 +276,60 @@ def test_smtp_individual_addresses_and_timeout_classification(messaging, monkeyp
     assert caught.value.status == "unknown" and not caught.value.retryable
 
 
+def test_gmail_tls_authentication_and_mime_headers(messaging, monkeypatch):
+    for key, value in {
+        "SMTP_HOST": "smtp.gmail.com", "SMTP_PORT": "465", "SMTP_SECURITY": "ssl",
+        "SMTP_USER": "sender@gmail.com", "SMTP_FROM": "sender@gmail.com",
+        "SMTP_PASS": "abcd efgh ijkl mnop",
+    }.items():
+        monkeypatch.setenv(key, value)
+    captured = {}
+    class FakeSSL:
+        def __init__(self, host, port, **kwargs):
+            assert host == "smtp.gmail.com" and port == 465
+            assert kwargs["context"].verify_mode == 2
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def login(self, user, password):
+            assert user == "sender@gmail.com" and password == "abcdefghijklmnop"
+        def send_message(self, message, to_addrs):
+            captured["message"] = message
+            assert to_addrs == ["recipient@gmail.com"]
+            return {}
+    monkeypatch.setattr(d.smtplib, "SMTP_SSL", FakeSSL)
+    d.send_email("recipient@gmail.com", "Lời mời phỏng vấn", "Nội dung tiếng Việt")
+    message = captured["message"]
+    assert message["Date"] and message["Message-ID"]
+    assert str(message["Subject"]) == "Lời mời phỏng vấn"
+    assert message.get_content().strip() == "Nội dung tiếng Việt"
+    monkeypatch.setenv("SMTP_SECURITY", "none")
+    assert not d.smtp_enabled()
+    assert "Gmail" in d.smtp_configuration_error()
+
+
+@pytest.mark.parametrize("disconnect", [False, True])
+def test_gmail_login_failure_is_not_reported_as_sent(messaging, monkeypatch, disconnect):
+    enable_smtp(monkeypatch)
+    monkeypatch.setenv("SMTP_SECURITY", "starttls")
+    class AuthFailure:
+        def __init__(self, *args, **kwargs): pass
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def starttls(self, **kwargs): pass
+        def login(self, *args):
+            if disconnect:
+                raise smtplib.SMTPServerDisconnected("Disconnected during AUTH")
+            raise smtplib.SMTPAuthenticationError(535, b"Invalid login")
+    monkeypatch.setattr(d.smtplib, "SMTP", AuthFailure)
+    client, _ = messaging
+    evaluate(client)
+    batch = send(client, preview(client, channels=["email"]))
+    result = get_batch(client, batch["id"])
+    assert result["counts"]["failed"] == 1
+    assert result["counts"].get("sent", 0) == 0
+    assert "Mật khẩu ứng dụng" in result["recipients"][0]["last_error"]
+
+
 @pytest.mark.parametrize("uid,code", [(None, 401), (2, 403), (3, 403), (4, 403), (6, 403), (1, 200), (5, 200)])
 @pytest.mark.parametrize("operation", ["preview", "send", "get", "history", "retry"])
 def test_sender_permissions(messaging, uid, code, operation):
@@ -350,6 +406,19 @@ def test_direct_recruitment_without_filter_or_evaluation(messaging):
     assert result["counts"]["sent"]==1
     assert db.query(FilterProfile).count()==db.query(ApplicationEvidence).count()==0
     assert db.query(UserNotification).count()==1
+
+
+def test_sending_message_does_not_advance_or_reset_recruitment_round(messaging):
+    from src.models.recruitment_process import ApplicationProcess, ApplicationProcessEvent
+    client,db=messaging
+    db.add(ApplicationProcess(application_id=1,stage="interviewing",version=3))
+    db.commit()
+    evaluate(client)
+    send(client,preview(client))
+    db.expire_all()
+    process=db.get(ApplicationProcess,1)
+    assert process.stage=="interviewing" and process.version==3
+    assert db.query(ApplicationProcessEvent).count()==0
 
 
 @pytest.mark.parametrize("ids,all_matching,status",[([1,3],False,422),([1],True,422),([2],False,400)])

@@ -13,7 +13,7 @@ from src.models.user import User
 from src.models.job import JobApplication
 from src.models.notification import NotificationBatch, NotificationRecipient, UserNotification, NotificationTemplate
 from src.routers.quick_hire import owned_job, saved_profile, profile_data, all_results
-from src.services.filter_counts import select_results
+from src.services.filter_counts import ContactFilter, select_results
 from src.services.evidence_matcher import digest
 from src.services import notification_delivery as delivery
 
@@ -77,6 +77,8 @@ def save_template(payload: TemplateRequest, db: Session = Depends(get_db), user:
 class Filters(BaseModel):
     xs: list[StrictInt] = Field(default_factory=list, max_length=31)
     min_x: int | None = Field(default=None, ge=0)
+    min_pct: StrictInt | None = Field(default=None, ge=0, le=100)
+    contact: ContactFilter | None = None
     missing_must: bool = False
     unassessed: bool = False
     priority_skills: list[str] = Field(default_factory=list, max_length=30)
@@ -157,7 +159,7 @@ def prepare(db, job, payload, lock=False):
     if payload.profile_hash != profile.profile_hash and not (payload.direct_application and payload.profile_hash is None):
         raise HTTPException(409, "Bộ lọc đã thay đổi. Hãy xem trước lại.")
     if "email" in payload.channels and not delivery.smtp_enabled():
-        raise HTTPException(422, "Chưa cấu hình SMTP")
+        raise HTTPException(422, delivery.smtp_configuration_error())
     values = all_results(db, job.id, profile, lock)
     lookup = {row["application_id"]: row for row in values}
     if payload.all_matching:
@@ -165,7 +167,7 @@ def prepare(db, job, payload, lock=False):
             raise HTTPException(422, "Kỹ năng ưu tiên phải thuộc các kỹ năng đã dùng để lọc")
         if any(x < 0 or x > len(profile.items) for x in payload.filters.xs) or (payload.filters.min_x is not None and payload.filters.min_x > len(profile.items)):
             raise HTTPException(422, "Số mục đạt nằm ngoài bộ lọc")
-        chosen = select_results(values, payload.filters.xs, payload.filters.min_x, payload.filters.missing_must, payload.filters.unassessed, payload.filters.priority_skills)
+        chosen = select_results(values, payload.filters.xs, payload.filters.min_x, payload.filters.missing_must, payload.filters.unassessed, payload.filters.priority_skills, min_pct=payload.filters.min_pct, contact=payload.filters.contact)
         ids = [row["application_id"] for row in chosen if row["application_id"] not in payload.exclude_ids]
     else:
         ids = list(dict.fromkeys(payload.application_ids))
@@ -208,7 +210,8 @@ def serialize_batch(db, batch, detailed=True):
 
 @router.get("/notifications/capabilities")
 def capabilities(user: User = Depends(allowed_user)):
-    return {"email_enabled": delivery.smtp_enabled(), "in_app_enabled": True, "simulated": delivery.simulated()}
+    return {"email_enabled": delivery.smtp_enabled(), "email_error": delivery.smtp_configuration_error(),
+            "in_app_enabled": True, "simulated": delivery.simulated()}
 
 
 @router.post("/jobs/{job_id}/notification-batches/preview")

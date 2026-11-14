@@ -193,7 +193,7 @@ export default function CandidateJobsPage() {
   const calculateMatch = (jobSkills = []) => {
     if (!jobSkills || jobSkills.length === 0) return { percent: 100, owned: [], missing: [] };
     const mySkillsLower = (candidate.skills || []).map((s) => s.toLowerCase().trim());
-
+    
     const owned = [];
     const missing = [];
 

@@ -9,15 +9,15 @@ class RegisterRequest(BaseModel):
     role: str = Field(..., description="Chức vụ: worker, employer, course_provider")
     email: EmailStr = Field(..., description="Email đăng nhập")
     password: str = Field(..., min_length=8, description="Mật khẩu tối thiểu 8 ký tự")
-
+    
     # Dành cho Worker (Người lao động)
     full_name: Optional[str] = None
-
+    
     # Dành cho Employer (Nhà tuyển dụng)
     company_name: Optional[str] = None
     contact_name: Optional[str] = None
     phone: Optional[str] = None
-
+    
     # Dành cho Course Provider (Đơn vị đào tạo)
     provider_name: Optional[str] = None
     website: Optional[str] = None

@@ -24,7 +24,7 @@
   let frameDelta = 0;
   const lerp = (a, b, t) => a + (b - a) * t;
 
-
+  
   function paint(seconds) {
     const position = Math.min(routeFrames.length-1, seconds*fps), index = Math.floor(position);
     const a = routeFrames[index], b = routeFrames[Math.min(index+1, routeFrames.length-1)], blend = position-index;
