@@ -396,3 +396,11 @@ docker compose exec -T core-api python -m pytest tests -q -p no:cacheprovider
 Bản nginx HTML đã thử bằng Chrome trên desktop và chiều rộng 390px. SMTP chưa gửi thực tế.
 Chi tiết bản mới: [Báo cáo giao diện tuyển dụng](docs/RECRUITMENT_UI_REPORT.md).
 Báo cáo giai đoạn trước: [Lọc và thông báo](docs/QUICK_HIRE_MVP_REPORT.md).
+
+
+## Hợp nhất bản Hoàng — 14/11/2026
+
+Đã tích hợp trung tâm khóa học AI và giao diện LMS Studio của bản Hoàng, giữ nguyên
+Ứng viên, Tuyển dụng nhanh, CV gốc, thông báo và Gmail. LMS mới hiện là demo phía
+trình duyệt; không coi nhắc học/chứng chỉ/chấm lab mô phỏng là dịch vụ thật.
+Chi tiết: [Báo cáo hợp nhất](docs/MERGE_HOANG_20261114.md).
