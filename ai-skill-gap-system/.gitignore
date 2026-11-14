@@ -79,3 +79,6 @@ htmlcov/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+
+scripts/
+*.bak*

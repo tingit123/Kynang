@@ -52,10 +52,10 @@ export default function CandidateLayout() {
         {/* DÒNG 1: LOGO VÀ AUTH / TÁC VỤ */}
         <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
           
-          {/* CỤM TRÁI: LOGO "SkillGapAI" */}
+          {/* CỤM TRÁI: LOGO "Skill Lens Lab" */}
           <Link to="/" className="flex items-center gap-2 text-decoration-none group">
             <span className="text-2xl font-black tracking-tight text-white">
-              SkillGap<span className="text-[#5eead4]">AI</span>
+              Skill Lens <span className="text-[#5eead4]">Lab</span>
             </span>
           </Link>
 
@@ -218,7 +218,7 @@ export default function CandidateLayout() {
       {/* FOOTER THÂN THIỆN CHO ỨNG VIÊN */}
       <footer className="bg-[#052824] border-t border-white/10 py-6 text-center text-xs text-teal-200/60">
         <div className="max-w-7xl mx-auto px-4">
-          © 2026 <strong className="text-teal-200">SkillGap.AI</strong> – Hệ Thống AI Phân Tích &amp; Hướng Nghiệp Kỹ Năng Lao Động TP. Cần Thơ.
+          © 2026 <strong className="text-teal-200">Skill Lens Lab</strong> – Hệ Thống AI Phân Tích &amp; Hướng Nghiệp Kỹ Năng Lao Động TP. Cần Thơ.
         </div>
       </footer>
     </div>

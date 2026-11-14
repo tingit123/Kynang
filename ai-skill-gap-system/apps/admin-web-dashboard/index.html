@@ -4781,6 +4781,9 @@
                 <span>🚀 AI CHẨN ĐOÁN &amp; KÊ ĐƠN KHÓA HỌC</span>
                 <span style="background:#ffffff;color:#0d5f57;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900">❯</span>
               </button>
+              <div id="recAuthNotice" style="margin-top:8px;text-align:center;font-size:12px;color:#0d9488;display:none;font-weight:600">
+                🔒 Yêu cầu đăng nhập tài khoản để thực hiện Chẩn đoán kỹ năng
+              </div>
 
               <!-- HƯỚNG DẪN ĐỌC KẾT QUẢ -->
               <div style="margin-top:20px;padding:16px 20px;background:#f0fdfa;border:1px solid #ccfbf1;border-radius:16px;font-size:12.5px;line-height:1.7;display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:12px">
@@ -5033,6 +5036,9 @@
                 </svg>
                 ✨ Phân Tích CV Bằng Gemini AI
               </button>
+              <div id="cvAuthNotice" style="margin-top:8px;text-align:center;font-size:12px;color:#0d9488;display:none;font-weight:600">
+                🔒 Yêu cầu đăng nhập tài khoản để sử dụng AI Phân Tích CV
+              </div>
             </div>
           </div>
 
@@ -9559,6 +9565,11 @@
           <div id="cdmToolsList" style="display:flex; flex-wrap:wrap; gap:8px;">
             <!-- Render pills: background: #f1f5f9; color: #334155 -->
           </div>
+        </div>
+
+                <!-- Khối Đặc Quyền Riêng Theo Từng Gói (Free / Thực chiến / Pro) -->
+        <div id="cdmTierFeatureBox" style="margin-bottom:22px; border-radius:18px; padding:16px 20px; display:block;">
+          <!-- Injected dynamically via JS based on course.package -->
         </div>
 
         <!-- Nút hành động kép: [⚡ Xem AI Trình diễn Thực chiến] + [VÀO HỌC NGAY] (Mục 9 Mentor Feedback) -->
@@ -17651,11 +17662,19 @@
         if (userArea) userArea.style.display = 'none';
         if (pubGuestArea) pubGuestArea.style.display = 'flex';
         if (pubUserArea) pubUserArea.style.display = 'none';
+        const recNotice = document.getElementById('recAuthNotice');
+        if (recNotice) recNotice.style.display = 'block';
+        const cvNotice = document.getElementById('cvAuthNotice');
+        if (cvNotice) cvNotice.style.display = 'block';
       } else {
         if (guestArea) guestArea.style.display = 'none';
         if (userArea) userArea.style.display = 'flex';
         if (pubGuestArea) pubGuestArea.style.display = 'none';
         if (pubUserArea) pubUserArea.style.display = 'flex';
+        const recNotice = document.getElementById('recAuthNotice');
+        if (recNotice) recNotice.style.display = 'none';
+        const cvNotice = document.getElementById('cvAuthNotice');
+        if (cvNotice) cvNotice.style.display = 'none';
 
         const name = currentUser.full_name || currentUser.username || 'User';
         const initials = name.split(' ').map(p => p.charAt(0)).filter(Boolean).slice(-2).join('').toUpperCase() || 'AD';
@@ -23400,99 +23419,533 @@ KỸ NĂNG:
       if (provCoursesList[3]) provCoursesList[3].package = 'pro';
     }
 
-    </script>
+    
 
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-    <!-- MODAL ĐĂNG KÝ HỌC THỬ & KHÓA HỌC FREE NHANH (PROV QUICK ENROLL)    -->
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-    <div id="provQuickEnrollModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.65); backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; padding:16px;">
-      <div style="background:#ffffff; width:100%; max-width:520px; border-radius:24px; box-shadow:0 25px 60px rgba(0,0,0,0.25); border:1px solid #e2e8f0; overflow:hidden; animation:modalPopIn 0.2s cubic-bezier(0.16,1,0.3,1);">
-        
-        <!-- Header Modal -->
-        <div style="background:linear-gradient(135deg, #042f2e, #064e3b); padding:20px 24px; color:#ffffff; display:flex; align-items:center; justify-content:space-between;">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div style="width:36px; height:36px; border-radius:50%; background:#10b981; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:18px;">
-              🎁
-            </div>
-            <div>
-              <div style="font-size:17px; font-weight:900;" id="provEnrollModalTitle">Đăng Ký Khóa Học AI Miễn Phí</div>
-              <div style="font-size:11.5px; color:#a7f3d0;">Bù đắp khuyết điểm kỹ năng • Bắt đầu ngay 0đ</div>
-            </div>
-          </div>
-          <button onclick="provCloseQuickEnroll()" style="border:none; background:rgba(255,255,255,0.15); color:#ffffff; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:16px; font-weight:700;">✕</button>
-        </div>
+    // ══════════════════════════════════════════════════════════════════
+    // AI CHATBOX INTERACTION ENGINE & REAL-TIME INSIGHTS (INTEGRATED)
+    // ══════════════════════════════════════════════════════════════════
+/* ═════════════════════════════════════════════════════════════════
+       AI CHATBOX — INTERACTIVE TREND ANALYSIS & INSIGHTS (SKILL LENS LAB)
+       ═════════════════════════════════════════════════════════════════ */
+    let aiChatboxState = {
+      isOpen: false,
+      conversationId: 'conv_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9),
+      messages: [
+        {
+          id: 'welcome_msg',
+          sender: 'ai',
+          text: 'Xin chào! Tôi là AI Chatbox của Skill Lens Lab. Tôi có thể giúp bạn giải thích biểu đồ, phân tích xu hướng kỹ năng, so sánh dữ liệu và đưa ra những gợi ý dựa trên thông tin hiện có. Bạn muốn tìm hiểu điều gì?',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          evidence: null
+        }
+      ],
+      isTyping: false,
+      isListening: false,
+      lastFailedMessage: null
+    };
 
-        <!-- Form Body -->
-        <div id="provEnrollFormArea" style="padding:22px 24px;">
-          <form onsubmit="provSubmitQuickEnroll(event)">
-            <div style="margin-bottom:14px;">
-              <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Khóa học bạn chọn:</label>
-              <div id="provEnrollCourseName" style="background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:10px 14px; font-size:13px; font-weight:800; color:#166534;">
-                Generative AI Essentials: Làm Chủ AI Căn Bản (0đ)
+    function getAIChatContext() {
+      const activePageEl = document.querySelector('.page.active');
+      const pageId = activePageEl ? activePageEl.id.replace('page-', '') : 'dashboard';
+      const locSelect = document.getElementById('adminLocationSelect') || document.getElementById('publicLocationSelect');
+      const quarterSelect = document.getElementById('publicQuarterSelect');
+      const indVal = typeof currentIndustry !== 'undefined' ? currentIndustry : 'IT';
+
+      return {
+        page: pageId,
+        industry: indVal || 'IT',
+        location: locSelect ? locSelect.value : 'all',
+        period: quarterSelect ? quarterSelect.value : '2026_Q3',
+        role: typeof currentUser !== 'undefined' && currentUser ? (currentUser.role || 'guest') : 'guest'
+      };
+    }
+
+    function updateAIChatContextBadge() {
+      const badge = document.getElementById('aiChatContextBadge');
+      if (!badge) return;
+      const ctx = getAIChatContext();
+      const locNames = { all: 'Toàn quốc', CT: 'Cần Thơ', HN: 'Hà Nội', HCM: 'TP.HCM', DN_CITY: 'Đà Nẵng' };
+      const locLabel = locNames[ctx.location] || ctx.location;
+      badge.innerHTML = `<span style="display:inline-block;width:6px;height:6px;background:#10b981;border-radius:50%;margin-right:4px"></span>Ngữ cảnh: <strong>${ctx.industry}</strong> · ${locLabel} · ${ctx.period}`;
+    }
+
+    function toggleAIChatbox(forceState) {
+      const win = document.getElementById('aiChatboxWindow');
+      const btn = document.getElementById('aiChatboxFloatingBtn');
+      if (!win || !btn) return;
+
+      const newState = typeof forceState === 'boolean' ? forceState : !aiChatboxState.isOpen;
+      aiChatboxState.isOpen = newState;
+
+      if (newState) {
+        win.style.display = 'flex';
+        btn.style.display = 'none';
+        updateAIChatContextBadge();
+        renderAIChatMessages();
+        setTimeout(() => {
+          const inp = document.getElementById('aiChatInputText');
+          if (inp) inp.focus();
+          scrollAIChatToBottom();
+        }, 150);
+      } else {
+        win.style.display = 'none';
+        btn.style.display = 'flex';
+      }
+    }
+
+    function resetAIChatbox() {
+      aiChatboxState.conversationId = 'conv_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+      aiChatboxState.messages = [
+        {
+          id: 'welcome_msg_' + Date.now(),
+          sender: 'ai',
+          text: 'Xin chào! Tôi là AI Chatbox của Skill Lens Lab. Tôi có thể giúp bạn giải thích biểu đồ, phân tích xu hướng kỹ năng, so sánh dữ liệu và đưa ra những gợi ý dựa trên thông tin hiện có. Bạn muốn tìm hiểu điều gì?',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          evidence: null
+        }
+      ];
+      aiChatboxState.isTyping = false;
+      aiChatboxState.lastFailedMessage = null;
+      renderAIChatMessages();
+      updateAIChatContextBadge();
+    }
+
+    function scrollAIChatToBottom() {
+      const body = document.getElementById('aiChatMessagesContainer');
+      if (body) {
+        body.scrollTop = body.scrollHeight;
+      }
+    }
+
+    function formatMarkdownSafe(content) {
+      if (!content) return '';
+      let escaped = content
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Headers ###
+      escaped = escaped.replace(/^### (.*?)$/gm, '<h4 style="font-size:13.5px;font-weight:800;color:var(--text);margin:8px 0 4px;line-height:1.3">$1</h4>');
+      // In đậm **text**
+      escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text);font-weight:700">$1</strong>');
+      // In nghiêng *text*
+      escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      // Code `text`
+      escaped = escaped.replace(/`(.*?)`/g, '<code style="background:rgba(15,163,158,0.12);color:var(--primary);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:11.5px">$1</code>');
+      // Bullet points - item
+      escaped = escaped.replace(/^- (.*?)$/gm, '<li style="margin-left:14px;margin-bottom:3px">$1</li>');
+      // Link [text](url)
+      escaped = escaped.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:var(--primary);text-decoration:underline;font-weight:600">$1</a>');
+      // Newlines
+      escaped = escaped.replace(/\n/g, '<br>');
+
+      return escaped;
+    }
+
+    function renderAIChatMessages() {
+      const container = document.getElementById('aiChatMessagesContainer');
+      if (!container) return;
+
+      const html = aiChatboxState.messages.map((msg, idx) => {
+        const isAi = msg.sender === 'ai';
+        const formattedText = formatMarkdownSafe(msg.text);
+
+        let evidenceHtml = '';
+        if (isAi && msg.evidence && Array.isArray(msg.evidence) && msg.evidence.length > 0) {
+          evidenceHtml = `
+            <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(0,0,0,0.06);display:flex;flex-wrap:wrap;gap:5px">
+              ${msg.evidence.map(e => `
+                <span style="font-size:10px;background:rgba(15,163,158,0.08);color:var(--primary);padding:2px 8px;border-radius:6px;border:1px solid rgba(15,163,158,0.2);font-weight:700">
+                  📊 ${e.metric}: <strong>${e.value} ${e.unit || ''}</strong>
+                </span>
+              `).join('')}
+            </div>
+          `;
+        }
+
+        return `
+          <div style="display:flex;gap:8px;margin-bottom:12px;${isAi ? 'align-items:flex-start' : 'align-items:flex-end;justify-content:flex-end'}">
+            ${isAi ? `
+              <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0fa39e,#0d8f8a);color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;box-shadow:0 2px 6px rgba(15,163,158,0.3)">
+                AI
+              </div>
+            ` : ''}
+
+            <div style="max-width:82%;padding:10px 14px;border-radius:16px;font-size:12.5px;line-height:1.55;box-shadow:0 2px 8px rgba(0,0,0,0.05);${isAi
+            ? 'background:var(--bg2);color:var(--text);border:1px solid var(--border);border-top-left-radius:3px'
+            : 'background:linear-gradient(135deg,#0fa39e,#0d8f8a);color:#ffffff;border-top-right-radius:3px'
+          }">
+              <div>${formattedText}</div>
+              ${evidenceHtml}
+              <div style="font-size:9.5px;margin-top:6px;display:flex;align-items:center;justify-content:${isAi ? 'space-between' : 'flex-end'};opacity:0.85">
+                ${isAi && msg.engine ? `<span style="color:var(--primary);font-weight:700">🤖 ${msg.engine}</span>` : ''}
+                <span style="opacity:0.75;font-family:monospace">${msg.time}</span>
               </div>
             </div>
-
-            <div style="margin-bottom:14px;">
-              <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Họ và tên của bạn: *</label>
-              <input type="text" id="provEnrollName" required placeholder="VD: Nguyễn Văn An" style="width:100%; padding:10px 14px; border:1.5px solid #cbd5e1; border-radius:12px; font-size:13.5px; outline:none; box-sizing:border-box;" />
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-              <div>
-                <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Email nhận tài khoản: *</label>
-                <input type="email" id="provEnrollEmail" required placeholder="an.nguyen@gmail.com" style="width:100%; padding:10px 14px; border:1.5px solid #cbd5e1; border-radius:12px; font-size:13.5px; outline:none; box-sizing:border-box;" />
-              </div>
-              <div>
-                <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Số điện thoại (Zalo): *</label>
-                <input type="tel" id="provEnrollPhone" required placeholder="0912 345 678" style="width:100%; padding:10px 14px; border:1.5px solid #cbd5e1; border-radius:12px; font-size:13.5px; outline:none; box-sizing:border-box;" />
-              </div>
-            </div>
-
-            <div style="margin-bottom:18px;">
-              <label style="display:block; font-size:12.5px; font-weight:700; color:#334155; margin-bottom:6px;">Mục tiêu chính bạn muốn bù đắp:</label>
-              <select id="provEnrollGoal" style="width:100%; padding:10px 14px; border:1.5px solid #cbd5e1; border-radius:12px; font-size:13.5px; outline:none; box-sizing:border-box; background:#ffffff;">
-                <option value="gap_job">Bù đắp kỹ năng thiếu hụt để tìm việc làm mới</option>
-                <option value="salary">Nâng cao hiệu suất công việc hiện tại để tăng lương</option>
-                <option value="switch">Chuyển ngành sang mảng AI &amp; Công nghệ</option>
-                <option value="lead">Quản lý và muốn đưa AI vào tự động hóa phòng ban</option>
-              </select>
-            </div>
-
-            <div style="background:#f8fafc; border-radius:12px; padding:10px 14px; margin-bottom:18px; font-size:12px; color:#64748b; line-height:1.4;">
-              🔒 <strong>Cam kết bảo mật:</strong> Thông tin của bạn chỉ dùng để cấp quyền vào học và gửi tài liệu độc quyền từ Mekong Skills.
-            </div>
-
-            <button type="submit" style="width:100%; background:linear-gradient(135deg, #10b981, #059669); color:#ffffff; border:none; padding:12px; border-radius:14px; font-size:14px; font-weight:900; cursor:pointer; box-shadow:0 4px 14px rgba(16,185,129,0.3); transition:all 0.15s;">
-              🚀 KÍCH HOẠT KHÓA HỌC NGAY (0 VNĐ)
-            </button>
-          </form>
-        </div>
-
-        <!-- Success Area -->
-        <div id="provEnrollSuccessArea" style="display:none; padding:32px 24px; text-align:center;">
-          <div style="width:64px; height:64px; border-radius:50%; background:#dcfce7; color:#16a34a; font-size:32px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:14px;">
-            🎉
           </div>
-          <h3 style="font-size:20px; font-weight:900; color:#0f172a; margin:0 0 8px 0;">Đăng Ký Thành Công!</h3>
-          <p style="font-size:13.5px; color:#475569; line-height:1.5; margin:0 0 20px 0;">
-            Chúc mừng bạn đã mở khóa lộ trình học. Hướng dẫn chi tiết và mã kích hoạt LMS đã được gửi tới email của bạn.
-          </p>
-          <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:14px; padding:14px; margin-bottom:20px; font-size:13px; color:#166534; font-weight:700;">
-            Mã học viên: <span style="font-family:monospace; font-size:15px; color:#0f766e;">SKILLGAP-AI-2026</span>
-          </div>
-          <button onclick="provCloseQuickEnroll()" style="background:#0d9488; color:#ffffff; border:none; padding:11px 24px; border-radius:9999px; font-size:13.5px; font-weight:800; cursor:pointer;">
-            Hoàn tất &amp; Khám phá tiếp
-          </button>
-        </div>
+        `;
+      }).join('');
 
+      container.innerHTML = html;
+
+      // Hiển thị phần câu hỏi gợi ý khi chỉ có tin nhắn chào mừng ban đầu
+      const promptCard = document.getElementById('aiChatQuickPrompts');
+      if (promptCard) {
+        promptCard.style.display = aiChatboxState.messages.length === 1 ? 'grid' : 'none';
+      }
+
+      scrollAIChatToBottom();
+    }
+
+    async function handleSendAIChat(textToSend) {
+      const inp = document.getElementById('aiChatInputText');
+      const query = (textToSend || (inp ? inp.value : '')).trim();
+      if (!query) return;
+
+      if (!textToSend && inp) inp.value = '';
+
+      // 1. Thêm tin nhắn của User
+      const userMsg = {
+        id: 'user_' + Date.now(),
+        sender: 'user',
+        text: query,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      aiChatboxState.messages.push(userMsg);
+      renderAIChatMessages();
+
+      // 2. Hiển thị trạng thái đang suy nghĩ
+      aiChatboxState.isTyping = true;
+      const typingEl = document.getElementById('aiChatboxTyping');
+      if (typingEl) typingEl.style.display = 'flex';
+      scrollAIChatToBottom();
+
+      const context = getAIChatContext();
+      const historyPayload = aiChatboxState.messages.slice(-5).map(m => ({
+        role: m.sender === 'user' ? 'user' : 'assistant',
+        content: m.text
+      }));
+
+      try {
+        const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        const apiUrl = `${DASHBOARD_AUTH.API_BASE}/api/insights/chat`;
+        const resp = await fetch(apiUrl, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify({
+            message: query,
+            conversation_id: aiChatboxState.conversationId,
+            context: context,
+            history: historyPayload
+          })
+        });
+
+        if (!resp.ok) {
+          throw new Error(`HTTP Error ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        const aiMsg = {
+          id: 'ai_' + Date.now(),
+          sender: 'ai',
+          text: data.answer || 'Đã phân tích xong dữ liệu.',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          evidence: data.evidence || [],
+          engine: data.ai_engine || 'Skill Lens Lab AI'
+        };
+        aiChatboxState.messages.push(aiMsg);
+        aiChatboxState.lastFailedMessage = null;
+      } catch (err) {
+        console.warn('Lỗi kết nối AI Insights API:', err);
+        aiChatboxState.lastFailedMessage = query;
+        const errAiMsg = {
+          id: 'err_' + Date.now(),
+          sender: 'ai',
+          text: `⚠️ **Không thể kết nối máy chủ AI Insights**\n\nHệ thống tạm thời không phản hồi được yêu cầu. Vui lòng kiểm tra dịch vụ Backend (cổng 8000) hoặc bấm nút **Thử lại** bên dưới.\n\n<button type="button" onclick="retryLastFailedAIChat()" style="margin-top:6px;padding:4px 10px;background:var(--primary);color:#ffffff;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">🔄 Thử lại câu hỏi</button>`,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        aiChatboxState.messages.push(errAiMsg);
+      } finally {
+        aiChatboxState.isTyping = false;
+        if (typingEl) typingEl.style.display = 'none';
+        renderAIChatMessages();
+      }
+    }
+
+    function retryLastFailedAIChat() {
+      if (aiChatboxState.lastFailedMessage) {
+        handleSendAIChat(aiChatboxState.lastFailedMessage);
+      }
+    }
+
+    function toggleAIChatMicrophone() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Trình duyệt của bạn chưa hỗ trợ nhận diện giọng nói (Web Speech API). Vui lòng nhập bằng bàn phím.');
+        return;
+      }
+
+      const micBtn = document.getElementById('aiChatMicBtn');
+      if (aiChatboxState.isListening) {
+        aiChatboxState.isListening = false;
+        if (micBtn) {
+          micBtn.style.background = 'var(--bg3)';
+          micBtn.style.color = 'var(--text2)';
+        }
+        return;
+      }
+
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+          aiChatboxState.isListening = true;
+          if (micBtn) {
+            micBtn.style.background = '#ef4444';
+            micBtn.style.color = '#ffffff';
+          }
+        };
+
+        recognition.onresult = (e) => {
+          const text = e.results[0][0].transcript;
+          const inp = document.getElementById('aiChatInputText');
+          if (inp) {
+            inp.value = text;
+            handleSendAIChat(text);
+          }
+          aiChatboxState.isListening = false;
+          if (micBtn) {
+            micBtn.style.background = 'var(--bg3)';
+            micBtn.style.color = 'var(--text2)';
+          }
+        };
+
+        recognition.onerror = () => {
+          aiChatboxState.isListening = false;
+          if (micBtn) {
+            micBtn.style.background = 'var(--bg3)';
+            micBtn.style.color = 'var(--text2)';
+          }
+        };
+
+        recognition.onend = () => {
+          aiChatboxState.isListening = false;
+          if (micBtn) {
+            micBtn.style.background = 'var(--bg3)';
+            micBtn.style.color = 'var(--text2)';
+          }
+        };
+
+        recognition.start();
+      } catch (e) {
+        console.warn('SpeechRecognition error:', e);
+        aiChatboxState.isListening = false;
+      }
+    }
+  </script>
+
+  <div id="aiChatboxFloatingBtn" onclick="toggleAIChatbox(true)"
+    style="position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,#0fa39e,#0d8f8a);color:#ffffff;padding:12px 20px;border-radius:50px;box-shadow:0 10px 28px rgba(15,163,158,0.45);cursor:pointer;font-family:'Be Vietnam Pro',system-ui,sans-serif;font-size:13.5px;font-weight:800;transition:all 0.25s ease;border:1.5px solid rgba(255,255,255,0.25)"
+    onmouseover="this.style.transform='translateY(-2px) scale(1.03)';this.style.boxShadow='0 14px 34px rgba(15,163,158,0.6)'"
+    onmouseout="this.style.transform='none';this.style.boxShadow='0 10px 28px rgba(15,163,158,0.45)'">
+    <div
+      style="width:24px;height:24px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+    </div>
+    <span>AI Chatbox</span>
+    <span style="position:relative;display:flex;width:8px;height:8px">
+      <span
+        style="position:absolute;display:inline-flex;width:100%;height:100%;border-radius:50%;background:#34d399;opacity:0.75;animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite"></span>
+      <span
+        style="position:relative;display:inline-flex;width:8px;height:8px;border-radius:50%;background:#10b981"></span>
+    </span>
+  </div>
+
+  <!-- 2. Cửa sổ Chatbox mở rộng (Expanded Window) -->
+  <div id="aiChatboxWindow"
+    style="display:none;position:fixed;bottom:24px;right:24px;width:390px;max-width:calc(100vw - 32px);height:570px;max-height:calc(100vh - 80px);background:var(--bg2);border:1.5px solid rgba(15,163,158,0.35);border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,0.25);z-index:99999;flex-direction:column;overflow:hidden;font-family:'Be Vietnam Pro',system-ui,sans-serif;animation:aiChatFadeIn 0.22s ease-out">
+
+    <!-- Header -->
+    <div
+      style="background:linear-gradient(135deg,#0fa39e 0%,#0d8f8a 100%);color:#ffffff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div
+          style="position:relative;width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:50%;border:1.5px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;color:#ffffff">
+          AI
+          <span
+            style="position:absolute;bottom:0;right:0;width:9px;height:9px;background:#10b981;border:2px solid #ffffff;border-radius:50%"></span>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <h3 style="margin:0;font-size:14px;font-weight:800;color:#ffffff;line-height:1.2">AI Chatbox</h3>
+            <span
+              style="font-size:9.5px;background:rgba(255,255,255,0.22);padding:1.5px 6px;border-radius:6px;font-weight:700">Trend
+              Insights</span>
+          </div>
+          <div style="font-size:10.5px;color:rgba(255,255,255,0.9);display:flex;align-items:center;gap:4px">
+            <span style="width:6px;height:6px;border-radius:50%;background:#34d399"></span>
+            <span>Trực tuyến</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display:flex;align-items:center;gap:6px">
+        <button type="button" onclick="resetAIChatbox()" title="Tạo cuộc hội thoại mới"
+          style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#ffffff;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s">
+          + Chat mới
+        </button>
+        <button type="button" onclick="resetAIChatbox()" title="Làm mới"
+          style="background:rgba(255,255,255,0.2);border:none;color:#ffffff;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+          </svg>
+        </button>
+        <button type="button" onclick="toggleAIChatbox(false)" title="Đóng cửa sổ"
+          style="background:rgba(255,255,255,0.2);border:none;color:#ffffff;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
     </div>
 
+    <!-- Context Indicator Subbar -->
+    <div
+      style="background:var(--bg3);border-bottom:1px solid var(--border);padding:6px 14px;font-size:11px;color:var(--text2);display:flex;align-items:center;justify-content:space-between">
+      <div id="aiChatContextBadge">
+        <span
+          style="display:inline-block;width:6px;height:6px;background:#10b981;border-radius:50%;margin-right:4px"></span>Ngữ
+        cảnh: <strong>IT</strong> · Toàn quốc · Quý 3/2026
+      </div>
+      <span style="font-size:10px;color:var(--text3);font-family:monospace">v2.0</span>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="aiChatMessagesContainer"
+      style="flex:1;padding:14px;overflow-y:auto;background:var(--bg);box-sizing:border-box">
+      <!-- Messages will be dynamically rendered here -->
+    </div>
+
+    <!-- Quick Prompts (4 Card Suggestions) -->
+    <div id="aiChatQuickPrompts"
+      style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 14px;background:var(--bg3);border-top:1px solid var(--border)">
+      <button type="button" onclick="handleSendAIChat('Giải thích biểu đồ này')"
+        style="background:var(--bg2);border:1px solid rgba(15,163,158,0.25);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:700;color:var(--text);text-align:left;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.15s"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-glow)'"
+        onmouseout="this.style.borderColor='rgba(15,163,158,0.25)';this.style.background='var(--bg2)'">
+        <span style="truncate">📊 Giải thích biểu đồ</span>
+        <span>➔</span>
+      </button>
+      <button type="button" onclick="handleSendAIChat('Kỹ năng nào đang tăng nhu cầu?')"
+        style="background:var(--bg2);border:1px solid rgba(15,163,158,0.25);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:700;color:var(--text);text-align:left;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.15s"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-glow)'"
+        onmouseout="this.style.borderColor='rgba(15,163,158,0.25)';this.style.background='var(--bg2)'">
+        <span style="truncate">📈 Kỹ năng tăng cầu</span>
+        <span>➔</span>
+      </button>
+      <button type="button" onclick="handleSendAIChat('Có điểm bất thường nào không?')"
+        style="background:var(--bg2);border:1px solid rgba(15,163,158,0.25);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:700;color:var(--text);text-align:left;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.15s"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-glow)'"
+        onmouseout="this.style.borderColor='rgba(15,163,158,0.25)';this.style.background='var(--bg2)'">
+        <span style="truncate">🔍 Điểm bất thường?</span>
+        <span>➔</span>
+      </button>
+      <button type="button" onclick="handleSendAIChat('Tôi nên chú ý xu hướng nào?')"
+        style="background:var(--bg2);border:1px solid rgba(15,163,158,0.25);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:700;color:var(--text);text-align:left;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.15s"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-glow)'"
+        onmouseout="this.style.borderColor='rgba(15,163,158,0.25)';this.style.background='var(--bg2)'">
+        <span style="truncate">🎯 Xu hướng chú ý</span>
+        <span>➔</span>
+      </button>
+    </div>
+
+    <!-- Typing Indicator Animation -->
+    <div id="aiChatboxTyping"
+      style="display:none;padding:6px 14px;background:var(--bg3);align-items:center;gap:6px;font-size:11px;color:var(--text3);font-style:italic">
+      <div
+        style="width:18px;height:18px;border-radius:50%;background:var(--primary);color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800">
+        AI</div>
+      <span>AI đang phân tích dữ liệu...</span>
+      <span style="display:inline-flex;gap:3px;margin-left:4px">
+        <span
+          style="width:4px;height:4px;border-radius:50%;background:var(--primary);animation:aiBounce 1s infinite"></span>
+        <span
+          style="width:4px;height:4px;border-radius:50%;background:var(--primary);animation:aiBounce 1s 0.2s infinite"></span>
+        <span
+          style="width:4px;height:4px;border-radius:50%;background:var(--primary);animation:aiBounce 1s 0.4s infinite"></span>
+      </span>
+    </div>
+
+    <!-- Input Area -->
+    <div
+      style="padding:10px 14px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px">
+      <button type="button" id="aiChatMicBtn" onclick="toggleAIChatMicrophone()"
+        title="Nhập bằng giọng nói (Micro vi-VN)"
+        style="width:36px;height:36px;border-radius:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+          <line x1="12" y1="19" x2="12" y2="23" />
+          <line x1="8" y1="23" x2="16" y2="23" />
+        </svg>
+      </button>
+      <input type="text" id="aiChatInputText" placeholder="Hỏi về biểu đồ, xu hướng, kỹ năng..."
+        style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:9px 12px;font-size:12.5px;color:var(--text);font-family:'Be Vietnam Pro',sans-serif;outline:none;transition:border-color 0.2s"
+        onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"
+        onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();handleSendAIChat();}">
+      <button type="button" onclick="handleSendAIChat()" title="Gửi câu hỏi"
+        style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0fa39e,#0d8f8a);border:none;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s;flex-shrink:0"
+        onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='none'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13" />
+          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <style>
+    @keyframes aiChatFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes aiBounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    @keyframes ping {
+
+      75%,
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+  </style>
 </body>
-
-</html<!-- Khối Đặc Quyền Riêng Theo Từng Gói (Free / Thực chiến / Pro) -->
-        <div id="cdmTierFeatureBox" style="margin-bottom:22px; border-radius:18px; padding:16px 20px; display:block;">
-          <!-- Injected dynamically via JS based on course.package -->
-        </div>
-
-        >
+</html>

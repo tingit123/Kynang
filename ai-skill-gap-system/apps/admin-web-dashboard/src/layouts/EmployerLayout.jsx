@@ -58,7 +58,7 @@ export default function EmployerLayout() {
         {/* Brand / Logo */}
         <div className="pt-8 px-6 pb-6">
           <div className="text-2xl font-black tracking-tight text-white flex items-center">
-            SkillGap<span className="text-[#5eead4]">AI</span>
+            Skill Lens <span className="text-[#5eead4]">Lab</span>
           </div>
           <div className="text-[11px] font-bold text-teal-200/80 tracking-widest uppercase mt-1">
             NHÀ TUYỂN DỤNG

@@ -1,5 +1,5 @@
 /**
- * auth.js – Logic xác thực Đăng nhập & Đăng ký cho SkillGap AI
+ * auth.js – Logic xác thực Đăng nhập & Đăng ký cho Skill Lens Lab
  * Kết nối FastAPI Core API qua credentials: 'include'
  */
 
