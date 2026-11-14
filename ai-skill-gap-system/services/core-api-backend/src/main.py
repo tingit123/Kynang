@@ -72,6 +72,10 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                     ensure_col("course_recommendations", "is_deleted", "BOOLEAN DEFAULT FALSE")
                     ensure_col("course_recommendations", "status", "VARCHAR(50) DEFAULT 'pending'")
                     ensure_col("course_recommendations", "click_count", "INT DEFAULT 0")
+                    ensure_col("course_recommendations", "industry", "VARCHAR(50) NULL")
+                    ensure_col("course_recommendations", "outcomes", "TEXT NULL")
+                    ensure_col("course_recommendations", "skills_acquired", "TEXT NULL")
+                    ensure_col("course_recommendations", "tools_acquired", "TEXT NULL")
 
                     conn.commit()
             except Exception as mig_err:
@@ -185,6 +189,7 @@ async def check_post_origin(request, call_next):
 
 # Đăng ký các router
 from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer  # noqa
+from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer, insights  # noqa
 
 app.include_router(auth.router,         prefix="/api/auth",     tags=["Xác Thực (Authentication & RBAC)"])
 app.include_router(jobs.router,         prefix="/api/jobs",     tags=["Tin Tuyển Dụng"])
@@ -194,6 +199,7 @@ app.include_router(crawler_data.router, prefix="/api/crawler",  tags=["Dữ Li�
 app.include_router(courses.router,      prefix="/api/courses",  tags=["Gợi Ý Khóa Học"])
 app.include_router(courses.router,      prefix="/api/v1/courses", tags=["Gợi Ý Khóa Học (v1)"])
 app.include_router(cv_analyzer.router,   prefix="/api/cv",       tags=["Phân Tích CV & Lộ Trình Học"])
+app.include_router(insights.router,      prefix="/api/insights", tags=["AI Chatbox & Trend Insights"])
 
 
 @app.get("/", tags=["Health"])

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧠 SkillGap AI
+# 🧠 Skill Lens Lab
 ### Hệ Thống AI Phân Tích & Phát Hiện Kỹ Năng Thiếu Hụt Lao Động
 **Cần Thơ · 2026**
 
@@ -16,7 +16,7 @@
 
 ## 📖 Giới Thiệu
 
-**SkillGap AI** là hệ thống phân tích khoảng cách kỹ năng lao động sử dụng AI, được xây dựng cho thị trường lao động tại Cần Thơ. Hệ thống:
+**Skill Lens Lab** là hệ thống phân tích khoảng cách kỹ năng lao động sử dụng AI, được xây dựng cho thị trường lao động tại Cần Thơ. Hệ thống:
 
 - 🕷️ **Cào dữ liệu** 1,000+ tin tuyển dụng từ TopCV và 500 CV sinh viên
 - 🤖 **Dùng LLM (GPT-4o / Gemini)** để làm sạch và trích xuất kỹ năng theo cấu trúc phân cấp
