@@ -9103,9 +9103,14 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
         </svg></button>
       
       <!-- TABS CHUYỂN ĐỔI -->
-      <div class="auth-tabs">
-        <button class="auth-tab-btn active" id="authTabLoginBtn" onclick="switchAuthTab('login')">🔑 Đăng Nhập</button>
-        <button class="auth-tab-btn" id="authTabRegisterBtn" onclick="switchAuthTab('register')">📝 Đăng Ký</button>
+      <div class="auth-tabs" style="display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;gap:4px">
+          <button class="auth-tab-btn active" id="authTabLoginBtn" onclick="switchAuthTab('login')">🔑 Đăng Nhập</button>
+          <button class="auth-tab-btn" id="authTabRegisterBtn" onclick="switchAuthTab('register')">📝 Đăng Ký</button>
+        </div>
+        <button type="button" onclick="openHalloweenAuthModal()" style="background:rgba(249,115,22,0.12);border:1px solid #f97316;color:#ea580c;padding:5px 12px;border-radius:9999px;font-size:11.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px" title="Chuyển sang giao diện Halloween">
+          <span>🎃 Giao diện Halloween</span>
+        </button>
       </div>
 
       <!-- TAB 1: FORM ĐĂNG NHẬP -->
@@ -22195,8 +22200,22 @@ Hệ thống sẽ tự động gửi tóm tắt bài giảng & link thực hành
       }
     }
 
+    function openHalloweenAuthModal(tab = 'login', role = '') {
+      const halloweenModal = document.getElementById('halloweenAuthModal');
+      const frame = document.getElementById('halloweenAuthFrame');
+      if (halloweenModal && frame) {
+        const viewParam = (tab === 'register') ? 'register' : 'login';
+        const roleParam = role ? `&role=${encodeURIComponent(role)}` : '';
+        frame.src = `http://${location.hostname || 'localhost'}:8081/?view=${viewParam}${roleParam}&t=${Date.now()}`;
+        halloweenModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      } else {
+        switchToStandardAuthModal(tab, role);
+      }
+    }
+
     function openAuthModal(tab = 'login', role = '') {
-      switchToStandardAuthModal(tab, role);
+      openHalloweenAuthModal(tab, role);
       const menu = document.getElementById('userDropdownMenu');
       if (menu) menu.classList.remove('show');
       const demoMenu = document.getElementById('demoDropdownMenu');
@@ -22207,10 +22226,6 @@ Hệ thống sẽ tự động gửi tóm tắt bài giảng & link thực hành
       if (pubDemoMenu) pubDemoMenu.style.display = 'none';
       const pubDemoDropdown = document.getElementById('pubDemoRoleDropdown');
       if (pubDemoDropdown) pubDemoDropdown.style.display = 'none';
-    }
-
-    function openHalloweenAuthModal(tab = 'login', role = '') {
-      openAuthModal(tab, role);
     }
 
     function closeHalloweenAuthModal() {
