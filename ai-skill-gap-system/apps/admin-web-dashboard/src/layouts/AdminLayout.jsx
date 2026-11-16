@@ -56,7 +56,7 @@ export default function AdminLayout() {
           </div>
           <div>
             <div style={{ fontSize: '16px', fontWeight: 800, color: '#ffffff' }}>
-              SkillGap<span style={{ color: '#0fa39e' }}> Admin</span>
+              Skill Lens <span style={{ color: '#0fa39e' }}>Lab Admin</span>
             </div>
             <div style={{ fontSize: '11px', color: '#94a3b8' }}>Quản Trị Hệ Thống Toàn Quyền</div>
           </div>

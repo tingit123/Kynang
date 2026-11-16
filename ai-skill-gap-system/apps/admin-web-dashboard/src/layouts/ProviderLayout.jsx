@@ -124,7 +124,7 @@ export default function ProviderLayout() {
           {/* Brand */}
           <div className="flex flex-col leading-tight select-none">
             <div className="text-xl font-black text-[#0a5146] tracking-tight">
-              SkillGap<span className="text-[#0d9488]">AI</span>
+              Skill Lens <span className="text-[#0d9488]">Lab</span>
             </div>
             <div className="text-[9px] font-extrabold text-slate-400 tracking-wider uppercase">
               TRUNG TÂM KHÓA HỌC
@@ -234,7 +234,7 @@ export default function ProviderLayout() {
         <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
           <div>
             <div className="text-2xl font-black text-white tracking-tight">
-              SkillGap<span className="text-[#5eead4]">AI</span>
+              Skill Lens <span className="text-[#5eead4]">Lab</span>
             </div>
             <div className="text-[9px] font-extrabold text-[#5eead4] tracking-widest uppercase mt-0.5">
               TRUNG TÂM KHÓA HỌC

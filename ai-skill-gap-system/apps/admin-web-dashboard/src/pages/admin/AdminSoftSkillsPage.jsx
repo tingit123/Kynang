@@ -522,7 +522,7 @@ export default function AdminSoftSkillsPage() {
 
             {/* Modal Footer */}
             <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-              <span className="text-xs text-slate-400">Hệ thống phân tích kỹ năng SkillGapAI Cần Thơ</span>
+              <span className="text-xs text-slate-400">Hệ thống phân tích kỹ năng Skill Lens Lab Cần Thơ</span>
               <button
                 type="button"
                 onClick={() => setIsDetailModalOpen(false)}

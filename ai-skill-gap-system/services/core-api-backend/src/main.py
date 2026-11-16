@@ -81,6 +81,10 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
                     ensure_col("course_recommendations", "is_deleted", "BOOLEAN DEFAULT FALSE")
                     ensure_col("course_recommendations", "status", "VARCHAR(50) DEFAULT 'pending'")
                     ensure_col("course_recommendations", "click_count", "INT DEFAULT 0")
+                    ensure_col("course_recommendations", "industry", "VARCHAR(50) NULL")
+                    ensure_col("course_recommendations", "outcomes", "TEXT NULL")
+                    ensure_col("course_recommendations", "skills_acquired", "TEXT NULL")
+                    ensure_col("course_recommendations", "tools_acquired", "TEXT NULL")
 
                     conn.commit()
             except Exception as mig_err:
@@ -199,7 +203,7 @@ async def check_post_origin(request, call_next):
     return await call_next(request)
 
 # Đăng ký các router
-from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer, application_evidence  # noqa
+from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_analyzer, insights, application_evidence  # noqa
 from src.routers import quick_hire
 from src.routers import notifications
 from src.routers import recruitment_process
@@ -211,6 +215,7 @@ app.include_router(notifications.router, prefix="/api", tags=["Thông báo tuy�
 app.include_router(quick_hire.router, prefix="/api", tags=["Tuyển dụng nhanh theo bộ lọc"])
 
 app.include_router(application_evidence.router, prefix="/api", tags=["Đối chiếu CV có dẫn chứng"])
+app.include_router(insights.router, prefix="/api/insights", tags=["AI Chatbox & Trend Insights"])
 
 app.include_router(auth.router,         prefix="/api/auth",     tags=["Xác Thực (Authentication & RBAC)"])
 app.include_router(jobs.router,         prefix="/api/jobs",     tags=["Tin Tuyển Dụng"])
