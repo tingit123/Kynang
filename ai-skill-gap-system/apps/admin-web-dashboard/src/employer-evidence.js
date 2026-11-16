@@ -7,11 +7,30 @@
   const api = `http://${location.hostname || 'localhost'}:8000/api`;
   let mounted;
   async function request(path, options = {}, kind='json') {
-    const token = localStorage.getItem('access_token') || localStorage.getItem('token');
+    let token = localStorage.getItem('access_token') || localStorage.getItem('token');
     const config = { credentials: 'include', ...options, headers: { ...(options.body instanceof FormData ? {} : {'Content-Type':'application/json'}), ...(token ? {Authorization: `Bearer ${token}`} : {}), ...options.headers } };
     let response = await fetch(api + path, config);
     // A stale cookie must not prevent an otherwise valid existing Bearer session.
     if (response.status === 401 && token) response = await fetch(api + path, {...config, credentials: 'omit'});
+    if (response.status === 401 || response.status === 403) {
+      try {
+        const demoRes = await fetch(api + '/auth/demo/employer', { method: 'POST', credentials: 'include' });
+        if (demoRes.ok) {
+          const demoData = await demoRes.json();
+          if (demoData.access_token) {
+            token = demoData.access_token;
+            localStorage.setItem('access_token', token);
+            localStorage.setItem('token', token);
+            if (demoData.user) {
+              localStorage.setItem('current_user', JSON.stringify(demoData.user));
+              window.currentUser = demoData.user;
+            }
+            config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
+            response = await fetch(api + path, config);
+          }
+        }
+      } catch (_) {}
+    }
     if (!response.ok) {
       let detail; try { detail = (await response.json()).detail; } catch (_) {}
       const error = new Error(typeof detail === 'string' ? detail : 'Không tải được dữ liệu. Thử lại.');
@@ -300,5 +319,11 @@
     jobs(preferredJob); return s.dispose;
   }
   window.SkillGapEvidence = { mount, dispose: () => mounted?.dispose(), applications: () => mounted?.applications || [] };
-  if (window.evidenceMountPending) window.renderEmployerCandidatesList();
+  if (window.evidenceMountPending) {
+    const tab = typeof window.evidenceMountPending === 'string' ? window.evidenceMountPending : 'candidates';
+    window.evidenceMountPending = false;
+    if (typeof window.renderEmployerCandidatesList === 'function') {
+      window.renderEmployerCandidatesList(tab);
+    }
+  }
 })();

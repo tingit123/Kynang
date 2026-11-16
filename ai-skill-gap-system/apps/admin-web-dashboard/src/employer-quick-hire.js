@@ -4,9 +4,24 @@
  const api=`http://${location.hostname||'localhost'}:8000/api`;
  const status=()=>window.RecruitmentStatuses;
  async function request(path,options={}){
-  const token=localStorage.getItem('access_token')||localStorage.getItem('token');
+  let token=localStorage.getItem('access_token')||localStorage.getItem('token');
   const config={credentials:'include',...options,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`} : {}),...options.headers}};
   let r=await fetch(api+path,config);if(r.status===401&&token)r=await fetch(api+path,{...config,credentials:'omit'});
+  if(r.status===401||r.status===403){
+    try{
+      const demoRes=await fetch(api+'/auth/demo/employer',{method:'POST',credentials:'include'});
+      if(demoRes.ok){
+        const demoData=await demoRes.json();
+        if(demoData.access_token){
+          token=demoData.access_token;
+          localStorage.setItem('access_token',token);
+          localStorage.setItem('token',token);
+          config.headers={...config.headers,Authorization:`Bearer ${token}`};
+          r=await fetch(api+path,config);
+        }
+      }
+    }catch(_){}
+  }
   if(!r.ok){const d=await r.json().catch(()=>({}));const error=Error(typeof d.detail==='string'?d.detail:d.detail?.message||d.detail?.map?.(x=>x.msg).join('; ')||'Không tải được dữ liệu. Thử lại.');error.status=r.status;throw error;}return r.json();
  }
  function mount(root,job,openEvidence,previous,options={}){

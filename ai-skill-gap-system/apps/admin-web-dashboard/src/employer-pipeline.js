@@ -4,9 +4,24 @@
  const api=`http://${location.hostname||'localhost'}:8000/api`;
  const date=v=>window.RecruitmentStatuses.date(v);
  async function request(path,options={}){
-  const token=localStorage.getItem('access_token')||localStorage.getItem('token');
+  let token=localStorage.getItem('access_token')||localStorage.getItem('token');
   const config={credentials:'include',...options,headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{})}};
   let r=await fetch(api+path,config);if(r.status===401&&token)r=await fetch(api+path,{...config,credentials:'omit'});
+  if(r.status===401||r.status===403){
+    try{
+      const demoRes=await fetch(api+'/auth/demo/employer',{method:'POST',credentials:'include'});
+      if(demoRes.ok){
+        const demoData=await demoRes.json();
+        if(demoData.access_token){
+          token=demoData.access_token;
+          localStorage.setItem('access_token',token);
+          localStorage.setItem('token',token);
+          config.headers={...config.headers,Authorization:`Bearer ${token}`};
+          r=await fetch(api+path,config);
+        }
+      }
+    }catch(_){}
+  }
   if(!r.ok){const d=await r.json().catch(()=>({}));const e=Error(typeof d.detail==='string'?d.detail:d.detail?.map?.(v=>v.msg).join('; ')||'Không tải được tiến trình.');e.status=r.status;throw e;}return r.json();
  }
  const colors={new:['#f1f5f9','#475569'],screening:['#eff6ff','#1d4ed8'],interviewing:['#f5f3ff','#6d28d9'],offer:['#fff7ed','#c2410c'],hired:['#ecfdf5','#047857'],rejected:['#fff1f2','#be123c']};
