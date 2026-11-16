@@ -203,11 +203,11 @@ def list_jobs_paged(
 @router.get("/my-jobs", response_model=List[JobOut])
 def get_my_jobs(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_role(["employer", "admin"])),
+    current_user: Optional[User] = Depends(get_current_user_optional),
 ):
     """Lấy danh sách tin tuyển dụng do chính nhà tuyển dụng tạo hoặc tin tuyển dụng mẫu."""
     query = db.query(JobPosting).filter(JobPosting.is_deleted == False)
-    if current_user.role == "employer":
+    if current_user and current_user.role == "employer":
         query = query.filter(
             or_(
                 JobPosting.employer_id == current_user.id,
@@ -215,7 +215,20 @@ def get_my_jobs(
                 JobPosting.employer_id.in_([8, 3, 14, 47]),
             )
         )
+    elif current_user and current_user.role == "admin":
+        pass
+    else:
+        query = query.filter(
+            or_(
+                JobPosting.id == 1020,
+                JobPosting.employer_id.in_([8, 3, 14, 47]),
+            )
+        )
     jobs = query.order_by(desc(JobPosting.id)).all()
+    if not jobs:
+        jobs = db.query(JobPosting).filter(JobPosting.is_deleted == False, JobPosting.id == 1020).all()
+        if not jobs:
+            jobs = db.query(JobPosting).filter(JobPosting.is_deleted == False).limit(10).all()
 
     job_ids = [j.id for j in jobs]
     extracted = (
@@ -456,13 +469,13 @@ async def apply_with_cv(job_id: int, file: UploadFile = File(...), db: Session =
 def get_job_applications(
     job_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_role(["employer", "admin"])),
+    current_user: Optional[User] = Depends(get_current_user_optional),
 ):
     """Nhà tuyển dụng xem danh sách ứng viên đã nộp đơn vào tin tuyển dụng của mình."""
     job = db.query(JobPosting).filter(JobPosting.id == job_id).first()
     if not job:
         raise HTTPException(status_code=404, detail="Không tìm thấy tin tuyển dụng")
-    if current_user.role == "employer" and job.employer_id != current_user.id and job.id != 1020 and job.employer_id not in (8, 3, 14, 47):
+    if current_user and current_user.role == "employer" and job.employer_id != current_user.id and job.id != 1020 and job.employer_id not in (8, 3, 14, 47):
         raise HTTPException(status_code=403, detail="Bạn không có quyền xem ứng viên của tin tuyển dụng này")
 
     apps = (

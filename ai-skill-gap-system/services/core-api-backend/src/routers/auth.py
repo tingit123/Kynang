@@ -26,9 +26,9 @@ def demo_employer_login(request: Request, response: Response, db: Session = Depe
     from src.core.security import create_access_token, COOKIE_SECURE
     if os.getenv("DEMO_EMPLOYER_LOGIN", "0") != "1":
         raise HTTPException(404, "Đăng nhập employer demo chưa được bật")
-    if request.url.hostname not in {"localhost", "127.0.0.1", "::1"} or request.headers.get("origin") not in {
-        "http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:8081", "http://127.0.0.1:8081"
-    }:
+    origin = request.headers.get("origin")
+    allowed_origins = {"http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:8081", "http://127.0.0.1:8081"}
+    if origin and origin not in allowed_origins:
         raise HTTPException(403, "Đăng nhập demo chỉ dành cho giao diện localhost")
     user = db.query(User).filter_by(email="evidence.employer@demo.local").first()
     if not user or user.role != "employer" or user.is_deleted or not user.is_active:
