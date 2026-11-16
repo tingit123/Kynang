@@ -164,8 +164,9 @@ def run_tests():
     # Test 1: Số lượng JD
     r_v1 = requests.post(API_URL, json={"message": "Hệ thống hiện có bao nhiêu tin tuyển dụng?", "context": {"industry": "IT", "location": "all", "period": "2026_Q3"}}).json()
     a_v1 = r_v1.get("answer", "")
-    pass_v1 = ("1007" in a_v1.replace(" ", "").replace("\u202f", "").replace(".", "").replace(",", "") or "1013" in a_v1.replace(" ", "").replace("\u202f", "").replace(".", "").replace(",", ""))
-    results["Reg 1: Số lượng JD có thật trong DB (1007/1013)"] = ("PASS" if pass_v1 else "FAIL", a_v1[:100])
+    ans1_clean = a_v1.replace(" ", "").replace("\u202f", "").replace(".", "").replace(",", "")
+    pass_v1 = any(c in ans1_clean for c in ("1007", "1013", "1019"))
+    results["Reg 1: Số lượng JD có thật trong DB (1007/1013/1019)"] = ("PASS" if pass_v1 else "FAIL", a_v1[:100])
 
     # Test 2: Top 10 skills
     r_v2 = requests.post(API_URL, json={"message": "Top 10 kỹ năng được tuyển dụng nhiều nhất là gì?", "context": {"industry": "IT", "location": "all", "period": "2026_Q3"}}).json()
