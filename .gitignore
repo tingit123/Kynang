@@ -24,3 +24,10 @@ Thumbs.db
 
 # Scratch scripts
 scripts/
+
+# Local credentials and merge snapshots
+.env
+.env.*
+!.env.example
+.merge-backup/
+*.bak

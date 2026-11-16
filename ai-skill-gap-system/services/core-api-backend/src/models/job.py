@@ -38,5 +38,6 @@ class JobApplication(Base):
     cv_original_filename = Column(String(255), nullable=True)
     cv_original_blob = deferred(Column(LargeBinary().with_variant(MEDIUMBLOB(), "mysql"), nullable=True))
     cv_original_mime = Column(String(80), nullable=True)
+    # Quick-hire adds internal "selected"; VARCHAR accepts it without ENUM migration.
     status           = Column(String(50), default="applied", nullable=False)
     applied_at       = Column(TIMESTAMP, server_default=func.now())

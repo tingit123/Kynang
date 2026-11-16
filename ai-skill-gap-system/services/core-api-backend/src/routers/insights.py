@@ -15,7 +15,7 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
-from sqlalchemy import desc, func, and_, or_, distinct
+from sqlalchemy import desc, func, and_, or_, distinct, text
 
 from src.database import get_db
 from src.core.security import get_current_user_optional
@@ -170,7 +170,8 @@ def query_dashboard_evidence(
     admin_only_keywords = [
         "thông tin tài khoản admin", "mật khẩu người dùng", "user password",
         "token blacklist", "dữ liệu bảo mật quản trị", "thông tin cá nhân ứng viên khác",
-        "mật khẩu admin", "dump database", "mật khẩu", "password", "xem mật khẩu", "mật khẩu tài khoản"
+        "mật khẩu admin", "dump database", "mật khẩu", "password", "xem mật khẩu", "mật khẩu tài khoản",
+        "email cá nhân", "danh sách email", "số điện thoại cá nhân", "thông tin riêng tư"
     ]
     is_permission_violation = (user_role not in ["admin", "superadmin"]) and any(k in q_low for k in admin_only_keywords)
 
@@ -329,7 +330,7 @@ def query_dashboard_evidence(
                 ORDER BY pair_cnt DESC
                 LIMIT 5
             """
-            res = db.execute(pair_query).fetchall()
+            res = db.execute(text(pair_query)).fetchall()
             for r in res:
                 co_occurrences.append({"skill_a": r[0], "skill_b": r[1], "count": r[2]})
         except Exception as e_pair:
@@ -1705,7 +1706,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
                             "ai_engine": f"Google Gemini ({gm})"
                         }
             except Exception as ge:
-                logger.warning(f"Gemini error {ge}")
+                logger.warning("Gemini request failed (%s)", type(ge).__name__)
 
     # 2. Thử gọi Groq Cloud LLM (Ưu tiên model GPT-120B và Qwen-27B tốc độ cao)
     if GROQ_API_KEY and len(GROQ_API_KEY) > 10:
@@ -1728,7 +1729,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
                             "ai_engine": f"Groq Cloud ({qm})"
                         }
             except Exception as qe:
-                logger.warning(f"Groq error {qe}")
+                logger.warning("Groq request failed (%s)", type(qe).__name__)
 
     return None
 

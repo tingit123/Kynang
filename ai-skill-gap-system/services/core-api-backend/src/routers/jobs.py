@@ -318,6 +318,18 @@ def create_job(
     )
 
 
+@router.get("/my-applications")
+def my_applications(db: Session = Depends(get_db), user: User = Depends(require_role(["candidate", "admin"]))):
+    rows = db.query(JobApplication, JobPosting).join(JobPosting, JobPosting.id == JobApplication.job_id).filter(
+        JobApplication.candidate_id == user.id
+    ).order_by(JobApplication.id.desc()).all()
+    return [{"id": a.id, "jobId": job.id, "jobTitle": job.title, "company": job.company,
+             "location": job.location, "userId": user.id, "candidateEmail": user.email,
+             "candidateName": user.full_name, "status": a.status,
+             "appliedDateFull": a.applied_at.strftime("%d/%m/%Y") if a.applied_at else "",
+             "appliedDate": a.applied_at.strftime("%d/%m") if a.applied_at else ""} for a, job in rows]
+
+
 @router.get("/{job_id}", response_model=JobOut)
 def get_job(job_id: int, db: Session = Depends(get_db)):
     job = db.query(JobPosting).filter(JobPosting.id == job_id, JobPosting.is_deleted == False).first()
