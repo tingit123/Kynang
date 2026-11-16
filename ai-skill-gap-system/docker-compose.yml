@@ -55,7 +55,7 @@ services:
       SMTP_FROM: ${SMTP_FROM:-}
       SMTP_SECURITY: ${SMTP_SECURITY:-starttls}
       NOTIFY_SIMULATE: ${NOTIFY_SIMULATE:-0}
-      DEMO_EMPLOYER_LOGIN: ${DEMO_EMPLOYER_LOGIN:-0}
+      DEMO_EMPLOYER_LOGIN: ${DEMO_EMPLOYER_LOGIN:-1}
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
       timeout: 15s
