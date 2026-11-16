@@ -48,6 +48,12 @@ from src.services.project_knowledge import (
     classify_user_intent,
     resolve_followup_context
 )
+from src.services.trend_evidence_engine import (
+    classify_trend_semantic_intent,
+    generate_trend_insight_answer,
+    AUDITED_SHIFT_CHART_2025_2026,
+    STRUCTURED_INDUSTRY_EVIDENCE
+)
 
 logger = logging.getLogger("insights_chat")
 router = APIRouter()
@@ -158,6 +164,10 @@ def query_dashboard_evidence(
     followup_info = resolve_followup_context(user_query, history or [], context)
     retrieved_knowledge = search_project_knowledge(user_query, user_role=user_role, top_k=2)
 
+    # Phân loại Semantic Intent cho Xu hướng chuyển dịch & 4 tài liệu ngành (Trend Evidence Engine)
+    trend_intent_info = classify_trend_semantic_intent(user_query, history or [])
+    is_trend_match = bool(trend_intent_info.get("is_trend_match"))
+
     # 2. Kiểm tra Prompt Injection / Yêu cầu bịa đặt số liệu
     injection_keywords = [
         "bỏ qua dữ liệu", "bịa ra số liệu", "tự tạo số liệu", "giả sử python tăng",
@@ -221,7 +231,7 @@ def query_dashboard_evidence(
         "năm ngoái", "3 năm trước", "5 năm qua", "nhiều năm qua",
         "quý trước", "kỳ trước", "tháng trước", "quý 1", "quý 2"
     ]
-    is_chart_trend_query = any(k in q_low for k in [
+    is_chart_trend_query = is_trend_match or any(k in q_low for k in [
         "biểu đồ", "chuyển dịch", "tài liệu", "dự báo", "xu hướng việc làm",
         "theo tài liệu", "so sánh", "2025 và 2026", "2025 vs 2026", "bảng số liệu",
         "năm 2027", "2027", "năm 2025", "2025", "năm 2023", "2023", "cơ cấu"
@@ -500,7 +510,8 @@ def query_dashboard_evidence(
         "co_occurrences": co_occurrences,
         "specific_skill": specific_skill_data,
         "monthly_job_counts": monthly_job_counts,
-        "recommended_courses": recommended_courses
+        "recommended_courses": recommended_courses,
+        "trend_intent_info": trend_intent_info
     }
 
 
@@ -581,6 +592,32 @@ def build_deterministic_analytical_response(
             "chart_refs": [],
             "limitations": [f"Chưa có dữ liệu giai đoạn {period_missed}."]
         }
+
+    # ── CASE 3.00: Giải thích xu hướng chuyển dịch & 4 tài liệu ngành (Trend Evidence Engine) ──
+    trend_info = evidence_data.get("trend_intent_info")
+    if trend_info and trend_info.get("is_trend_match"):
+        trend_resp = generate_trend_insight_answer(trend_info)
+        if trend_resp:
+            ev_items = [
+                EvidenceItem(
+                    metric=item.get("metric", "trend_metric"),
+                    value=item.get("value"),
+                    unit=item.get("unit", ""),
+                    source=item.get("source", "reference_chart"),
+                    description=item.get("description", item.get("metric"))
+                )
+                for item in trend_resp.get("evidence", [])
+            ]
+            return {
+                "answer": trend_resp["answer"],
+                "data_status": trend_resp.get("data_status", "available"),
+                "is_definitive": True,
+                "evidence": ev_items,
+                "analysis": trend_resp.get("analysis", ""),
+                "recommendations": trend_resp.get("recommendations", []),
+                "chart_refs": trend_resp.get("chart_refs", ["industryShiftCompareChart", "industryTrendLineChart"]),
+                "limitations": trend_resp.get("limitations", [])
+            }
 
     # ── CASE 3.01: Kỹ năng có Gap cao nhất trong Top 5 tổng quan (Tài liệu / Biểu đồ) ──
     is_top_gap_overview_query = (
