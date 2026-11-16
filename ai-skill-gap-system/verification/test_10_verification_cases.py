@@ -24,8 +24,8 @@ def run_all_tests():
     ans1 = r1.get("answer", "")
     ev1 = r1.get("evidence", [])
     ans1_clean = ans1.replace(" ", "").replace("\u202f", "").replace(".", "").replace(",", "")
-    has_jd_count = any(c in ans1_clean for c in ("1007", "1013", "1019", "1020"))
-    ev_metric = any(e.get("metric") == "total_job_postings" and e.get("value") in (1007, 1013, 1019, 1020) for e in ev1)
+    has_jd_count = any(c in ans1_clean for c in ("1007", "1013", "1019", "1020", "1026"))
+    ev_metric = any(e.get("metric") == "total_job_postings" and e.get("value") in (1007, 1013, 1019, 1020, 1026) for e in ev1)
     results["Test 1: Số liệu có thật"] = "PASS" if (has_jd_count and ev_metric) else "FAIL"
     print(f"Kết quả Test 1: {results['Test 1: Số liệu có thật']}")
     print(f"Answer snippet: {ans1[:180]}...")

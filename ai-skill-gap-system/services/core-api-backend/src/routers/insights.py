@@ -13,6 +13,7 @@ from typing import Optional, List, Dict, Any, Union
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func, and_, or_, distinct, text
@@ -52,7 +53,9 @@ from src.services.trend_evidence_engine import (
     classify_trend_semantic_intent,
     generate_trend_insight_answer,
     AUDITED_SHIFT_CHART_2025_2026,
-    STRUCTURED_INDUSTRY_EVIDENCE
+    STRUCTURED_INDUSTRY_EVIDENCE,
+    DOCUMENT_REGISTRY,
+    get_relevant_attachments
 )
 
 logger = logging.getLogger("insights_chat")
@@ -107,6 +110,8 @@ class InsightChatResponse(BaseModel):
     chart_refs: List[str] = []
     limitations: List[str] = []
     ai_engine: Optional[str] = "Skill Lens Lab Engine"
+    attachments: List[Dict[str, Any]] = []
+    documents: List[Dict[str, Any]] = []
 
 
 # Từ điển chuyên ngành khảo sát sinh viên tương ứng 4 ngành trọng điểm
@@ -608,6 +613,7 @@ def build_deterministic_analytical_response(
                 )
                 for item in trend_resp.get("evidence", [])
             ]
+            attachments = trend_resp.get("attachments", [])
             return {
                 "answer": trend_resp["answer"],
                 "data_status": trend_resp.get("data_status", "available"),
@@ -616,7 +622,9 @@ def build_deterministic_analytical_response(
                 "analysis": trend_resp.get("analysis", ""),
                 "recommendations": trend_resp.get("recommendations", []),
                 "chart_refs": trend_resp.get("chart_refs", ["industryShiftCompareChart", "industryTrendLineChart"]),
-                "limitations": trend_resp.get("limitations", [])
+                "limitations": trend_resp.get("limitations", []),
+                "attachments": attachments,
+                "documents": attachments
             }
 
     # ── CASE 3.01: Kỹ năng có Gap cao nhất trong Top 5 tổng quan (Tài liệu / Biểu đồ) ──
@@ -1838,7 +1846,9 @@ async def interactive_insights_chat(
             recommendations=deterministic_resp["recommendations"],
             chart_refs=deterministic_resp["chart_refs"],
             limitations=deterministic_resp["limitations"],
-            ai_engine="SkillGap Deterministic Engine (Verified)"
+            ai_engine="SkillGap Deterministic Engine (Verified)",
+            attachments=deterministic_resp.get("attachments", []),
+            documents=deterministic_resp.get("documents", [])
         )
 
     # 3. Thử gọi LLM nâng cao với System Prompt bắt buộc từ Section 11
@@ -1863,5 +1873,134 @@ async def interactive_insights_chat(
         recommendations=deterministic_resp["recommendations"],
         chart_refs=deterministic_resp["chart_refs"],
         limitations=deterministic_resp["limitations"],
-        ai_engine=engine_name
+        ai_engine=engine_name,
+        attachments=deterministic_resp.get("attachments", []),
+        documents=deterministic_resp.get("documents", [])
     )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DOCUMENT ATTACHMENT & PREVIEW ENDPOINTS (4 TÀI LIỆU NGÀNH GỐC)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _resolve_document_file_path(filename: str) -> Optional[str]:
+    """Tìm đường dẫn tệp tài liệu thực tế trên hệ thống mà không để lộ cấu trúc ổ đĩa nội bộ."""
+    candidates = [
+        # Thư mục static backend bên trong container
+        os.path.join(os.path.dirname(__file__), "..", "static", "documents", filename),
+        os.path.join("/app", "src", "static", "documents", filename),
+        os.path.join("/usr", "share", "nginx", "html", "documents", filename),
+        # Đường dẫn tương đối từ workspace
+        os.path.join("services", "core-api-backend", "src", "static", "documents", filename),
+        os.path.join("apps", "admin-web-dashboard", "documents", filename),
+        os.path.join("ai-skill-gap-system", "services", "core-api-backend", "src", "static", "documents", filename),
+        os.path.join("ai-skill-gap-system", "apps", "admin-web-dashboard", "documents", filename)
+    ]
+    for p in candidates:
+        try:
+            abs_p = os.path.abspath(p)
+            if os.path.exists(abs_p) and os.path.isfile(abs_p):
+                return abs_p
+        except Exception:
+            continue
+    return None
+
+
+@router.get("/documents", tags=["Insights Documents"])
+def list_insight_documents():
+    """Danh sách các tài liệu nghiên cứu chứng minh xu hướng được chứng thực (4 ngành trọng điểm)."""
+    return {
+        "status": "success",
+        "total": len(DOCUMENT_REGISTRY),
+        "documents": list(DOCUMENT_REGISTRY.values())
+    }
+
+
+@router.api_route("/documents/{doc_key}/download", methods=["GET", "HEAD"], tags=["Insights Documents"])
+def download_insight_document(doc_key: str):
+    """
+    Tải file Word (.docx) tài liệu chứng minh gốc.
+    Hỗ trợ doc_key: it, logistics, tourism, finance (hoặc tên file).
+    TUYỆT ĐỐI chặn So_Lieu_Bieu_do.docx hoặc các file không được cấp phép.
+    """
+    norm_key = doc_key.lower().replace("-", "_").replace(" ", "_")
+
+    # Loại bỏ hoàn toàn số liệu biểu đồ khỏi tải về
+    if any(k in norm_key for k in ["so_lieu", "solieu", "bieu_do", "bieudo", "chart"]):
+        raise HTTPException(status_code=404, detail="Tài liệu số liệu biểu đồ chỉ dùng cho tính toán nội bộ, không hỗ trợ tải trực tiếp.")
+
+    target_doc = None
+    if norm_key in DOCUMENT_REGISTRY:
+        target_doc = DOCUMENT_REGISTRY[norm_key]
+    else:
+        for key, doc in DOCUMENT_REGISTRY.items():
+            if norm_key == doc["filename"].lower() or norm_key == doc["filename"].lower().replace(".docx", ""):
+                target_doc = doc
+                break
+            if norm_key in [doc["id"], doc["industry_key"].lower()]:
+                target_doc = doc
+                break
+            if norm_key in ["du_lich", "dulich", "tourism"] and key == "tourism":
+                target_doc = doc
+                break
+            if norm_key in ["kinh_te", "kinhte", "finance", "ke_toan"] and key == "finance":
+                target_doc = doc
+                break
+            if norm_key in ["xnk", "logistics_xnk"] and key == "logistics":
+                target_doc = doc
+                break
+
+    if not target_doc:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu chứng minh cho mã: {doc_key}")
+
+    filename = target_doc["filename"]
+    file_path = _resolve_document_file_path(filename)
+    if not file_path:
+        raise HTTPException(status_code=404, detail="File tài liệu hiện chưa sẵn sàng trên máy chủ.")
+
+    return FileResponse(
+        path=file_path,
+        filename=filename,
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+
+@router.get("/documents/{doc_key}/preview", tags=["Insights Documents"])
+def preview_insight_document(doc_key: str):
+    """
+    Xem trước tóm tắt có cấu trúc & các luận điểm chứng minh từ tài liệu ngành.
+    Hỗ trợ hiển thị modal xem trực tiếp trên AI Chatbox mà không cần tải file lớn.
+    """
+    norm_key = doc_key.lower().replace("-", "_").replace(" ", "_")
+
+    if any(k in norm_key for k in ["so_lieu", "solieu", "bieu_do", "bieudo", "chart"]):
+        raise HTTPException(status_code=404, detail="Tài liệu số liệu biểu đồ không hỗ trợ xem trước.")
+
+    target_doc = None
+    if norm_key in DOCUMENT_REGISTRY:
+        target_doc = DOCUMENT_REGISTRY[norm_key]
+    else:
+        for key, doc in DOCUMENT_REGISTRY.items():
+            if norm_key == doc["filename"].lower() or norm_key == doc["filename"].lower().replace(".docx", ""):
+                target_doc = doc
+                break
+            if norm_key in [doc["id"], doc["industry_key"].lower()]:
+                target_doc = doc
+                break
+            if norm_key in ["du_lich", "dulich", "tourism"] and key == "tourism":
+                target_doc = doc
+                break
+            if norm_key in ["kinh_te", "kinhte", "finance", "ke_toan"] and key == "finance":
+                target_doc = doc
+                break
+            if norm_key in ["xnk", "logistics_xnk"] and key == "logistics":
+                target_doc = doc
+                break
+
+    if not target_doc:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu chứng minh cho mã: {doc_key}")
+
+    return {
+        "status": "success",
+        "document": target_doc
+    }

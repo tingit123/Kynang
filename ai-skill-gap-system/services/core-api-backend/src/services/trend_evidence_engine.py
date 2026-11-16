@@ -320,8 +320,165 @@ STRUCTURED_INDUSTRY_EVIDENCE = {
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 3. SEMANTIC INTENT CLASSIFIER & SCOPE RESOLVER CHO XU HƯỚNG CHUYỂN DỊCH
+# 2.1. REGISTRY TÀI LIỆU CHỨNG MINH 4 NGÀNH (CHỈ 4 TÀI LIỆU, LOẠI BỎ SO_LIEU_BIEU_DO)
 # ══════════════════════════════════════════════════════════════════════════════
+DOCUMENT_REGISTRY = {
+    "it": {
+        "id": "it",
+        "title": "IT & Công nghệ – Bằng chứng xu hướng 2025–2026",
+        "industry": "IT & Công nghệ",
+        "industry_key": "IT",
+        "filename": "IT_CongNghe.docx",
+        "description": "Tài liệu chứng minh xu hướng ngành IT",
+        "source_reference": "Báo cáo Lương & Thị trường Tuyển dụng IT Việt Nam 2025–2026 (ITviec) & Bộ TT&TT",
+        "file_size": "25.5 KB",
+        "file_size_bytes": 25544,
+        "download_url": "/api/insights/documents/it/download",
+        "file_url": "/documents/IT_CongNghe.docx",
+        "preview_url": "/api/insights/documents/it/preview",
+        "summary": "Báo cáo toàn cảnh thị trường CNTT & Công nghệ số giai đoạn 2025–2026, phân tích thực trạng phục hồi tuyển dụng có chọn lọc, tác động của AI đến nhu cầu nhân sự kỹ thuật cao và chiến lược phát triển kinh tế số quốc gia.",
+        "key_points": [
+            "66,1% doanh nghiệp mở rộng nhân sự IT năm 2025; 69,6% có kế hoạch tiếp tục mở rộng trong năm 2026.",
+            "73% doanh nghiệp đang ứng dụng AI; 65,1% tăng ngân sách cho AI và 62% mở rộng đội ngũ nhân sự chuyên môn AI.",
+            "Tuyển dụng chuyển dịch từ số lượng sang chất lượng cao: ưu tiên năng lực giải quyết vấn đề (44,6%) và thích nghi công nghệ mới (43,4%).",
+            "Doanh thu kinh tế số năm 2025 ước đạt 198 tỷ USD, đóng góp trên 1,07 triệu tỷ đồng vào GDP cả nước."
+        ],
+        "sections": [
+            {"title": "Mục 1: Quy mô ngành và đóng góp kinh tế số", "content": "Phân tích doanh thu công nghệ số đạt 198 tỷ USD và định hướng phát triển theo Luật Công nghiệp công nghệ số."},
+            {"title": "Mục 2: Nhu cầu tuyển dụng IT phục hồi có chọn lọc", "content": "Khảo sát 1.839 chuyên gia và nhà tuyển dụng ITviec về xu hướng tuyển dụng Full-stack, Back-end và AI Engineer."},
+            {"title": "Mục 3: AI và công nghệ lõi tạo động lực mới", "content": "Chi tiết về việc 96,8% chuyên gia dùng AI hàng ngày và 65,1% doanh nghiệp tăng phân bổ ngân sách cho AI."}
+        ]
+    },
+    "logistics": {
+        "id": "logistics",
+        "title": "Logistics & XNK – Bằng chứng xu hướng 2025–2026",
+        "industry": "Logistics & XNK",
+        "industry_key": "Logistics",
+        "filename": "Logistics_XNK_FINAL_HOAN_CHINH.docx",
+        "description": "Tài liệu chứng minh xu hướng ngành Logistics & XNK",
+        "source_reference": "Cục Thống kê, Bộ Công Thương & Báo cáo Thị trường Logistics ManpowerGroup 2026",
+        "file_size": "37.4 KB",
+        "file_size_bytes": 37432,
+        "download_url": "/api/insights/documents/logistics/download",
+        "file_url": "/documents/Logistics_XNK_FINAL_HOAN_CHINH.docx",
+        "preview_url": "/api/insights/documents/logistics/preview",
+        "summary": "Nghiên cứu thị trường dịch vụ Logistics và hoạt động thương mại quốc tế xuất nhập khẩu Việt Nam 2025–2026, đà tăng trưởng kim ngạch kỷ lục và nhu cầu nhân lực số hóa chuỗi cung ứng.",
+        "key_points": [
+            "Kim ngạch xuất nhập khẩu 10 tháng năm 2026 vượt mốc 1.010,6 tỷ USD (tăng 32,3% so với cùng kỳ).",
+            "Thị trường dịch vụ logistics ước đạt quy mô 45–50 tỷ USD (~10% GDP), duy trì tăng trưởng 14–16%/năm.",
+            "Triển vọng tuyển dụng Trade & Logistics phục hồi mạnh nhất trong khảo sát ManpowerGroup Q3/2026 (tăng 26 điểm %).",
+            "61% doanh nghiệp tăng nhân sự cho biết động lực chính là mở rộng quy mô hoạt động thương mại và kho bãi."
+        ],
+        "sections": [
+            {"title": "Mục 1: Bứt phá thương mại quốc tế XNK", "content": "Tổng hợp số liệu kim ngạch XNK 2025 đạt 930 tỷ USD và 10 tháng 2026 vượt 1.010 tỷ USD."},
+            {"title": "Mục 2: Quy mô và vị thế thị trường logistics", "content": "Cơ cấu doanh nghiệp 95% vừa và nhỏ, chuyển dịch từ đại lý giao nhận sang chuỗi cung ứng tích hợp 3PL/4PL."},
+            {"title": "Mục 5: Xu hướng nhà tuyển dụng & chuẩn kỹ năng số", "content": "Nhu cầu vị trí chứng từ XNK, CS, quản lý kho bãi WMS và điều phối vận tải TMS tích hợp ERP."}
+        ]
+    },
+    "finance": {
+        "id": "finance",
+        "title": "Kinh tế & Tài chính – Bằng chứng xu hướng 2025–2026",
+        "industry": "Kinh tế & Tài chính",
+        "industry_key": "Kinh tế",
+        "filename": "KinhTe_TaiChinh_Final.docx",
+        "description": "Tài liệu chứng minh xu hướng ngành Kinh tế & Kế toán",
+        "source_reference": "Nghiên cứu Học viện Ngân hàng trên 28 NHTM & Hiệp hội Kế toán Việt Nam",
+        "file_size": "38.8 KB",
+        "file_size_bytes": 38753,
+        "download_url": "/api/insights/documents/finance/download",
+        "file_url": "/documents/KinhTe_TaiChinh_Final.docx",
+        "preview_url": "/api/insights/documents/finance/preview",
+        "summary": "Phân tích tác động của tự động hóa nghiệp vụ (RPA/AI) và số hóa quy trình quản trị tài chính – ngân hàng đến cơ cấu việc làm, giải thích nguyên nhân giảm số tin tuyển dụng kế toán truyền thống.",
+        "key_points": [
+            "Nghiên cứu trên 28 ngân hàng thương mại: tổng tài sản tăng trung vị 117% nhưng nhân sự chỉ tăng 11% (tối ưu hóa năng suất lao động).",
+            "Các vị trí tác vụ lặp lại (nhập liệu, hạch toán cơ bản, thu ngân) chịu sự thay thế mạnh của phần mềm kế toán tự động và RPA.",
+            "Ngành tài chính không suy thoái mà chuyển hướng tái cơ cấu: giảm số lượng việc làm phổ thông, gia tăng nhu cầu phân tích tài chính số và kiểm soát rủi ro.",
+            "Đây là biến động theo số tin tuyển dụng trong mẫu phân tích, không đồng nghĩa AI là nguyên nhân duy nhất."
+        ],
+        "sections": [
+            {"title": "Mục 1: Tối ưu hóa năng suất trong hệ thống ngân hàng", "content": "Dữ liệu đối chiếu tốc độ tăng trưởng tài sản so với số lượng biên chế nhân sự."},
+            {"title": "Mục 2: Tự động hóa kế toán và trí tuệ nhân tạo", "content": "Khảo sát mức độ thay thế các quy trình nhập liệu thủ công bằng hệ thống ERP và hóa đơn điện tử tự động."},
+            {"title": "Mục 3: Chuyển dịch yêu cầu năng lực tài chính số", "content": "Yêu cầu kỹ năng mới: phân tích dữ liệu kinh doanh, Power BI, mô hình hóa tài chính và quản trị rủi ro."}
+        ]
+    },
+    "tourism": {
+        "id": "tourism",
+        "title": "Du lịch & Khách sạn – Bằng chứng xu hướng 2025–2026",
+        "industry": "Du lịch & Khách sạn",
+        "industry_key": "Du lịch",
+        "filename": "DuLich_KhachSan_Final.docx",
+        "description": "Tài liệu chứng minh xu hướng ngành Du lịch & Khách sạn",
+        "source_reference": "Cục Du lịch Quốc gia Việt Nam & Khảo sát Hoteljob 2025–2026",
+        "file_size": "38.7 KB",
+        "file_size_bytes": 38660,
+        "download_url": "/api/insights/documents/tourism/download",
+        "file_url": "/documents/DuLich_KhachSan_Final.docx",
+        "preview_url": "/api/insights/documents/tourism/preview",
+        "summary": "Đánh giá sự phục hồi của thị trường du lịch quốc tế và nội địa, đối chiếu giữa đà tăng trưởng doanh thu vượt mốc trước dịch và cơ chế tuyển dụng mang tính ổn định, mùa vụ.",
+        "key_points": [
+            "Lượng khách quốc tế năm 2025 đạt 21,2 triệu lượt (+20,4%); 10 tháng năm 2026 đạt 19,5 triệu lượt (+13,8%).",
+            "Tổng thu du lịch vượt 1.000 nghìn tỷ đồng, tăng trưởng 19% so với năm 2024.",
+            "Tuyển dụng việc làm tăng trưởng ổn định (+3,8% trong biểu đồ) do doanh nghiệp ưu tiên tối ưu năng suất và tuyển bù nhân sự thời vụ.",
+            "Nhu cầu tập trung cao ở các vị trí trực tiếp phục vụ: buồng phòng (31%), nhà hàng & bếp (28%), lễ tân tiền sảnh (22%)."
+        ],
+        "sections": [
+            {"title": "Mục 1: Phục hồi ấn tượng lượng khách và doanh thu", "content": "Thống kê lượng khách quốc tế và tổng thu du lịch cả nước giai đoạn 2024–2026."},
+            {"title": "Mục 2: Đặc thù cơ cấu lao động ngành lưu trú", "content": "Tỷ lệ lao động trực tiếp và biến động theo mùa vụ du lịch ĐBSCL và toàn quốc."},
+            {"title": "Mục 3: Vị trí việc làm và tiêu chuẩn kỹ năng", "content": "Khảo sát nhu cầu buồng phòng, F&B, quản lý tiền sảnh và chuẩn ngoại ngữ phục vụ khách quốc tế."}
+        ]
+    }
+}
+
+def get_relevant_attachments(intent_info: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Xác định danh sách tài liệu chứng minh cần đính kèm theo đúng ngữ cảnh câu hỏi:
+    1. Tuyệt đối KHÔNG đính kèm So_Lieu_Bieu_do.docx (chỉ dùng nội bộ cho số liệu).
+    2. Câu hỏi Level 1 (hỏi trực tiếp một con số hoặc thứ hạng) mà KHÔNG yêu cầu bằng chứng/nguồn/tài liệu: attachments = []
+    3. Ngành Nông nghiệp CNC: Chỉ có dữ liệu biểu đồ, không tự tạo tài liệu chứng minh -> attachments = []
+    4. Câu hỏi riêng ngành (IT, Logistics, Du lịch, Kinh tế) có yêu cầu nguyên nhân (Level 2, 3, 4) hoặc hỏi tài liệu:
+       -> Trả về đúng 1 tài liệu của ngành đó.
+    5. Câu hỏi chuyển dịch tổng thể (Group A) hoặc câu hỏi chung về kết luận/nguồn không chỉ định ngành:
+       -> Trả về 3 tài liệu ngành trực tiếp liên quan (IT, Logistics, Kinh tế).
+    """
+    q_low = intent_info.get("raw_query", "").lower()
+    lvl = intent_info.get("level", 2)
+    ind = intent_info.get("target_industry")
+    intent_type = intent_info.get("intent", "")
+
+    asks_evidence = any(k in q_low for k in [
+        "nguồn", "tài liệu", "chứng minh", "bằng chứng", "từ đâu", "căn cứ",
+        "dựa trên", "lấy từ đâu", "cho tôi xem nguồn", "cho xem nguồn",
+        "tải tài liệu", "download", "cho tôi tải", "file", "word", ".docx",
+        "nghiên cứu", "dẫn chứng"
+    ]) or intent_info.get("asks_source_or_doc", False)
+
+    # Level 1 thuần túy (không hỏi nguồn/bằng chứng) -> không đính kèm
+    if lvl == 1 and not asks_evidence:
+        return []
+
+    # Nông nghiệp CNC -> không có tài liệu chứng minh riêng
+    if ind == "Nông nghiệp":
+        return []
+
+    # Hỏi riêng từng ngành
+    if ind == "IT":
+        return [DOCUMENT_REGISTRY["it"]]
+    elif ind == "Logistics":
+        return [DOCUMENT_REGISTRY["logistics"]]
+    elif ind == "Du lịch":
+        return [DOCUMENT_REGISTRY["tourism"]]
+    elif ind == "Kinh tế":
+        return [DOCUMENT_REGISTRY["finance"]]
+
+    # Hỏi tổng thể chuyển dịch (Group A) hoặc hỏi bằng chứng chung
+    if intent_type == "EXPLAIN_LABOR_MARKET_SHIFT" or intent_info.get("is_general_shift") or asks_evidence:
+        return [
+            DOCUMENT_REGISTRY["it"],
+            DOCUMENT_REGISTRY["logistics"],
+            DOCUMENT_REGISTRY["finance"]
+        ]
+
+    return []
 def classify_trend_semantic_intent(query: str, history: List[Any] = None) -> Dict[str, Any]:
     """
     Phân loại ý định ngữ nghĩa (Semantic Intent) của câu hỏi về xu hướng chuyển dịch:
@@ -372,6 +529,9 @@ def classify_trend_semantic_intent(query: str, history: List[Any] = None) -> Dic
         "tại sao hệ thống ai lại kết luận như vậy",
         "tại sao hệ thống kết luận như vậy",
         "tại sao hệ thống kết luận",
+        "tại sao lại kết luận như vậy",
+        "tại sao kết luận như vậy",
+        "vì sao kết luận như vậy",
         "vì sao có sự chuyển dịch ngành nghề",
         "vì sao có sự chuyển dịch",
         "dựa vào đâu mà nói it và logistics tăng",
@@ -380,6 +540,8 @@ def classify_trend_semantic_intent(query: str, history: List[Any] = None) -> Dic
         "cơ sở nào chứng minh",
         "những con số này lấy từ đâu",
         "con số này lấy từ đâu",
+        "số liệu này từ đâu",
+        "số liệu từ đâu",
         "ai căn cứ vào đâu để đưa ra kết luận",
         "ai căn cứ vào đâu",
         "tại sao kinh tế giảm mà công nghệ tăng",
@@ -391,10 +553,29 @@ def classify_trend_semantic_intent(query: str, history: List[Any] = None) -> Dic
         "kết luận này có đáng tin không",
         "vì sao thị trường lao động đang thay đổi",
         "thị trường lao động đang chuyển dịch mạnh sang",
+        "thị trường lao động đang chuyển dịch",
         "what evidence supports the labor market shift",
         "hãy giải thích toàn bộ kết luận chuyển dịch",
         "kết luận chuyển dịch từ hệ thống ai",
-        "kết luận chuyển dịch"
+        "kết luận chuyển dịch",
+        "lấy gì chứng minh",
+        "lấy cái gì chứng minh",
+        "dựa trên tài liệu nào",
+        "dựa vào tài liệu nào",
+        "có bằng chứng không",
+        "cho tôi xem nguồn",
+        "cho xem nguồn",
+        "xem nguồn",
+        "nguyên nhân chuyển dịch là gì",
+        "nguyên nhân chuyển dịch",
+        "hãy dẫn tài liệu chứng minh",
+        "dẫn tài liệu chứng minh",
+        "cho tôi tải tài liệu nghiên cứu",
+        "cho tôi tải tài liệu",
+        "tải tài liệu nghiên cứu",
+        "tải tài liệu",
+        "tài liệu nghiên cứu",
+        "tài liệu chứng minh"
     ]
 
     is_general_shift = any(p in q_low for p in general_shift_patterns) or has_multiple_industries
@@ -485,19 +666,28 @@ def classify_trend_semantic_intent(query: str, history: List[Any] = None) -> Dic
         level = 2 if target_ind else 3
         intent = "EXPLAIN_INDUSTRY_TREND" if target_ind else "EXPLAIN_LABOR_MARKET_SHIFT"
 
+    asks_source_or_doc = any(k in q_low for k in [
+        "nguồn", "tài liệu", "chứng minh", "bằng chứng", "từ đâu", "căn cứ",
+        "dựa trên", "lấy từ đâu", "cho tôi xem nguồn", "cho xem nguồn",
+        "tải tài liệu", "download", "cho tôi tải", "file", "word", ".docx",
+        "nghiên cứu", "dẫn chứng"
+    ])
+
     return {
         "is_trend_match": is_trend_match,
         "intent": intent,
         "level": level,
         "target_industry": target_ind,
         "is_followup": is_followup,
-        "raw_query": q_raw
+        "raw_query": q_raw,
+        "is_general_shift": is_general_shift,
+        "asks_source_or_doc": asks_source_or_doc
     }
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 4. TRÌNH TẠO PHẢN HỒI THÔNG MINH CHO CẢ 16 CÂU HỎI THAM CHIẾU VÀ CÁC BIẾN THỂ
 # ══════════════════════════════════════════════════════════════════════════════
-def generate_trend_insight_answer(intent_info: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def _generate_core_trend_insight_answer(intent_info: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """
     Sinh câu trả lời thông minh dựa trên 4 cấp độ, dữ liệu biểu đồ và 4 tài liệu ngành.
     Bảo đảm:
@@ -992,3 +1182,23 @@ def generate_trend_insight_answer(intent_info: Dict[str, Any]) -> Optional[Dict[
         }
 
     return None
+
+
+def generate_trend_insight_answer(intent_info: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """
+    Sinh câu trả lời thông minh và tự động đính kèm tài liệu chứng minh phù hợp:
+    - IT_CongNghe.docx (IT)
+    - Logistics_XNK_FINAL_HOAN_CHINH.docx (Logistics)
+    - DuLich_KhachSan_Final.docx (Du lịch)
+    - KinhTe_TaiChinh_Final.docx (Kinh tế)
+    - Nhóm A chuyển dịch tổng thể: Đính kèm 3 file IT, Logistics, Kinh tế.
+    - Level 1 thuần túy (không hỏi nguồn): Không đính kèm file.
+    - Loại bỏ hoàn toàn So_Lieu_Bieu_do.docx khỏi danh sách đính kèm.
+    """
+    res = _generate_core_trend_insight_answer(intent_info)
+    if res is None:
+        return None
+    attachments = get_relevant_attachments(intent_info)
+    res["attachments"] = attachments
+    res["documents"] = attachments
+    return res

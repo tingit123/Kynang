@@ -24317,6 +24317,53 @@ function renderAIChatMessages() {
           `;
         }
 
+        let attachmentsHtml = '';
+        if (isAi && msg.attachments && Array.isArray(msg.attachments) && msg.attachments.length > 0) {
+          attachmentsHtml = `
+            <div style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.08);display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:11px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:4px">
+                <span>📚</span> <span>Tài liệu chứng minh:</span>
+              </div>
+              ${msg.attachments.map(att => {
+                const docId = att.id || att.industry_key || '';
+                const filename = att.filename || 'TaiLieu.docx';
+                const desc = att.description || att.title || 'Tài liệu chứng minh xu hướng';
+                const dlUrl = att.download_url ? `${DASHBOARD_AUTH.API_BASE}${att.download_url}` : `/documents/${filename}`;
+                return `
+                  <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all 0.2s">
+                    <div style="display:flex;align-items:flex-start;gap:8px">
+                      <div style="width:26px;height:26px;border-radius:6px;background:rgba(37,99,235,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                          <polyline points="14 2 14 8 20 8"></polyline>
+                          <line x1="16" y1="13" x2="8" y2="13"></line>
+                          <line x1="16" y1="17" x2="8" y2="17"></line>
+                        </svg>
+                      </div>
+                      <div style="flex:1;min-width:0">
+                        <div style="font-weight:700;font-size:13px;color:#0f172a;line-height:1.3;word-break:break-all">${filename}</div>
+                        <div style="font-size:11px;color:#64748b;margin-top:2px;line-height:1.3">${desc}</div>
+                      </div>
+                    </div>
+                    <div style="display:flex;gap:8px;margin-top:8px;padding-left:34px">
+                      <button onclick="openDocumentPreviewModal('${docId}', '${filename}')" type="button"
+                        style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;font-size:11.5px;font-weight:600;border:1px solid #cbd5e1;border-radius:6px;background:#ffffff;color:#334155;cursor:pointer;transition:all 0.15s"
+                        onmouseover="this.style.background='#f8fafc';this.style.borderColor='#94a3b8'" onmouseout="this.style.background='#ffffff';this.style.borderColor='#cbd5e1'">
+                        <span style="font-size:12px">👁️</span> Xem tài liệu
+                      </button>
+                      <a href="${dlUrl}" download="${filename}"
+                        style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;font-size:11.5px;font-weight:600;border:1px solid #cbd5e1;border-radius:6px;background:#ffffff;color:#334155;text-decoration:none;cursor:pointer;transition:all 0.15s"
+                        onmouseover="this.style.background='#f8fafc';this.style.borderColor='#94a3b8'" onmouseout="this.style.background='#ffffff';this.style.borderColor='#cbd5e1'">
+                        <span style="font-size:12px">📥</span> Tải Word
+                      </a>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `;
+        }
+
         return `
           <div style="display:flex;gap:8px;margin-bottom:12px;${isAi ? 'align-items:flex-start' : 'align-items:flex-end;justify-content:flex-end'}">
             ${isAi ? `
@@ -24331,6 +24378,7 @@ function renderAIChatMessages() {
           }">
               <div>${formattedText}</div>
               ${evidenceHtml}
+              ${attachmentsHtml}
               <div style="font-size:9.5px;margin-top:6px;display:flex;align-items:center;justify-content:${isAi ? 'space-between' : 'flex-end'};opacity:0.85">
                 ${isAi && msg.engine ? `<span style="color:var(--primary);font-weight:700">🤖 ${msg.engine}</span>` : ''}
                 <span style="opacity:0.75;font-family:monospace">${msg.time}</span>
@@ -24410,7 +24458,8 @@ async function handleSendAIChat(textToSend) {
           text: data.answer || 'Đã phân tích xong dữ liệu.',
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           evidence: data.evidence || [],
-          engine: data.ai_engine || 'Skill Lens Lab AI'
+          engine: data.ai_engine || 'Skill Lens Lab AI',
+          attachments: data.attachments || data.documents || []
         };
         aiChatboxState.messages.push(aiMsg);
         aiChatboxState.lastFailedMessage = null;
@@ -24503,6 +24552,139 @@ function toggleAIChatMicrophone() {
         aiChatboxState.isListening = false;
       }
     }
+
+    // ── Document Preview & Download Modal Controller ──
+    const LOCAL_DOCUMENTS_FALLBACK = {
+      it: {
+        id: "it",
+        title: "IT & Công nghệ – Bằng chứng xu hướng 2025–2026",
+        industry: "IT & Công nghệ",
+        filename: "IT_CongNghe.docx",
+        file_size: "25.5 KB",
+        source_reference: "Báo cáo Lương & Thị trường Tuyển dụng IT Việt Nam 2025–2026 (ITviec) & Bộ TT&TT",
+        summary: "Báo cáo toàn cảnh thị trường CNTT & Công nghệ số giai đoạn 2025–2026, phân tích thực trạng phục hồi tuyển dụng có chọn lọc, tác động của AI đến nhu cầu nhân sự kỹ thuật cao và chiến lược phát triển kinh tế số quốc gia.",
+        key_points: [
+          "66,1% doanh nghiệp mở rộng nhân sự IT năm 2025; 69,6% có kế hoạch tiếp tục mở rộng trong năm 2026.",
+          "73% doanh nghiệp đang ứng dụng AI; 65,1% tăng ngân sách cho AI và 62% mở rộng đội ngũ nhân sự chuyên môn AI.",
+          "Tuyển dụng chuyển dịch từ số lượng sang chất lượng cao: ưu tiên năng lực giải quyết vấn đề (44,6%) và thích nghi công nghệ mới (43,4%).",
+          "Doanh thu kinh tế số năm 2025 ước đạt 198 tỷ USD, đóng góp trên 1,07 triệu tỷ đồng vào GDP cả nước."
+        ],
+        download_url: "/api/insights/documents/it/download"
+      },
+      logistics: {
+        id: "logistics",
+        title: "Logistics & XNK – Bằng chứng xu hướng 2025–2026",
+        industry: "Logistics & XNK",
+        filename: "Logistics_XNK_FINAL_HOAN_CHINH.docx",
+        file_size: "37.4 KB",
+        source_reference: "Cục Thống kê, Bộ Công Thương & Báo cáo Thị trường Logistics ManpowerGroup 2026",
+        summary: "Nghiên cứu thị trường dịch vụ Logistics và hoạt động thương mại quốc tế xuất nhập khẩu Việt Nam 2025–2026, đà tăng trưởng kim ngạch kỷ lục và nhu cầu nhân lực số hóa chuỗi cung ứng.",
+        key_points: [
+          "Kim ngạch xuất nhập khẩu 10 tháng năm 2026 vượt mốc 1.010,6 tỷ USD (tăng 32,3% so với cùng kỳ).",
+          "Thị trường dịch vụ logistics ước đạt quy mô 45–50 tỷ USD (~10% GDP), duy trì tăng trưởng 14–16%/năm.",
+          "Triển vọng tuyển dụng Trade & Logistics phục hồi mạnh nhất trong khảo sát ManpowerGroup Q3/2026 (tăng 26 điểm %).",
+          "61% doanh nghiệp tăng nhân sự cho biết động lực chính là mở rộng quy mô hoạt động thương mại và kho bãi."
+        ],
+        download_url: "/api/insights/documents/logistics/download"
+      },
+      finance: {
+        id: "finance",
+        title: "Kinh tế & Tài chính – Bằng chứng xu hướng 2025–2026",
+        industry: "Kinh tế & Tài chính",
+        filename: "KinhTe_TaiChinh_Final.docx",
+        file_size: "38.8 KB",
+        source_reference: "Nghiên cứu Học viện Ngân hàng trên 28 NHTM & Hiệp hội Kế toán Việt Nam",
+        summary: "Phân tích tác động của tự động hóa nghiệp vụ (RPA/AI) và số hóa quy trình quản trị tài chính – ngân hàng đến cơ cấu việc làm, giải thích nguyên nhân giảm số tin tuyển dụng kế toán truyền thống.",
+        key_points: [
+          "Nghiên cứu trên 28 ngân hàng thương mại: tổng tài sản tăng trung vị 117% nhưng nhân sự chỉ tăng 11% (tối ưu hóa năng suất lao động).",
+          "Các vị trí tác vụ lặp lại (nhập liệu, hạch toán cơ bản, thu ngân) chịu sự thay thế mạnh của phần mềm kế toán tự động và RPA.",
+          "Ngành tài chính không suy thoái mà chuyển hướng tái cơ cấu: giảm số lượng việc làm phổ thông, gia tăng nhu cầu phân tích tài chính số và kiểm soát rủi ro.",
+          "Đây là biến động theo số tin tuyển dụng trong mẫu phân tích, không đồng nghĩa AI là nguyên nhân duy nhất."
+        ],
+        download_url: "/api/insights/documents/finance/download"
+      },
+      tourism: {
+        id: "tourism",
+        title: "Du lịch & Khách sạn – Bằng chứng xu hướng 2025–2026",
+        industry: "Du lịch & Khách sạn",
+        filename: "DuLich_KhachSan_Final.docx",
+        file_size: "38.7 KB",
+        source_reference: "Cục Du lịch Quốc gia Việt Nam & Khảo sát Hoteljob 2025–2026",
+        summary: "Đánh giá sự phục hồi của thị trường du lịch quốc tế và nội địa, đối chiếu giữa đà tăng trưởng doanh thu vượt mốc trước dịch và cơ chế tuyển dụng mang tính ổn định, mùa vụ.",
+        key_points: [
+          "Lượng khách quốc tế năm 2025 đạt 21,2 triệu lượt (+20,4%); 10 tháng năm 2026 đạt 19,5 triệu lượt (+13,8%).",
+          "Tổng thu du lịch vượt 1.000 nghìn tỷ đồng, tăng trưởng 19% so với năm 2024.",
+          "Tuyển dụng việc làm tăng trưởng ổn định (+3,8% trong biểu đồ) do doanh nghiệp ưu tiên tối ưu năng suất và tuyển bù nhân sự thời vụ.",
+          "Nhu cầu tập trung cao ở các vị trí trực tiếp phục vụ: buồng phòng (31%), nhà hàng & bếp (28%), lễ tân tiền sảnh (22%)."
+        ],
+        download_url: "/api/insights/documents/tourism/download"
+      }
+    };
+
+    async function openDocumentPreviewModal(docId, filename) {
+      const modal = document.getElementById('documentPreviewModal');
+      if (!modal) return;
+      modal.style.display = 'flex';
+
+      let key = (docId || '').toLowerCase();
+      if (filename) {
+        const fnLow = filename.toLowerCase();
+        if (fnLow.includes('it')) key = 'it';
+        else if (fnLow.includes('logistics') || fnLow.includes('xnk')) key = 'logistics';
+        else if (fnLow.includes('dulich') || fnLow.includes('khachsan')) key = 'tourism';
+        else if (fnLow.includes('kinhte') || fnLow.includes('taichinh')) key = 'finance';
+      }
+
+      let docData = LOCAL_DOCUMENTS_FALLBACK[key] || LOCAL_DOCUMENTS_FALLBACK['it'];
+
+      try {
+        const apiUrl = `${DASHBOARD_AUTH.API_BASE}/api/insights/documents/${key}/preview`;
+        const res = await fetch(apiUrl);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && json.document) {
+            docData = json.document;
+          }
+        }
+      } catch (err) {
+        console.log('Using local fallback preview data:', err);
+      }
+
+      const titleEl = document.getElementById('docPreviewTitle');
+      if (titleEl) titleEl.textContent = docData.title || filename;
+
+      const fnEl = document.getElementById('docPreviewFilename');
+      if (fnEl) fnEl.textContent = docData.filename || filename;
+
+      const indEl = document.getElementById('docPreviewIndustry');
+      if (indEl) indEl.textContent = docData.industry || 'Ngành Trọng Điểm';
+
+      const sizeEl = document.getElementById('docPreviewSize');
+      if (sizeEl) sizeEl.textContent = docData.file_size || 'Word (.docx)';
+
+      const srcEl = document.getElementById('docPreviewSource');
+      if (srcEl) srcEl.textContent = docData.source_reference || 'Tài liệu nghiên cứu';
+
+      const sumEl = document.getElementById('docPreviewSummary');
+      if (sumEl) sumEl.textContent = docData.summary || '';
+
+      const pointsList = document.getElementById('docPreviewKeyPoints');
+      if (pointsList && docData.key_points) {
+        pointsList.innerHTML = docData.key_points.map(pt => `<li style="margin-bottom:6px;line-height:1.5">${pt}</li>`).join('');
+      }
+
+      const dlBtn = document.getElementById('docPreviewDownloadBtn');
+      if (dlBtn) {
+        const dlUrl = `${DASHBOARD_AUTH.API_BASE}/api/insights/documents/${key}/download`;
+        dlBtn.href = dlUrl;
+        dlBtn.setAttribute('download', docData.filename || filename);
+      }
+    }
+
+    function closeDocumentPreviewModal() {
+      const modal = document.getElementById('documentPreviewModal');
+      if (modal) modal.style.display = 'none';
+    }
 </script>
 
     <!-- ══════════════════════════════════════════════════════════════════ -->
@@ -24590,6 +24772,88 @@ function toggleAIChatMicrophone() {
 
       </div>
     </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- MODAL XEM TRƯỚC TÀI LIỆU CHỨNG MINH XU HƯỚNG (DOCUMENT PREVIEW)   -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div id="documentPreviewModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.65);backdrop-filter:blur(4px);z-index:999999;align-items:center;justify-content:center;padding:16px">
+    <div style="background:#ffffff;border-radius:18px;max-width:640px;width:100%;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 40px rgba(0,0,0,0.25);overflow:hidden;animation:aiChatFadeIn 0.25s ease-out">
+      
+      <!-- Modal Header -->
+      <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;background:#f8fafc">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(37,99,235,0.1);display:flex;align-items:center;justify-content:center;color:#2563eb">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+          </div>
+          <div>
+            <div id="docPreviewTitle" style="font-weight:800;font-size:15px;color:#0f172a;line-height:1.3">Tài Liệu Chứng Minh Xu Hướng</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:2px">
+              <span id="docPreviewFilename" style="font-size:11.5px;font-weight:600;color:#2563eb;background:rgba(37,99,235,0.08);padding:1px 6px;border-radius:4px">IT_CongNghe.docx</span>
+              <span style="font-size:11px;color:#64748b">•</span>
+              <span id="docPreviewIndustry" style="font-size:11.5px;color:#475569;font-weight:600">IT & Công nghệ</span>
+              <span style="font-size:11px;color:#64748b">•</span>
+              <span id="docPreviewSize" style="font-size:11.5px;color:#64748b">25.5 KB</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="closeDocumentPreviewModal()" type="button" style="width:32px;height:32px;border-radius:8px;border:none;background:#f1f5f9;color:#64748b;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s"
+          onmouseover="this.style.background='#e2e8f0';this.style.color='#0f172a'" onmouseout="this.style.background='#f1f5f9';this.style.color='#64748b'">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div style="padding:20px;overflow-y:auto;flex:1;font-size:13px;color:#334155;line-height:1.6">
+        
+        <!-- Source Reference Box -->
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #0fa39e;border-radius:8px;padding:12px 14px;margin-bottom:16px">
+          <div style="font-size:11px;font-weight:700;color:#0fa39e;text-transform:uppercase;letter-spacing:0.5px">Cơ Quan & Nguồn Nghiên Cứu Gốc</div>
+          <div id="docPreviewSource" style="font-weight:600;color:#0f172a;margin-top:4px">Báo cáo ITviec 2025–2026 & Bộ Thông tin & Truyền thông</div>
+        </div>
+
+        <!-- Summary -->
+        <div style="margin-bottom:16px">
+          <div style="font-weight:700;font-size:13.5px;color:#0f172a;margin-bottom:6px;display:flex;align-items:center;gap:6px">
+            <span>📑</span> <span>Tóm Tắt Bối Cảnh & Xu Hướng Thị Trường</span>
+          </div>
+          <p id="docPreviewSummary" style="margin:0;color:#475569;text-align:justify;line-height:1.65">
+            Báo cáo phân tích toàn diện nhu cầu tuyển dụng và tác động của công nghệ số...
+          </p>
+        </div>
+
+        <!-- Key Evidence Points -->
+        <div style="margin-bottom:16px">
+          <div style="font-weight:700;font-size:13.5px;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+            <span>🔍</span> <span>Các Luận Điểm Chứng Minh Then Chốt</span>
+          </div>
+          <ul id="docPreviewKeyPoints" style="margin:0;padding-left:20px;color:#334155">
+            <!-- Points rendered via js -->
+          </ul>
+        </div>
+
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 12px;font-size:12px;color:#1e40af;display:flex;align-items:center;gap:8px">
+          <span style="font-size:16px">ℹ️</span>
+          <span>Tài liệu ngành cung cấp bằng chứng bối cảnh thực tiễn, hỗ trợ giải thích sự phù hợp của xu hướng chuyển dịch lao động.</span>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="padding:14px 20px;border-top:1px solid #e2e8f0;background:#f8fafc;display:flex;align-items:center;justify-content:flex-end;gap:10px">
+        <button onclick="closeDocumentPreviewModal()" type="button" style="padding:8px 16px;border:1px solid #cbd5e1;background:#ffffff;border-radius:8px;font-size:12.5px;font-weight:600;color:#475569;cursor:pointer">
+          Đóng
+        </button>
+        <a id="docPreviewDownloadBtn" href="#" download="" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:linear-gradient(135deg,#0fa39e,#0d8f8a);color:#ffffff;text-decoration:none;border-radius:8px;font-size:12.5px;font-weight:700;box-shadow:0 2px 6px rgba(15,163,158,0.3);cursor:pointer">
+          <span>📥</span> Tải Toàn Bộ File Word (.docx)
+        </a>
+      </div>
+
+    </div>
+  </div>
 
   <!-- 1. Nút nổi mở Chatbox (Floating Button) -->
   <div id="aiChatboxFloatingBtn" onclick="toggleAIChatbox(true)"
