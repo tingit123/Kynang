@@ -1,0 +1,20 @@
+HỒ SƠ ỨNG TUYỂN — Nguyễn Thảo My
+============================================
+DỮ LIỆU TỰ TẠO — NHÂN VẬT HƯ CẤU — KHÔNG PHẢI HỒ SƠ THẬT
+
+Vị trí mong muốn: Backend Developer
+Khu vực: Cần Thơ
+Email thử nghiệm: authored.cv1-6@demo.local
+
+MỤC TIÊU
+Tìm việc thực tập backend; có thể làm bốn ngày mỗi tuần.
+
+HỌC VẤN
+Cử nhân Hệ thống thông tin (giả định), 2026
+
+DỰ ÁN VÀ KINH NGHIỆM
+Dự án nhóm theo dõi bảo hành: viết Python để nhập dữ liệu và dùng SQL tạo báo cáo lỗi theo tháng.
+Dùng Git để góp ý và tích hợp thay đổi trong nhóm ba người.
+
+GHI CHÚ NGUỒN
+CV được viết mới để thử nghiệm giao diện và đối chiếu dẫn chứng. Tên người, học vấn và kinh nghiệm đều hư cấu. Chưa xác minh năng lực thực tế.

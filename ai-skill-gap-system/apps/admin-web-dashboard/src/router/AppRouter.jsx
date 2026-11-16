@@ -14,12 +14,14 @@ import AiDiagnosisPage from '../pages/candidate/AiDiagnosisPage';
 import CandidateJobsPage from '../pages/candidate/CandidateJobsPage';
 import IndustryExplorePage from '../pages/candidate/IndustryExplorePage';
 import SoftSkillsGuidePage from '../pages/candidate/SoftSkillsGuidePage';
+import NotificationsPage from '../pages/candidate/NotificationsPage';
 
 // ── 3. EMPLOYER PAGES (Cổng Nhà Tuyển Dụng) ──
 import EmployerDashboardPage from '../pages/employer/EmployerDashboardPage';
 import EmployerMarketSkillsPage from '../pages/employer/EmployerMarketSkillsPage';
 import EmployerJobsPage from '../pages/employer/EmployerJobsPage';
 import EmployerCandidatesPage from '../pages/employer/EmployerCandidatesPage';
+import EmployerRecruitmentPage from '../pages/employer/EmployerRecruitmentPage';
 import EmployerProfilePage from '../pages/employer/EmployerProfilePage';
 
 // ── 4. PROVIDER PAGES (Cổng Đơn Vị Đào Tạo / Trung Tâm Khóa Học) ──
@@ -63,6 +65,7 @@ export default function AppRouter() {
         <Route path="jobs" element={<CandidateJobsPage />} />
         <Route path="explore-industries" element={<IndustryExplorePage />} />
         <Route path="soft-skills" element={<SoftSkillsGuidePage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
       </Route>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
@@ -82,6 +85,7 @@ export default function AppRouter() {
         <Route path="market-skills" element={<EmployerMarketSkillsPage />} />
         <Route path="jobs" element={<EmployerJobsPage />} />
         <Route path="candidates" element={<EmployerCandidatesPage />} />
+        <Route path="recruitment" element={<EmployerRecruitmentPage />} />
         <Route path="profile" element={<EmployerProfilePage />} />
       </Route>
 

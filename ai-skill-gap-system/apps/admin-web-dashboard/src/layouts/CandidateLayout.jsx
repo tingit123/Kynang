@@ -186,6 +186,10 @@ export default function CandidateLayout() {
               <span>Khóa học</span>
             </NavLink>
 
+            <NavLink to="/notifications" className={navLinkClass}>
+              <span>Thông báo <span data-worker-unread hidden /></span>
+            </NavLink>
+
             {/* Menu 7: Cẩm Nang Kỹ Năng Mềm */}
             <NavLink to="/soft-skills" className={navLinkClass}>
               <span>Cẩm nang kỹ năng mềm</span>

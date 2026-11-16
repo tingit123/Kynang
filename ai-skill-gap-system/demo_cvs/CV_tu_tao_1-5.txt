@@ -1,0 +1,20 @@
+HỒ SƠ ỨNG TUYỂN — Đặng Minh Khang
+============================================
+DỮ LIỆU TỰ TẠO — NHÂN VẬT HƯ CẤU — KHÔNG PHẢI HỒ SƠ THẬT
+
+Vị trí mong muốn: Backend Developer
+Khu vực: Cần Thơ
+Email thử nghiệm: authored.cv1-5@demo.local
+
+MỤC TIÊU
+Tìm vị trí backend fresher; muốn phụ trách API và cơ sở dữ liệu.
+
+HỌC VẤN
+Cử nhân Công nghệ thông tin (giả định), 2026
+
+DỰ ÁN VÀ KINH NGHIỆM
+Đồ án quản lý mượn thiết bị: viết API bằng Python và FastAPI, tạo bảng kiểm kê bằng SQL.
+Dùng Git để chia nhánh, đóng gói bản demo bằng Docker và viết ca Testing cho luồng trả thiết bị.
+
+GHI CHÚ NGUỒN
+CV được viết mới để thử nghiệm giao diện và đối chiếu dẫn chứng. Tên người, học vấn và kinh nghiệm đều hư cấu. Chưa xác minh năng lực thực tế.

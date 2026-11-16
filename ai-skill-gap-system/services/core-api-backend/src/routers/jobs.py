@@ -3,7 +3,7 @@ Router: Tin Tuyển Dụng (Job Postings)
 """
 from typing import Optional, List
 from pydantic import BaseModel
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, desc
 from datetime import date, datetime
@@ -381,6 +381,7 @@ def apply_to_job(
     if not job:
         raise HTTPException(status_code=404, detail="Không tìm thấy tin tuyển dụng hoặc tin đã hết hạn")
 
+    db.query(User).filter_by(id=current_user.id).with_for_update().one()
     existing = db.query(JobApplication).filter(
         JobApplication.job_id == job_id,
         JobApplication.candidate_id == current_user.id,
@@ -394,6 +395,9 @@ def apply_to_job(
         candidate_id=current_user.id,
         cv_snapshot_text=snapshot,
         status="applied",
+        cv_original_text=snapshot,
+        cv_original_filename="CV.txt",
+        cv_original_mime="text/plain",
     )
     db.add(app)
     db.commit()
@@ -402,6 +406,32 @@ def apply_to_job(
         "message": f"Ứng tuyển thành công vị trí '{job.title}' tại '{job.company}'",
         "application_id": app.id,
     }
+
+
+@router.post("/{job_id}/apply-cv", status_code=201)
+async def apply_with_cv(job_id: int, file: UploadFile = File(...), db: Session = Depends(get_db),
+                        user: User = Depends(require_role(["candidate", "admin"]))):
+    """Validate the complete CV before saving a real application; no cloud analysis."""
+    from src.services.cv_original import MAX_BYTES, validate_extract
+    from starlette.concurrency import run_in_threadpool
+    job = db.query(JobPosting).filter_by(id=job_id, is_deleted=False).first()
+    if not job:
+        raise HTTPException(404, "Không tìm thấy tin tuyển dụng hoặc tin đã hết hạn")
+    content = await file.read(MAX_BYTES + 1)
+    await file.close()
+    filename, mime, text = await run_in_threadpool(validate_extract, file.filename, content)
+    # The same row lock also serializes concurrent text and file submissions.
+    db.query(User).filter_by(id=user.id).with_for_update().one()
+    if db.query(JobApplication).filter_by(job_id=job_id, candidate_id=user.id).first():
+        raise HTTPException(400, "Bạn đã gửi đơn ứng tuyển vào vị trí này rồi")
+    application = JobApplication(job_id=job_id, candidate_id=user.id, status="applied",
+        cv_snapshot_text=text, cv_original_filename=filename, cv_original_mime=mime,
+        cv_original_blob=content, cv_original_text=text if mime == "text/plain" else None)
+    db.add(application)
+    db.commit()
+    db.refresh(application)
+    return {"application_id": application.id, "message": "Đã nộp hồ sơ và CV gốc",
+            "extraction_status": "ready" if len("".join(text.split())) >= 40 else "unreadable"}
 
 
 @router.get("/{job_id}/applications", response_model=List[ApplicationOut])

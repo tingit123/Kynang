@@ -1,0 +1,20 @@
+HỒ SƠ ỨNG TUYỂN — Phạm Gia Hân
+============================================
+DỮ LIỆU TỰ TẠO — NHÂN VẬT HƯ CẤU — KHÔNG PHẢI HỒ SƠ THẬT
+
+Vị trí mong muốn: Backend Developer
+Khu vực: Cần Thơ
+Email thử nghiệm: authored.cv1-4@demo.local
+
+MỤC TIÊU
+Tìm thực tập frontend; làm được 4 ngày mỗi tuần.
+
+HỌC VẤN
+Sinh viên Công nghệ thông tin (giả định), năm cuối
+
+DỰ ÁN VÀ KINH NGHIỆM
+Dự án website câu lạc bộ: xây giao diện bằng React và JavaScript, dùng HTML/CSS cho trang giới thiệu.
+Dùng Git phối hợp nhóm ba người; phụ trách form đăng ký và kiểm tra hiển thị trên điện thoại. Đây là dự án học tập, chưa có kinh nghiệm doanh nghiệp.
+
+GHI CHÚ NGUỒN
+CV được viết mới để thử nghiệm giao diện và đối chiếu dẫn chứng. Tên người, học vấn và kinh nghiệm đều hư cấu. Chưa xác minh năng lực thực tế.
