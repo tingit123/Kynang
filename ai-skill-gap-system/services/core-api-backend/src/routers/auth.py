@@ -18,6 +18,38 @@ logger = logging.getLogger("auth_router")
 router = APIRouter()
 
 
+@router.post("/demo/employer", response_model=AuthResponse)
+def demo_employer_login(request: Request, response: Response, db: Session = Depends(get_db)):
+    """Explicitly enabled local demo entry; never chooses an arbitrary user or admin."""
+    import os
+    from datetime import datetime
+    from src.core.security import create_access_token, COOKIE_SECURE
+    if os.getenv("DEMO_EMPLOYER_LOGIN", "0") != "1":
+        raise HTTPException(404, "Đăng nhập employer demo chưa được bật")
+    origin = request.headers.get("origin")
+    allowed_origins = {"http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:8081", "http://127.0.0.1:8081"}
+    if origin and origin not in allowed_origins:
+        raise HTTPException(403, "Đăng nhập demo chỉ dành cho giao diện localhost")
+    user = db.query(User).filter_by(email="evidence.employer@demo.local").first()
+    if not user or user.role != "employer" or user.is_deleted or not user.is_active:
+        raise HTTPException(409, "Tài khoản employer demo chưa sẵn sàng; hãy chạy seed demo")
+    from src.models.user import Employer
+    employer = db.query(Employer).filter_by(user_id=user.id).first()
+    if not employer or not employer.is_verified:
+        raise HTTPException(403, "Tài khoản employer demo chưa được duyệt")
+    profile = AuthController.get_me(user, db)
+    if not profile.is_verified:
+        raise HTTPException(403, "Tài khoản employer demo chưa được duyệt")
+    user.last_login_at = datetime.utcnow()
+    token = create_access_token({"sub": str(user.id), "role": "employer", "name": profile.display_name})
+    db.commit()
+    response.set_cookie("access_token", token, max_age=28800, expires=28800, path="/", httponly=True, samesite="lax", secure=COOKIE_SECURE)
+    return AuthResponse(role="employer", display_name=profile.display_name, is_verified=True, access_token=token,
+                        user_id=user.id, email=user.email,
+                        user={"id": user.id, "user_id": user.id, "email": user.email, "role": "employer",
+                              "full_name": user.full_name, "company_name": user.company_name, "is_verified": True})
+
+
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(payload: RegisterRequest, db: Session = Depends(get_db)):
     """

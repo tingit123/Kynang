@@ -41,6 +41,7 @@ export default function EmployerLayout() {
     { to: '/employer/dashboard', label: 'Tổng quan' },
     { to: '/employer/jobs', label: 'Tin tuyển dụng' },
     { to: '/employer/candidates', label: 'Ứng viên' },
+    { to: '/employer/recruitment', label: 'Tuyển dụng nhanh' },
     { to: '/employer/market-skills', label: 'Kỹ năng thị trường' },
     { to: '/employer/profile', label: 'Hồ sơ công ty' }
   ];

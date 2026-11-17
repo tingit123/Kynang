@@ -87,6 +87,7 @@ export default function AIChatbox({ context = {} }) {
       const apiBase = import.meta.env?.VITE_API_URL || 'http://localhost:8000';
       const resp = await fetch(`${apiBase}/api/insights/chat`, {
         method: 'POST',
+        credentials: 'include',
         headers: headers,
         body: JSON.stringify({
           message: query,

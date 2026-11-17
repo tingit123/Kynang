@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, Text, Date, Boolean, Enum, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Date, Boolean, Enum, TIMESTAMP, ForeignKey, LargeBinary
+from sqlalchemy.dialects.mysql import MEDIUMBLOB
+from sqlalchemy.orm import deferred
 from sqlalchemy.sql import func
 from src.database import Base
 
@@ -32,5 +34,10 @@ class JobApplication(Base):
     job_id           = Column(Integer, ForeignKey("job_postings.id"), nullable=False)
     candidate_id     = Column(Integer, ForeignKey("users.id"), nullable=False)
     cv_snapshot_text = Column(Text, nullable=True)
+    cv_original_text = Column(Text, nullable=True)
+    cv_original_filename = Column(String(255), nullable=True)
+    cv_original_blob = deferred(Column(LargeBinary().with_variant(MEDIUMBLOB(), "mysql"), nullable=True))
+    cv_original_mime = Column(String(80), nullable=True)
+    # Quick-hire adds internal "selected"; VARCHAR accepts it without ENUM migration.
     status           = Column(String(50), default="applied", nullable=False)
     applied_at       = Column(TIMESTAMP, server_default=func.now())

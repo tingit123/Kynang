@@ -82,3 +82,12 @@ ehthumbs.db
 
 scripts/
 *.bak*
+
+# Local credentials and personal CV uploads
+.env
+.env.*
+!.env.example
+*.pdf
+*.pem
+*.key
+.merge-backup/

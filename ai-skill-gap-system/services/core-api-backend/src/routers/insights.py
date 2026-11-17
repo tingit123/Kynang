@@ -13,9 +13,10 @@ from typing import Optional, List, Dict, Any, Union
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
-from sqlalchemy import desc, func, and_, or_, distinct
+from sqlalchemy import desc, func, and_, or_, distinct, text
 
 from src.database import get_db
 from src.core.security import get_current_user_optional
@@ -24,10 +25,37 @@ from src.models.skill import SkillCatalog, ExtractedSkill
 from src.models.job import JobPosting
 from src.models.survey import SurveyResponse, SurveySkillRating
 from src.models.course import CourseRecommendation
+from src.services.reference_charts_data import (
+    OVERVIEW_TOP5_SKILLS,
+    INDUSTRY_DISTRIBUTION_2026,
+    INDUSTRY_TREND_2023_2027,
+    INDUSTRY_SHARE_COMPARE_2025_2026,
+    OVERVIEW_SOFT_SKILLS,
+    QUARTERLY_GAP_TREND,
+    NATIONAL_INDUSTRY_DATA,
+    REGIONAL_DATA,
+    SYSTEM_FEATURES_INFO,
+    lookup_skill_in_overview,
+    lookup_industry_distribution,
+    lookup_industry_trend,
+    lookup_share_comparison,
+    lookup_top_missing_by_scope,
+    lookup_salary_by_scope,
+    normalize_industry_key,
+    normalize_region_key
+)
 from src.services.project_knowledge import (
     search_project_knowledge,
     classify_user_intent,
     resolve_followup_context
+)
+from src.services.trend_evidence_engine import (
+    classify_trend_semantic_intent,
+    generate_trend_insight_answer,
+    AUDITED_SHIFT_CHART_2025_2026,
+    STRUCTURED_INDUSTRY_EVIDENCE,
+    DOCUMENT_REGISTRY,
+    get_relevant_attachments
 )
 
 logger = logging.getLogger("insights_chat")
@@ -82,6 +110,8 @@ class InsightChatResponse(BaseModel):
     chart_refs: List[str] = []
     limitations: List[str] = []
     ai_engine: Optional[str] = "Skill Lens Lab Engine"
+    attachments: List[Dict[str, Any]] = []
+    documents: List[Dict[str, Any]] = []
 
 
 # Từ điển chuyên ngành khảo sát sinh viên tương ứng 4 ngành trọng điểm
@@ -139,6 +169,10 @@ def query_dashboard_evidence(
     followup_info = resolve_followup_context(user_query, history or [], context)
     retrieved_knowledge = search_project_knowledge(user_query, user_role=user_role, top_k=2)
 
+    # Phân loại Semantic Intent cho Xu hướng chuyển dịch & 4 tài liệu ngành (Trend Evidence Engine)
+    trend_intent_info = classify_trend_semantic_intent(user_query, history or [])
+    is_trend_match = bool(trend_intent_info.get("is_trend_match"))
+
     # 2. Kiểm tra Prompt Injection / Yêu cầu bịa đặt số liệu
     injection_keywords = [
         "bỏ qua dữ liệu", "bịa ra số liệu", "tự tạo số liệu", "giả sử python tăng",
@@ -151,7 +185,8 @@ def query_dashboard_evidence(
     admin_only_keywords = [
         "thông tin tài khoản admin", "mật khẩu người dùng", "user password",
         "token blacklist", "dữ liệu bảo mật quản trị", "thông tin cá nhân ứng viên khác",
-        "mật khẩu admin", "dump database", "mật khẩu", "password", "xem mật khẩu", "mật khẩu tài khoản"
+        "mật khẩu admin", "dump database", "mật khẩu", "password", "xem mật khẩu", "mật khẩu tài khoản",
+        "email cá nhân", "danh sách email", "số điện thoại cá nhân", "thông tin riêng tư"
     ]
     is_permission_violation = (user_role not in ["admin", "superadmin"]) and any(k in q_low for k in admin_only_keywords)
 
@@ -201,7 +236,12 @@ def query_dashboard_evidence(
         "năm ngoái", "3 năm trước", "5 năm qua", "nhiều năm qua",
         "quý trước", "kỳ trước", "tháng trước", "quý 1", "quý 2"
     ]
-    asks_unsupported_period = any(y in q_low for y in unsupported_years)
+    is_chart_trend_query = is_trend_match or any(k in q_low for k in [
+        "biểu đồ", "chuyển dịch", "tài liệu", "dự báo", "xu hướng việc làm",
+        "theo tài liệu", "so sánh", "2025 và 2026", "2025 vs 2026", "bảng số liệu",
+        "năm 2027", "2027", "năm 2025", "2025", "năm 2023", "2023", "cơ cấu"
+    ])
+    asks_unsupported_period = (not is_chart_trend_query) and any(y in q_low for y in unsupported_years)
     unsupported_period_detected = None
     if asks_unsupported_period:
         for y in unsupported_years:
@@ -305,7 +345,7 @@ def query_dashboard_evidence(
                 ORDER BY pair_cnt DESC
                 LIMIT 5
             """
-            res = db.execute(pair_query).fetchall()
+            res = db.execute(text(pair_query)).fetchall()
             for r in res:
                 co_occurrences.append({"skill_a": r[0], "skill_b": r[1], "count": r[2]})
         except Exception as e_pair:
@@ -475,7 +515,8 @@ def query_dashboard_evidence(
         "co_occurrences": co_occurrences,
         "specific_skill": specific_skill_data,
         "monthly_job_counts": monthly_job_counts,
-        "recommended_courses": recommended_courses
+        "recommended_courses": recommended_courses,
+        "trend_intent_info": trend_intent_info
     }
 
 
@@ -555,6 +596,336 @@ def build_deterministic_analytical_response(
             ],
             "chart_refs": [],
             "limitations": [f"Chưa có dữ liệu giai đoạn {period_missed}."]
+        }
+
+    # ── CASE 3.00: Giải thích xu hướng chuyển dịch & 4 tài liệu ngành (Trend Evidence Engine) ──
+    trend_info = evidence_data.get("trend_intent_info")
+    if trend_info and trend_info.get("is_trend_match"):
+        trend_resp = generate_trend_insight_answer(trend_info)
+        if trend_resp:
+            ev_items = [
+                EvidenceItem(
+                    metric=item.get("metric", "trend_metric"),
+                    value=item.get("value"),
+                    unit=item.get("unit", ""),
+                    source=item.get("source", "reference_chart"),
+                    description=item.get("description", item.get("metric"))
+                )
+                for item in trend_resp.get("evidence", [])
+            ]
+            attachments = trend_resp.get("attachments", [])
+            return {
+                "answer": trend_resp["answer"],
+                "data_status": trend_resp.get("data_status", "available"),
+                "is_definitive": True,
+                "evidence": ev_items,
+                "analysis": trend_resp.get("analysis", ""),
+                "recommendations": trend_resp.get("recommendations", []),
+                "chart_refs": trend_resp.get("chart_refs", ["industryShiftCompareChart", "industryTrendLineChart"]),
+                "limitations": trend_resp.get("limitations", []),
+                "attachments": attachments,
+                "documents": attachments
+            }
+
+    # ── CASE 3.01: Kỹ năng có Gap cao nhất trong Top 5 tổng quan (Tài liệu / Biểu đồ) ──
+    is_top_gap_overview_query = (
+        any(k in q_low for k in ["gap cao nhất trong top 5", "cao nhất trong top 5", "thiếu hụt lớn nhất trong top 5", "khoảng cách lớn nhất trong top 5", "gap cao nhất của top 5", "lớn nhất trong top 5"])
+        or (any(k in q_low for k in ["gap cao nhất", "thiếu hụt lớn nhất", "khoảng cách cao nhất", "khoảng cách lớn nhất"]) and any(k in q_low for k in ["top 5", "tổng quan", "bảng"]))
+    )
+    if is_top_gap_overview_query:
+        top_gap_item = max(OVERVIEW_TOP5_SKILLS, key=lambda x: x["gap"])
+        ans = (
+            f"Trong bảng Top 5 kỹ năng thiếu hụt tổng quan, kỹ năng có khoảng cách thiếu hụt (Gap) cao nhất là "
+            f"**{top_gap_item['skill']}** với mức Gap **{top_gap_item['gap']} điểm %** "
+            f"(Nhu cầu tuyển dụng: **{top_gap_item['demand']}%**, Cung lao động: **{top_gap_item['supply']}%**)."
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [
+                EvidenceItem(
+                    metric="top_gap_overview",
+                    skill=top_gap_item["skill"],
+                    value=top_gap_item["gap"],
+                    unit="điểm %",
+                    source="reference_chart",
+                    filters={"chart": "top_5_shortage_skills_overview"},
+                    data_available=True,
+                    description="Kỹ năng có Gap cao nhất trong bảng tổng quan"
+                )
+            ],
+            "analysis": "Tiếng Anh chuyên ngành là kỹ năng có chênh lệch cung - cầu lớn nhất trên nhóm kỹ năng tổng quan.",
+            "recommendations": [],
+            "chart_refs": ["top5ShortageChart"],
+            "limitations": []
+        }
+
+    # ── CASE 3.02: Python thiếu hụt bao nhiêu trong bảng tổng quan ──
+    if "python" in q_low and any(k in q_low for k in ["bảng tổng quan", "trong bảng", "tài liệu", "chi tiết top 5", "bảng số liệu", "tổng quan"]):
+        py_item = lookup_skill_in_overview("python")
+        ans = (
+            f"Trong bảng tổng quan Top 5 kỹ năng thiếu hụt, **{py_item['skill']}** có mức thiếu hụt là "
+            f"**{py_item['gap']} điểm %**, với nhu cầu tuyển dụng (Demand) **{py_item['demand']}%** "
+            f"và nguồn cung lao động (Supply) **{py_item['supply']}%**."
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [
+                EvidenceItem(
+                    metric="skill_gap",
+                    skill="Python",
+                    value=py_item["gap"],
+                    unit="điểm %",
+                    source="reference_chart",
+                    filters={"chart": "top_5_shortage_skills_overview"},
+                    data_available=True,
+                    description="Mức thiếu hụt Python trong bảng tổng quan"
+                )
+            ],
+            "analysis": "Python có nhu cầu tuyển dụng cao nhất toàn hệ thống (89.4%).",
+            "recommendations": [],
+            "chart_refs": ["top5ShortageChart"],
+            "limitations": []
+        }
+
+    # ── CASE 3.03: IT chiếm bao nhiêu trong biểu đồ cơ cấu năm 2026 ──
+    if any(k in q_low for k in ["cơ cấu năm 2026", "cơ cấu 2026", "tỷ trọng năm 2026", "tỷ trọng 2026", "thị phần năm 2026"]) or ("2026" in q_low and any(k in q_low for k in ["chiếm bao nhiêu", "tỷ trọng", "cơ cấu"])):
+        target_ind_key = "IT"
+        if any(k in q_low for k in ["logistics", "xnk"]):
+            target_ind_key = "Logistics"
+        elif any(k in q_low for k in ["du lịch", "khách sạn"]):
+            target_ind_key = "Du lịch"
+        elif any(k in q_low for k in ["kinh tế", "tài chính"]):
+            target_ind_key = "Kinh tế"
+        elif any(k in q_low for k in ["nông nghiệp"]):
+            target_ind_key = "Nông nghiệp"
+
+        dist_info = lookup_industry_distribution(target_ind_key)
+        ans = (
+            f"Trong biểu đồ cơ cấu ngành nghề năm 2026, ngành **{dist_info['name']}** chiếm tỷ trọng "
+            f"**{dist_info['share_pct']}%** (tương ứng **{dist_info['postings_1000']} tin** trong mẫu 1.000 tin, "
+            f"hoặc **{dist_info['postings_3000']:,} tin** trong mẫu 3.000 tin)."
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [
+                EvidenceItem(
+                    metric="industry_share_2026",
+                    skill=None,
+                    value=dist_info["share_pct"],
+                    unit="%",
+                    source="reference_chart",
+                    filters={"year": 2026, "industry": target_ind_key},
+                    data_available=True,
+                    description=f"Tỷ trọng cơ cấu ngành {dist_info['name']} năm 2026"
+                )
+            ],
+            "analysis": f"Ngành {dist_info['name']} chiếm {dist_info['share_pct']}% tỷ trọng việc làm năm 2026.",
+            "recommendations": [],
+            "chart_refs": ["industryDistributionDonutChart"],
+            "limitations": []
+        }
+
+    # ── CASE 3.04: Kỹ năng thiếu nhất theo khu vực hoặc Follow-up khu vực ──
+    followup_info = evidence_data.get("followup_info", {})
+    target_region = None
+    if any(k in q_low for k in ["cần thơ", "can tho", "ct", "đbscl"]):
+        target_region = "CT"
+    elif any(k in q_low for k in ["tp.hcm", "tphcm", "hồ chí minh", "hcm", "sài gòn"]):
+        target_region = "HCM"
+    elif any(k in q_low for k in ["hà nội", "ha noi", "hn"]):
+        target_region = "HN"
+    elif followup_info.get("is_followup") and followup_info.get("target_region"):
+        target_region = followup_info["target_region"]
+
+    target_industry = None
+    if any(k in q_low for k in ["it", "cntt", "công nghệ"]):
+        target_industry = "IT"
+    elif any(k in q_low for k in ["logistics", "xnk", "chuỗi cung ứng"]):
+        target_industry = "Logistics"
+    elif any(k in q_low for k in ["du lịch", "khách sạn"]):
+        target_industry = "Du lịch"
+    elif any(k in q_low for k in ["kinh tế", "tài chính"]):
+        target_industry = "Kinh tế"
+    elif any(k in q_low for k in ["nông nghiệp"]):
+        target_industry = "Nông nghiệp"
+    elif followup_info.get("is_followup") and followup_info.get("target_industry"):
+        target_industry = followup_info["target_industry"]
+
+    is_top_missing_query = any(k in q_low for k in ["thiếu kỹ năng nào nhất", "thiếu nhất", "kỹ năng thiếu nhất", "kỹ năng nào thiếu nhất", "top 1 thiếu hụt"]) or (followup_info.get("is_followup") and target_region)
+    if is_top_missing_query and target_region and target_industry:
+        reg_info = REGIONAL_DATA[target_region]
+        ind_info = reg_info["industries"].get(target_industry)
+        if ind_info:
+            top_s = ind_info["skills"][0]
+            ans = (
+                f"Tại **{reg_info['region_name']}**, ngành **{ind_info['name']}** thiếu nhất kỹ năng "
+                f"**{top_s['skill']}** với mức thiếu hụt Gap là **{top_s['gap']} điểm %** "
+                f"(Nhu cầu tuyển dụng: **{top_s['demand']}%**, Nguồn cung: **{top_s['supply']}%**, mức tăng trưởng: {top_s['trend']})."
+            )
+            return {
+                "answer": ans,
+                "data_status": "available",
+                "is_definitive": True,
+                "evidence": [
+                    EvidenceItem(
+                        metric="top_missing_skill_regional",
+                        skill=top_s["skill"],
+                        value=top_s["gap"],
+                        unit="điểm %",
+                        source="reference_chart",
+                        filters={"region": target_region, "industry": target_industry},
+                        data_available=True,
+                        description=f"Kỹ năng thiếu nhất ngành {ind_info['name']} tại {reg_info['region_name']}"
+                    )
+                ],
+                "analysis": f"Kỹ năng {top_s['skill']} có khoảng cách cung - cầu lớn nhất ({top_s['gap']} điểm %).",
+                "recommendations": [],
+                "chart_refs": ["industrySkillsBarChart"],
+                "limitations": []
+            }
+
+    # ── CASE 3.05: Số lượng tin tuyển dụng năm 2027 theo dự báo ──
+    if "2027" in q_low and any(k in q_low for k in ["bao nhiêu tin", "số lượng tin", "dự báo", "tin tuyển dụng", "nhu cầu"]):
+        t_ind = target_industry or "IT"
+        trend_item = lookup_industry_trend(t_ind, 2027)
+        ans = (
+            f"Theo biểu đồ đường đi chuyển dịch nhu cầu việc làm (2023–2027), ngành **{trend_item['industry']}** "
+            f"có **{trend_item['postings']} tin tuyển dụng vào năm 2027 (số liệu dự báo)**, "
+            f"{trend_item['trend_summary']}."
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [
+                EvidenceItem(
+                    metric="job_postings_forecast_2027",
+                    skill=None,
+                    value=trend_item["postings"],
+                    unit="tin (dự báo)",
+                    source="reference_chart",
+                    filters={"year": 2027, "industry": t_ind, "is_forecast": True},
+                    data_available=True,
+                    description=f"Dự báo số lượng tin tuyển dụng ngành {trend_item['industry']} năm 2027"
+                )
+            ],
+            "analysis": "Dữ liệu năm 2027 được gắn nhãn dự báo (forecast) dựa trên mô hình tăng trưởng giai đoạn 2023-2026.",
+            "recommendations": [],
+            "chart_refs": ["industryTrendLineChart"],
+            "limitations": ["Số liệu năm 2027 là dự báo (forecast), không phải số liệu thực tế đã diễn ra."]
+        }
+
+    # ── CASE 3.06: So sánh tuyển dụng năm 2025 và 2026 trong biểu đồ xu hướng ──
+    if ("2025" in q_low and "2026" in q_low) or ("so sánh" in q_low and any(k in q_low for k in ["2025", "2026"])):
+        t_ind = target_industry or "IT"
+        share_item = lookup_share_comparison(t_ind)
+        diff_cnt = share_item["postings_2026"] - share_item["postings_2025"]
+        sign_str = f"tăng +{diff_cnt}" if diff_cnt > 0 else f"giảm {abs(diff_cnt)}"
+        ans = (
+            f"Trong biểu đồ xu hướng việc làm, số lượng tin tuyển dụng ngành **{share_item['name']}** "
+            f"tăng từ **{share_item['postings_2025']} tin (năm 2025)** lên **{share_item['postings_2026']} tin (năm 2026)**, "
+            f"tương ứng {sign_str} tin (+{share_item['growth_rate_pct']}%). "
+            f"Thị phần cơ cấu thay đổi từ **{share_item['share_2025']}%** lên **{share_item['share_2026']}%** "
+            f"({'+' if share_item['diff_share_pp'] > 0 else ''}{share_item['diff_share_pp']} điểm %)."
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [
+                EvidenceItem(
+                    metric="job_postings_compare_2025_2026",
+                    skill=None,
+                    value=diff_cnt,
+                    unit="tin",
+                    source="reference_chart",
+                    filters={"compare": "2025_vs_2026", "industry": t_ind},
+                    data_available=True,
+                    description=f"So sánh tuyển dụng ngành {share_item['name']} 2025 vs 2026"
+                )
+            ],
+            "analysis": share_item["evaluation"],
+            "recommendations": [],
+            "chart_refs": ["industryShiftCompareChart", "industryTrendLineChart"],
+            "limitations": []
+        }
+
+    # ── CASE 3.07: Mức lương tham chiếu theo tài liệu ──
+    if any(k in q_low for k in ["mức lương", "lương", "thu nhập"]) and any(k in q_low for k in ["cần thơ", "tp.hcm", "hà nội", "theo tài liệu", "tài liệu"]):
+        t_ind = target_industry or "IT"
+        t_reg = target_region or "CT"
+        sal_info = lookup_salary_by_scope(t_ind, t_reg)
+        ans = (
+            f"Theo tài liệu nghiên cứu thực địa, mức lương tham chiếu của ngành **{sal_info['scope']}** "
+            f"là **{sal_info['salary_range']}** (quy mô khảo sát: {sal_info['postings']} tin tuyển dụng)."
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [
+                EvidenceItem(
+                    metric="salary_range_reference",
+                    skill=None,
+                    value=sal_info["salary_range"],
+                    unit="triệu đồng/tháng",
+                    source="reference_chart",
+                    filters={"region": t_reg, "industry": t_ind},
+                    data_available=True,
+                    description=f"Mức lương tham chiếu ngành {sal_info['scope']}"
+                )
+            ],
+            "analysis": f"Khung lương tham chiếu theo khảo sát thực địa tại {sal_info['scope']}.",
+            "recommendations": [],
+            "chart_refs": [],
+            "limitations": []
+        }
+
+    # ── CASE 3.08: Chức năng Chẩn đoán & Lộ trình ──
+    if any(k in q_low for k in ["chẩn đoán & lộ trình", "chẩn đoán và lộ trình", "hồ sơ năng lực & mục tiêu", "hồ sơ năng lực và mục tiêu", "20 chức vụ", "500 sinh viên mẫu"]):
+        info = SYSTEM_FEATURES_INFO["diagnosis_pathway"]
+        steps_str = "\n".join([f"- {s}" for s in info["steps"]])
+        ans = (
+            f"Chức năng **{info['title']}** hoạt động theo ma trận kỹ năng tương tác theo chuẩn **{info['framework']}** "
+            f"và hỗ trợ đối chiếu với **{info['sample_profiles']}**:\n"
+            f"{steps_str}"
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [],
+            "analysis": "Công cụ chẩn đoán giúp người học nắm bắt tiêu chuẩn vị trí việc làm và kê đơn khóa học bù đắp.",
+            "recommendations": ["Truy cập tab 'Chẩn đoán & Lộ trình' để trải nghiệm."],
+            "chart_refs": [],
+            "limitations": []
+        }
+
+    # ── CASE 3.09: Chức năng Phân tích CV bằng AI ──
+    if any(k in q_low for k in ["phân tích cv", "phân tích cv (ai)", "kê đơn lộ trình học bằng gemini", "gemini ai phân tích cv"]):
+        info = SYSTEM_FEATURES_INFO["cv_analysis_gemini"]
+        steps_str = "\n".join([f"- {s}" for s in info["process_steps"]])
+        modalities_str = ", ".join(info["input_modalities"])
+        ans = (
+            f"Chức năng **{info['title']}** được xây dựng trên công nghệ **{info['tech_stack']}**, "
+            f"hỗ trợ đa phương thức nạp CV ({modalities_str}) qua quy trình 3 bước:\n"
+            f"{steps_str}"
+        )
+        return {
+            "answer": ans,
+            "data_status": "available",
+            "is_definitive": True,
+            "evidence": [],
+            "analysis": "Gemini AI đọc hiểu sâu năng lực ứng viên và tự động đối sánh với database tin tuyển dụng.",
+            "recommendations": ["Tải CV tại tab 'Phân tích CV (AI)' để nhận lộ trình cá nhân hóa."],
+            "chart_refs": [],
+            "limitations": []
         }
 
     # ── CASE 3.1: Hỏi về tính năng chưa triển khai (Question 22) ──
@@ -822,6 +1193,7 @@ def build_deterministic_analytical_response(
         return {
             "answer": answer,
             "data_status": "available",
+            "is_definitive": True,
             "evidence": evidence_items,
             "analysis": "Phân tích chuyên sâu Top 5 kỹ năng thiếu hụt nhiều nhất theo chuẩn biểu đồ Dashboard SkillLed LAB.",
             "recommendations": [
@@ -1004,7 +1376,7 @@ def build_deterministic_analytical_response(
         }
 
     # ── CASE 4: Tổng số lượng tin tuyển dụng (Test 1, Question 14 / JD count) ──
-    if any(k in q_low for k in ["bao nhiêu tin tuyển dụng", "số lượng jd", "bao nhiêu việc làm", "tổng số jd", "tổng số việc", "ngành nào có nhu cầu kỹ năng cao nhất"]):
+    if not evidence_data.get("specific_skill") and any(k in q_low for k in ["bao nhiêu tin tuyển dụng", "số lượng jd", "bao nhiêu việc làm", "tổng số jd", "tổng số việc", "ngành nào có nhu cầu kỹ năng cao nhất"]):
         evidence_items.append(EvidenceItem(
             metric="total_job_postings",
             value=total_j_sys,
@@ -1032,6 +1404,7 @@ def build_deterministic_analytical_response(
         return {
             "answer": answer,
             "data_status": "available",
+            "is_definitive": True,
             "evidence": evidence_items,
             "analysis": "Phân bố số lượng việc làm trên các ngành trọng điểm.",
             "recommendations": ["Sử dụng bộ lọc ngành để đối chiếu cơ cấu việc làm."],
@@ -1126,6 +1499,23 @@ def build_deterministic_analytical_response(
             description=f"Số lượng tin tuyển dụng yêu cầu kỹ năng {sk_name}"
         ))
 
+        # Nếu người dùng chỉ hỏi về số lượng tin / số JD của kỹ năng (Strict Answer Scope)
+        if any(k in q_low for k in ["bao nhiêu jd", "bao nhiêu tin tuyển dụng", "bao nhiêu tin", "xuất hiện trong bao nhiêu", "số lượng tin", "số jd"]):
+            answer = (
+                f"Kỹ năng **{sk_name}** xuất hiện trong **{cnt_jobs} tin tuyển dụng** thực tế trong cơ sở dữ liệu "
+                f"(chiếm tỷ lệ **{d_pct}%** nhu cầu tuyển dụng của ngành {sk_info['industry']})."
+            )
+            return {
+                "answer": answer,
+                "data_status": "available",
+                "is_definitive": True,
+                "evidence": evidence_items,
+                "analysis": f"Thống kê số lượng việc làm yêu cầu {sk_name}.",
+                "recommendations": [],
+                "chart_refs": ["skillsCatalogTable"],
+                "limitations": [f"Tính toán trên toàn bộ tin tuyển dụng trong cơ sở dữ liệu."]
+            }
+
         gap_text = f", Cung: **{s_pct}%**, Khoảng cách thiếu hụt (Gap): **{g_pct}%**" if s_pct is not None else ""
         answer = (
             f"**Dữ liệu thực tế:**\n"
@@ -1134,12 +1524,13 @@ def build_deterministic_analytical_response(
             f"**Phân tích:**\n"
             f"{sk_name} là kỹ năng nền tảng trong nhóm ngành {sk_info['industry']}. Số lượng {cnt_jobs} việc làm khẳng định đây là một trong những yêu cầu kỹ thuật phổ biến nhất hiện nay.\n\n"
             f"**Khuyến nghị:**\n"
-            f"- Người lao động nên trang bị chứng chỉ hoặc sản phẩm thực hành về {sk_name} để nâng cao khả năng cạnh tranh hồ sơ."
+            f"- Người lao động nên trang bị kiến thức hoặc sản phẩm thực hành về {sk_name} để nâng cao khả năng cạnh tranh hồ sơ."
         )
 
         return {
             "answer": answer,
             "data_status": "available",
+            "is_definitive": True,
             "evidence": evidence_items,
             "analysis": f"Thống kê chi tiết kỹ năng {sk_name}.",
             "recommendations": [f"Trang bị kỹ năng {sk_name} ứng dụng thực tế."],
@@ -1177,6 +1568,7 @@ def build_deterministic_analytical_response(
         return {
             "answer": answer,
             "data_status": "available",
+            "is_definitive": True,
             "evidence": evidence_items,
             "analysis": "Top 10 kỹ năng có tần suất xuất hiện cao nhất trong toàn bộ tin tuyển dụng.",
             "recommendations": ["Phát triển năng lực T-shaped: vững kỹ năng mềm + sâu kỹ năng chuyên môn."],
@@ -1344,7 +1736,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
 
     # 1. Thử gọi Google Gemini API
     if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        gemini_models = ["gemini-2.5-flash", "gemini-3.8-flash", "gemini-flash-latest"]
+        gemini_models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash"]
         for gm in gemini_models:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={GEMINI_API_KEY}"
@@ -1359,7 +1751,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
                             "ai_engine": f"Google Gemini ({gm})"
                         }
             except Exception as ge:
-                logger.warning(f"Gemini error {ge}")
+                logger.warning("Gemini request failed (%s)", type(ge).__name__)
 
     # 2. Thử gọi Groq Cloud LLM (Ưu tiên model GPT-120B và Qwen-27B tốc độ cao)
     if GROQ_API_KEY and len(GROQ_API_KEY) > 10:
@@ -1382,7 +1774,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
                             "ai_engine": f"Groq Cloud ({qm})"
                         }
             except Exception as qe:
-                logger.warning(f"Groq error {qe}")
+                logger.warning("Groq request failed (%s)", type(qe).__name__)
 
     return None
 
@@ -1436,13 +1828,14 @@ async def interactive_insights_chat(
         context=context
     )
 
-    # Nếu câu hỏi là Injection hoặc Permission Violation hoặc Missing Period hoặc Unimplemented Feature hoặc Vague, ưu tiên kết quả xác thực an toàn
+    # Nếu câu hỏi là Injection hoặc Permission Violation hoặc Missing Period hoặc Unimplemented Feature hoặc Vague, hoặc đã có phản hồi xác thực dứt khoát
     if (
         evidence_data["is_injection"]
         or evidence_data["is_permission_violation"]
         or evidence_data["asks_unsupported_period"]
         or evidence_data.get("is_unimplemented_feature")
         or evidence_data.get("is_vague_query")
+        or deterministic_resp.get("is_definitive")
     ):
         return InsightChatResponse(
             conversation_id=conv_id,
@@ -1452,7 +1845,10 @@ async def interactive_insights_chat(
             analysis=deterministic_resp["analysis"],
             recommendations=deterministic_resp["recommendations"],
             chart_refs=deterministic_resp["chart_refs"],
-            limitations=deterministic_resp["limitations"]
+            limitations=deterministic_resp["limitations"],
+            ai_engine="SkillGap Deterministic Engine (Verified)",
+            attachments=deterministic_resp.get("attachments", []),
+            documents=deterministic_resp.get("documents", [])
         )
 
     # 3. Thử gọi LLM nâng cao với System Prompt bắt buộc từ Section 11
@@ -1477,5 +1873,134 @@ async def interactive_insights_chat(
         recommendations=deterministic_resp["recommendations"],
         chart_refs=deterministic_resp["chart_refs"],
         limitations=deterministic_resp["limitations"],
-        ai_engine=engine_name
+        ai_engine=engine_name,
+        attachments=deterministic_resp.get("attachments", []),
+        documents=deterministic_resp.get("documents", [])
     )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DOCUMENT ATTACHMENT & PREVIEW ENDPOINTS (4 TÀI LIỆU NGÀNH GỐC)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _resolve_document_file_path(filename: str) -> Optional[str]:
+    """Tìm đường dẫn tệp tài liệu thực tế trên hệ thống mà không để lộ cấu trúc ổ đĩa nội bộ."""
+    candidates = [
+        # Thư mục static backend bên trong container
+        os.path.join(os.path.dirname(__file__), "..", "static", "documents", filename),
+        os.path.join("/app", "src", "static", "documents", filename),
+        os.path.join("/usr", "share", "nginx", "html", "documents", filename),
+        # Đường dẫn tương đối từ workspace
+        os.path.join("services", "core-api-backend", "src", "static", "documents", filename),
+        os.path.join("apps", "admin-web-dashboard", "documents", filename),
+        os.path.join("ai-skill-gap-system", "services", "core-api-backend", "src", "static", "documents", filename),
+        os.path.join("ai-skill-gap-system", "apps", "admin-web-dashboard", "documents", filename)
+    ]
+    for p in candidates:
+        try:
+            abs_p = os.path.abspath(p)
+            if os.path.exists(abs_p) and os.path.isfile(abs_p):
+                return abs_p
+        except Exception:
+            continue
+    return None
+
+
+@router.get("/documents", tags=["Insights Documents"])
+def list_insight_documents():
+    """Danh sách các tài liệu nghiên cứu chứng minh xu hướng được chứng thực (4 ngành trọng điểm)."""
+    return {
+        "status": "success",
+        "total": len(DOCUMENT_REGISTRY),
+        "documents": list(DOCUMENT_REGISTRY.values())
+    }
+
+
+@router.api_route("/documents/{doc_key}/download", methods=["GET", "HEAD"], tags=["Insights Documents"])
+def download_insight_document(doc_key: str):
+    """
+    Tải file Word (.docx) tài liệu chứng minh gốc.
+    Hỗ trợ doc_key: it, logistics, tourism, finance (hoặc tên file).
+    TUYỆT ĐỐI chặn So_Lieu_Bieu_do.docx hoặc các file không được cấp phép.
+    """
+    norm_key = doc_key.lower().replace("-", "_").replace(" ", "_")
+
+    # Loại bỏ hoàn toàn số liệu biểu đồ khỏi tải về
+    if any(k in norm_key for k in ["so_lieu", "solieu", "bieu_do", "bieudo", "chart"]):
+        raise HTTPException(status_code=404, detail="Tài liệu số liệu biểu đồ chỉ dùng cho tính toán nội bộ, không hỗ trợ tải trực tiếp.")
+
+    target_doc = None
+    if norm_key in DOCUMENT_REGISTRY:
+        target_doc = DOCUMENT_REGISTRY[norm_key]
+    else:
+        for key, doc in DOCUMENT_REGISTRY.items():
+            if norm_key == doc["filename"].lower() or norm_key == doc["filename"].lower().replace(".docx", ""):
+                target_doc = doc
+                break
+            if norm_key in [doc["id"], doc["industry_key"].lower()]:
+                target_doc = doc
+                break
+            if norm_key in ["du_lich", "dulich", "tourism"] and key == "tourism":
+                target_doc = doc
+                break
+            if norm_key in ["kinh_te", "kinhte", "finance", "ke_toan"] and key == "finance":
+                target_doc = doc
+                break
+            if norm_key in ["xnk", "logistics_xnk"] and key == "logistics":
+                target_doc = doc
+                break
+
+    if not target_doc:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu chứng minh cho mã: {doc_key}")
+
+    filename = target_doc["filename"]
+    file_path = _resolve_document_file_path(filename)
+    if not file_path:
+        raise HTTPException(status_code=404, detail="File tài liệu hiện chưa sẵn sàng trên máy chủ.")
+
+    return FileResponse(
+        path=file_path,
+        filename=filename,
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+
+@router.get("/documents/{doc_key}/preview", tags=["Insights Documents"])
+def preview_insight_document(doc_key: str):
+    """
+    Xem trước tóm tắt có cấu trúc & các luận điểm chứng minh từ tài liệu ngành.
+    Hỗ trợ hiển thị modal xem trực tiếp trên AI Chatbox mà không cần tải file lớn.
+    """
+    norm_key = doc_key.lower().replace("-", "_").replace(" ", "_")
+
+    if any(k in norm_key for k in ["so_lieu", "solieu", "bieu_do", "bieudo", "chart"]):
+        raise HTTPException(status_code=404, detail="Tài liệu số liệu biểu đồ không hỗ trợ xem trước.")
+
+    target_doc = None
+    if norm_key in DOCUMENT_REGISTRY:
+        target_doc = DOCUMENT_REGISTRY[norm_key]
+    else:
+        for key, doc in DOCUMENT_REGISTRY.items():
+            if norm_key == doc["filename"].lower() or norm_key == doc["filename"].lower().replace(".docx", ""):
+                target_doc = doc
+                break
+            if norm_key in [doc["id"], doc["industry_key"].lower()]:
+                target_doc = doc
+                break
+            if norm_key in ["du_lich", "dulich", "tourism"] and key == "tourism":
+                target_doc = doc
+                break
+            if norm_key in ["kinh_te", "kinhte", "finance", "ke_toan"] and key == "finance":
+                target_doc = doc
+                break
+            if norm_key in ["xnk", "logistics_xnk"] and key == "logistics":
+                target_doc = doc
+                break
+
+    if not target_doc:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu chứng minh cho mã: {doc_key}")
+
+    return {
+        "status": "success",
+        "document": target_doc
+    }

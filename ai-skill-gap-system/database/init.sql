@@ -107,13 +107,188 @@ CREATE TABLE IF NOT EXISTS job_applications (
   job_id           INT NOT NULL,
   candidate_id     INT NOT NULL,
   cv_snapshot_text TEXT,
+  cv_original_text TEXT,
+  cv_original_filename VARCHAR(255),
+  cv_original_blob MEDIUMBLOB,
+  cv_original_mime VARCHAR(80),
   status           VARCHAR(50) DEFAULT 'applied',
   applied_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (job_id) REFERENCES job_postings(id) ON DELETE CASCADE,
   FOREIGN KEY (candidate_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- CV evidence MVP: also created by SQLAlchemy for existing databases.
+CREATE TABLE IF NOT EXISTS analysis_runs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  application_id INT NOT NULL,
+  requirements_hash VARCHAR(64) NOT NULL,
+  filter_profile_hash VARCHAR(64) NULL,
+  requirements_snapshot TEXT NOT NULL,
+  cv_hash VARCHAR(64) NOT NULL,
+  provider VARCHAR(20) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  error_code VARCHAR(80) NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_analysis_runs_application_id (application_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id)
+);
+CREATE TABLE IF NOT EXISTS application_evidence (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  run_id INT NOT NULL,
+  requirement_name VARCHAR(100) NOT NULL,
+  result VARCHAR(20) NOT NULL,
+  quote TEXT NOT NULL,
+  source_start INT NULL,
+  source_end INT NULL,
+  ai_result_original VARCHAR(20) NOT NULL,
+  reviewer_id INT NULL,
+  review_result VARCHAR(20) NULL,
+  review_reason TEXT NULL,
+  reviewed_at DATETIME NULL,
+  INDEX ix_application_evidence_run_id (run_id),
+  FOREIGN KEY (run_id) REFERENCES analysis_runs(id),
+  FOREIGN KEY (reviewer_id) REFERENCES users(id)
+);
+
+-- Employer-owned filter and confirmed internal selection.
+CREATE TABLE IF NOT EXISTS filter_profiles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL UNIQUE,
+  owner_user_id INT NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  items JSON NOT NULL,
+  profile_hash VARCHAR(64) NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (job_id) REFERENCES job_postings(id),
+  FOREIGN KEY (owner_user_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS quick_hire_batches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  profile_snapshot JSON NOT NULL,
+  idempotency_key VARCHAR(100) NOT NULL UNIQUE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (job_id) REFERENCES job_postings(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS notification_templates (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  owner_id INT NOT NULL,
+  action_type VARCHAR(30) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  title_template VARCHAR(300) NOT NULL,
+  body_template TEXT NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_notification_template_owner (owner_id, action_type, name),
+  INDEX ix_notification_templates_owner_id (owner_id),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS notification_batches (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  job_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  action_type VARCHAR(30) NOT NULL,
+  channels JSON NOT NULL,
+  content JSON NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'processing',
+  idempotency_key VARCHAR(100) NOT NULL UNIQUE,
+  request_hash VARCHAR(64) NOT NULL,
+  simulated BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_notification_batches_job_id (job_id),
+  FOREIGN KEY (job_id) REFERENCES job_postings(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS notification_recipients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  batch_id INT NOT NULL,
+  application_id INT NOT NULL,
+  channel VARCHAR(20) NOT NULL,
+  user_id INT NULL,
+  address VARCHAR(150),
+  candidate_name VARCHAR(150) NOT NULL,
+  title VARCHAR(300) NOT NULL,
+  body TEXT NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'queued',
+  attempt_count INT NOT NULL DEFAULT 0,
+  last_error TEXT,
+  error_kind VARCHAR(30),
+  retryable BOOLEAN NOT NULL DEFAULT FALSE,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_notification_target (batch_id, application_id, channel),
+  INDEX ix_notification_recipients_batch_id (batch_id),
+  FOREIGN KEY (batch_id) REFERENCES notification_batches(id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS user_notifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  recipient_id INT NOT NULL UNIQUE,
+  title VARCHAR(300) NOT NULL,
+  body TEXT NOT NULL,
+  simulated BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  read_at DATETIME NULL,
+  INDEX ix_user_notifications_user_id (user_id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (recipient_id) REFERENCES notification_recipients(id)
+);
+CREATE TABLE IF NOT EXISTS application_status_events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  application_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  from_status VARCHAR(50) NOT NULL,
+  to_status VARCHAR(50) NOT NULL,
+  batch_id INT NULL,
+  notification_batch_id INT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_application_status_events_application_id (application_id),
+  INDEX ix_application_status_events_batch_id (batch_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id),
+  FOREIGN KEY (batch_id) REFERENCES quick_hire_batches(id),
+  FOREIGN KEY (notification_batch_id) REFERENCES notification_batches(id)
+);
+
 -- ─── BẢNG 2: Kỹ năng được AI trích xuất ──────────────────────
+CREATE TABLE IF NOT EXISTS recruiter_contacts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  owner_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL DEFAULT '',
+  title VARCHAR(100) NOT NULL DEFAULT '',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_recruiter_contact (owner_id, name, email),
+  INDEX ix_recruiter_contacts_owner_id (owner_id),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS application_processes (
+  application_id INT PRIMARY KEY,
+  stage VARCHAR(40) NOT NULL DEFAULT 'new',
+  assignee_id INT NULL,
+  version INT NOT NULL DEFAULT 0,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX ix_application_processes_stage (stage),
+  INDEX ix_application_processes_assignee_id (assignee_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (assignee_id) REFERENCES recruiter_contacts(id)
+);
+CREATE TABLE IF NOT EXISTS application_process_events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  application_id INT NOT NULL,
+  actor_id INT NOT NULL,
+  actor_name VARCHAR(150) NOT NULL,
+  event_type VARCHAR(40) NOT NULL,
+  details JSON NOT NULL,
+  reason TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX ix_application_process_events_application_id (application_id),
+  FOREIGN KEY (application_id) REFERENCES job_applications(id),
+  FOREIGN KEY (actor_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS extracted_skills (
   id              INT AUTO_INCREMENT PRIMARY KEY,
   job_id          INT NOT NULL,

@@ -1,0 +1,20 @@
+HỒ SƠ ỨNG TUYỂN — Trần Hoàng Duy
+============================================
+DỮ LIỆU TỰ TẠO — NHÂN VẬT HƯ CẤU — KHÔNG PHẢI HỒ SƠ THẬT
+
+Vị trí mong muốn: Backend Developer
+Khu vực: Cần Thơ
+Email thử nghiệm: authored.cv1-7@demo.local
+
+MỤC TIÊU
+Tìm vị trí thực tập phát triển phần mềm có người hướng dẫn.
+
+HỌC VẤN
+Sinh viên Kỹ thuật phần mềm (giả định), năm cuối
+
+DỰ ÁN VÀ KINH NGHIỆM
+Dự án cá nhân: làm trang tổng hợp tài liệu bằng React, quản lý mã nguồn bằng Git.
+Thử nghiệm giao diện trên điện thoại và ghi lại các lỗi tìm kiếm.
+
+GHI CHÚ NGUỒN
+CV được viết mới để thử nghiệm giao diện và đối chiếu dẫn chứng. Tên người, học vấn và kinh nghiệm đều hư cấu. Chưa xác minh năng lực thực tế.

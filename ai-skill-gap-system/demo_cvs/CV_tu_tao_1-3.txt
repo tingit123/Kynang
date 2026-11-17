@@ -1,0 +1,20 @@
+HỒ SƠ ỨNG TUYỂN — Lê Minh Quân
+============================================
+DỮ LIỆU TỰ TẠO — NHÂN VẬT HƯ CẤU — KHÔNG PHẢI HỒ SƠ THẬT
+
+Vị trí mong muốn: Backend Developer
+Khu vực: Cần Thơ
+Email thử nghiệm: authored.cv1-3@demo.local
+
+MỤC TIÊU
+Tìm việc xử lý dữ liệu hoặc backend junior có hướng dẫn.
+
+HỌC VẤN
+Cử nhân Hệ thống thông tin (giả định), 2026
+
+DỰ ÁN VÀ KINH NGHIỆM
+Dự án báo cáo bán hàng: dùng Python đọc CSV, xử lý dòng trùng và xuất báo cáo; lưu lịch sử bằng SQL.
+Thực hành Linux, dùng Git quản lý mã nguồn. Phụ trách kiểm tra dữ liệu và giải thích kết quả trong buổi báo cáo nhóm.
+
+GHI CHÚ NGUỒN
+CV được viết mới để thử nghiệm giao diện và đối chiếu dẫn chứng. Tên người, học vấn và kinh nghiệm đều hư cấu. Chưa xác minh năng lực thực tế.
