@@ -502,17 +502,11 @@ async def upload_cv_file(
     is_image = any(filename.endswith(ext) for ext in [".png", ".jpg", ".jpeg", ".webp"])
     mime_type = "image/png" if filename.endswith(".png") else "image/webp" if filename.endswith(".webp") else "image/jpeg"
 
-    # A. Nếu là file ảnh, thử trực tiếp qua Gemini Vision với Prompt tự động nhận diện
-    if is_image and GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        try:
-            from google import genai
-            from google.genai import types
-            client = genai.Client(api_key=GEMINI_API_KEY)
-            prompt = """
+    prompt = """
 Bạn là Giám đốc Thẩm định Nhân sự AI cao cấp. 
-Hãy đọc TOÀN BỘ văn bản từ bức ảnh chụp CV này và TỰ ĐỘNG PHÂN TÍCH TOÀN DIỆN mà KHÔNG CẦN người dùng khai báo gì:
-1. "candidate_name": Tìm chính xác Họ và Tên ứng viên trong ảnh CV.
-2. "previous_role": Nhận diện Chức danh / Kinh nghiệm hiện tại hoặc gần nhất của ứng viên từ ảnh CV (ví dụ: 'Thực tập sinh Kế toán', 'Junior Web Developer', 'Sinh viên ngành Logistics'...).
+Hãy đọc TOÀN BỘ văn bản từ tài liệu / ảnh chụp CV này và TỰ ĐỘNG PHÂN TÍCH TOÀN DIỆN mà KHÔNG CẦN người dùng khai báo gì:
+1. "candidate_name": Tìm chính xác Họ và Tên ứng viên trong CV.
+2. "previous_role": Nhận diện Chức danh / Kinh nghiệm hiện tại hoặc gần nhất của ứng viên từ CV (ví dụ: 'Thực tập sinh Kế toán', 'Junior Web Developer', 'Sinh viên ngành Logistics'...).
 3. "target_role": Tự động đề xuất Vị trí mục tiêu thăng tiến phù hợp nhất cho ứng viên dựa trên chuyên môn trong CV (ví dụ: 'Kế Toán Tổng Hợp', 'Python Developer', 'Chuyên Viên Xuất Nhập Khẩu'...).
 4. "match_percentage": Mức độ sẵn sàng (0 - 100%) cho vị trí target_role.
 5. "all_detected_skills": Tất cả kỹ năng đọc được trong CV.
@@ -523,8 +517,8 @@ Hãy đọc TOÀN BỘ văn bản từ bức ảnh chụp CV này và TỰ ĐỘ
 
 Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
 {
-  "candidate_name": "Họ và tên trong ảnh",
-  "previous_role": "Vị trí nhận diện từ ảnh",
+  "candidate_name": "Họ và tên trong CV",
+  "previous_role": "Vị trí nhận diện từ CV",
   "target_role": "Vị trí mục tiêu tối ưu",
   "match_percentage": 65,
   "all_detected_skills": ["kỹ năng 1", "kỹ năng 2"],
@@ -541,6 +535,13 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
   ]
 }
 """
+
+    # A. Nếu là file ảnh, thử trực tiếp qua Gemini Vision với Prompt tự động nhận diện
+    if is_image and GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
+        try:
+            from google import genai
+            from google.genai import types
+            client = genai.Client(api_key=GEMINI_API_KEY)
             models_to_try = ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite"]
             for m in models_to_try:
                 try:
@@ -594,6 +595,39 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
                 logger.info(f"PdfReader extracted {len(extracted_text)} chars from {file.filename}")
             except Exception as pdf_err:
                 logger.warning(f"PDF extraction failed: {pdf_err}")
+
+            # Nếu PDF là dạng ảnh scan (pypdf không đọc được chữ), gọi trực tiếp Gemini Document Vision
+            if (not extracted_text or len(extracted_text) < 30) and GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
+                try:
+                    import base64
+                    b64_pdf = base64.b64encode(content_bytes).decode("utf-8")
+                    pdf_models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"]
+                    for pm in pdf_models:
+                        try:
+                            url = f"https://generativelanguage.googleapis.com/v1beta/models/{pm}:generateContent?key={GEMINI_API_KEY}"
+                            payload = {
+                                "contents": [{
+                                    "parts": [
+                                        {"inline_data": {"mime_type": "application/pdf", "data": b64_pdf}},
+                                        {"text": prompt}
+                                    ]
+                                }]
+                            }
+                            with httpx.Client(timeout=25.0) as client:
+                                resp = client.post(url, json=payload)
+                                if resp.status_code == 200:
+                                    raw_text = resp.json()["candidates"][0]["content"]["parts"][0]["text"].strip()
+                                    if raw_text.startswith("```"):
+                                        raw_text = re.sub(r"^```(?:json)?", "", raw_text)
+                                        raw_text = re.sub(r"```$", "", raw_text).strip()
+                                    res_json = json.loads(raw_text)
+                                    res_json["ai_engine"] = f"Google Gemini AI ({pm} Document - Trực Tiếp Từ Google Cloud)"
+                                    logger.info(f"Gemini PDF multimodal model {pm} completed successfully")
+                                    return res_json
+                        except Exception as pm_err:
+                            logger.warning(f"Gemini PDF model {pm} failed: {pm_err}")
+                except Exception as pdf_vis_err:
+                    logger.warning(f"Gemini PDF multimodal failed: {pdf_vis_err}")
         elif not is_image:
             try:
                 extracted_text = content_bytes.decode("utf-8", errors="ignore").strip()
