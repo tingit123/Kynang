@@ -1736,7 +1736,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
 
     # 1. Thử gọi Google Gemini API
     if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        gemini_models = ["gemini-2.5-flash", "gemini-3.8-flash", "gemini-flash-latest"]
+        gemini_models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash"]
         for gm in gemini_models:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={GEMINI_API_KEY}"
