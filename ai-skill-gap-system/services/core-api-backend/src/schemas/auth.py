@@ -45,3 +45,6 @@ class UserMeResponse(BaseModel):
     role: str
     display_name: str
     is_verified: bool = True
+    company_name: Optional[str] = None
+    company_logo_url: Optional[str] = None
+    company_description: Optional[str] = None

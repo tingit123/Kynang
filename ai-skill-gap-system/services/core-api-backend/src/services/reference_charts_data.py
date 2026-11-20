@@ -152,51 +152,56 @@ INDUSTRY_SHARE_COMPARE_2025_2026 = {
         "name": "IT & Công nghệ",
         "share_2025": 28.5,
         "postings_2025": 285,
-        "share_2026": 38.5,
+        "share_2026": 35.7,
+        "share_2026_raw": 38.5,
         "postings_2026": 385,
-        "diff_share_pp": 10.0,
+        "diff_share_pp": 7.2,
         "growth_rate_pct": 35.1,
-        "evaluation": "Dịch chuyển trọng tâm lớn nhất (tăng 100 tin, +35.1%, thị phần tăng +10.0 điểm %)"
+        "evaluation": "Dịch chuyển trọng tâm lớn nhất (tăng 100 tin, +35.1%, thị phần chuẩn hóa tăng +7.2 điểm %)"
     },
     "Logistics": {
         "name": "Logistics & XNK",
         "share_2025": 19.0,
         "postings_2025": 190,
-        "share_2026": 24.1,
+        "share_2026": 22.4,
+        "share_2026_raw": 24.1,
         "postings_2026": 241,
-        "diff_share_pp": 5.1,
+        "diff_share_pp": 3.4,
         "growth_rate_pct": 26.8,
-        "evaluation": "Tăng trưởng mạnh mẽ theo hạ tầng (+51 tin, +26.8%, thị phần tăng +5.1 điểm %)"
+        "evaluation": "Tăng trưởng mạnh mẽ theo hạ tầng (+51 tin, +26.8%, thị phần chuẩn hóa tăng +3.4 điểm %)"
     },
     "Du lịch": {
         "name": "Du lịch & Khách sạn",
         "share_2025": 21.0,
         "postings_2025": 210,
-        "share_2026": 21.8,
+        "share_2026": 20.2,
+        "share_2026_raw": 21.8,
         "postings_2026": 218,
-        "diff_share_pp": 0.8,
+        "diff_share_pp": -0.8,
         "growth_rate_pct": 3.8,
-        "evaluation": "Ổn định & chuẩn hóa chất lượng (+8 tin, +3.8%, thị phần tăng +0.8 điểm %)"
+        "evaluation": "Ổn định & chuẩn hóa chất lượng (+8 tin, +3.8%, thị phần chuẩn hóa giữ mức 20.2%, -0.8 điểm %)"
     },
     "Kinh tế": {
         "name": "Kinh tế & Tài chính",
         "share_2025": 27.0,
         "postings_2025": 270,
-        "share_2026": 15.6,
+        "share_2026": 14.5,
+        "share_2026_raw": 15.6,
         "postings_2026": 156,
-        "diff_share_pp": -11.4,
+        "diff_share_pp": -12.5,
         "growth_rate_pct": -42.2,
-        "evaluation": "Sụt giảm mạnh do tự động hóa/AI (giảm 114 tin, -42.2%, thị phần giảm -11.4 điểm %)"
+        "evaluation": "Sụt giảm mạnh do tự động hóa/AI (giảm 114 tin, -42.2%, thị phần chuẩn hóa giảm -12.5 điểm %)"
     },
     "Nông nghiệp": {
         "name": "Nông nghiệp CNC",
         "share_2025": 4.5,
         "postings_2025": 45,
-        "share_2026": 7.8,
+        "share_2026": 7.2,
+        "share_2026_raw": 7.8,
         "postings_2026": 78,
-        "diff_share_pp": 3.3,
+        "diff_share_pp": 2.7,
         "growth_rate_pct": 73.3,
-        "evaluation": "Tăng tốc bứt phá công nghệ cao (+33 tin, +73.3%, thị phần tăng +3.3 điểm %)"
+        "evaluation": "Tăng tốc bứt phá công nghệ cao (+33 tin, +73.3%, thị phần chuẩn hóa tăng +2.7 điểm %)"
     }
 }
 

@@ -3,12 +3,10 @@ import React, { useState, useEffect } from 'react';
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function EmployerProfilePage() {
-  const [representative, setRepresentative] = useState('Nguyễn Minh Khoa');
-  const [companyName, setCompanyName] = useState('Mekong Tech');
-  const [logoUrl, setLogoUrl] = useState('https://mekongtech.vn/logo.png');
-  const [description, setDescription] = useState(
-    'Mekong Tech là công ty phần mềm tại Cần Thơ, hơn 80 kỹ sư, tập trung xây dựng sản phẩm cho thị trường ĐBSCL. Chúng tôi coi trọng đào tạo nội bộ và lộ trình thăng tiến rõ ràng.'
-  );
+  const [representative, setRepresentative] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [description, setDescription] = useState('');
 
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -46,18 +44,20 @@ export default function EmployerProfilePage() {
 
     try {
       const token = localStorage.getItem('access_token') || localStorage.getItem('token');
-      if (token) {
-        await fetch(`${API_BASE}/api/auth/profile`, {
+      {
+        const response = await fetch(`${API_BASE}/api/auth/profile`, {
           method: 'PUT',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            ...(token ? {'Authorization': `Bearer ${token}`} : {})
           },
           body: JSON.stringify(payload)
         });
+        if(!response.ok)throw new Error('Không lưu được hồ sơ.');
       }
     } catch (err) {
-      console.warn('API update profile warning:', err);
+      setSaving(false);setMessage('Không lưu được hồ sơ. Vui lòng thử lại.');return;
     }
 
     try {
@@ -189,17 +189,17 @@ export default function EmployerProfilePage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-base font-extrabold text-slate-900 truncate">
-                    {companyName || 'Mekong Tech'}
+                    {companyName || 'Doanh nghiệp'}
                   </div>
                   <div className="text-xs text-slate-500 font-medium mt-0.5 truncate">
-                    Người đại diện: {representative || 'Nguyễn Minh Khoa'}
+                    Người đại diện: {representative || 'Chưa cập nhật'}
                   </div>
                 </div>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed font-normal mt-3.5 line-clamp-3">
                 {description ||
-                  'Mekong Tech là công ty phần mềm tại Cần Thơ, hơn 80 kỹ sư, tập trung xây dựng sản phẩm cho thị trường ĐBSCL...'}
+                  'Chưa có giới thiệu doanh nghiệp'}
               </p>
             </div>
 
@@ -207,10 +207,10 @@ export default function EmployerProfilePage() {
             <div className="bg-white rounded-2xl border border-slate-200 p-4.5 flex items-center justify-between gap-3 shadow-2xs">
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-extrabold text-slate-900 truncate">
-                  Python Backend Developer
+                  Vị trí tuyển dụng
                 </div>
                 <div className="text-xs text-slate-500 font-medium mt-0.5 truncate">
-                  {companyName || 'Mekong Tech'} · Cần Thơ · 15–25 triệu
+                  {companyName || 'Doanh nghiệp'}
                 </div>
               </div>
               <div className="shrink-0">

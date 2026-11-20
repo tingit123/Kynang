@@ -13,6 +13,7 @@ from typing import Optional, List, Dict, Any, Union
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func, and_, or_, distinct, text
@@ -24,6 +25,7 @@ from src.models.skill import SkillCatalog, ExtractedSkill
 from src.models.job import JobPosting
 from src.models.survey import SurveyResponse, SurveySkillRating
 from src.models.course import CourseRecommendation
+from src.services.insight_trends import trend_reply, prior_turns
 from src.services.reference_charts_data import (
     OVERVIEW_TOP5_SKILLS,
     INDUSTRY_DISTRIBUTION_2026,
@@ -47,6 +49,14 @@ from src.services.project_knowledge import (
     search_project_knowledge,
     classify_user_intent,
     resolve_followup_context
+)
+from src.services.trend_evidence_engine import (
+    classify_trend_semantic_intent,
+    generate_trend_insight_answer,
+    AUDITED_SHIFT_CHART_2025_2026,
+    STRUCTURED_INDUSTRY_EVIDENCE,
+    DOCUMENT_REGISTRY,
+    get_relevant_attachments
 )
 
 logger = logging.getLogger("insights_chat")
@@ -101,6 +111,8 @@ class InsightChatResponse(BaseModel):
     chart_refs: List[str] = []
     limitations: List[str] = []
     ai_engine: Optional[str] = "Skill Lens Lab Engine"
+    attachments: List[Dict[str, Any]] = []
+    documents: List[Dict[str, Any]] = []
 
 
 # Từ điển chuyên ngành khảo sát sinh viên tương ứng 4 ngành trọng điểm
@@ -157,6 +169,10 @@ def query_dashboard_evidence(
     intent = classify_user_intent(user_query, context)
     followup_info = resolve_followup_context(user_query, history or [], context)
     retrieved_knowledge = search_project_knowledge(user_query, user_role=user_role, top_k=2)
+
+    # Phân loại Semantic Intent cho Xu hướng chuyển dịch & 4 tài liệu ngành (Trend Evidence Engine)
+    trend_intent_info = classify_trend_semantic_intent(user_query, history or [])
+    is_trend_match = bool(trend_intent_info.get("is_trend_match"))
 
     # 2. Kiểm tra Prompt Injection / Yêu cầu bịa đặt số liệu
     injection_keywords = [
@@ -221,7 +237,7 @@ def query_dashboard_evidence(
         "năm ngoái", "3 năm trước", "5 năm qua", "nhiều năm qua",
         "quý trước", "kỳ trước", "tháng trước", "quý 1", "quý 2"
     ]
-    is_chart_trend_query = any(k in q_low for k in [
+    is_chart_trend_query = is_trend_match or any(k in q_low for k in [
         "biểu đồ", "chuyển dịch", "tài liệu", "dự báo", "xu hướng việc làm",
         "theo tài liệu", "so sánh", "2025 và 2026", "2025 vs 2026", "bảng số liệu",
         "năm 2027", "2027", "năm 2025", "2025", "năm 2023", "2023", "cơ cấu"
@@ -448,6 +464,7 @@ def query_dashboard_evidence(
 
     return {
         "intent": intent,
+        "conversation_history": prior_turns(user_query, history),
         "followup_info": followup_info,
         "knowledge_docs": retrieved_knowledge,
         "is_injection": is_injection,
@@ -500,7 +517,8 @@ def query_dashboard_evidence(
         "co_occurrences": co_occurrences,
         "specific_skill": specific_skill_data,
         "monthly_job_counts": monthly_job_counts,
-        "recommended_courses": recommended_courses
+        "recommended_courses": recommended_courses,
+        "trend_intent_info": trend_intent_info
     }
 
 
@@ -581,6 +599,41 @@ def build_deterministic_analytical_response(
             "chart_refs": [],
             "limitations": [f"Chưa có dữ liệu giai đoạn {period_missed}."]
         }
+
+    # ── CASE 3.00: Giải thích xu hướng chuyển dịch & 4 tài liệu ngành (Trend Evidence Engine) ──
+    trend_info = evidence_data.get("trend_intent_info")
+    if trend_info and trend_info.get("is_trend_match"):
+        trend_resp = generate_trend_insight_answer(trend_info)
+        if trend_resp:
+            ev_items = [
+                EvidenceItem(
+                    metric=item.get("metric", "trend_metric"),
+                    value=item.get("value"),
+                    unit=item.get("unit", ""),
+                    source=item.get("source", "reference_chart"),
+                    description=item.get("description", item.get("metric"))
+                )
+                for item in trend_resp.get("evidence", [])
+            ]
+            attachments = trend_resp.get("attachments", [])
+            return {
+                "answer": trend_resp["answer"],
+                "data_status": trend_resp.get("data_status", "available"),
+                "is_definitive": True,
+                "evidence": ev_items,
+                "analysis": trend_resp.get("analysis", ""),
+                "recommendations": trend_resp.get("recommendations", []),
+                "chart_refs": trend_resp.get("chart_refs", ["industryShiftCompareChart", "industryTrendLineChart"]),
+                "limitations": trend_resp.get("limitations", []),
+                "attachments": attachments,
+                "documents": attachments
+            }
+
+
+    # Explain the requested trend rather than falling through to an unrelated gap report.
+    trend = trend_reply(query, evidence_data.get("conversation_history", []), context)
+    if trend:
+        return trend
 
     # ── CASE 3.01: Kỹ năng có Gap cao nhất trong Top 5 tổng quan (Tài liệu / Biểu đồ) ──
     is_top_gap_overview_query = (
@@ -1531,7 +1584,18 @@ def build_deterministic_analytical_response(
             "limitations": [f"Tính toán từ 4.685 lượt kỹ năng trong 1.007 tin tuyển dụng."]
         }
 
-    # ── CASE 9: Mặc định: Phân tích theo bộ lọc hiện tại trên Dashboard (Test 7) ──
+    # Only generate a whole dashboard report when the question actually asks for one.
+    if not any(term in q_low for term in ["phân tích dữ liệu", "phân tích tổng quan", "tổng quan dữ liệu", "tóm tắt dashboard", "phân tích theo bộ lọc"]):
+        return {
+            "answer": "Tôi chưa xác định rõ chỉ số hoặc chức năng trong câu hỏi này. "
+                      "Bạn muốn xem xu hướng ngành, mức thiếu kỹ năng hay hướng dẫn thao tác? "
+                      "Hãy nêu tên ngành hoặc biểu đồ để tôi trả lời đúng trọng tâm.",
+            "data_status": "insufficient", "evidence": [],
+            "analysis": "Chưa đủ ngữ cảnh; không thay câu hỏi bằng báo cáo Skill Gap mặc định.",
+            "recommendations": [], "chart_refs": [], "limitations": ["Cần làm rõ câu hỏi."],
+        }
+
+    # ── CASE 9: Phân tích tổng quan được yêu cầu rõ ràng ──
     avg_gap = evidence_data["avg_gap"]
     top_tech = evidence_data["top_shortage_tech"]
     courses = evidence_data["recommended_courses"]
@@ -1691,7 +1755,7 @@ CÂU HỎI CỦA NGƯỜI DÙNG:
 
     # 1. Thử gọi Google Gemini API
     if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        gemini_models = ["gemini-2.5-flash", "gemini-3.8-flash", "gemini-flash-latest"]
+        gemini_models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash"]
         for gm in gemini_models:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={GEMINI_API_KEY}"
@@ -1801,7 +1865,9 @@ async def interactive_insights_chat(
             recommendations=deterministic_resp["recommendations"],
             chart_refs=deterministic_resp["chart_refs"],
             limitations=deterministic_resp["limitations"],
-            ai_engine="SkillGap Deterministic Engine (Verified)"
+            ai_engine="SkillGap Deterministic Engine (Verified)",
+            attachments=deterministic_resp.get("attachments", []),
+            documents=deterministic_resp.get("documents", [])
         )
 
     # 3. Thử gọi LLM nâng cao với System Prompt bắt buộc từ Section 11
@@ -1826,5 +1892,134 @@ async def interactive_insights_chat(
         recommendations=deterministic_resp["recommendations"],
         chart_refs=deterministic_resp["chart_refs"],
         limitations=deterministic_resp["limitations"],
-        ai_engine=engine_name
+        ai_engine=engine_name,
+        attachments=deterministic_resp.get("attachments", []),
+        documents=deterministic_resp.get("documents", [])
     )
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DOCUMENT ATTACHMENT & PREVIEW ENDPOINTS (4 TÀI LIỆU NGÀNH GỐC)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def _resolve_document_file_path(filename: str) -> Optional[str]:
+    """Tìm đường dẫn tệp tài liệu thực tế trên hệ thống mà không để lộ cấu trúc ổ đĩa nội bộ."""
+    candidates = [
+        # Thư mục static backend bên trong container
+        os.path.join(os.path.dirname(__file__), "..", "static", "documents", filename),
+        os.path.join("/app", "src", "static", "documents", filename),
+        os.path.join("/usr", "share", "nginx", "html", "documents", filename),
+        # Đường dẫn tương đối từ workspace
+        os.path.join("services", "core-api-backend", "src", "static", "documents", filename),
+        os.path.join("apps", "admin-web-dashboard", "documents", filename),
+        os.path.join("ai-skill-gap-system", "services", "core-api-backend", "src", "static", "documents", filename),
+        os.path.join("ai-skill-gap-system", "apps", "admin-web-dashboard", "documents", filename)
+    ]
+    for p in candidates:
+        try:
+            abs_p = os.path.abspath(p)
+            if os.path.exists(abs_p) and os.path.isfile(abs_p):
+                return abs_p
+        except Exception:
+            continue
+    return None
+
+
+@router.get("/documents", tags=["Insights Documents"])
+def list_insight_documents():
+    """Danh sách các tài liệu nghiên cứu chứng minh xu hướng được chứng thực (4 ngành trọng điểm)."""
+    return {
+        "status": "success",
+        "total": len(DOCUMENT_REGISTRY),
+        "documents": list(DOCUMENT_REGISTRY.values())
+    }
+
+
+@router.api_route("/documents/{doc_key}/download", methods=["GET", "HEAD"], tags=["Insights Documents"])
+def download_insight_document(doc_key: str):
+    """
+    Tải file Word (.docx) tài liệu chứng minh gốc.
+    Hỗ trợ doc_key: it, logistics, tourism, finance (hoặc tên file).
+    TUYỆT ĐỐI chặn So_Lieu_Bieu_do.docx hoặc các file không được cấp phép.
+    """
+    norm_key = doc_key.lower().replace("-", "_").replace(" ", "_")
+
+    # Loại bỏ hoàn toàn số liệu biểu đồ khỏi tải về
+    if any(k in norm_key for k in ["so_lieu", "solieu", "bieu_do", "bieudo", "chart"]):
+        raise HTTPException(status_code=404, detail="Tài liệu số liệu biểu đồ chỉ dùng cho tính toán nội bộ, không hỗ trợ tải trực tiếp.")
+
+    target_doc = None
+    if norm_key in DOCUMENT_REGISTRY:
+        target_doc = DOCUMENT_REGISTRY[norm_key]
+    else:
+        for key, doc in DOCUMENT_REGISTRY.items():
+            if norm_key == doc["filename"].lower() or norm_key == doc["filename"].lower().replace(".docx", ""):
+                target_doc = doc
+                break
+            if norm_key in [doc["id"], doc["industry_key"].lower()]:
+                target_doc = doc
+                break
+            if norm_key in ["du_lich", "dulich", "tourism"] and key == "tourism":
+                target_doc = doc
+                break
+            if norm_key in ["kinh_te", "kinhte", "finance", "ke_toan"] and key == "finance":
+                target_doc = doc
+                break
+            if norm_key in ["xnk", "logistics_xnk"] and key == "logistics":
+                target_doc = doc
+                break
+
+    if not target_doc:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu chứng minh cho mã: {doc_key}")
+
+    filename = target_doc["filename"]
+    file_path = _resolve_document_file_path(filename)
+    if not file_path:
+        raise HTTPException(status_code=404, detail="File tài liệu hiện chưa sẵn sàng trên máy chủ.")
+
+    return FileResponse(
+        path=file_path,
+        filename=filename,
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
+
+@router.get("/documents/{doc_key}/preview", tags=["Insights Documents"])
+def preview_insight_document(doc_key: str):
+    """
+    Xem trước tóm tắt có cấu trúc & các luận điểm chứng minh từ tài liệu ngành.
+    Hỗ trợ hiển thị modal xem trực tiếp trên AI Chatbox mà không cần tải file lớn.
+    """
+    norm_key = doc_key.lower().replace("-", "_").replace(" ", "_")
+
+    if any(k in norm_key for k in ["so_lieu", "solieu", "bieu_do", "bieudo", "chart"]):
+        raise HTTPException(status_code=404, detail="Tài liệu số liệu biểu đồ không hỗ trợ xem trước.")
+
+    target_doc = None
+    if norm_key in DOCUMENT_REGISTRY:
+        target_doc = DOCUMENT_REGISTRY[norm_key]
+    else:
+        for key, doc in DOCUMENT_REGISTRY.items():
+            if norm_key == doc["filename"].lower() or norm_key == doc["filename"].lower().replace(".docx", ""):
+                target_doc = doc
+                break
+            if norm_key in [doc["id"], doc["industry_key"].lower()]:
+                target_doc = doc
+                break
+            if norm_key in ["du_lich", "dulich", "tourism"] and key == "tourism":
+                target_doc = doc
+                break
+            if norm_key in ["kinh_te", "kinhte", "finance", "ke_toan"] and key == "finance":
+                target_doc = doc
+                break
+            if norm_key in ["xnk", "logistics_xnk"] and key == "logistics":
+                target_doc = doc
+                break
+
+    if not target_doc:
+        raise HTTPException(status_code=404, detail=f"Không tìm thấy tài liệu chứng minh cho mã: {doc_key}")
+
+    return {
+        "status": "success",
+        "document": target_doc
+    }

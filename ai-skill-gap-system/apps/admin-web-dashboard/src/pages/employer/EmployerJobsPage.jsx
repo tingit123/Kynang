@@ -12,44 +12,7 @@ const INDUSTRIES = [
   'Nông nghiệp công nghệ cao'
 ];
 
-const DEFAULT_JOBS = [
-  {
-    id: 1,
-    title: 'Python Backend Developer',
-    location: 'Quận Ninh Kiều, Cần Thơ',
-    salary_min: 15000000,
-    salary_max: 25000000,
-    posted_date: '14/10/2026',
-    status: 'open',
-    statusLabel: 'Đang mở',
-    skills: ['Python', 'FastAPI', 'Docker', 'SQL'],
-    applications_count: 34
-  },
-  {
-    id: 2,
-    title: 'Data Analyst / BI Specialist',
-    location: 'Quận Ninh Kiều, Cần Thơ',
-    salary_min: 15000000,
-    salary_max: 25000000,
-    posted_date: '10/10/2026',
-    status: 'open',
-    statusLabel: 'Đang mở',
-    skills: ['SQL', 'Power BI', 'Python'],
-    applications_count: 21
-  },
-  {
-    id: 3,
-    title: 'DevOps & Cloud Engineer',
-    location: 'Quận Ninh Kiều, Cần Thơ',
-    salary_min: 15000000,
-    salary_max: 25000000,
-    posted_date: '05/10/2026',
-    status: 'open',
-    statusLabel: 'Đang mở',
-    skills: ['Docker', 'Linux', 'CI/CD', 'Cloud'],
-    applications_count: 40
-  }
-];
+const DEFAULT_JOBS = [];
 
 export default function EmployerJobsPage() {
   const [jobs, setJobs] = useState([]);
@@ -58,18 +21,16 @@ export default function EmployerJobsPage() {
   const [successMsg, setSuccessMsg] = useState('');
 
   // Form Fields
-  const [title, setTitle] = useState('Python Backend Developer');
-  const [company, setCompany] = useState('Mekong Tech');
+  const [title, setTitle] = useState('');
+  const [company, setCompany] = useState('');
   const [location, setLocation] = useState('Cần Thơ');
   const [industry, setIndustry] = useState('Công nghệ thông tin');
-  const [salaryMin, setSalaryMin] = useState('15');
-  const [salaryMax, setSalaryMax] = useState('25');
-  const [description, setDescription] = useState(
-    'Phát triển và bảo trì các dịch vụ backend bằng Python, làm việc cùng nhóm frontend và DevOps...'
-  );
+  const [salaryMin, setSalaryMin] = useState('');
+  const [salaryMax, setSalaryMax] = useState('');
+  const [description, setDescription] = useState('');
 
   // Skill tags
-  const [skills, setSkills] = useState(['Python', 'Docker', 'Tiếng Anh']);
+  const [skills, setSkills] = useState([]);
   const [skillInput, setSkillInput] = useState('');
   const [showSkillInput, setShowSkillInput] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -156,94 +117,20 @@ export default function EmployerJobsPage() {
     };
 
     try {
-      const res = await fetch(`${API_BASE}/api/jobs/`, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(payload)
-      });
-
-      if (res.ok) {
-        const newJob = await res.json();
-        setSuccessMsg('Đăng tin tuyển dụng mới thành công!');
-        setJobs([newJob, ...jobs]);
-        try {
-          const raw = localStorage.getItem('global_job_postings');
-          const list = raw ? JSON.parse(raw) : [];
-          list.unshift(newJob);
-          localStorage.setItem('global_job_postings', JSON.stringify(list));
-        } catch (e) {}
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        // Mock fallback insertion if demo mode
-        const mockNewJob = {
-          id: Date.now(),
-          title: payload.title,
-          company_name: payload.company,
-          location: payload.location,
-          industry: payload.industry,
-          salary_min: payload.salary_min,
-          salary_max: payload.salary_max,
-          description: payload.description,
-          posted_date: new Date().toLocaleDateString('vi-VN'),
-          status: 'open',
-          statusLabel: 'Đang mở',
-          skills: payload.skills,
-          applications_count: 0
-        };
-        setJobs([mockNewJob, ...jobs]);
-        try {
-          const raw = localStorage.getItem('global_job_postings');
-          const list = raw ? JSON.parse(raw) : [];
-          list.unshift(mockNewJob);
-          localStorage.setItem('global_job_postings', JSON.stringify(list));
-        } catch (e) {}
-        setSuccessMsg('Đăng tin tuyển dụng mới thành công!');
-      }
-    } catch (err) {
-      const mockNewJob = {
-        id: Date.now(),
-        title: payload.title,
-        company_name: payload.company,
-        location: payload.location,
-        industry: payload.industry,
-        salary_min: payload.salary_min,
-        salary_max: payload.salary_max,
-        description: payload.description,
-        posted_date: new Date().toLocaleDateString('vi-VN'),
-        status: 'open',
-        statusLabel: 'Đang mở',
-        skills: payload.skills,
-        applications_count: 0
-      };
-      setJobs([mockNewJob, ...jobs]);
-      try {
-        const raw = localStorage.getItem('global_job_postings');
-        const list = raw ? JSON.parse(raw) : [];
-        list.unshift(mockNewJob);
-        localStorage.setItem('global_job_postings', JSON.stringify(list));
-      } catch (e) {}
-      setSuccessMsg('Đăng tin tuyển dụng mới thành công!');
-    } finally {
-      setSubmitting(false);
-    }
+      const res = await fetch(`${API_BASE}/api/jobs/`, {method:'POST',credentials:'include',headers:getAuthHeaders(),body:JSON.stringify(payload)});
+      if(!res.ok) throw new Error('Không đăng được tin tuyển dụng.');
+      const saved = await res.json();
+      setJobs([saved,...jobs]);setSuccessMsg('Đăng tin tuyển dụng thành công!');
+    } catch(error) {setErrorMsg(error.message);} finally {setSubmitting(false);}
   };
 
   const handleDeleteJob = async (id) => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) return;
+    if(!window.confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) return;
     try {
-      await fetch(`${API_BASE}/api/jobs/${id}`, {
-        method: 'DELETE',
-        headers: getAuthHeaders()
-      });
-    } catch (e) {}
-    try {
-      const raw = localStorage.getItem('global_job_postings');
-      if (raw) {
-        const list = JSON.parse(raw);
-        localStorage.setItem('global_job_postings', JSON.stringify(list.filter((j) => j.id !== id)));
-      }
-    } catch (e) {}
-    setJobs(jobs.filter((j) => j.id !== id));
+      const response = await fetch(`${API_BASE}/api/jobs/${id}`,{method:'DELETE',credentials:'include',headers:getAuthHeaders()});
+      if(!response.ok)throw new Error('Không xóa được tin tuyển dụng.');
+      setJobs(jobs.filter(j=>j.id!==id));
+    } catch(error){setErrorMsg(error.message);}
   };
 
   return (
@@ -490,9 +377,9 @@ export default function EmployerJobsPage() {
                   ? `${(job.salary_min / 1000000).toFixed(0)}–${(job.salary_max / 1000000).toFixed(0)} triệu`
                   : '15–25 triệu';
 
-              const dateText = job.posted_date || '14/10/2026';
+              const dateText = job.posted_date || '';
               const locationText = job.location || 'Quận Ninh Kiều, Cần Thơ';
-              const appsCount = job.applications_count || 34;
+              const appsCount = job.applications_count || 0;
 
               return (
                 <div
@@ -516,7 +403,7 @@ export default function EmployerJobsPage() {
                   <div className="flex flex-wrap gap-2 pt-1">
                     {(job.skills && job.skills.length > 0
                       ? job.skills
-                      : ['Python', 'FastAPI', 'Docker', 'SQL']
+                      : []
                     ).map((sk) => (
                       <span
                         key={sk}

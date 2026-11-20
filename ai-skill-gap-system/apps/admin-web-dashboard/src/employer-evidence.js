@@ -300,5 +300,9 @@
     jobs(preferredJob); return s.dispose;
   }
   window.SkillGapEvidence = { mount, dispose: () => mounted?.dispose(), applications: () => mounted?.applications || [] };
-  if (window.evidenceMountPending) window.renderEmployerCandidatesList();
+  if (window.evidenceMountPending) {
+    const tab = typeof window.evidenceMountPending === 'string' ? window.evidenceMountPending : 'candidates';
+    window.evidenceMountPending = false;
+    if (typeof window.renderEmployerCandidatesList === 'function') window.renderEmployerCandidatesList(tab);
+  }
 })();

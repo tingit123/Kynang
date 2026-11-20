@@ -1,5 +1,0 @@
-# Local demo only: explicitly opt in to the synthetic employer quick login.
-services:
-  core-api:
-    environment:
-      DEMO_EMPLOYER_LOGIN: "1"

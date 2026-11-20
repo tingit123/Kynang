@@ -269,6 +269,9 @@ class AuthController:
             "full_name": display_name,
             "display_name": display_name,
             "is_verified": is_verified,
+            "company_name": user.company_name,
+            "company_logo_url": user.company_logo_url,
+            "company_description": user.company_description,
         }
 
         return AuthResponse(
@@ -333,4 +336,7 @@ class AuthController:
             role=actual_role,
             display_name=display_name,
             is_verified=is_verified,
+            company_name=current_user.company_name,
+            company_logo_url=current_user.company_logo_url,
+            company_description=current_user.company_description,
         )

@@ -6,6 +6,7 @@ Hỗ trợ RAG (Retrieval-Augmented Generation), phân loại ý định và gi�
 Tích hợp trích xuất 100% tài liệu 'So_Lieu_Bieu_do.docx' (30 trang).
 """
 import re
+from src.services.insight_trends import trend_kind, prior_turns
 from typing import List, Dict, Any, Optional
 
 PROJECT_KNOWLEDGE_DOCUMENTS = [
@@ -238,6 +239,10 @@ def classify_user_intent(query: str, context: Optional[Any] = None) -> str:
     if any(k in q for k in out_of_scope_terms):
         return "INTENT_8_OUT_OF_SCOPE"
 
+    trend = trend_kind(query)
+    if trend:
+        return "INTENT_" + trend.upper()
+
     # INTENT_LOOKUP_METRIC: Hỏi một con số/chỉ số cụ thể
     metric_lookup_terms = [
         "bao nhiêu trong bảng", "bao nhiêu trong biểu đồ", "chiếm bao nhiêu",
@@ -312,6 +317,7 @@ def resolve_followup_context(
         "reference_text": ""
     }
 
+    history = prior_turns(query, history)
     if not history:
         return resolved
 

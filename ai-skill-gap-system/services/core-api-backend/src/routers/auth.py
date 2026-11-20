@@ -9,45 +9,42 @@ from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
 from sqlalchemy.orm import Session
 
 from src.database import get_db
-from src.models.user import User
+from src.models.user import User, Employer, Worker
 from src.core.security import get_current_user
 from src.schemas.auth import RegisterRequest, LoginRequest, AuthResponse, UserMeResponse
 from src.controllers.auth_controller import AuthController
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger("auth_router")
 router = APIRouter()
 
 
-@router.post("/demo/employer", response_model=AuthResponse)
-def demo_employer_login(request: Request, response: Response, db: Session = Depends(get_db)):
-    """Explicitly enabled local demo entry; never chooses an arbitrary user or admin."""
-    import os
-    from datetime import datetime
-    from src.core.security import create_access_token, COOKIE_SECURE
-    if os.getenv("DEMO_EMPLOYER_LOGIN", "0") != "1":
-        raise HTTPException(404, "Đăng nhập employer demo chưa được bật")
-    if request.url.hostname not in {"localhost", "127.0.0.1", "::1"} or request.headers.get("origin") not in {
-        "http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:8081", "http://127.0.0.1:8081"
-    }:
-        raise HTTPException(403, "Đăng nhập demo chỉ dành cho giao diện localhost")
-    user = db.query(User).filter_by(email="evidence.employer@demo.local").first()
-    if not user or user.role != "employer" or user.is_deleted or not user.is_active:
-        raise HTTPException(409, "Tài khoản employer demo chưa sẵn sàng; hãy chạy seed demo")
-    from src.models.user import Employer
-    employer = db.query(Employer).filter_by(user_id=user.id).first()
-    if not employer or not employer.is_verified:
-        raise HTTPException(403, "Tài khoản employer demo chưa được duyệt")
-    profile = AuthController.get_me(user, db)
-    if not profile.is_verified:
-        raise HTTPException(403, "Tài khoản employer demo chưa được duyệt")
-    user.last_login_at = datetime.utcnow()
-    token = create_access_token({"sub": str(user.id), "role": "employer", "name": profile.display_name})
+class ProfileUpdate(BaseModel):
+    full_name: str = Field(min_length=1, max_length=150)
+    company_name: Optional[str] = Field(default=None, max_length=200)
+    company_logo_url: Optional[str] = Field(default=None, max_length=500)
+    company_description: Optional[str] = Field(default=None, max_length=10000)
+
+
+@router.put("/profile")
+def update_profile(payload: ProfileUpdate, db: Session = Depends(get_db),
+                   user: User = Depends(get_current_user)):
+    if not payload.full_name.strip():
+        raise HTTPException(422, "Vui lòng nhập họ tên")
+    for key, value in payload.model_dump(exclude_unset=True).items():
+        setattr(user, key, value)
+    if user.role == "employer":
+        employer = db.query(Employer).filter_by(user_id=user.id).first()
+        if employer:
+            employer.contact_name = payload.full_name
+    elif user.role in ("worker", "candidate"):
+        worker = db.query(Worker).filter_by(user_id=user.id).first()
+        if worker:
+            worker.full_name = payload.full_name
     db.commit()
-    response.set_cookie("access_token", token, max_age=28800, expires=28800, path="/", httponly=True, samesite="lax", secure=COOKIE_SECURE)
-    return AuthResponse(role="employer", display_name=profile.display_name, is_verified=True, access_token=token,
-                        user_id=user.id, email=user.email,
-                        user={"id": user.id, "user_id": user.id, "email": user.email, "role": "employer",
-                              "full_name": user.full_name, "company_name": user.company_name, "is_verified": True})
+    return {"full_name": user.full_name, "company_name": user.company_name,
+            "company_logo_url": user.company_logo_url,
+            "company_description": user.company_description}
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)

@@ -87,3 +87,61 @@ def test_skill_pairs_are_actually_queried(chat):
     _,db=chat
     data=insights.query_dashboard_evidence(db,insights.DashboardContext(),None,"Kỹ năng nào thường đi kèm cùng nhau?")
     assert data["co_occurrences"]==[{"skill_a":"Python","skill_b":"SQL","count":1}]
+
+
+def test_user_reported_growth_and_sector_shift_do_not_repeat_default(chat):
+    client,_=chat
+    first="tại sao IT & công nghệ lại tăng vượt bậc ?"
+    initial=ask(client,first)
+    followup="vậy dựa trên những xu hướng trên thì sẽ có những chuyển dịch ngành nghề nào đáng chú ý?"
+    second=ask(client,followup,history=[
+        {"role":"user","content":first},
+        {"role":"assistant","content":initial["answer"]},
+        # Tolerate older clients which included the current query in history.
+        {"role":"user","content":followup},
+    ])
+    assert initial["answer"]!=second["answer"]
+    assert "35.1" in initial["answer"] and "nhân quả" in initial["answer"].lower()
+    assert "Logistics" in second["answer"] and "Nông nghiệp" in second["answer"]
+    assert "42.2" in second["answer"].replace(",", ".")
+    for result in [initial,second]:
+        assert not any(e["metric"]=="industry_avg_gap" for e in result["evidence"])
+        assert result["evidence"] and all(e["source"].split(" (")[0] in {"reference_chart", "SHIFT_CHART_2025_2026", "INDUSTRY_EVIDENCE"} for e in result["evidence"])
+        assert not any("4-6" in recommendation for recommendation in result["recommendations"])
+
+
+@pytest.mark.parametrize("key", ["it", "logistics", "tourism", "finance"])
+def test_industry_documents_download_and_preview(chat, key):
+    client, _ = chat
+    preview = client.get(f"/api/insights/documents/{key}/preview")
+    assert preview.status_code == 200
+    assert preview.json()["document"]["filename"].endswith(".docx")
+    response = client.get(f"/api/insights/documents/{key}/download")
+    assert response.status_code == 200 and response.content.startswith(b"PK")
+    assert "wordprocessingml" in response.headers["content-type"]
+
+
+def test_document_registry_rejects_unknown_path(chat):
+    client, _ = chat
+    for key in ["unknown", "secrets.env", "..%2F..%2F.env"]:
+        assert client.get(f"/api/insights/documents/{key}/download").status_code == 404
+
+
+def test_trend_followup_and_explicit_new_topic(chat):
+    client,_=chat
+    question="Vì sao IT tăng trưởng mạnh?"
+    initial=ask(client,question)
+    history=[{"role":"user","content":question},{"role":"assistant","content":initial["answer"]}]
+    followup=ask(client,"Vì sao lại tăng như vậy?",history=history)
+    assert "IT & Công nghệ" in followup["answer"] and "35.1" in followup["answer"]
+    changed=ask(client,"Vì sao Logistics tăng trưởng?",history=history)
+    assert "26.8" in changed["answer"].replace(",", ".") and "35.1" not in changed["answer"]
+    fresh=ask(client,"Vì sao lại tăng như vậy?")
+    assert fresh["data_status"]=="insufficient"
+
+
+def test_unrecognized_question_clarifies_instead_of_unrelated_gap_report(chat):
+    client,_=chat
+    result=ask(client,"Tôi nên bắt đầu từ đâu với vấn đề vừa nói?")
+    assert result["data_status"]=="insufficient"
+    assert "industry_avg_gap" not in str(result["evidence"])

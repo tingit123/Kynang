@@ -44,7 +44,10 @@ export default function AIChatbox({ context = {} }) {
     }
   }, [messages, isOpen, isTyping]);
 
+  const requestVersion = useRef(0);
+
   const handleResetChat = () => {
+    requestVersion.current += 1;
     setConversationId('conv_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9));
     setMessages([
       {
@@ -60,6 +63,8 @@ export default function AIChatbox({ context = {} }) {
   };
 
   const handleSendMessage = async (textToSend) => {
+    if (isTyping) return;
+    const version = requestVersion.current;
     const query = (textToSend || inputText).trim();
     if (!query) return;
 
@@ -74,7 +79,7 @@ export default function AIChatbox({ context = {} }) {
     if (!textToSend) setInputText('');
     setIsTyping(true);
 
-    const historyPayload = messages.slice(-5).map(m => ({
+    const historyPayload = messages.filter(m => !m.id.startsWith('welcome') && !m.id.startsWith('err_')).slice(-8).map(m => ({
       role: m.sender === 'user' ? 'user' : 'assistant',
       content: m.text
     }));
@@ -106,6 +111,7 @@ export default function AIChatbox({ context = {} }) {
       if (!resp.ok) throw new Error(`HTTP error ${resp.status}`);
 
       const data = await resp.json();
+      if (version !== requestVersion.current) return;
       const aiMsg = {
         id: 'ai_' + Date.now(),
         sender: 'ai',
@@ -117,6 +123,7 @@ export default function AIChatbox({ context = {} }) {
       setMessages(prev => [...prev, aiMsg]);
       setLastFailedMessage(null);
     } catch (err) {
+      if (version !== requestVersion.current) return;
       console.warn('Lỗi kết nối AI Insights API:', err);
       setLastFailedMessage(query);
       const errAiMsg = {
@@ -127,7 +134,7 @@ export default function AIChatbox({ context = {} }) {
       };
       setMessages(prev => [...prev, errAiMsg]);
     } finally {
-      setIsTyping(false);
+      if (version === requestVersion.current) setIsTyping(false);
     }
   };
 

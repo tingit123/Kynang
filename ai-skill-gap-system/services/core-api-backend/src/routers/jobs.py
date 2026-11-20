@@ -5,7 +5,7 @@ from typing import Optional, List
 from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File
 from sqlalchemy.orm import Session
-from sqlalchemy import or_, desc
+from sqlalchemy import or_, desc, func
 from datetime import date, datetime
 from src.database import get_db
 from src.models.job import JobPosting, JobApplication
@@ -47,6 +47,7 @@ class JobOut(BaseModel):
     source_platform: Optional[str]
     ai_classified: bool
     skills: List[str] = []
+    applications_count: int = 0
 
     class Config:
         from_attributes = True
@@ -222,6 +223,10 @@ def get_my_jobs(
     for es in extracted:
         skills_map.setdefault(es.job_id, []).append(es.skill_name)
 
+    counts = dict(db.query(JobApplication.job_id, func.count(JobApplication.id))
+                  .filter(JobApplication.job_id.in_(job_ids))
+                  .group_by(JobApplication.job_id).all()) if job_ids else {}
+
     results = []
     for j in jobs:
         loc = (j.location and j.location.strip()) or "Cần Thơ"
@@ -239,7 +244,8 @@ def get_my_jobs(
             source_url=j.source_url,
             source_platform=j.source_platform,
             ai_classified=bool(j.ai_classified),
-            skills=skills_map.get(j.id, [])
+            skills=skills_map.get(j.id, []),
+            applications_count=counts.get(j.id, 0),
         )
         results.append(out)
     return results
@@ -249,14 +255,14 @@ def get_my_jobs(
 def create_job(
     job: JobCreate,
     db: Session = Depends(get_db),
-    current_user: Optional[User] = Depends(get_current_user_optional),
+    current_user: User = Depends(require_role(["employer", "admin"])),
 ):
     """
     Thêm tin tuyển dụng mới.
     - Yêu cầu đăng nhập: Role 'employer' hoặc 'admin'.
     - Nếu là 'employer': gán employer_id = current_user.id.
     - Nếu là 'admin': cho phép tạo bình thường (có thể gán employer_id từ payload hoặc current_user.id).
-    - Tự động cho phép bot crawler lưu tin tự động mà không bị chặn.
+    - Không cho phép đăng tin ẩn danh.
     """
     data = job.model_dump(exclude={"skills"})
     db_job = JobPosting(**data)
@@ -316,6 +322,25 @@ def create_job(
         ai_classified=bool(db_job.ai_classified),
         skills=job.skills or []
     )
+
+
+@router.put("/{job_id}", response_model=JobOut)
+def update_job(job_id: int, payload: JobCreate, db: Session = Depends(get_db),
+               user: User = Depends(require_role(["employer", "admin"]))):
+    job = db.get(JobPosting, job_id)
+    if not job or job.is_deleted:
+        raise HTTPException(404, "Không tìm thấy tin tuyển dụng")
+    if user.role != "admin" and job.employer_id != user.id:
+        raise HTTPException(403, "Không có quyền sửa tin tuyển dụng")
+    if not payload.title.strip() or not payload.company.strip():
+        raise HTTPException(422, "Thiếu tiêu đề hoặc tên doanh nghiệp")
+    for key, value in payload.model_dump(exclude={"skills", "employer_id"}, exclude_unset=True).items():
+        setattr(job, key, value)
+    db.query(ExtractedSkill).filter_by(job_id=job_id).delete()
+    for skill in dict.fromkeys(payload.skills or []):
+        db.add(ExtractedSkill(job_id=job_id, skill_name=skill, skill_category=job.industry, confidence=0.95))
+    db.commit()
+    return get_job(job_id, db)
 
 
 @router.get("/my-applications")

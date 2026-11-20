@@ -78,6 +78,7 @@ def wait_for_db_and_init(max_retries: int = 15, delay: int = 4):
 
                     # 4. Bổ sung các cột vào course_recommendations
                     ensure_col("course_recommendations", "provider_id", "INT NULL")
+                    ensure_col("course_recommendations", "created_at", "VARCHAR(50) NULL")
                     ensure_col("course_recommendations", "is_deleted", "BOOLEAN DEFAULT FALSE")
                     ensure_col("course_recommendations", "status", "VARCHAR(50) DEFAULT 'pending'")
                     ensure_col("course_recommendations", "click_count", "INT DEFAULT 0")
@@ -209,11 +210,8 @@ from src.routers import notifications
 from src.routers import recruitment_process
 
 app.include_router(recruitment_process.router, prefix="/api", tags=["Tiến trình tuyển dụng — bản thử"])
-
 app.include_router(notifications.router, prefix="/api", tags=["Thông báo tuyển dụng"])
-
 app.include_router(quick_hire.router, prefix="/api", tags=["Tuyển dụng nhanh theo bộ lọc"])
-
 app.include_router(application_evidence.router, prefix="/api", tags=["Đối chiếu CV có dẫn chứng"])
 app.include_router(insights.router, prefix="/api/insights", tags=["AI Chatbox & Trend Insights"])
 

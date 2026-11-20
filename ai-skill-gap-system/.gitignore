@@ -3,6 +3,15 @@
 # ══════════════════════════════════════════════
 
 # ─── Biến môi trường ───
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*.json
+*.pdf
+*.bak
+.merge-backup/
 database/config/db.env
 .env.backup
 .env.local
@@ -79,13 +88,3 @@ htmlcov/
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-
-# Local credentials and personal CV uploads
-.env
-.env.*
-!.env.example
-*.pdf
-*.pem
-*.key
-.merge-backup/
-*.bak
