@@ -207,7 +207,9 @@ from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_a
 from src.routers import quick_hire
 from src.routers import notifications
 from src.routers import recruitment_process
+from src.routers import dashboard
 
+app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard Analytics (Unified)"])
 app.include_router(recruitment_process.router, prefix="/api", tags=["Tiến trình tuyển dụng — bản thử"])
 app.include_router(notifications.router, prefix="/api", tags=["Thông báo tuyển dụng"])
 app.include_router(quick_hire.router, prefix="/api", tags=["Tuyển dụng nhanh theo bộ lọc"])

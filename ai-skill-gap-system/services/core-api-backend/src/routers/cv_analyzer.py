@@ -400,7 +400,7 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
 """
     # ── 1. Thử gọi Google Gemini Cloud API trước ──
     if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        gemini_models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest", "gemini-pro-latest", "gemini-2.5-flash"]
+        gemini_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
         for gm in gemini_models:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={GEMINI_API_KEY}"
@@ -423,7 +423,7 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
 
     # ── 2. Nếu Gemini hết quota / lỗi billing 403, tự động chuyển sang Groq Cloud AI ──
     if GROQ_API_KEY and len(GROQ_API_KEY) > 10:
-        groq_models = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"]
+        groq_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
         headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
         for qm in groq_models:
             try:
@@ -542,7 +542,7 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
             from google import genai
             from google.genai import types
             client = genai.Client(api_key=GEMINI_API_KEY)
-            models_to_try = ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite"]
+            models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
             for m in models_to_try:
                 try:
                     response = client.models.generate_content(

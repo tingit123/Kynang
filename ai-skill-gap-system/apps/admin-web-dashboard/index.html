@@ -3699,6 +3699,7 @@
             <span class="filter-label" style="margin-left:6px">📅 Kỳ</span>
             <select class="filter-select" id="adminQuarterSelect" onchange="syncQuarterFilter(this.value)" style="min-width:170px;font-weight:700">
               <optgroup label="NĂM 2026 (HIỆN TẠI)">
+                <option value="2026_Q4">Quý 4/2026</option>
                 <option value="2026_Q3" selected>Quý 3/2026 (Hiện tại)</option>
                 <option value="2026_Q2">Quý 2/2026</option>
                 <option value="2026_Q1">Quý 1/2026</option>
@@ -3907,6 +3908,7 @@
                 <select id="publicQuarterSelect" class="filter-select" onchange="syncQuarterFilter(this.value)"
                   style="min-width:190px;padding:8px 14px;border-radius:10px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#0f172a;font-weight:700;font-size:13px;cursor:pointer">
                   <optgroup label="NĂM 2026 (HIỆN TẠI)">
+                    <option value="2026_Q4">Quý 4/2026</option>
                     <option value="2026_Q3" selected>Quý 3/2026 (Hiện tại)</option>
                     <option value="2026_Q2">Quý 2/2026</option>
                     <option value="2026_Q1">Quý 1/2026</option>
@@ -3983,13 +3985,14 @@
               <div class="card-header">
                 <div>
                   <div class="card-title">Top 5 Kỹ Năng Thiếu Hụt Nhiều Nhất</div>
-                  <div class="card-sub">Gap = Demand – Supply (dữ liệu Q3/2026)</div>
+                  <div class="card-sub" id="overviewGapChartSub">Gap = Demand – Supply (dữ liệu Q3/2026)</div>
                 </div>
                 <div class="tab-row">
                   <button class="tab-btn active" onclick="setOverviewChartType('bar',this)">Cột</button>
                   <button class="tab-btn" onclick="setOverviewChartType('horizontal',this)">Ngang</button>
                 </div>
               </div>
+              <div id="overviewPartialDataNotice" style="display:none;margin:0 0 10px;padding:8px 12px;border-radius:10px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:12px;font-weight:600;line-height:1.45"></div>
               <div class="chart-wrap"><canvas id="overviewGapChart"></canvas></div>
               <div class="legend-row">
                 <div class="leg-item">
@@ -4007,7 +4010,7 @@
               <div class="card-header">
                 <div>
                   <div class="card-title">Phân Bổ Ngành Nghề</div>
-                  <div class="card-sub">Tỷ lệ tin tuyển dụng theo ngành</div>
+                  <div class="card-sub" id="industryPieChartSub">Tỷ lệ tin tuyển dụng theo ngành</div>
                 </div>
               </div>
               <div class="chart-wrap"><canvas id="industryPieChart"></canvas></div>
@@ -9782,31 +9785,36 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     const INDUSTRY_DATA = JSON.parse(JSON.stringify(REGIONAL_INDUSTRY_DATA.CT));
 
     function getEffectiveRegionKey(locKey) {
-      if (!locKey || locKey === 'all') return 'all';
-      if (locKey === 'HN') return 'HN';
-      if (locKey === 'HCM') return 'HCM';
-      if (locKey === 'CT') return 'CT';
-      if (locKey === 'DN_CITY') return 'DN_CITY';
-
-      // Map các tỉnh thành vào 3 miền chính hoặc miền Trung
-      const northProvs = ['HP','QN','BN','HD','HY','TB','ND','NB','HNA','VP','TN_PR','BG','PT','TQ','LS','HG_PR','CB','BK','LC','YB','DB','LC_PR','SL','HB'];
-      const southProvs = ['BD','DN','BRVT','TN','BP'];
-      const mekongProvs = ['AG','DT','TG','KG','BT','VL','TV','ST','BL','CM','HG','LA'];
-      const centralProvs = ['TTH','QNA','QNG','BDH','PY','KH','NT','BTU','TH','NA','HT','QB','QT','DL','LD','GL','KT','DKN'];
-
-      if (northProvs.includes(locKey)) return 'HN';
-      if (southProvs.includes(locKey)) return 'HCM';
-      if (mekongProvs.includes(locKey)) return 'CT';
-      if (centralProvs.includes(locKey)) return 'DN_CITY';
-      return 'all';
+      // KHÔNG ánh xạ tỉnh chưa có dữ liệu sang tỉnh khác hoặc toàn quốc
+      return locKey || 'all';
     }
 
     function applyRegionalIndustryData(locKey) {
-      const regionKey = getEffectiveRegionKey(locKey);
-      const regionData = REGIONAL_INDUSTRY_DATA[regionKey] || REGIONAL_INDUSTRY_DATA.CT;
+      // Đồng bộ INDUSTRY_DATA hoàn toàn từ dữ liệu thực tế liveDashboardData của Backend
+      const live = window.liveDashboardData;
+      const details = live && live.industries_detail ? live.industries_detail : null;
       ['IT', 'tourism', 'logistics', 'economics', 'agriculture'].forEach(indKey => {
-        if (regionData[indKey]) {
-          INDUSTRY_DATA[indKey] = JSON.parse(JSON.stringify(regionData[indKey]));
+        if (!INDUSTRY_DATA[indKey]) {
+          INDUSTRY_DATA[indKey] = { label: indKey, jobs: 0, avgSalary: 'Chưa có dữ liệu', topMissing: 'Chưa có dữ liệu', skills: [] };
+        }
+        if (details && details[indKey]) {
+          const d = details[indKey];
+          INDUSTRY_DATA[indKey].label = d.label || INDUSTRY_DATA[indKey].label;
+          INDUSTRY_DATA[indKey].jobs = d.jobs || 0;
+          INDUSTRY_DATA[indKey].surveys = d.surveys || 0;
+          INDUSTRY_DATA[indKey].has_data = !!d.has_data;
+          INDUSTRY_DATA[indKey].has_gap_data = !!d.has_gap_data;
+          INDUSTRY_DATA[indKey].avgSalary = d.avg_salary || 'Chưa có dữ liệu';
+          INDUSTRY_DATA[indKey].topMissing = d.top_missing || 'Chưa có dữ liệu';
+          INDUSTRY_DATA[indKey].skills = Array.isArray(d.skills) ? d.skills : [];
+        } else {
+          INDUSTRY_DATA[indKey].jobs = 0;
+          INDUSTRY_DATA[indKey].surveys = 0;
+          INDUSTRY_DATA[indKey].has_data = false;
+          INDUSTRY_DATA[indKey].has_gap_data = false;
+          INDUSTRY_DATA[indKey].avgSalary = 'Chưa có dữ liệu';
+          INDUSTRY_DATA[indKey].topMissing = 'Chưa có dữ liệu';
+          INDUSTRY_DATA[indKey].skills = [];
         }
       });
     }
@@ -13771,71 +13779,177 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     });
 
     // ══════════════════════════════════════════════════════
-    //  DASHBOARD CHARTS
+    //  DASHBOARD CHARTS (100% REAL DATA FROM /api/dashboard/analytics)
     // ══════════════════════════════════════════════════════
     let overviewHoriz = false;
+    window.liveDashboardData = null;
+
+    function setChartEmptyState(canvasEl, message) {
+      if (!canvasEl || !canvasEl.parentElement) return;
+      canvasEl.style.display = 'none';
+      const parent = canvasEl.parentElement;
+      if (getComputedStyle(parent).position === 'static') {
+        parent.style.position = 'relative';
+      }
+      let box = parent.querySelector('.chart-empty-state');
+      if (!box) {
+        box = document.createElement('div');
+        box.className = 'chart-empty-state';
+        box.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:220px;height:100%;padding:24px 18px;border:1.5px dashed var(--border,#cbd5e1);border-radius:14px;background:var(--bg3,#f8fafc);color:var(--text2,#64748b);gap:8px;box-sizing:border-box;';
+        parent.appendChild(box);
+      }
+      box.style.display = 'flex';
+      box.innerHTML = `
+        <div style="font-size:28px;opacity:0.75">📭</div>
+        <div style="font-size:13.5px;font-weight:700;color:var(--text,#0f172a)">Chưa có dữ liệu hiển thị</div>
+        <div style="font-size:12px;color:var(--text2,#64748b);max-width:340px;line-height:1.5">${message || 'Chưa có dữ liệu cho địa bàn và kỳ báo cáo được lựa chọn.'}</div>
+      `;
+    }
+
+    function clearChartEmptyState(canvasEl) {
+      if (!canvasEl || !canvasEl.parentElement) return;
+      canvasEl.style.display = 'block';
+      const box = canvasEl.parentElement.querySelector('.chart-empty-state');
+      if (box) box.style.display = 'none';
+    }
+
     function initDashboardCharts() {
-      buildOverviewGapChart();
-      buildIndustryPie();
-      initYearShiftSection();
+      if (typeof applyGlobalLocationQuarterUpdate === 'function') {
+        applyGlobalLocationQuarterUpdate();
+      } else {
+        buildOverviewGapChart();
+        buildIndustryPie();
+        initYearShiftSection();
+      }
     }
 
     async function buildOverviewGapChart() {
       const ctx = document.getElementById('overviewGapChart');
       if (!ctx) return;
-      if (overviewChartInst) overviewChartInst.destroy();
-
-      const yearKey = (typeof currentGlobalQuarter !== 'undefined' && currentGlobalQuarter.startsWith('2025')) ? '2025' : '2026';
-      const locKey = (typeof currentGlobalLocation !== 'undefined') ? currentGlobalLocation : 'all';
-      const indKey = (typeof currentIndustry !== 'undefined' && currentIndustry) ? currentIndustry : 'IT';
-
-      let topSkills = [];
-
-      // Dữ liệu Top 5 kỹ năng thiếu hụt: Lấy trực tiếp từ nguồn dữ liệu chuẩn hóa duy nhất (Single Source of Truth)
-      const regionKey = (typeof getEffectiveRegionKey === 'function') ? getEffectiveRegionKey(locKey) : locKey;
-      let rawSkills = [];
-      if (typeof REGIONAL_INDUSTRY_DATA !== 'undefined' && REGIONAL_INDUSTRY_DATA[regionKey]) {
-        const indData = REGIONAL_INDUSTRY_DATA[regionKey][indKey] || REGIONAL_INDUSTRY_DATA[regionKey].IT;
-        if (indData && indData.skills && indData.skills.length > 0) {
-          rawSkills = indData.skills;
-        }
-      }
-      if (!rawSkills.length) {
-        const cityData = (typeof SIMULATED_DATA_BY_LOCATION !== 'undefined' && SIMULATED_DATA_BY_LOCATION[locKey]) ? SIMULATED_DATA_BY_LOCATION[locKey] : null;
-        if (cityData && cityData.skills && cityData.skills[yearKey]) {
-          rawSkills = cityData.skills[yearKey];
-        }
+      if (overviewChartInst) {
+        overviewChartInst.destroy();
+        overviewChartInst = null;
       }
 
-      // Luôn tính toán xếp hạng chính xác: Sắp xếp theo mức độ thiếu hụt (Gap) giảm dần!
-      const sortedSkills = [...rawSkills].sort((a, b) => (b.gap || 0) - (a.gap || 0));
-      topSkills = sortedSkills.slice(0, 5);
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const filters = live && live.filters ? live.filters : null;
+      const topSkills = live && Array.isArray(live.top_shortage_skills) ? live.top_shortage_skills : [];
+
+      const subEl = document.getElementById('overviewGapChartSub');
+      if (subEl && filters) {
+        subEl.textContent = `Gap = Demand – Supply · ${filters.location_name} · ${filters.period_label}`;
+      }
+
+      const noticeEl = document.getElementById('overviewPartialDataNotice');
+      if (noticeEl) {
+        if (avail && avail.partial_notice) {
+          noticeEl.textContent = `⚠️ ${avail.partial_notice}`;
+          noticeEl.style.display = 'block';
+        } else {
+          noticeEl.style.display = 'none';
+          noticeEl.textContent = '';
+        }
+      }
+
+      if (!live || !avail || !avail.has_data || topSkills.length === 0) {
+        const msg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+
+      clearChartEmptyState(ctx);
+
+      const isHoriz = !!overviewHoriz;
+      const labels = topSkills.map(s => (s.skill || '').split('(')[0].trim());
+
+      const datasets = [
+        {
+          label: 'Nhu cầu (Demand)',
+          data: topSkills.map(s => (s.demand !== null && s.demand !== undefined) ? s.demand : null),
+          backgroundColor: 'rgba(220,38,38,0.85)',
+          borderRadius: 5
+        }
+      ];
+
+      if (avail.has_survey_data) {
+        datasets.push({
+          label: 'Cung lao động (Supply)',
+          data: topSkills.map(s => (s.supply !== null && s.supply !== undefined) ? s.supply : null),
+          backgroundColor: 'rgba(15,163,158,0.85)',
+          borderRadius: 5
+        });
+      }
+
+      if (avail.has_gap_data) {
+        datasets.push({
+          label: 'Thiếu hụt (Gap)',
+          data: topSkills.map(s => (s.gap !== null && s.gap !== undefined) ? s.gap : null),
+          backgroundColor: 'rgba(124,58,237,0.75)',
+          borderRadius: 5
+        });
+      }
+
+      // Tính biên trục giá trị hợp lý (hỗ trợ cả gap âm nếu cung vượt cầu thực tế)
+      const allVals = datasets.flatMap(ds => ds.data).filter(v => v !== null && v !== undefined && !isNaN(v));
+      const minVal = allVals.length ? Math.min(0, Math.floor(Math.min(...allVals) / 10) * 10) : 0;
+      const maxVal = allVals.length ? Math.max(50, Math.min(100, Math.ceil(Math.max(...allVals) / 10) * 10 + 10)) : 100;
+
+      const valueAxisConfig = {
+        min: minVal,
+        max: maxVal,
+        grid: { color: 'var(--grid-color,rgba(0,0,0,0.05))' },
+        ticks: {
+          color: '#64748b',
+          font: { size: 10.5, family: "'Be Vietnam Pro', system-ui, sans-serif" },
+          callback: v => `${v}%`
+        }
+      };
+
+      const categoryAxisConfig = {
+        grid: { display: false },
+        ticks: {
+          color: '#334155',
+          autoSkip: false,
+          font: { size: 11, weight: '600', family: "'Be Vietnam Pro', system-ui, sans-serif" },
+          callback: function(val) {
+            return this.getLabelForValue(val);
+          }
+        }
+      };
 
       overviewChartInst = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: topSkills.length > 0 ? topSkills.map(s => s.skill.split('(')[0].trim()) : ['Chưa có dữ liệu'],
-          datasets: [
-            { label: 'Nhu cầu (Demand)', data: topSkills.map(s => s.demand), backgroundColor: 'rgba(220,38,38,0.85)', borderRadius: 5 },
-            { label: 'Cung lao động (Supply)', data: topSkills.map(s => s.supply), backgroundColor: 'rgba(15,163,158,0.85)', borderRadius: 5 },
-            { label: 'Thiếu hụt (Gap)', data: topSkills.map(s => s.gap), backgroundColor: 'rgba(124,58,237,0.75)', borderRadius: 5 },
-          ]
+          labels: labels,
+          datasets: datasets
         },
         options: {
-          indexAxis: overviewHoriz ? 'y' : 'x',
-          responsive: true, maintainAspectRatio: false,
-          plugins: { 
-            legend: { display: false }, 
-            tooltip: { 
-              callbacks: { 
-                label: ctx => `${ctx.dataset.label}: ${ctx.parsed[overviewHoriz ? 'x' : 'y'].toFixed(1)}%` 
-              } 
-            } 
+          indexAxis: isHoriz ? 'y' : 'x',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: items => {
+                  const idx = items[0]?.dataIndex ?? 0;
+                  const item = topSkills[idx];
+                  return item ? item.skill : '';
+                },
+                label: c => {
+                  const raw = c.raw;
+                  if (raw === null || raw === undefined) return ` ${c.dataset.label}: Chưa có dữ liệu`;
+                  return ` ${c.dataset.label}: ${Number(raw).toFixed(1)}%`;
+                }
+              }
+            }
           },
-          scales: {
-            x: { grid: { color: 'var(--grid-color,rgba(0,0,0,0.04))' }, ticks: { color: '#8892a4', font: { size: 10 } } },
-            y: { min: 0, max: 100, grid: { color: 'var(--grid-color,rgba(0,0,0,0.04))' }, ticks: { color: '#8892a4', font: { size: 10 }, callback: v => v + '%' } }
-          }
+          scales: isHoriz
+            ? { x: valueAxisConfig, y: categoryAxisConfig }
+            : { x: categoryAxisConfig, y: valueAxisConfig }
         }
       });
     }
@@ -13843,36 +13957,58 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function buildIndustryPie() {
       const ctx = document.getElementById('industryPieChart');
       if (!ctx) return;
-      if (industryPieInst) industryPieInst.destroy();
-
-      const yearKey = (typeof currentGlobalQuarter !== 'undefined' && currentGlobalQuarter.startsWith('2025')) ? '2025' : '2026';
-      const locKey = (typeof currentGlobalLocation !== 'undefined') ? currentGlobalLocation : 'all';
-      const cityData = (typeof SIMULATED_DATA_BY_LOCATION !== 'undefined' && SIMULATED_DATA_BY_LOCATION[locKey]) ? SIMULATED_DATA_BY_LOCATION[locKey] : null;
-
-      let pieData = [355, 250, 201, 201, 0];
-      if (cityData && cityData.pie && cityData.pie[yearKey]) {
-        pieData = cityData.pie[yearKey];
-      } else if (locKey !== 'all' && locKey !== 'HN' && locKey !== 'HCM' && locKey !== 'CT') {
-        pieData = [0, 0, 0, 0, 0];
+      if (industryPieInst) {
+        industryPieInst.destroy();
+        industryPieInst = null;
       }
 
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const filters = live && live.filters ? live.filters : null;
+      const dist = live && Array.isArray(live.industry_distribution) ? live.industry_distribution : [];
+      const totalJobs = dist.reduce((acc, item) => acc + (item.count || 0), 0);
+
+      const subEl = document.getElementById('industryPieChartSub');
+      if (subEl && filters) {
+        subEl.textContent = `Tỷ lệ tin tuyển dụng theo ngành · ${filters.location_name} · ${filters.period_label}`;
+      }
+
+      if (!live || !avail || !avail.has_job_data || totalJobs <= 0) {
+        const msg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu tin tuyển dụng cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+
+      clearChartEmptyState(ctx);
+
+      const nonZeroOrAll = dist;
       industryPieInst = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['IT & Công nghệ (355)', 'Du lịch (250)', 'Logistics (201)', 'Kinh tế (201)', 'Nông nghiệp (0)'],
-          datasets: [{ data: pieData, backgroundColor: ['#0fa39e', '#10b981', '#f59e0b', '#dc2626', '#7c3aed'], borderWidth: 0, hoverOffset: 8 }]
+          labels: nonZeroOrAll.map(d => `${d.label} (${d.count.toLocaleString('vi-VN')})`),
+          datasets: [{
+            data: nonZeroOrAll.map(d => d.count),
+            backgroundColor: nonZeroOrAll.map(d => d.color || '#0fa39e'),
+            borderWidth: 0,
+            hoverOffset: 8
+          }]
         },
-        options: { 
-          responsive: true, 
-          maintainAspectRatio: false, 
-          plugins: { 
-            legend: { position: 'bottom', labels: { color: '#8892a4', font: { size: 11 }, padding: 12 } },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: '#64748b', font: { size: 11, family: "'Be Vietnam Pro', system-ui, sans-serif" }, padding: 12 } },
             tooltip: {
               callbacks: {
-                label: ctx => ` ${ctx.label}: ${ctx.raw} tin (${((ctx.raw / 1007) * 100).toFixed(1)}%)`
+                label: c => {
+                  const pct = totalJobs > 0 ? ((c.raw / totalJobs) * 100).toFixed(1) : '0.0';
+                  return ` ${nonZeroOrAll[c.dataIndex]?.label || c.label}: ${c.raw.toLocaleString('vi-VN')} tin (${pct}%)`;
+                }
               }
             }
-          } 
+          }
         }
       });
     }
@@ -13976,15 +14112,19 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     }
 
     function renderYearShiftData(periodKey) {
-      const data = YEAR_SHIFT_DATA[periodKey] || YEAR_SHIFT_DATA['2025-2026'];
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const filters = live && live.filters ? live.filters : null;
+      const comp = live && live.period_comparison ? live.period_comparison : null;
 
-      // Banner text
       const periodTextEl = document.getElementById('shiftBannerPeriodText');
-      if (periodTextEl) periodTextEl.textContent = data.bannerPeriod;
       const descEl = document.getElementById('shiftBannerDescription');
-      if (descEl) descEl.innerHTML = data.summary;
+      const chartTitleEl = document.getElementById('shiftCompareChartTitle');
+      const thFrom = document.getElementById('thYearFrom');
+      const thTo = document.getElementById('thYearTo');
+      const tableSub = document.getElementById('shiftTableSubText');
+      const tbody = document.getElementById('industryShiftTableBody');
 
-      // 4 Stat Cards
       const setCard = (prefix, obj) => {
         const nameEl = document.getElementById(prefix + 'Name');
         const grEl = document.getElementById(prefix + 'Growth');
@@ -13993,72 +14133,128 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
         if (grEl) grEl.textContent = obj.growth;
         if (subEl) subEl.textContent = obj.sub;
       };
-      setCard('shiftStatTopWinner', data.topWinner);
-      setCard('shiftStatRunnerUp', data.runnerUp);
-      setCard('shiftStatAgri', data.agri);
-      setCard('shiftStatDecliner', data.decliner);
 
-      // Compare chart title
-      const chartTitleEl = document.getElementById('shiftCompareChartTitle');
-      if (chartTitleEl) chartTitleEl.textContent = `So Sánh Cơ Cấu Tỷ Trọng (${data.fromYear} vs ${data.toYear})`;
+      const iconMap = { IT: '💻', logistics: '🚢', tourism: '✈️', economics: '📊', agriculture: '🌱' };
 
-      // Table headers
-      const thFrom = document.getElementById('thYearFrom');
-      const thTo = document.getElementById('thYearTo');
-      const tableSub = document.getElementById('shiftTableSubText');
-      if (thFrom) thFrom.textContent = `NĂM ${data.fromYear}`;
-      if (thTo) thTo.textContent = `NĂM ${data.toYear}`;
-      if (tableSub) tableSub.textContent = `So sánh đối chiếu chi tiết giữa năm ${data.fromYear} và năm ${data.toYear}`;
+      if (!live || !avail || !avail.has_job_data || !comp || !comp.has_data) {
+        const emptyMsg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu cho địa bàn và kỳ báo cáo được lựa chọn.';
+        const pLabel = filters ? `${filters.location_name} · ${filters.period_label}` : 'Kỳ đang chọn';
+        if (periodTextEl) periodTextEl.textContent = pLabel;
+        if (descEl) descEl.innerHTML = `<span style="color:#64748b">${emptyMsg}</span>`;
+        if (chartTitleEl) chartTitleEl.textContent = `So Sánh Cơ Cấu Tỷ Trọng (${pLabel})`;
+        if (thFrom) thFrom.textContent = comp ? comp.from_label.toUpperCase() : 'KỲ TRƯỚC';
+        if (thTo) thTo.textContent = comp ? comp.to_label.toUpperCase() : 'KỲ HIỆN TẠI';
+        if (tableSub) tableSub.textContent = emptyMsg;
 
-      // Table Body
-      const tbody = document.getElementById('industryShiftTableBody');
+        const emptyCard = { name: 'Chưa có dữ liệu', growth: '—', sub: 'Chưa ghi nhận tin tuyển dụng trong kỳ chọn' };
+        setCard('shiftStatTopWinner', emptyCard);
+        setCard('shiftStatRunnerUp', emptyCard);
+        setCard('shiftStatAgri', emptyCard);
+        setCard('shiftStatDecliner', emptyCard);
+
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="7" style="padding:28px 16px;text-align:center;color:var(--text2);font-size:13px">📭 ${emptyMsg}</td></tr>`;
+        }
+        return;
+      }
+
+      // Có dữ liệu thực tế từ MySQL
+      const pLabel = `${filters.location_name} · ${comp.to_label}`;
+      if (periodTextEl) periodTextEl.textContent = pLabel;
+
+      const inds = comp.industries || [];
+      const sortedByCount = [...inds].sort((a, b) => (b.count_to || 0) - (a.count_to || 0));
+      const top1 = sortedByCount[0];
+      const top2 = sortedByCount[1];
+      const top3 = sortedByCount[2];
+      const lowestNonZero = [...inds].filter(i => i.count_to > 0).sort((a, b) => (a.count_to || 0) - (b.count_to || 0))[0] || sortedByCount[sortedByCount.length - 1];
+
+      if (descEl) {
+        const prevPart = comp.has_prev_data
+          ? ` (so với <strong>${comp.from_total_jobs.toLocaleString('vi-VN')}</strong> tin ở ${comp.from_label})`
+          : ` (${comp.from_label} chưa có dữ liệu đối sánh)`;
+        descEl.innerHTML = `Dữ liệu thực tế tại <strong>${filters.location_name}</strong> trong kỳ <strong>${comp.to_label}</strong> ghi nhận tổng cộng <strong>${comp.to_total_jobs.toLocaleString('vi-VN')} tin tuyển dụng</strong>${prevPart}. Ngành dẫn đầu là <strong>${top1 ? top1.label : '—'}</strong> (${top1 && top1.pct_to !== null ? top1.pct_to + '%' : '—'} thị phần, ${top1 ? top1.count_to : 0} tin).`;
+      }
+
+      const fmtCard = (ind) => {
+        if (!ind) return { name: '—', growth: '—', sub: 'Chưa có dữ liệu' };
+        const gr = (ind.growth_pct !== null && ind.growth_pct !== undefined)
+          ? `${ind.growth_pct > 0 ? '+' : ''}${ind.growth_pct}%`
+          : `${ind.pct_to !== null ? ind.pct_to + '%' : '—'}`;
+        const sub = (comp.has_prev_data && ind.pct_from !== null && ind.pct_to !== null)
+          ? `Tỷ trọng ${ind.pct_from}% → ${ind.pct_to}% (${ind.count_to} tin)`
+          : `${ind.count_to.toLocaleString('vi-VN')} tin tuyển dụng (${ind.pct_to !== null ? ind.pct_to + '%' : '—'})`;
+        return { name: ind.label, growth: gr, sub: sub };
+      };
+
+      setCard('shiftStatTopWinner', fmtCard(top1));
+      setCard('shiftStatRunnerUp', fmtCard(top2));
+      setCard('shiftStatAgri', fmtCard(top3));
+      setCard('shiftStatDecliner', fmtCard(lowestNonZero));
+
+      if (chartTitleEl) {
+        chartTitleEl.textContent = comp.has_prev_data
+          ? `So Sánh Cơ Cấu Tỷ Trọng (${comp.from_label} vs ${comp.to_label})`
+          : `Cơ Cấu Tỷ Trọng Ngành Nghề (${comp.to_label})`;
+      }
+      if (thFrom) thFrom.textContent = comp.from_label.toUpperCase();
+      if (thTo) thTo.textContent = comp.to_label.toUpperCase();
+      if (tableSub) {
+        tableSub.textContent = comp.has_prev_data
+          ? `Đối chiếu dữ liệu thực tế giữa ${comp.from_label} và ${comp.to_label} · ${filters.location_name}`
+          : `Thống kê thực tế kỳ ${comp.to_label} · ${filters.location_name} (${comp.from_label} chưa có dữ liệu)`;
+      }
+
       if (tbody) {
-        tbody.innerHTML = data.industries.map(ind => {
-          const isPos = ind.growth > 0;
-          const deltaColor = isPos ? '#059669' : '#dc2626';
-          const deltaBg = isPos ? '#ecfdf5' : '#fef2f2';
-          const deltaBorder = isPos ? '#a7f3d0' : '#fecdd3';
-          const arrow = isPos ? '↗' : '↘';
+        tbody.innerHTML = inds.map(ind => {
+          const hasGrowth = ind.growth_pct !== null && ind.growth_pct !== undefined;
+          const isPos = hasGrowth ? ind.growth_pct >= 0 : true;
+          const deltaColor = hasGrowth ? (isPos ? '#059669' : '#dc2626') : '#64748b';
+          const deltaBg = hasGrowth ? (isPos ? '#ecfdf5' : '#fef2f2') : '#f1f5f9';
+          const deltaBorder = hasGrowth ? (isPos ? '#a7f3d0' : '#fecdd3') : '#e2e8f0';
+          const deltaLabel = hasGrowth ? `${ind.growth_pct > 0 ? '+' : ''}${ind.growth_pct}% ${isPos ? '↗' : '↘'}` : 'Chưa đủ dữ liệu kỳ trước';
 
-          let badgeStyle = 'background:#f1f5f9;color:#334155';
-          if (ind.statusClass === 'boom') badgeStyle = 'background:#dcfce7;color:#065f46;border:1px solid #86efac;font-weight:800';
-          else if (ind.statusClass === 'growth') badgeStyle = 'background:#ecfdf5;color:#047857;border:1px solid #a7f3d0;font-weight:700';
-          else if (ind.statusClass === 'stable') badgeStyle = 'background:#fef9c3;color:#854d0e;border:1px solid #fde047;font-weight:700';
-          else if (ind.statusClass === 'decline') badgeStyle = 'background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;font-weight:700';
+          const fromCell = comp.has_prev_data
+            ? `<strong>${ind.count_from}</strong> tin <br/><span style="font-size:11px; color:var(--text3)">(${ind.pct_from !== null ? ind.pct_from + '%' : '—'})</span>`
+            : `<span style="font-size:11.5px; color:var(--text3)">Chưa có dữ liệu</span>`;
+          const toPct = ind.pct_to !== null ? ind.pct_to : 0;
+          const fromPct = (comp.has_prev_data && ind.pct_from !== null) ? ind.pct_from : 0;
+          const statusText = ind.count_to === 0
+            ? 'Không có tin trong kỳ'
+            : (!hasGrowth ? 'Ghi nhận thực tế' : (ind.growth_pct > 15 ? '🚀 Tăng trưởng mạnh' : (ind.growth_pct >= 0 ? '⚖️ Ổn định / Tăng nhẹ' : '📉 Thu hẹp')));
 
           return `
             <tr style="border-bottom:1px solid var(--border); transition:background 0.15s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='transparent'">
               <td style="padding:14px 12px; font-weight:800; color:var(--text)">
-                <span style="font-size:16px; margin-right:6px">${ind.icon}</span> ${ind.name}
+                <span style="font-size:16px; margin-right:6px">${iconMap[ind.key] || '📌'}</span> ${ind.label}
               </td>
-              <td style="padding:14px 12px; text-align:center; color:var(--text2)">
-                <strong>${ind.countFrom}</strong> tin <br/><span style="font-size:11px; color:var(--text3)">(${ind.pctFrom}%)</span>
-              </td>
+              <td style="padding:14px 12px; text-align:center; color:var(--text2)">${fromCell}</td>
               <td style="padding:14px 12px; text-align:center; color:var(--text); font-weight:700">
-                <strong>${ind.countTo}</strong> tin <br/><span style="font-size:11px; color:var(--primary); font-weight:800">(${ind.pctTo}%)</span>
+                <strong>${ind.count_to}</strong> tin <br/><span style="font-size:11px; color:var(--primary); font-weight:800">(${ind.pct_to !== null ? ind.pct_to + '%' : '—'})</span>
               </td>
               <td style="padding:14px 12px; text-align:center">
-                <span style="background:${deltaBg}; border:1px solid ${deltaBorder}; color:${deltaColor}; padding:4px 10px; border-radius:9999px; font-weight:800; font-size:12px; display:inline-flex; align-items:center; gap:4px">
-                  ${isPos ? '+' : ''}${ind.growth}% ${arrow}
+                <span style="background:${deltaBg}; border:1px solid ${deltaBorder}; color:${deltaColor}; padding:4px 10px; border-radius:9999px; font-weight:700; font-size:11.5px; display:inline-flex; align-items:center; gap:4px">
+                  ${deltaLabel}
                 </span>
               </td>
               <td style="padding:14px 12px; min-width:180px">
                 <div style="font-size:11px; color:var(--text3); margin-bottom:4px; display:flex; justify-content:space-between">
-                  <span>${ind.pctFrom}%</span>
-                  <span style="color:var(--primary); font-weight:700">${ind.pctTo}%</span>
+                  <span>${comp.has_prev_data ? fromPct + '%' : '—'}</span>
+                  <span style="color:var(--primary); font-weight:700">${ind.pct_to !== null ? ind.pct_to + '%' : '—'}</span>
                 </div>
                 <div style="height:8px; border-radius:9999px; background:var(--bg3); display:flex; overflow:hidden">
-                  <div style="width:${ind.pctFrom}%; background:#94a3b8; opacity:0.6; border-radius:9999px 0 0 9999px"></div>
-                  <div style="width:${Math.max(0, ind.pctTo - ind.pctFrom)}%; background:${deltaColor}; border-radius:0 9999px 9999px 0"></div>
+                  <div style="width:${Math.min(100, toPct)}%; background:${ind.color || '#0fa39e'}; border-radius:9999px"></div>
                 </div>
               </td>
               <td style="padding:14px 12px">
-                <span style="padding:4px 10px; border-radius:9999px; font-size:11.5px; white-space:nowrap; ${badgeStyle}">
-                  ${ind.trend}
+                <span style="padding:4px 10px; border-radius:9999px; font-size:11.5px; white-space:nowrap; background:#f1f5f9; color:#334155; font-weight:700">
+                  ${statusText}
                 </span>
               </td>
               <td style="padding:14px 12px; font-size:12px; color:var(--text2); max-width:260px; line-height:1.4">
-                ${ind.drivers}
+                Dữ liệu tổng hợp thực tế từ MySQL (${filters.location_name} · ${comp.to_label})
               </td>
             </tr>
           `;
@@ -14069,11 +14265,41 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function buildIndustryTrendLineChart() {
       const ctx = document.getElementById('industryTrendLineChart');
       if (!ctx) return;
-      if (industryTrendLineInst) industryTrendLineInst.destroy();
+      if (industryTrendLineInst) {
+        industryTrendLineInst.destroy();
+        industryTrendLineInst = null;
+      }
+
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const qt = live && live.quarterly_trend ? live.quarterly_trend : null;
+
+      // Nếu địa bàn hoặc năm được chọn không có dữ liệu thực tế -> hiển thị trống
+      if (!live || !avail || !avail.has_data || !qt || !qt.has_data || !qt.datasets || qt.datasets.length === 0) {
+        const msg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu xu hướng theo thời gian cho địa bàn và năm được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+
+      clearChartEmptyState(ctx);
 
       industryTrendLineInst = new Chart(ctx, {
         type: 'line',
-        data: MULTI_YEAR_LINE_DATA,
+        data: {
+          labels: qt.labels,
+          datasets: qt.datasets.map(ds => ({
+            label: ds.label,
+            data: ds.data,
+            borderColor: ds.color,
+            backgroundColor: ds.color + '20',
+            tension: 0.3,
+            borderWidth: 2.8,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }))
+        },
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -14081,23 +14307,24 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
           plugins: {
             legend: {
               position: 'bottom',
-              labels: { color: '#8892a4', font: { size: 11, family: 'Be Vietnam Pro' }, padding: 12, usePointStyle: true, boxWidth: 8 }
+              labels: { color: '#64748b', font: { size: 11, family: 'Be Vietnam Pro' }, padding: 12, usePointStyle: true, boxWidth: 8 }
             },
             tooltip: {
               callbacks: {
-                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y} việc làm`
+                label: c => ` ${c.dataset.label}: ${c.parsed.y} tin tuyển dụng`
               }
             }
           },
           scales: {
             x: {
               grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
-              ticks: { color: '#8892a4', font: { size: 11, family: 'Be Vietnam Pro' } }
+              ticks: { color: '#64748b', font: { size: 11, family: 'Be Vietnam Pro', weight: '600' } }
             },
             y: {
+              beginAtZero: true,
               grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
-              ticks: { color: '#8892a4', font: { size: 10 } },
-              title: { display: true, text: 'Số lượng tin tuyển dụng', color: '#8892a4', font: { size: 10 } }
+              ticks: { color: '#64748b', font: { size: 10 } },
+              title: { display: true, text: 'Số lượng tin tuyển dụng thực tế', color: '#64748b', font: { size: 10 } }
             }
           }
         }
@@ -14107,44 +14334,60 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function buildIndustryShiftCompareChart(periodKey) {
       const ctx = document.getElementById('industryShiftCompareChart');
       if (!ctx) return;
-      if (industryShiftCompareInst) industryShiftCompareInst.destroy();
+      if (industryShiftCompareInst) {
+        industryShiftCompareInst.destroy();
+        industryShiftCompareInst = null;
+      }
 
-      const data = YEAR_SHIFT_DATA[periodKey] || YEAR_SHIFT_DATA['2025-2026'];
-      const labels = data.industries.map(i => {
-        if (i.name.includes(' & ')) {
-          const parts = i.name.split(' & ');
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const comp = live && live.period_comparison ? live.period_comparison : null;
+
+      if (!live || !avail || !avail.has_job_data || !comp || !comp.has_data || !comp.industries || comp.industries.length === 0) {
+        const msg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu so sánh cơ cấu ngành cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+
+      clearChartEmptyState(ctx);
+
+      const inds = comp.industries;
+      const labels = inds.map(i => {
+        if (i.label.includes(' & ')) {
+          const parts = i.label.split(' & ');
           return [parts[0], '& ' + parts[1]];
         }
-        if (i.name.includes(' CNC')) {
-          return ['Nông nghiệp', 'CNC'];
-        }
-        return i.name;
+        if (i.label.includes(' CNC')) return ['Nông nghiệp', 'CNC'];
+        return i.label;
       });
-      const datasetFrom = data.industries.map(i => i.pctFrom);
-      const datasetTo = data.industries.map(i => i.pctTo);
+
+      const datasets = [];
+      if (comp.has_prev_data) {
+        datasets.push({
+          label: `${comp.from_label} (%)`,
+          data: inds.map(i => i.pct_from),
+          backgroundColor: 'rgba(148, 163, 184, 0.72)',
+          borderRadius: 5,
+          barPercentage: 0.8,
+          categoryPercentage: 0.75
+        });
+      }
+      datasets.push({
+        label: `${comp.to_label} (%)`,
+        data: inds.map(i => i.pct_to),
+        backgroundColor: inds.map(i => i.color || '#0fa39e'),
+        borderRadius: 5,
+        barPercentage: 0.8,
+        categoryPercentage: 0.75
+      });
 
       industryShiftCompareInst = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: labels,
-          datasets: [
-            {
-              label: `Năm ${data.fromYear} (%)`,
-              data: datasetFrom,
-              backgroundColor: 'rgba(148, 163, 184, 0.7)',
-              borderRadius: 5,
-              barPercentage: 0.8,
-              categoryPercentage: 0.75
-            },
-            {
-              label: `Năm ${data.toYear} (%)`,
-              data: datasetTo,
-              backgroundColor: ['#0fa39e', '#f59e0b', '#10b981', '#dc2626', '#7c3aed'],
-              borderRadius: 5,
-              barPercentage: 0.8,
-              categoryPercentage: 0.75
-            }
-          ]
+          datasets: datasets
         },
         options: {
           responsive: true,
@@ -14152,11 +14395,14 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
           plugins: {
             legend: {
               position: 'bottom',
-              labels: { color: '#8892a4', font: { size: 11, family: 'Be Vietnam Pro' }, padding: 10 }
+              labels: { color: '#64748b', font: { size: 11, family: 'Be Vietnam Pro' }, padding: 10 }
             },
             tooltip: {
               callbacks: {
-                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}% thị phần`
+                label: c => {
+                  if (c.raw === null || c.raw === undefined) return ` ${c.dataset.label}: Chưa có dữ liệu`;
+                  return ` ${c.dataset.label}: ${Number(c.raw).toFixed(1)}% thị phần`;
+                }
               }
             }
           },
@@ -14164,7 +14410,7 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
             x: {
               grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
               ticks: {
-                color: '#8892a4',
+                color: '#64748b',
                 font: { size: 10.5, family: 'Be Vietnam Pro', weight: '600' },
                 autoSkip: false,
                 maxRotation: 0,
@@ -14172,13 +14418,14 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
               }
             },
             y: {
+              beginAtZero: true,
               grid: { color: 'var(--grid-color, rgba(0,0,0,0.04))' },
               ticks: {
-                color: '#8892a4',
+                color: '#64748b',
                 font: { size: 10 },
                 callback: v => `${v}%`
               },
-              title: { display: true, text: 'Tỷ trọng thị phần (%)', color: '#8892a4', font: { size: 10 } }
+              title: { display: true, text: 'Tỷ trọng thị phần (%)', color: '#64748b', font: { size: 10 } }
             }
           }
         }
@@ -14299,58 +14546,70 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function buildSoftCombinedBarChart() {
       const ctx = document.getElementById('softCombinedBarChart');
       if (!ctx) return;
-      if (ctx._chart) ctx._chart.destroy();
+      if (ctx._chart) {
+        ctx._chart.destroy();
+        ctx._chart = null;
+      }
 
-      const sortedAll = [...SOFT_SKILLS].sort((a, b) => b.demand - a.demand);
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const liveSoft = live && Array.isArray(live.soft_skills) ? live.soft_skills : [];
+
+      if (!live || !avail || !avail.has_data || liveSoft.length === 0) {
+        const msg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu kỹ năng mềm cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+
+      clearChartEmptyState(ctx);
+
+      const sortedAll = [...liveSoft].sort((a, b) => (b.demand || 0) - (a.demand || 0));
       const dataToShow = sortedAll.slice(0, softSkillsDisplayCount);
       const isHorizontal = softBarChartAxis === 'y';
 
-      // Nhãn đa dòng: Dòng 1 = Tên Kỹ năng, Dòng 2 = [Tên Ngành]
       const labels = dataToShow.map(s => {
-        let cleanName = s.skill;
-        if (cleanName.includes(' (Communication)')) cleanName = 'Giao tiếp';
-        else if (cleanName.includes(' (Ngoại ngữ chuyên môn)')) cleanName = 'Tiếng Anh';
-        else if (cleanName.length > 15) cleanName = cleanName.substring(0, 14) + '…';
-
-        const indName = s.shortIndustry || s.industry;
-        if (isHorizontal) {
-          return `${cleanName} [${indName}]`;
-        } else {
-          return [cleanName, `[${indName}]`];
-        }
+        let cleanName = s.skill || '';
+        if (cleanName.length > 18) cleanName = cleanName.substring(0, 17) + '…';
+        const indName = s.shortIndustry || s.industry || 'Liên ngành';
+        return isHorizontal ? `${cleanName} [${indName}]` : [cleanName, `[${indName}]`];
       });
+
+      const datasets = [
+        {
+          label: 'Nhu Cầu (Demand %)',
+          data: dataToShow.map(s => s.demand),
+          backgroundColor: 'rgba(239, 68, 68, 0.88)',
+          borderColor: '#dc2626',
+          borderWidth: 1,
+          borderRadius: 4
+        }
+      ];
+      if (avail.has_survey_data) {
+        datasets.push({
+          label: 'Cung Hiện Có (Supply %)',
+          data: dataToShow.map(s => s.supply),
+          backgroundColor: 'rgba(15, 163, 158, 0.88)',
+          borderColor: '#0d9488',
+          borderWidth: 1,
+          borderRadius: 4
+        });
+      }
+      if (avail.has_gap_data) {
+        datasets.push({
+          label: 'Thiếu Hụt (Gap %)',
+          data: dataToShow.map(s => s.gap),
+          backgroundColor: 'rgba(124, 58, 237, 0.88)',
+          borderColor: '#7c3aed',
+          borderWidth: 1,
+          borderRadius: 4
+        });
+      }
 
       ctx._chart = new Chart(ctx, {
         type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Nhu Cầu (Demand %)',
-              data: dataToShow.map(s => s.demand),
-              backgroundColor: 'rgba(239, 68, 68, 0.88)',
-              borderColor: '#dc2626',
-              borderWidth: 1,
-              borderRadius: 4
-            },
-            {
-              label: 'Cung Hiện Có (Supply %)',
-              data: dataToShow.map(s => s.supply),
-              backgroundColor: 'rgba(15, 163, 158, 0.88)',
-              borderColor: '#0d9488',
-              borderWidth: 1,
-              borderRadius: 4
-            },
-            {
-              label: 'Thiếu Hụt (Gap %)',
-              data: dataToShow.map(s => s.gap),
-              backgroundColor: 'rgba(124, 58, 237, 0.88)',
-              borderColor: '#7c3aed',
-              borderWidth: 1,
-              borderRadius: 4
-            }
-          ]
-        },
+        data: { labels: labels, datasets: datasets },
         options: {
           indexAxis: softBarChartAxis,
           responsive: true,
@@ -14371,11 +14630,14 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
             tooltip: {
               callbacks: {
                 title: items => {
-                  const idx = items[0].dataIndex;
+                  const idx = items[0]?.dataIndex ?? 0;
                   const item = dataToShow[idx];
-                  return `${item.skill} — [Ngành: ${item.industry}]`;
+                  return item ? `${item.skill} — [${item.industry}]` : '';
                 },
-                label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed[isHorizontal ? 'x' : 'y'].toFixed(1)}%`
+                label: c => {
+                  if (c.raw === null || c.raw === undefined) return ` ${c.dataset.label}: Chưa có dữ liệu`;
+                  return ` ${c.dataset.label}: ${Number(c.raw).toFixed(1)}%`;
+                }
               }
             }
           },
@@ -14392,7 +14654,7 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
                 maxRotation: isHorizontal ? 0 : (softSkillsDisplayCount === 5 ? 0 : 35),
                 minRotation: 0,
                 autoSkip: false,
-                callback: function(val, index) {
+                callback: function(val) {
                   if (isHorizontal) return val + '%';
                   return this.getLabelForValue(val);
                 }
@@ -14404,12 +14666,11 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
                 color: isHorizontal ? '#0f172a' : '#64748b',
                 font: { size: 10.5, family: "'Be Vietnam Pro', system-ui, sans-serif", weight: isHorizontal ? '700' : 'normal' },
                 autoSkip: false,
-                callback: function(val, index) {
+                callback: function(val) {
                   if (!isHorizontal) return val + '%';
                   return this.getLabelForValue(val);
                 }
-              },
-              max: !isHorizontal ? 100 : undefined
+              }
             }
           }
         }
@@ -14419,18 +14680,35 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function buildSoftTrendLineChart() {
       const ctx = document.getElementById('softTrendLineChart');
       if (!ctx) return;
-      if (ctx._chart) ctx._chart.destroy();
+      if (ctx._chart) {
+        ctx._chart.destroy();
+        ctx._chart = null;
+      }
 
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const st = live && live.soft_skills_quarterly_trend ? live.soft_skills_quarterly_trend : null;
+
+      if (!live || !avail || !avail.has_data || !st || !st.has_data || !st.skills || st.skills.length === 0) {
+        const msg = (avail && avail.empty_message)
+          ? avail.empty_message
+          : 'Chưa có dữ liệu xu hướng kỹ năng mềm cho địa bàn và năm được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+
+      clearChartEmptyState(ctx);
       const isGap = softTrendActiveMetric === 'gap';
 
-      const datasets = SOFT_SKILLS_TREND_DATA.skills.map(s => ({
+      const datasets = st.skills.map(s => ({
         label: s.name,
-        data: isGap ? s.gapHistory : s.demandHistory,
+        data: isGap ? s.gap_series : s.demand_series,
         borderColor: s.color,
         backgroundColor: s.color + '15',
         borderWidth: 2.2,
         tension: 0.35,
         fill: false,
+        spanGaps: false,
         pointRadius: 4,
         pointHoverRadius: 6,
         pointBackgroundColor: '#ffffff',
@@ -14441,7 +14719,7 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
       ctx._chart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: SOFT_SKILLS_TREND_DATA.quarters,
+          labels: st.quarters,
           datasets: datasets
         },
         options: {
@@ -14670,8 +14948,19 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function buildSmallBarChart(canvasId, data, field, color) {
       const ctx = document.getElementById(canvasId);
       if (!ctx) return;
-      if (ctx._chart) ctx._chart.destroy();
-      const sorted = [...data].sort((a, b) => b[field] - a[field]).slice(0, 10);
+      if (ctx._chart) {
+        ctx._chart.destroy();
+        ctx._chart = null;
+      }
+      const valid = Array.isArray(data) ? data.filter(s => s && s[field] !== null && s[field] !== undefined) : [];
+      if (valid.length === 0) {
+        const msg = (window.liveDashboardData && window.liveDashboardData.data_availability && window.liveDashboardData.data_availability.empty_message)
+          || 'Chưa có dữ liệu cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(ctx, msg);
+        return;
+      }
+      clearChartEmptyState(ctx);
+      const sorted = [...valid].sort((a, b) => (b[field] || 0) - (a[field] || 0)).slice(0, 10);
       ctx._chart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -14680,10 +14969,10 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
         },
         options: {
           indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.x.toFixed(1)}%` } } },
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${Number(c.parsed.x).toFixed(1)}%` } } },
           scales: {
-            x: { grid: { display: false }, ticks: { color: '#8892a4', font: { size: 9 } } },
-            y: { grid: { display: false }, ticks: { color: '#8892a4', font: { size: 9 } } }
+            x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 9 }, callback: v => `${v}%` } },
+            y: { grid: { display: false }, ticks: { color: '#334155', autoSkip: false, font: { size: 9.5 }, callback: function(val) { return this.getLabelForValue(val); } } }
           }
         }
       });
@@ -14692,10 +14981,21 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     function renderSoftTable(data) {
       const tbody = document.getElementById('softSkillTableBody');
       if (!tbody) return;
-      const sorted = [...data].sort((a, b) => b.demand - a.demand);
+      const list = Array.isArray(data) ? data : [];
+      if (list.length === 0) {
+        const msg = (window.liveDashboardData && window.liveDashboardData.data_availability && window.liveDashboardData.data_availability.empty_message)
+          || 'Chưa có dữ liệu kỹ năng mềm cho địa bàn và kỳ báo cáo được lựa chọn.';
+        tbody.innerHTML = `<tr><td colspan="8" style="padding:24px;text-align:center;color:var(--text2)">📭 ${msg}</td></tr>`;
+        return;
+      }
+      const sorted = [...list].sort((a, b) => (b.demand || 0) - (a.demand || 0));
       tbody.innerHTML = sorted.map((s, i) => {
         const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
-        const gapColor = s.gap > 40 ? 'red' : s.gap > 25 ? 'amber' : 'green';
+        const hasGap = s.gap !== null && s.gap !== undefined;
+        const hasDemand = s.demand !== null && s.demand !== undefined;
+        const hasSupply = s.supply !== null && s.supply !== undefined;
+        const gapColor = !hasGap ? 'blue' : (s.gap > 40 ? 'red' : s.gap > 25 ? 'amber' : 'green');
+        const trendStr = s.trend || '—';
         const courseBtn = `<button class="action-btn" onclick="openSkillCoursesModal('${s.skill}','softskills')" style="display:inline-flex;align-items:center;gap:4px">
       <span>Xem ${s.courses ? s.courses.length : 3} khóa học</span>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -14703,11 +15003,11 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
         return `<tr>
       <td class="rank-cell">${medal}</td>
       <td class="skill-name-cell" style="font-weight:700">${s.skill}</td>
-      <td><span class="chip" style="background:#f0fdfa;color:#0f766e;border:1px solid #ccfbf1;font-weight:600;font-size:11px">🏷️ ${s.shortIndustry || s.industry}</span></td>
-      <td><div class="pct-bar-wrap"><div class="pct-bar demand" style="width:${s.demand * 0.8}px;max-width:120px"></div><span class="pct-val">${s.demand}%</span></div></td>
-      <td><div class="pct-bar-wrap"><div class="pct-bar supply" style="width:${s.supply * 0.8}px;max-width:120px"></div><span class="pct-val">${s.supply}%</span></div></td>
-      <td><span class="chip ${gapColor}">${s.gap.toFixed(1)}%</span></td>
-      <td><span class="${s.trend.startsWith('+') ? 'trend-up' : 'trend-dn'}">🔺 ${s.trend}</span></td>
+      <td><span class="chip" style="background:#f0fdfa;color:#0f766e;border:1px solid #ccfbf1;font-weight:600;font-size:11px">🏷️ ${s.shortIndustry || s.industry || 'Liên ngành'}</span></td>
+      <td>${hasDemand ? `<div class="pct-bar-wrap"><div class="pct-bar demand" style="width:${Math.min(100, s.demand) * 0.8}px;max-width:120px"></div><span class="pct-val">${s.demand}%</span></div>` : '<span style="color:#94a3b8">—</span>'}</td>
+      <td>${hasSupply ? `<div class="pct-bar-wrap"><div class="pct-bar supply" style="width:${Math.min(100, s.supply) * 0.8}px;max-width:120px"></div><span class="pct-val">${s.supply}%</span></div>` : '<span style="color:#94a3b8">Chưa có dữ liệu</span>'}</td>
+      <td><span class="chip ${gapColor}">${hasGap ? Number(s.gap).toFixed(1) + '%' : 'Chưa đủ dữ liệu'}</span></td>
+      <td><span class="${trendStr.startsWith('+') ? 'trend-up' : 'trend-dn'}">${trendStr}</span></td>
       <td>${courseBtn}</td>
     </tr>`;
       }).join('');
@@ -14828,20 +15128,33 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
       const ind = INDUSTRY_DATA[activeKey];
       if (!ind || !ind.skills) return;
 
-      const allSkills = ind.skills;
-      // Sắp xếp theo mức độ thiếu hụt (gap) giảm dần: từ thiếu hụt cao nhất xuống đến dư cung (âm)
-      const sortedSkills = [...allSkills].sort((a, b) => (b.gap || 0) - (a.gap || 0));
+      const allSkills = Array.isArray(ind.skills) ? ind.skills : [];
+      const tbody = document.getElementById('exploreUnifiedSkillsTableBody');
+      if (tbody && allSkills.length === 0) {
+        const msg = (window.liveDashboardData && window.liveDashboardData.data_availability && window.liveDashboardData.data_availability.empty_message)
+          || 'Chưa có dữ liệu kỹ năng ngành cho địa bàn và kỳ báo cáo được lựa chọn.';
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:28px 16px;text-align:center;color:#64748b;font-size:13px">📭 ${msg}</td></tr>`;
+        return;
+      }
+      // Sắp xếp theo mức độ thiếu hụt (gap) giảm dần (hoặc demand nếu thiếu gap)
+      const sortedSkills = [...allSkills].sort((a, b) => {
+        const ga = (a.gap !== null && a.gap !== undefined) ? a.gap : -9999;
+        const gb = (b.gap !== null && b.gap !== undefined) ? b.gap : -9999;
+        if (gb !== ga) return gb - ga;
+        return (b.demand || 0) - (a.demand || 0);
+      });
       const displaySkills = exploreSkillsShowAll ? sortedSkills : sortedSkills.slice(0, 10);
 
-      const tbody = document.getElementById('exploreUnifiedSkillsTableBody');
       if (tbody) {
         tbody.innerHTML = displaySkills.map((s, idx) => {
           const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : (idx + 1);
-          const gapVal = s.gap !== undefined ? s.gap.toFixed(1) : ((s.demand || 0) - (s.supply || 0)).toFixed(1);
-          const numGap = parseFloat(gapVal);
-          const isNegative = numGap < 0;
+          const hasDem = s.demand !== null && s.demand !== undefined;
+          const hasSup = s.supply !== null && s.supply !== undefined;
+          const hasGap = s.gap !== null && s.gap !== undefined;
+          const gapVal = hasGap ? Number(s.gap).toFixed(1) : null;
+          const numGap = hasGap ? parseFloat(gapVal) : 0;
+          const isNegative = hasGap && numGap < 0;
 
-          // 100% Kỹ năng cứng chuyên môn
           const typeBadge = '<span style="background:#eff6ff;color:#2563eb;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:6px">Kỹ năng cứng</span>';
 
           const trendHtml = s.trend
@@ -14852,14 +15165,15 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
             Xem khóa học →
           </button>`;
 
-          // Phân định rõ màu sắc và nhãn Thiếu hụt vs Dư cung (Giá trị âm)
-          const gapColor = isNegative ? '#0284c7' : '#e11d48';
-          const gapBg = isNegative ? '#e0f2fe' : '#ffe4e6';
-          const gapLabel = isNegative ? `${gapVal}%` : `+${gapVal}%`;
-          const gapStatusTag = isNegative
-            ? `<span style="font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;padding:2px 6px;border-radius:4px;margin-left:5px">Dư cung</span>`
-            : `<span style="font-size:10.5px;font-weight:700;color:#be123c;background:#ffe4e6;border:1px solid #fecdd3;padding:2px 6px;border-radius:4px;margin-left:5px">Thiếu hụt</span>`;
-          const barWidth = Math.min(Math.max(Math.abs(numGap) * 1.3, 8), 100);
+          const gapColor = !hasGap ? '#64748b' : (isNegative ? '#0284c7' : '#e11d48');
+          const gapBg = !hasGap ? '#f1f5f9' : (isNegative ? '#e0f2fe' : '#ffe4e6');
+          const gapLabel = !hasGap ? 'Chưa đủ dữ liệu' : (isNegative ? `${gapVal}%` : `+${gapVal}%`);
+          const gapStatusTag = !hasGap
+            ? ''
+            : (isNegative
+              ? `<span style="font-size:10.5px;font-weight:700;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;padding:2px 6px;border-radius:4px;margin-left:5px">Dư cung</span>`
+              : `<span style="font-size:10.5px;font-weight:700;color:#be123c;background:#ffe4e6;border:1px solid #fecdd3;padding:2px 6px;border-radius:4px;margin-left:5px">Thiếu hụt</span>`);
+          const barWidth = hasGap ? Math.min(Math.max(Math.abs(numGap) * 1.3, 8), 100) : 0;
 
           return `
             <tr style="border-bottom:1px solid #f1f5f9;transition:background 0.15s ease" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
@@ -14869,29 +15183,35 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
                 <div style="font-size:11.5px;color:#64748b;margin-top:2px">Nhóm chuyên môn: <strong>${s.group || ind.label}</strong></div>
               </td>
               <td style="padding:14px">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-                  <span style="font-weight:800;color:#0d5f57;font-size:13.5px">${s.demand}%</span>
-                </div>
-                <div style="width:100%;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden">
-                  <div style="width:${Math.min(s.demand, 100)}%;height:100%;background:#0d5f57;border-radius:4px"></div>
-                </div>
+                ${hasDem ? `
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                    <span style="font-weight:800;color:#0d5f57;font-size:13.5px">${Number(s.demand).toFixed(1)}%</span>
+                  </div>
+                  <div style="width:100%;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden">
+                    <div style="width:${Math.min(s.demand, 100)}%;height:100%;background:#0d5f57;border-radius:4px"></div>
+                  </div>
+                ` : '<span style="color:#94a3b8;font-size:12px">Chưa có dữ liệu</span>'}
+              </td>
+              <td style="padding:14px">
+                ${hasSup ? `
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                    <span style="font-weight:800;color:#d97706;font-size:13.5px">${Number(s.supply).toFixed(1)}%</span>
+                  </div>
+                  <div style="width:100%;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden">
+                    <div style="width:${Math.min(s.supply, 100)}%;height:100%;background:#f59e0b;border-radius:4px"></div>
+                  </div>
+                ` : '<span style="color:#94a3b8;font-size:12px">Chưa có dữ liệu</span>'}
               </td>
               <td style="padding:14px">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-                  <span style="font-weight:800;color:#d97706;font-size:13.5px">${s.supply}%</span>
-                </div>
-                <div style="width:100%;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden">
-                  <div style="width:${Math.min(s.supply, 100)}%;height:100%;background:#f59e0b;border-radius:4px"></div>
-                </div>
-              </td>
-              <td style="padding:14px">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-                  <span style="font-weight:900;color:${gapColor};font-size:14px">${gapLabel}</span>
+                  <span style="font-weight:900;color:${gapColor};font-size:${hasGap ? '14px' : '12px'}">${gapLabel}</span>
                   ${gapStatusTag}
                 </div>
-                <div style="width:100%;height:8px;background:${gapBg};border-radius:4px;overflow:hidden">
-                  <div style="width:${barWidth}%;height:100%;background:${gapColor};border-radius:4px"></div>
-                </div>
+                ${hasGap ? `
+                  <div style="width:100%;height:8px;background:${gapBg};border-radius:4px;overflow:hidden">
+                    <div style="width:${barWidth}%;height:100%;background:${gapColor};border-radius:4px"></div>
+                  </div>
+                ` : ''}
               </td>
               <td style="padding:14px;text-align:center">${trendHtml}</td>
               <td style="padding:14px;text-align:right">${courseBtn}</td>
@@ -18283,14 +18603,28 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
     let empIndustryTop10ChartInst = null;
 
     function renderEmployerMarketSkillsTab() {
-      const regionKey = (typeof getEffectiveRegionKey === 'function') 
-        ? getEffectiveRegionKey(currentGlobalLocation) 
-        : 'CT';
-      const regionData = (typeof REGIONAL_INDUSTRY_DATA !== 'undefined' && REGIONAL_INDUSTRY_DATA[regionKey])
-        ? REGIONAL_INDUSTRY_DATA[regionKey]
-        : (typeof REGIONAL_INDUSTRY_DATA !== 'undefined' ? REGIONAL_INDUSTRY_DATA.CT : {});
-      const data = regionData[empCurrentSelectedIndustry] || regionData.IT || (INDUSTRY_DATA ? INDUSTRY_DATA[empCurrentSelectedIndustry] : null);
-      if (!data) return;
+      const live = window.liveDashboardData;
+      const avail = live && live.data_availability ? live.data_availability : null;
+      const liveInd = live && live.industries_detail ? live.industries_detail[empCurrentSelectedIndustry] : null;
+      const data = liveInd ? {
+        label: liveInd.label,
+        jobs: liveInd.jobs || 0,
+        avgSalary: liveInd.avg_salary || 'Chưa có dữ liệu',
+        topMissing: liveInd.top_missing || 'Chưa có dữ liệu',
+        skills: liveInd.skills || [],
+        has_data: !!liveInd.has_data,
+        has_survey_data: !!liveInd.has_survey_data,
+        has_gap_data: !!liveInd.has_gap_data
+      } : {
+        label: empCurrentSelectedIndustry,
+        jobs: 0,
+        avgSalary: 'Chưa có dữ liệu',
+        topMissing: 'Chưa có dữ liệu',
+        skills: [],
+        has_data: false,
+        has_survey_data: false,
+        has_gap_data: false
+      };
 
       // 1. Đồng bộ Badge và Select box Tỉnh / Vùng miền của Employer
       const empSelect = document.getElementById('empLocationSelect');
@@ -18298,16 +18632,9 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
 
       const empBadge = document.getElementById('empLocationBadge');
       if (empBadge) {
-        let locName = 'Cần Thơ (ĐBSCL)';
-        if (currentGlobalLocation === 'HN') locName = 'Hà Nội (Miền Bắc)';
-        else if (currentGlobalLocation === 'HCM') locName = 'TP. Hồ Chí Minh (Miền Nam)';
-        else if (currentGlobalLocation === 'CT') locName = 'Cần Thơ (ĐBSCL)';
-        else if (currentGlobalLocation === 'DN_CITY') locName = 'Đà Nẵng (Miền Trung)';
-        else if (currentGlobalLocation === 'all') locName = 'Toàn quốc (Cả nước)';
-        else if (empSelect && empSelect.selectedOptions && empSelect.selectedOptions[0]) {
-          locName = empSelect.selectedOptions[0].text.replace(/^[📍🏛️🏙️🌉🌊🇻🇳\s]+/, '').trim();
-        }
-        empBadge.textContent = `📍 ${locName}`;
+        const locName = (live && live.filters && live.filters.location_name) ? live.filters.location_name : 'Toàn quốc (Cả nước)';
+        const perLabel = (live && live.filters && live.filters.period_label) ? ` · ${live.filters.period_label}` : '';
+        empBadge.textContent = `📍 ${locName}${perLabel}`;
       }
 
       // 2. Cập nhật 3 Thẻ KPI thị trường của Nhà tuyển dụng
@@ -18315,27 +18642,34 @@ Bấm nút [▶️ Chạy Thực Thi AI] ở trên để quan sát mô hình x�
       const kpiSalaryEl = document.getElementById('empExploreKpiSalary');
       const kpiMissingEl = document.getElementById('empExploreKpiMissing');
 
-      if (kpiJobsEl) kpiJobsEl.textContent = data.jobs || 0;
-      if (kpiSalaryEl) kpiSalaryEl.textContent = data.avgSalary || '15–35tr';
-      if (kpiMissingEl) kpiMissingEl.textContent = data.topMissing || 'Python';
+      if (kpiJobsEl) kpiJobsEl.textContent = (data.jobs || 0).toLocaleString('vi-VN');
+      if (kpiSalaryEl) kpiSalaryEl.textContent = data.avgSalary || 'Chưa có dữ liệu';
+      if (kpiMissingEl) kpiMissingEl.textContent = data.topMissing || 'Chưa có dữ liệu';
 
       // 3. Cập nhật Badge tiêu đề biểu đồ
       const barBadge = document.getElementById('empIndustryBarChartBadge');
-      if (barBadge) barBadge.textContent = data.label || 'IT & Công nghệ';
+      if (barBadge) barBadge.textContent = data.label || empCurrentSelectedIndustry;
 
       // 4. Render Biểu đồ cột Top 10 Kỹ Năng (Chart.js)
       const canvas = document.getElementById('empIndustryTop10BarChart');
       if (canvas && typeof Chart !== 'undefined') {
-        const sortedSkills = [...(data.skills || [])].sort((a, b) => (b.gap || 0) - (a.gap || 0));
-        const top10 = sortedSkills.slice(0, 10);
-        const labels = top10.map(s => s.skill || s.name);
-        const demands = top10.map(s => s.demand || 0);
-        const supplies = top10.map(s => s.supply || 0);
-        const gaps = top10.map(s => s.gap || 0);
-
         if (empIndustryTop10ChartInst) {
           empIndustryTop10ChartInst.destroy();
+          empIndustryTop10ChartInst = null;
         }
+        if (!data.has_data || !data.skills || data.skills.length === 0) {
+          const msg = (avail && avail.empty_message)
+            ? avail.empty_message
+            : 'Chưa có dữ liệu kỹ năng ngành cho địa bàn và kỳ báo cáo được lựa chọn.';
+          setChartEmptyState(canvas, msg);
+          return;
+        }
+        clearChartEmptyState(canvas);
+        const top10 = data.skills.slice(0, 10);
+        const labels = top10.map(s => s.skill || s.name);
+        const demands = top10.map(s => s.demand);
+        const supplies = top10.map(s => s.supply);
+        const gaps = top10.map(s => s.gap);
 
         empIndustryTop10ChartInst = new Chart(canvas, {
           type: 'bar',
@@ -22886,21 +23220,28 @@ KỸ NĂNG:
       const canvas = document.getElementById('industryTop10BarChart');
       if (!canvas) return;
 
-      const ind = INDUSTRY_DATA[activeKey];
-      if (!ind) return;
+      if (industryTop10ChartInst) {
+        industryTop10ChartInst.destroy();
+        industryTop10ChartInst = null;
+      }
 
+      const ind = INDUSTRY_DATA[activeKey];
       const badge = document.getElementById('industryBarChartBadge');
-      if (badge) badge.textContent = ind.label;
+      if (badge && ind) badge.textContent = ind.label;
 
       const top10 = getTop10SkillsForIndustry(activeKey);
+      if (!ind || !top10 || top10.length === 0) {
+        const msg = (window.liveDashboardData && window.liveDashboardData.data_availability && window.liveDashboardData.data_availability.empty_message)
+          || 'Chưa có dữ liệu kỹ năng ngành cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(canvas, msg);
+        return;
+      }
+
+      clearChartEmptyState(canvas);
       const labels = top10.map(s => s.skill);
       const demands = top10.map(s => s.demand);
       const supplies = top10.map(s => s.supply);
       const gaps = top10.map(s => s.gap);
-
-      if (industryTop10ChartInst) {
-        industryTop10ChartInst.destroy();
-      }
 
       industryTop10ChartInst = new Chart(canvas, {
         type: 'bar',
@@ -23018,21 +23359,28 @@ KỸ NĂNG:
       const canvas = document.getElementById('adminIndustryTop10BarChart');
       if (!canvas) return;
 
-      const ind = INDUSTRY_DATA[activeKey];
-      if (!ind) return;
+      if (adminIndustryTop10ChartInst) {
+        adminIndustryTop10ChartInst.destroy();
+        adminIndustryTop10ChartInst = null;
+      }
 
+      const ind = INDUSTRY_DATA[activeKey];
       const activeLabel = document.getElementById('adminIndustryActiveLabel');
-      if (activeLabel) activeLabel.textContent = ind.label;
+      if (activeLabel && ind) activeLabel.textContent = ind.label;
 
       const top10 = getTop10SkillsForIndustry(activeKey);
+      if (!ind || !top10 || top10.length === 0) {
+        const msg = (window.liveDashboardData && window.liveDashboardData.data_availability && window.liveDashboardData.data_availability.empty_message)
+          || 'Chưa có dữ liệu kỹ năng ngành cho địa bàn và kỳ báo cáo được lựa chọn.';
+        setChartEmptyState(canvas, msg);
+        return;
+      }
+
+      clearChartEmptyState(canvas);
       const labels = top10.map(s => s.skill);
       const demands = top10.map(s => s.demand);
       const supplies = top10.map(s => s.supply);
       const gaps = top10.map(s => s.gap);
-
-      if (adminIndustryTop10ChartInst) {
-        adminIndustryTop10ChartInst.destroy();
-      }
 
       adminIndustryTop10ChartInst = new Chart(canvas, {
         type: 'bar',
@@ -23274,173 +23622,214 @@ KỸ NĂNG:
       }
     };
 
+    let currentDashboardAbortCtrl = null;
+    let dashboardRequestSeq = 0;
+
     function syncLocationFilter(locVal) {
-      currentGlobalLocation = locVal;
-      // Sync all location dropdowns across all pages (Overview, Soft Skills, Explore Industries, Admin, Employer Portal)
+      currentGlobalLocation = locVal || 'all';
+      // Sync all location dropdowns across all pages
       const allSelectIds = ['publicLocationSelect', 'adminLocationSelect', 'softSkillsLocationSelect', 'industryLocationSelect', 'adminPageLocationSelect', 'empLocationSelect'];
       allSelectIds.forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.value = locVal;
+        if (el) el.value = currentGlobalLocation;
       });
 
-      // Update location name badges on all pages
-      let locName = 'Toàn quốc (Cả nước)';
-      if (locVal === 'HN') locName = 'Hà Nội (Miền Bắc)';
-      else if (locVal === 'HCM') locName = 'TP. Hồ Chí Minh (Miền Nam)';
-      else if (locVal === 'CT') locName = 'Cần Thơ (ĐBSCL)';
-      else if (locVal === 'DN_CITY') locName = 'Đà Nẵng (Miền Trung)';
-      else if (locVal !== 'all') {
-        const selEl = document.getElementById('empLocationSelect') || document.getElementById('publicLocationSelect') || document.getElementById('adminLocationSelect');
-        if (selEl && selEl.selectedOptions && selEl.selectedOptions[0]) {
-          locName = selEl.selectedOptions[0].text.replace(/^[📍🏛️🏙️🌉🌊🇻🇳\s]+/, '').trim();
-        }
+      if (typeof updateAIChatContextBadge === 'function') {
+        updateAIChatContextBadge();
       }
 
-      ['softSkillsLocationBadge', 'industryLocationBadge', 'adminPageLocationBadge', 'empLocationBadge'].forEach(badgeId => {
-        const b = document.getElementById(badgeId);
-        if (b) b.textContent = `📍 ${locName}`;
-      });
-
-      // Sync regional industry dataset
-      if (typeof applyRegionalIndustryData === 'function') {
-        applyRegionalIndustryData(locVal);
-      }
-
-      // Re-render and update all charts & metrics for the selected location
+      // Truy vấn lại dữ liệu thực tế thống nhất từ Backend & cập nhật toàn bộ biểu đồ
       applyGlobalLocationQuarterUpdate();
-
-      // Update explore industries KPI & charts if available
-      if (typeof updateExploreIndustryLocation === 'function') {
-        updateExploreIndustryLocation(locVal);
-      }
-
-      // Re-render Employer Portal Tab 4 (Kỹ năng thị trường)
-      if (typeof renderEmployerMarketSkillsTab === 'function') {
-        renderEmployerMarketSkillsTab();
-      }
     }
 
     function syncQuarterFilter(qVal) {
-      currentGlobalQuarter = qVal;
-      // Sync both dropdowns
+      currentGlobalQuarter = qVal || '2026_Q3';
+      // Sync all quarter dropdowns
       const pubQ = document.getElementById('publicQuarterSelect');
       const admQ = document.getElementById('adminQuarterSelect');
-      if (pubQ) pubQ.value = qVal;
-      if (admQ) admQ.value = qVal;
+      if (pubQ) pubQ.value = currentGlobalQuarter;
+      if (admQ) admQ.value = currentGlobalQuarter;
 
+      if (typeof updateAIChatContextBadge === 'function') {
+        updateAIChatContextBadge();
+      }
+
+      // Truy vấn lại dữ liệu thực tế thống nhất từ Backend & cập nhật toàn bộ biểu đồ
       applyGlobalLocationQuarterUpdate();
     }
 
-    
     function updateExploreIndustryLocation(locVal) {
-      const yearKey = (typeof currentGlobalQuarter !== 'undefined' && currentGlobalQuarter.startsWith('2025')) ? '2025' : '2026';
+      const live = window.liveDashboardData;
       const kpiJobsEl = document.getElementById('exploreKpiJobs');
       const kpiSalEl = document.getElementById('exploreKpiSalary');
 
-      if (locVal === 'HN') {
-        if (kpiJobsEl) kpiJobsEl.textContent = '1,000';
-        if (kpiSalEl) kpiSalEl.textContent = '18–45tr';
-      } else if (locVal === 'HCM') {
-        if (kpiJobsEl) kpiJobsEl.textContent = '1,000';
-        if (kpiSalEl) kpiSalEl.textContent = '22–50tr';
-      } else if (locVal === 'CT') {
-        if (kpiJobsEl) kpiJobsEl.textContent = '1,000';
-        if (kpiSalEl) kpiSalEl.textContent = '12–28tr';
-      } else if (locVal === 'DN_CITY') {
-        if (kpiJobsEl) kpiJobsEl.textContent = '500';
-        if (kpiSalEl) kpiSalEl.textContent = '10–22tr';
-      } else if (locVal === 'all') {
-        if (kpiJobsEl) kpiJobsEl.textContent = '3,000';
-        if (kpiSalEl) kpiSalEl.textContent = '16–38tr';
-      } else {
-        if (kpiJobsEl) kpiJobsEl.textContent = '500';
-        if (kpiSalEl) kpiSalEl.textContent = '12–25tr';
-      }
+      const totalJobs = (live && live.kpi) ? (live.kpi.total_jobs || 0) : 0;
+      const avgSal = (live && live.kpi && live.kpi.avg_salary) ? live.kpi.avg_salary : 'Chưa có dữ liệu';
 
-      // Refresh Explorer Industry unified table with new regional data
+      if (kpiJobsEl) kpiJobsEl.textContent = totalJobs.toLocaleString('vi-VN');
+      if (kpiSalEl) kpiSalEl.textContent = avgSal;
+
+      // Refresh Explorer Industry unified table & charts with live data
       if (typeof initIndustry === 'function') {
         initIndustry(currentIndustry || 'IT');
       }
       if (typeof initAdminIndustry === 'function') {
         initAdminIndustry(currentAdminIndustry || 'IT');
       }
-
-      // Refresh Top 10 bar chart for Explore Industry and Admin
       if (typeof renderIndustryTop10Chart === 'function') {
         renderIndustryTop10Chart(currentIndustry || 'IT');
       }
-      if (typeof renderAdminIndustryTop10Chart === 'function') {
-        renderAdminIndustryTop10Chart(currentAdminIndustry || 'IT');
+      if (typeof renderAdminIndustryChart === 'function') {
+        renderAdminIndustryChart(currentAdminIndustry || 'IT');
       }
     }
 
-    function applyGlobalLocationQuarterUpdate() {
-      const yearKey = currentGlobalQuarter.startsWith('2025') ? '2025' : '2026';
-      const locKey = currentGlobalLocation;
-      const isConfiguredCity = (locKey === 'all' || locKey === 'HN' || locKey === 'HCM' || locKey === 'CT');
+    async function applyGlobalLocationQuarterUpdate() {
+      const locKey = currentGlobalLocation || 'all';
+      const periodKey = currentGlobalQuarter || '2026_Q3';
 
-      // Update badge
-      const scopeBadgeText = document.getElementById('overviewDataScopeText');
+      // Hủy truy vấn API cũ nếu người dùng đổi bộ lọc liên tục (chống race condition)
+      if (currentDashboardAbortCtrl) {
+        try { currentDashboardAbortCtrl.abort(); } catch (e) {}
+      }
+      currentDashboardAbortCtrl = new AbortController();
+      const mySeq = ++dashboardRequestSeq;
+
+      const apiBase = (typeof DASHBOARD_AUTH !== 'undefined' && DASHBOARD_AUTH.API_BASE)
+        ? DASHBOARD_AUTH.API_BASE
+        : 'http://localhost:8000';
+      const url = `${apiBase}/api/dashboard/analytics?location_id=${encodeURIComponent(locKey)}&period=${encodeURIComponent(periodKey)}`;
+
       const subTitleEl = document.getElementById('dashboardSubtitleText');
-
-      if (isConfiguredCity) {
-        const cityData = SIMULATED_DATA_BY_LOCATION[locKey];
-        const kpi = cityData.kpi[yearKey];
-
-        if (scopeBadgeText) {
-          scopeBadgeText.textContent = `${cityData.name} · Năm ${yearKey} (${kpi.jobs} JP · ${kpi.cvs} CV)`;
-        }
-        if (subTitleEl) {
-          subTitleEl.textContent = kpi.subtitle;
-        }
-
-        // Update KPI values
-        const kpiJobs = document.getElementById('kpiOverviewJobs');
-        const kpiCvs = document.getElementById('kpiOverviewCvs');
-        const kpiGap = document.getElementById('kpiOverviewGap');
-        const kpiSkills = document.getElementById('kpiOverviewSkills');
-        const kpiJobsSub = document.getElementById('kpiOverviewJobsSub');
-
-        if (kpiJobs) kpiJobs.textContent = kpi.jobs;
-        if (kpiCvs) kpiCvs.textContent = kpi.cvs;
-        if (kpiGap) kpiGap.textContent = kpi.gap;
-        if (kpiSkills) kpiSkills.textContent = kpi.skills;
-        if (kpiJobsSub) kpiJobsSub.textContent = `↗ Từ TopCV – ${cityData.name} ${yearKey}`;
-
-        // Rebuild Overview Gap Chart with selected location & year skills
-        buildOverviewGapChart();
-        // Rebuild Pie Chart
-        buildIndustryPie();
-      } else {
-        // Unsurveyed province
-        const locName = document.getElementById('publicLocationSelect')?.selectedOptions[0]?.text || locKey;
-        if (scopeBadgeText) {
-          scopeBadgeText.textContent = `${locName} · Chưa có dữ liệu khảo sát (0 JP · 0 CV)`;
-        }
-        if (subTitleEl) {
-          subTitleEl.textContent = `${locName}: Khu vực chưa triển khai khảo sát đợt 2025-2026. Đang chuẩn bị dữ liệu đợt 2.`;
-        }
-
-        const kpiJobs = document.getElementById('kpiOverviewJobs');
-        const kpiCvs = document.getElementById('kpiOverviewCvs');
-        const kpiGap = document.getElementById('kpiOverviewGap');
-        const kpiSkills = document.getElementById('kpiOverviewSkills');
-        const kpiJobsSub = document.getElementById('kpiOverviewJobsSub');
-
-        if (kpiJobs) kpiJobs.textContent = "0";
-        if (kpiCvs) kpiCvs.textContent = "0";
-        if (kpiGap) kpiGap.textContent = "0.0%";
-        if (kpiSkills) kpiSkills.textContent = "0";
-        if (kpiJobsSub) kpiJobsSub.textContent = `Chưa có dữ liệu TopCV`;
-
-        // Clear or show empty charts
-        buildOverviewGapChart();
-        buildIndustryPie();
+      const scopeBadgeText = document.getElementById('overviewDataScopeText');
+      if (scopeBadgeText) {
+        scopeBadgeText.textContent = 'Đang tải dữ liệu thực tế theo bộ lọc...';
       }
 
-      // Filter Workers table and Jobs table if currently viewed
-      filterAdminWorkersByLocation(locKey);
-      filterAdminJobsByLocation(locKey);
+      let data = null;
+      try {
+        const resp = await fetch(url, { signal: currentDashboardAbortCtrl.signal });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        data = await resp.json();
+      } catch (err) {
+        if (err && err.name === 'AbortError') return; // Bỏ qua truy vấn cũ đã hủy
+        console.error('Lỗi tải dữ liệu Dashboard thực tế:', err);
+        if (mySeq !== dashboardRequestSeq) return;
+        // Không dùng dữ liệu giả/cũ thay thế khi lỗi
+        data = {
+          filters: { location_id: locKey, location_name: locKey, period_code: periodKey, period_label: periodKey },
+          data_availability: {
+            has_data: false, has_job_data: false, has_survey_data: false, has_gap_data: false,
+            empty_message: 'Không thể kết nối máy chủ dữ liệu. Vui lòng thử lại.'
+          },
+          kpi: { total_jobs: 0, total_surveys: 0, avg_gap_pct: null, active_skills_count: 0, avg_salary: null },
+          top_shortage_skills: [],
+          industry_distribution: [],
+          quarterly_trend: { has_data: false, labels: [], datasets: [] },
+          period_comparison: { has_data: false, industries: [] },
+          soft_skills: [],
+          soft_skills_quarterly_trend: { has_data: false, quarters: [], skills: [] },
+          industries_detail: {}
+        };
+      }
+
+      // Đảm bảo chỉ áp dụng phản hồi của bộ lọc mới nhất
+      if (mySeq !== dashboardRequestSeq) return;
+
+      window.liveDashboardData = data;
+      const filters = data.filters || {};
+      const avail = data.data_availability || {};
+      const kpi = data.kpi || {};
+      const locName = filters.location_name || locKey;
+      const periodLabel = filters.period_label || periodKey;
+
+      // 1. Cập nhật tất cả badge địa bàn & kỳ báo cáo trên toàn ứng dụng
+      ['softSkillsLocationBadge', 'industryLocationBadge', 'adminPageLocationBadge', 'empLocationBadge'].forEach(badgeId => {
+        const b = document.getElementById(badgeId);
+        if (b) b.textContent = `📍 ${locName} · ${periodLabel}`;
+      });
+
+      const provNames = Array.isArray(avail.provinces_included) && avail.provinces_included.length > 0
+        ? avail.provinces_included.map(p => p.location_name).join(', ')
+        : '';
+
+      if (scopeBadgeText) {
+        if (avail.has_data) {
+          scopeBadgeText.textContent = `${locName} · ${periodLabel} (${(kpi.total_jobs || 0).toLocaleString('vi-VN')} JP · ${(kpi.total_surveys || 0).toLocaleString('vi-VN')} CV)`;
+        } else {
+          scopeBadgeText.textContent = `${locName} · ${periodLabel} · Chưa có dữ liệu (0 JP · 0 CV)`;
+        }
+      }
+
+      if (subTitleEl) {
+        if (avail.has_data) {
+          const provNote = (locKey === 'all' && provNames) ? ` (Tổng hợp từ các tỉnh có dữ liệu: ${provNames})` : '';
+          subTitleEl.textContent = `Dữ liệu thực tế ${locName} · ${periodLabel}: ${(kpi.total_jobs || 0).toLocaleString('vi-VN')} tin tuyển dụng · ${(kpi.total_surveys || 0).toLocaleString('vi-VN')} hồ sơ khảo sát${provNote}`;
+        } else {
+          subTitleEl.textContent = avail.empty_message || `Chưa có dữ liệu cho địa bàn ${locName} trong kỳ ${periodLabel}.`;
+        }
+      }
+
+      // 2. Cập nhật 4 thẻ KPI Tổng quan (phân biệt rõ 0 thực tế vs Chưa có dữ liệu / Thiếu vế tính)
+      const kpiJobs = document.getElementById('kpiOverviewJobs');
+      const kpiCvs = document.getElementById('kpiOverviewCvs');
+      const kpiGap = document.getElementById('kpiOverviewGap');
+      const kpiSkills = document.getElementById('kpiOverviewSkills');
+      const kpiJobsSub = document.getElementById('kpiOverviewJobsSub');
+      const kpiCvsSub = document.getElementById('kpiOverviewCvsSub');
+      const kpiGapSub = document.getElementById('kpiOverviewGapSub');
+
+      if (kpiJobs) kpiJobs.textContent = (kpi.total_jobs || 0).toLocaleString('vi-VN');
+      if (kpiCvs) kpiCvs.textContent = (kpi.total_surveys || 0).toLocaleString('vi-VN');
+      if (kpiGap) {
+        if (avail.has_gap_data && kpi.avg_gap_pct !== null && kpi.avg_gap_pct !== undefined) {
+          kpiGap.textContent = `${kpi.avg_gap_pct.toFixed(1)}%`;
+        } else {
+          kpiGap.textContent = '—';
+        }
+      }
+      if (kpiSkills) kpiSkills.textContent = (kpi.active_skills_count || 0).toLocaleString('vi-VN');
+
+      if (kpiJobsSub) {
+        kpiJobsSub.textContent = avail.has_job_data
+          ? `↗ Dữ liệu thực tế · ${locName} · ${periodLabel}`
+          : `Chưa có dữ liệu tin tuyển dụng (${periodLabel})`;
+      }
+      if (kpiCvsSub) {
+        kpiCvsSub.textContent = avail.has_survey_data
+          ? `↗ Hồ sơ khảo sát thực tế · ${locName} · ${periodLabel}`
+          : `Chưa có dữ liệu khảo sát nguồn cung (${periodLabel})`;
+      }
+      if (kpiGapSub) {
+        kpiGapSub.textContent = avail.has_gap_data
+          ? `↗ Gap trung bình Top 5 (${periodLabel})`
+          : (avail.has_job_data ? 'Chưa đủ dữ liệu cung để tính Gap' : 'Chưa có dữ liệu');
+      }
+
+      // 3. Đồng bộ lại toàn bộ dataset ngành nghề & tất cả các biểu đồ
+      if (typeof applyRegionalIndustryData === 'function') {
+        applyRegionalIndustryData(locKey);
+      }
+
+      // Biểu đồ Tổng quan
+      buildOverviewGapChart();
+      buildIndustryPie();
+      renderYearShiftData(currentShiftPeriodKey);
+      buildIndustryTrendLineChart();
+      buildIndustryShiftCompareChart(currentShiftPeriodKey);
+
+      // Biểu đồ & Bảng Kỹ năng mềm
+      if (typeof buildSoftCombinedBarChart === 'function') buildSoftCombinedBarChart();
+      if (typeof buildSoftTrendLineChart === 'function') buildSoftTrendLineChart();
+      if (typeof renderSoftTable === 'function') renderSoftTable(data.soft_skills || []);
+
+      // Khám phá ngành nghề & Admin & Nhà tuyển dụng
+      if (typeof updateExploreIndustryLocation === 'function') updateExploreIndustryLocation(locKey);
+      if (typeof renderEmployerMarketSkillsTab === 'function') renderEmployerMarketSkillsTab();
+
+      // Thẻ thống kê quản trị
+      if (typeof filterAdminWorkersByLocation === 'function') filterAdminWorkersByLocation(locKey);
+      if (typeof filterAdminJobsByLocation === 'function') filterAdminJobsByLocation(locKey);
     }
 
     function filterAdminWorkersByLocation(locKey) {
@@ -24134,47 +24523,47 @@ function setOverviewChartType(type, btn) {
     }
 
 function updateAdminWorkerStatCards(locKey) {
-      const statsMap = {
-        all: { total: '1,506', analyzed: '1,268', pending: '238', sub: '1.506 hồ sơ CV ứng viên toàn quốc (Hà Nội: 500, TP.HCM: 500, Cần Thơ: 506) đã được AI phân loại kỹ năng' },
-        HN: { total: '500', analyzed: '442', pending: '58', sub: '500 hồ sơ CV ứng viên khu vực Hà Nội · Thế mạnh AI, Big Data & Tài chính' },
-        HCM: { total: '500', analyzed: '436', pending: '64', sub: '500 hồ sơ CV ứng viên khu vực TP.HCM · Thế mạnh Cloud, Fintech & E-Commerce' },
-        CT: { total: '506', analyzed: '390', pending: '116', sub: '506 hồ sơ CV khảo sát sinh viên tại Cần Thơ & ĐBSCL' }
-      };
-      const s = statsMap[locKey] || { total: '0', analyzed: '0', pending: '0', sub: 'Chưa có hồ sơ tại khu vực này' };
+      const live = window.liveDashboardData;
+      const total = (live && live.kpi) ? (live.kpi.total_surveys || 0) : 0;
+      const locName = (live && live.filters && live.filters.location_name) ? live.filters.location_name : (locKey || 'Toàn quốc');
+      const perLabel = (live && live.filters && live.filters.period_label) ? live.filters.period_label : '';
+      const totalStr = total.toLocaleString('vi-VN');
+      const subText = total > 0
+        ? `${totalStr} hồ sơ khảo sát thực tế tại ${locName} (${perLabel})`
+        : `Chưa có hồ sơ khảo sát cho ${locName} (${perLabel})`;
       const elTotal = document.getElementById('workerStatTotal');
       const elAnalyzed = document.getElementById('workerStatAnalyzed');
       const elPending = document.getElementById('workerStatPending');
       const elSub = document.getElementById('workerPageSub');
       const badge = document.getElementById('navBadgeWorkers');
-      if (elTotal) elTotal.textContent = s.total;
-      if (elAnalyzed) elAnalyzed.textContent = s.analyzed;
-      if (elPending) elPending.textContent = s.pending;
-      if (elSub) elSub.textContent = s.sub;
-      if (badge && locKey === 'all') badge.textContent = '1,506';
-      else if (badge) badge.textContent = s.total;
+      if (elTotal) elTotal.textContent = totalStr;
+      if (elAnalyzed) elAnalyzed.textContent = totalStr;
+      if (elPending) elPending.textContent = '0';
+      if (elSub) elSub.textContent = subText;
+      if (badge) badge.textContent = totalStr;
     }
 
 function updateAdminJobStatCards(locKey) {
-      const statsMap = {
-        all: { total: '3,007', active: '2,526', expired: '481', sub: '3.007 tin tuyển dụng toàn quốc (Hà Nội: 1.000, TP.HCM: 1.000, Cần Thơ: 1.007) thu thập từ TopCV & đối tác' },
-        HN: { total: '1,000', active: '854', expired: '146', sub: '1.000 tin tuyển dụng khu vực Hà Nội từ TopCV · 2026' },
-        HCM: { total: '1,000', active: '862', expired: '138', sub: '1.000 tin tuyển dụng khu vực TP. Hồ Chí Minh từ TopCV · 2026' },
-        CT: { total: '1,007', active: '810', expired: '197', sub: '1.007 tin tuyển dụng khu vực Cần Thơ & ĐBSCL từ TopCV' }
-      };
-      const s = statsMap[locKey] || { total: '0', active: '0', expired: '0', sub: 'Chưa có tin tuyển dụng tại khu vực này' };
+      const live = window.liveDashboardData;
+      const total = (live && live.kpi) ? (live.kpi.total_jobs || 0) : 0;
+      const locName = (live && live.filters && live.filters.location_name) ? live.filters.location_name : (locKey || 'Toàn quốc');
+      const perLabel = (live && live.filters && live.filters.period_label) ? live.filters.period_label : '';
+      const totalStr = total.toLocaleString('vi-VN');
+      const subText = total > 0
+        ? `${totalStr} tin tuyển dụng thực tế tại ${locName} (${perLabel})`
+        : `Chưa có tin tuyển dụng cho ${locName} (${perLabel})`;
       const elTotal = document.getElementById('jobStatTotal');
       const elActive = document.getElementById('jobStatActive');
       const elExpired = document.getElementById('jobStatExpired');
       const elSub = document.getElementById('jobPageSub');
       const elBadge = document.getElementById('jobCountBadge');
       const badge = document.getElementById('navBadgeEmployers');
-      if (elTotal) elTotal.textContent = s.total;
-      if (elActive) elActive.textContent = s.active;
-      if (elExpired) elExpired.textContent = s.expired;
-      if (elSub) elSub.textContent = s.sub;
-      if (elBadge) elBadge.textContent = `${s.total} Tin Tuyển Dụng`;
-      if (badge && locKey === 'all') badge.textContent = '3,007';
-      else if (badge) badge.textContent = s.total;
+      if (elTotal) elTotal.textContent = totalStr;
+      if (elActive) elActive.textContent = totalStr;
+      if (elExpired) elExpired.textContent = '0';
+      if (elSub) elSub.textContent = subText;
+      if (elBadge) elBadge.textContent = `${totalStr} Tin Tuyển Dụng`;
+      if (badge) badge.textContent = totalStr;
     }
 
 let aiChatboxState = {
