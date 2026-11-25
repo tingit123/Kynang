@@ -1,0 +1,5620 @@
+{
+  "Python": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập trình python",
+      "python",
+      "python3"
+    ]
+  },
+  "Java": {
+    "skill_type": "HARD",
+    "aliases": [
+      "java core",
+      "java",
+      "lập trình java"
+    ]
+  },
+  "C#": {
+    "skill_type": "HARD",
+    "aliases": [
+      "c sharp",
+      "csharp",
+      "c#",
+      ".net c#"
+    ]
+  },
+  "C++": {
+    "skill_type": "HARD",
+    "aliases": [
+      "cpp",
+      "c++",
+      "c/c++"
+    ]
+  },
+  "JavaScript": {
+    "skill_type": "HARD",
+    "aliases": [
+      "js",
+      "javascript"
+    ]
+  },
+  "TypeScript": {
+    "skill_type": "HARD",
+    "aliases": [
+      "typescript",
+      "ts"
+    ]
+  },
+  "PHP": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập trình php",
+      "php"
+    ]
+  },
+  "HTML/CSS": {
+    "skill_type": "HARD",
+    "aliases": [
+      "css",
+      "html5/css3",
+      "html",
+      "html5",
+      "html/css",
+      "css3"
+    ]
+  },
+  "Kiểm thử": {
+    "skill_type": "HARD",
+    "aliases": [
+      "test cases",
+      "web/app testing",
+      "software testing",
+      "kiểm thử thủ công",
+      "kiểm thử uat",
+      "functional testing",
+      "manual test",
+      "kiểm thử",
+      "uat",
+      "test case",
+      "kiểm thử phần mềm",
+      "testing",
+      "manual testing",
+      "kiểm thử web/app/api",
+      "uat testing"
+    ]
+  },
+  "Backend testing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "backend test",
+      "backend testing",
+      "kiểm thử backend",
+      "api testing"
+    ]
+  },
+  "Load Testing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "load test",
+      "stress testing",
+      "kiểm thử hiệu năng",
+      "performance testing",
+      "load testing"
+    ]
+  },
+  "Performance Testing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "performance testing",
+      "kiểm thử hiệu năng",
+      "performance test"
+    ]
+  },
+  "SQL": {
+    "skill_type": "HARD",
+    "aliases": [
+      "test sql",
+      "structured query language",
+      "sql",
+      "cơ sở dữ liệu sql"
+    ]
+  },
+  "Data Analysis": {
+    "skill_type": "HARD",
+    "aliases": [
+      "data analysis tools",
+      "data analytics",
+      "phân tích dữ liệu",
+      "data analysis"
+    ]
+  },
+  "Data analytics pipelines": {
+    "skill_type": "HARD",
+    "aliases": [
+      "data pipelines",
+      "data pipeline",
+      "xây dựng data pipeline",
+      "data analytics pipelines"
+    ]
+  },
+  "ETL/ELT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "etl",
+      "data ingestion",
+      "etl/elt",
+      "elt"
+    ]
+  },
+  "Computer Vision": {
+    "skill_type": "HARD",
+    "aliases": [
+      "computer vision",
+      "thị giác máy tính"
+    ]
+  },
+  "Machine Learning": {
+    "skill_type": "HARD",
+    "aliases": [
+      "machine learning",
+      "ml",
+      "học máy"
+    ]
+  },
+  "Deep Learning": {
+    "skill_type": "HARD",
+    "aliases": [
+      "deep learning",
+      "học sâu"
+    ]
+  },
+  "Game Design": {
+    "skill_type": "HARD",
+    "aliases": [
+      "game designer",
+      "game design",
+      "thiết kế game"
+    ]
+  },
+  "Gameplay": {
+    "skill_type": "HARD",
+    "aliases": [
+      "gameplay",
+      "thiết kế gameplay"
+    ]
+  },
+  "Game Balancing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "cân bằng game",
+      "game balance",
+      "game balancing"
+    ]
+  },
+  "Phân tích nghiệp vụ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân tích nghiệp vụ",
+      "business analysis",
+      "ba",
+      "system analysis"
+    ]
+  },
+  "Phân tích yêu cầu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân tích yêu cầu",
+      "thu thập yêu cầu",
+      "requirement analysis"
+    ]
+  },
+  "Kế toán tổng hợp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghiệp vụ kế toán tổng hợp",
+      "general accounting",
+      "kế toán tổng hợp"
+    ]
+  },
+  "Kế toán thuế": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán thuế",
+      "nghiệp vụ kế toán thuế",
+      "tax accounting"
+    ]
+  },
+  "Kế toán nội bộ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "internal accounting",
+      "kế toán quản trị",
+      "kế toán nội bộ"
+    ]
+  },
+  "Kế toán công nợ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "accounts receivable",
+      "kế toán công nợ",
+      "quản lý công nợ",
+      "accounts payable",
+      "ar/ap"
+    ]
+  },
+  "Hạch toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hạch toán",
+      "định khoản kế toán",
+      "hạch toán kế toán"
+    ]
+  },
+  "Quyết toán thuế": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quyết toán thuế tndn",
+      "quyết toán thuế thu nhập cá nhân",
+      "quyết toán thuế"
+    ]
+  },
+  "Lập báo cáo tài chính": {
+    "skill_type": "HARD",
+    "aliases": [
+      "financial reporting",
+      "bctc",
+      "lập bctc",
+      "báo cáo tài chính",
+      "lập báo cáo tài chính"
+    ]
+  },
+  "Quản lý kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "inventory management",
+      "quản trị kho",
+      "kế toán kho",
+      "quản lý kho"
+    ]
+  },
+  "Excel": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "excel",
+      "microsoft excel",
+      "ms excel"
+    ]
+  },
+  "Word": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "microsoft word",
+      "word",
+      "ms word"
+    ]
+  },
+  "PowerPoint": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "powerpoint",
+      "ms powerpoint",
+      "microsoft powerpoint",
+      "power point"
+    ]
+  },
+  "Microsoft Office": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "office",
+      "ms office",
+      "msoffice",
+      "tin học văn phòng",
+      "microsoft office"
+    ]
+  },
+  "MISA": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm misa",
+      "misa sme",
+      "misa",
+      "misa amis"
+    ]
+  },
+  "FAST": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "fast",
+      "phần mềm fast",
+      "fast accounting"
+    ]
+  },
+  "Bravo": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "bravo",
+      "phần mềm bravo",
+      "bravo 8",
+      "bravo 7"
+    ]
+  },
+  "SmartPro": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm smartpro",
+      "smartpro"
+    ]
+  },
+  "ERP": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hệ thống erp",
+      "enterprise resource planning",
+      "erp"
+    ]
+  },
+  "SAP": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sap",
+      "sap erp",
+      "sap business one"
+    ]
+  },
+  "Jira": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "jira",
+      "jira software",
+      "atlassian jira"
+    ]
+  },
+  "Confluence": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "confluence",
+      "atlassian confluence"
+    ]
+  },
+  "Figma": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "figma",
+      "figma design"
+    ]
+  },
+  "Git": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "version control git",
+      "gitlab",
+      "git",
+      "bitbucket",
+      "github"
+    ]
+  },
+  "Postman": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "postman",
+      "postman api"
+    ]
+  },
+  "JMeter": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "apache jmeter",
+      "jmeter"
+    ]
+  },
+  "LoadRunner": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "load runner",
+      "hp loadrunner",
+      "loadrunner"
+    ]
+  },
+  "MySQL": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "mysql database",
+      "mysql"
+    ]
+  },
+  "PostgreSQL": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "postgresql",
+      "postgres sql",
+      "postgres"
+    ]
+  },
+  "MongoDB": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "mongo",
+      "mongodb",
+      "mongodb no-sql"
+    ]
+  },
+  "MS SQL": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sql server",
+      "mssql",
+      "ms sql",
+      "microsoft sql server"
+    ]
+  },
+  "Oracle": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "oracle database",
+      "oracle rdbms",
+      "oracle"
+    ]
+  },
+  "Linux": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "centos",
+      "linux",
+      "ubuntu",
+      "linux os",
+      "redhat"
+    ]
+  },
+  "UNIX": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "unix os",
+      "unix"
+    ]
+  },
+  "Windows": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hệ điều hành windows",
+      "windows",
+      "windows os"
+    ]
+  },
+  "AWS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "aws",
+      "amazon aws",
+      "amazon web services"
+    ]
+  },
+  "Azure": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "microsoft azure",
+      "azure"
+    ]
+  },
+  "GCP": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "google cloud platform",
+      "gcp",
+      "google cloud"
+    ]
+  },
+  "Docker": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "docker container",
+      "docker"
+    ]
+  },
+  "Kubernetes": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "kubernetes cluster",
+      "kubernetes",
+      "k8s"
+    ]
+  },
+  "Spark": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "pyspark",
+      "spark",
+      "apache spark"
+    ]
+  },
+  "TensorFlow": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "tensorflow",
+      "tf"
+    ]
+  },
+  "PyTorch": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "pytorch",
+      "pytorch deep learning"
+    ]
+  },
+  "OpenCV": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "opencv vision",
+      "opencv"
+    ]
+  },
+  "Scikit-learn": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "scikit-learn",
+      "sklearn"
+    ]
+  },
+  "Power Apps": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "microsoft power apps",
+      "power apps"
+    ]
+  },
+  "Power Automate": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "microsoft power automate",
+      "power automate"
+    ]
+  },
+  "OneDrive": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "onedrive",
+      "microsoft onedrive"
+    ]
+  },
+  "SharePoint": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sharepoint",
+      "microsoft sharepoint"
+    ]
+  },
+  "3ds Max": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "3dmax",
+      "3ds max",
+      "autodesk 3ds max",
+      "3dsmax"
+    ]
+  },
+  "Maya": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "maya",
+      "autodesk maya"
+    ]
+  },
+  "SketchUp": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sketchup 3d",
+      "sketchup"
+    ]
+  },
+  "Adobe Photoshop": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "pts",
+      "photoshop",
+      "adobe photoshop"
+    ]
+  },
+  "Adobe Illustrator": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "illustrator",
+      "adobe illustrator"
+    ]
+  },
+  "Power BI": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "powerbi",
+      "microsoft power bi",
+      "power bi"
+    ]
+  },
+  "Canva": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "canva design",
+      "canva"
+    ]
+  },
+  "CI/CD": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "cicd",
+      "ci/cd",
+      "ci / cd",
+      "continuous integration"
+    ]
+  },
+  "Luật Kế toán / VAS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thông tư 200",
+      "luật kế toán",
+      "thông tư 133",
+      "chuẩn mực kế toán việt nam",
+      "vas",
+      "luật kế toán / vas"
+    ]
+  },
+  "Luật Thuế": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật thuế",
+      "hóa đơn điện tử",
+      "thuế tncn",
+      "chính sách thuế",
+      "thuế gtgt",
+      "thuế tndn"
+    ]
+  },
+  "SDLC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy trình phát triển phần mềm",
+      "sdlc",
+      "software development life cycle"
+    ]
+  },
+  "Agile/Scrum": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "agile framework",
+      "scrum framework",
+      "scrum",
+      "agile",
+      "agile/scrum"
+    ]
+  },
+  "Context Driven Testing": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "cdt",
+      "context-driven testing",
+      "context driven testing"
+    ]
+  },
+  "Tiếng Anh": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "english proficiency",
+      "tiếng anh thương mại",
+      "tiếng anh giao tiếp",
+      "tiếng anh",
+      "business english",
+      "english"
+    ]
+  },
+  "Tiếng Nhật": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "japanese",
+      "n1",
+      "n2",
+      "tiếng nhật",
+      "tiếng nhật giao tiếp",
+      "n3"
+    ]
+  },
+  "Tiếng Hàn": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng hàn giao tiếp",
+      "topik",
+      "korean",
+      "tiếng hàn"
+    ]
+  },
+  "Tiếng Trung": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung giao tiếp",
+      "tiếng trung",
+      "tiếng hoa",
+      "hsk",
+      "chinese"
+    ]
+  },
+  "TOEIC 400": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ toeic",
+      "toeic 500",
+      "toeic 400",
+      "toeic 450",
+      "toeic"
+    ]
+  },
+  "Chứng chỉ kế toán trưởng": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "kế toán trưởng certificate",
+      "chứng chỉ kế toán trưởng",
+      "chứng chỉ bồi dưỡng kế toán trưởng"
+    ]
+  },
+  "PMP": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "pmp",
+      "project management professional"
+    ]
+  },
+  "CPA": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ cpa",
+      "cpa",
+      "cpa việt nam"
+    ]
+  },
+  "AWS Certified": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "aws certified solutions architect",
+      "aws certificate",
+      "aws certified"
+    ]
+  },
+  "OOP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "oop"
+    ]
+  },
+  "SOLID": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "solid"
+    ]
+  },
+  "UI Testing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ui testing"
+    ]
+  },
+  "Microservices": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "microservices"
+    ]
+  },
+  "Message Queue": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "message queue"
+    ]
+  },
+  "Serenity BDD": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "serenity bdd"
+    ]
+  },
+  "Selenium": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "selenium"
+    ]
+  },
+  "Jenkins": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "jenkins"
+    ]
+  },
+  "AutoCAD": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "autocad"
+    ]
+  },
+  "Điện lạnh": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "điện lạnh"
+    ]
+  },
+  "Làm Sạch Và Vệ Sinh Nhà Bếp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "làm sạch và vệ sinh nhà bếp"
+    ]
+  },
+  "Tiếng Trung Quốc": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung quốc"
+    ]
+  },
+  "GLP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "glp"
+    ]
+  },
+  "GDP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "gdp"
+    ]
+  },
+  "ISO": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "iso"
+    ]
+  },
+  "ISO 13485": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "iso 13485"
+    ]
+  },
+  "Luật dược phẩm": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật dược phẩm"
+    ]
+  },
+  "Ký kết hợp đồng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ký kết hợp đồng"
+    ]
+  },
+  "Thanh toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thanh toán"
+    ]
+  },
+  "Mở L/C": {
+    "skill_type": "HARD",
+    "aliases": [
+      "mở l/c"
+    ]
+  },
+  "Quản lý chứng từ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý chứng từ"
+    ]
+  },
+  "Quản lý tiến độ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý tiến độ"
+    ]
+  },
+  "CorelDRAW": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "coreldraw"
+    ]
+  },
+  "Nghiệp Vụ Kế Toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghiệp vụ kế toán"
+    ]
+  },
+  "Phần mềm kế toán": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm kế toán"
+    ]
+  },
+  "Facebook": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "facebook"
+    ]
+  },
+  "Instagram": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "instagram"
+    ]
+  },
+  "SMS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sms"
+    ]
+  },
+  "Dọn dẹp vệ sinh": {
+    "skill_type": "HARD",
+    "aliases": [
+      "dọn dẹp vệ sinh"
+    ]
+  },
+  "Tiếng Nhật Bản": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng nhật bản"
+    ]
+  },
+  "JLPT N2": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "jlpt n2"
+    ]
+  },
+  "Web Testing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "web testing"
+    ]
+  },
+  "Mobile Testing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "mobile testing"
+    ]
+  },
+  "BRD": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "brd"
+    ]
+  },
+  "User Story": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "user story"
+    ]
+  },
+  "AI Tools": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ai tools"
+    ]
+  },
+  "Khai Báo Hải Quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khai báo hải quan"
+    ]
+  },
+  "Luật Hải Quan": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật hải quan"
+    ]
+  },
+  "Phân Loại Hàng Hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân loại hàng hóa"
+    ]
+  },
+  "Kiểm Tra Chứng Từ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra chứng từ"
+    ]
+  },
+  "Soạn Thảo Hồ Sơ Hải Quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "soạn thảo hồ sơ hải quan"
+    ]
+  },
+  "HS Code": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hs code"
+    ]
+  },
+  "E-CUS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "e-cus"
+    ]
+  },
+  "VNACCS/VCIS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "vnaccs/vcis"
+    ]
+  },
+  "Balancing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "balancing"
+    ]
+  },
+  "Level Design": {
+    "skill_type": "HARD",
+    "aliases": [
+      "level design"
+    ]
+  },
+  "Game Balance Design": {
+    "skill_type": "HARD",
+    "aliases": [
+      "game balance design"
+    ]
+  },
+  "Du lịch Việt Nam": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "du lịch việt nam"
+    ]
+  },
+  "Viết hoá đơn điện tử": {
+    "skill_type": "HARD",
+    "aliases": [
+      "viết hoá đơn điện tử"
+    ]
+  },
+  "Dịch vụ du lịch - lữ hành": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "dịch vụ du lịch - lữ hành"
+    ]
+  },
+  "NET": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "net"
+    ]
+  },
+  "RESTful API": {
+    "skill_type": "HARD",
+    "aliases": [
+      "restful api"
+    ]
+  },
+  "Code Review": {
+    "skill_type": "HARD",
+    "aliases": [
+      "code review"
+    ]
+  },
+  "Entity Framework": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "entity framework"
+    ]
+  },
+  "Dapper": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "dapper"
+    ]
+  },
+  "HPE": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hpe"
+    ]
+  },
+  "Dell": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "dell"
+    ]
+  },
+  "Kỹ năng xử lý khiếu nại": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kỹ năng xử lý khiếu nại"
+    ]
+  },
+  "FMCG": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "fmcg"
+    ]
+  },
+  "Thị trường Horeca": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thị trường horeca"
+    ]
+  },
+  "Visa du lịch": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "visa du lịch"
+    ]
+  },
+  "Quy trình xin visa": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy trình xin visa"
+    ]
+  },
+  "Kinh nghiệm thủ tục xin visa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm thủ tục xin visa"
+    ]
+  },
+  "Sale visa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sale visa"
+    ]
+  },
+  "Visa các nước đường xa, khó": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "visa các nước đường xa, khó"
+    ]
+  },
+  "HSK4": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "hsk4"
+    ]
+  },
+  "Hải quan": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hải quan"
+    ]
+  },
+  "Odoo": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "odoo"
+    ]
+  },
+  "Lead Generation": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lead generation"
+    ]
+  },
+  "Kế Toán Chi Tiết": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán chi tiết"
+    ]
+  },
+  "Nấu ăn chuyên nghiệp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nấu ăn chuyên nghiệp"
+    ]
+  },
+  "Ẩm thực Việt": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ẩm thực việt"
+    ]
+  },
+  "Nấu nướng hiện đại": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nấu nướng hiện đại"
+    ]
+  },
+  "SOP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "sop"
+    ]
+  },
+  "Lập Kế Hoạch": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập kế hoạch"
+    ]
+  },
+  "Kiến Thức Về Du Lịch": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về du lịch"
+    ]
+  },
+  "Kiến Thức Về Địa Điểm Du Lịch": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về địa điểm du lịch"
+    ]
+  },
+  "Y tế/Dược phẩm": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "y tế/dược phẩm"
+    ]
+  },
+  "Bằng lái C1/B2": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bằng lái c1/b2"
+    ]
+  },
+  "Tiếng Hàn Quốc": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng hàn quốc"
+    ]
+  },
+  "Kiến thức về ẩm thực Nhật Bản": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về ẩm thực nhật bản"
+    ]
+  },
+  "Sử dụng dao bếp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sử dụng dao bếp"
+    ]
+  },
+  "Chế biến món ăn Nhật": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chế biến món ăn nhật"
+    ]
+  },
+  "Sales Tour Inbound": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sales tour inbound"
+    ]
+  },
+  "Kiểm Soát Chi Phí": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm soát chi phí"
+    ]
+  },
+  "ECUS (VNACCS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ecus (vnaccs"
+    ]
+  },
+  "WayToGo": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "waytogo"
+    ]
+  },
+  "Phân loại mã HS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "phân loại mã hs"
+    ]
+  },
+  "Certificates of Origin": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "certificates of origin"
+    ]
+  },
+  "Tiếng Việt": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng việt"
+    ]
+  },
+  "Tariff Classification (HTS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "tariff classification (hts"
+    ]
+  },
+  "Adobe Premiere": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "adobe premiere"
+    ]
+  },
+  "CapCut": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "capcut"
+    ]
+  },
+  "UI/UX Design": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ui/ux design"
+    ]
+  },
+  "Phân tích và giải quyết vấn đề": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân tích và giải quyết vấn đề"
+    ]
+  },
+  "Nhận hàng, xuất hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhận hàng, xuất hàng"
+    ]
+  },
+  "Bằng lái xe máy": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bằng lái xe máy"
+    ]
+  },
+  "Kiểm Tra Hàng Hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra hàng hóa"
+    ]
+  },
+  "Sử Dụng Điện Thoại Thông Minh": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sử dụng điện thoại thông minh"
+    ]
+  },
+  "Thông Thạo Đường Phố": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thông thạo đường phố"
+    ]
+  },
+  "Kinh nghiệm giao nhận": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm giao nhận"
+    ]
+  },
+  "Tableau": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "tableau"
+    ]
+  },
+  "Qlik": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "qlik"
+    ]
+  },
+  "Google Data Studio": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "google data studio"
+    ]
+  },
+  "Xử lý log hệ thống": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "xử lý log hệ thống"
+    ]
+  },
+  "EMS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ems"
+    ]
+  },
+  "Tiếng Tây Ban Nha": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng tây ban nha"
+    ]
+  },
+  "Tiếng Ý": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng ý"
+    ]
+  },
+  "Tiếng Bồ Đào Nha": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng bồ đào nha"
+    ]
+  },
+  "Tiếng Ả Rập": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng ả rập"
+    ]
+  },
+  "Lemon": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "lemon"
+    ]
+  },
+  "Thuế nhà thầu": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thuế nhà thầu"
+    ]
+  },
+  "CRM": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "crm"
+    ]
+  },
+  "Sử Dụng Phần Mềm Quản Lý Kho": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sử dụng phần mềm quản lý kho"
+    ]
+  },
+  "Kiểm Kê Hàng Hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm kê hàng hóa"
+    ]
+  },
+  "Giao Nhận Hàng Hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "giao nhận hàng hóa"
+    ]
+  },
+  "Telesales": {
+    "skill_type": "HARD",
+    "aliases": [
+      "telesales"
+    ]
+  },
+  "Associate Degree": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "associate degree"
+    ]
+  },
+  "Bachelor's Degree": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bachelor's degree"
+    ]
+  },
+  "Master's Degree": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "master's degree"
+    ]
+  },
+  "Outlook": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "outlook"
+    ]
+  },
+  "Du lịch, Nhà hàng, Khách sạn": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "du lịch, nhà hàng, khách sạn"
+    ]
+  },
+  "Quản lý hoạt động quầy bar": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý hoạt động quầy bar"
+    ]
+  },
+  "Phân công lịch làm việc": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân công lịch làm việc"
+    ]
+  },
+  "Kiểm tra chất lượng đồ uống": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra chất lượng đồ uống"
+    ]
+  },
+  "Lập kế hoạch mua nguyên liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập kế hoạch mua nguyên liệu"
+    ]
+  },
+  "Kiểm kê hàng tồn kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm kê hàng tồn kho"
+    ]
+  },
+  "Tuyển dụng nhân sự": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tuyển dụng nhân sự"
+    ]
+  },
+  "Đào tạo nhân sự": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đào tạo nhân sự"
+    ]
+  },
+  "Kiến thức đồ uống homemade": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức đồ uống homemade"
+    ]
+  },
+  "Smart City": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "smart city"
+    ]
+  },
+  "ITS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "its"
+    ]
+  },
+  "IoT": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "iot"
+    ]
+  },
+  "Node.js": {
+    "skill_type": "HARD",
+    "aliases": [
+      "node.js"
+    ]
+  },
+  "Next.js": {
+    "skill_type": "HARD",
+    "aliases": [
+      "next.js"
+    ]
+  },
+  "API documentation": {
+    "skill_type": "HARD",
+    "aliases": [
+      "api documentation"
+    ]
+  },
+  "Y tế": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "y tế"
+    ]
+  },
+  "Google Sheets": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "google sheets"
+    ]
+  },
+  "OTA": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ota"
+    ]
+  },
+  "Bán lẻ": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "bán lẻ"
+    ]
+  },
+  "Kinh nghiệm điều phối hàng hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm điều phối hàng hóa"
+    ]
+  },
+  "WMS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "wms"
+    ]
+  },
+  "Testcase Writing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "testcase writing"
+    ]
+  },
+  "Bug Reporting": {
+    "skill_type": "HARD",
+    "aliases": [
+      "bug reporting"
+    ]
+  },
+  "Bug Logging": {
+    "skill_type": "HARD",
+    "aliases": [
+      "bug logging"
+    ]
+  },
+  "Vận Hành Máy Móc Khai Thác": {
+    "skill_type": "HARD",
+    "aliases": [
+      "vận hành máy móc khai thác"
+    ]
+  },
+  "MacOS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "macos"
+    ]
+  },
+  "Intune": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "intune"
+    ]
+  },
+  "Jamf": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "jamf"
+    ]
+  },
+  "Windows Servers": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "windows servers"
+    ]
+  },
+  "VMware": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "vmware"
+    ]
+  },
+  "Hyper-V": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hyper-v"
+    ]
+  },
+  "Microsoft 365": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "microsoft 365"
+    ]
+  },
+  "PowerShell": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "powershell"
+    ]
+  },
+  "Bash": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "bash"
+    ]
+  },
+  "Autopilot": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "autopilot"
+    ]
+  },
+  "SCCM": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sccm"
+    ]
+  },
+  "Chứng chỉ Microsoft": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ microsoft"
+    ]
+  },
+  "Chứng chỉ CompTIA": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ comptia"
+    ]
+  },
+  "Chứng chỉ CISCO": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ cisco"
+    ]
+  },
+  "STLC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "stlc"
+    ]
+  },
+  "Báo cáo lỗi": {
+    "skill_type": "HARD",
+    "aliases": [
+      "báo cáo lỗi"
+    ]
+  },
+  "Phân tích tài liệu nghiệp vụ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân tích tài liệu nghiệp vụ"
+    ]
+  },
+  "Quản Lý Dữ Liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý dữ liệu"
+    ]
+  },
+  "Sử Dụng Phần Mềm Kế Toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sử dụng phần mềm kế toán"
+    ]
+  },
+  "Quản Lý Sổ Sách Kế Toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý sổ sách kế toán"
+    ]
+  },
+  "Laptop": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "laptop"
+    ]
+  },
+  "Sourcing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sourcing"
+    ]
+  },
+  "Auto Layout": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "auto layout"
+    ]
+  },
+  "Components & Variants": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "components & variants"
+    ]
+  },
+  "UI": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ui"
+    ]
+  },
+  "Kiểm toán": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiểm toán"
+    ]
+  },
+  "Am hiểu thị trường hàng hóa": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "am hiểu thị trường hàng hóa"
+    ]
+  },
+  "Lập báo cáo thuế, BCTC, TNCN": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập báo cáo thuế, bctc, tncn"
+    ]
+  },
+  "Theo dõi TSCĐ, CCDC, CPTT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi tscđ, ccdc, cptt"
+    ]
+  },
+  "Kiến thức Nhân sự": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức nhân sự"
+    ]
+  },
+  "Kiểm Soát Nội Bộ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm soát nội bộ"
+    ]
+  },
+  "Google Sheet": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "google sheet"
+    ]
+  },
+  "Kiến Thức Về Các Loại Đồ Uống": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về các loại đồ uống"
+    ]
+  },
+  "Sử Dụng Dụng Cụ Pha Chế": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sử dụng dụng cụ pha chế"
+    ]
+  },
+  "Spring Boot": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "spring boot"
+    ]
+  },
+  "Hibernate": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hibernate"
+    ]
+  },
+  "Spring Security": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "spring security"
+    ]
+  },
+  "RestEasy": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "resteasy"
+    ]
+  },
+  "RabbitMQ": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "rabbitmq"
+    ]
+  },
+  "Extranet OTA": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "extranet ota"
+    ]
+  },
+  "Go": {
+    "skill_type": "HARD",
+    "aliases": [
+      "go"
+    ]
+  },
+  "RESTful APIs": {
+    "skill_type": "HARD",
+    "aliases": [
+      "restful apis"
+    ]
+  },
+  "Microservice": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "microservice"
+    ]
+  },
+  "ECS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ecs"
+    ]
+  },
+  "AWS Lambda": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "aws lambda"
+    ]
+  },
+  "Đào tạo pha chế": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đào tạo pha chế"
+    ]
+  },
+  "Setup/Vận hành quán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "setup/vận hành quán"
+    ]
+  },
+  "An Toàn Hàng Hóa": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "an toàn hàng hóa"
+    ]
+  },
+  "Kinh Nghiệm Làm Việc Kho Bãi": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kinh nghiệm làm việc kho bãi"
+    ]
+  },
+  "Hiểu Biết Về Hàng Hóa": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hiểu biết về hàng hóa"
+    ]
+  },
+  "Incoterms": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "incoterms"
+    ]
+  },
+  "Khai báo AMS/ENS/ACI/AFR": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khai báo ams/ens/aci/afr"
+    ]
+  },
+  "Quản lý vận tải biển (FCL/LCL": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý vận tải biển (fcl/lcl"
+    ]
+  },
+  "Kinh nghiệm chứng từ Logistics": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm chứng từ logistics"
+    ]
+  },
+  "AI technology updates": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ai technology updates"
+    ]
+  },
+  "LLM APIs": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "llm apis"
+    ]
+  },
+  "AI Agent": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ai agent"
+    ]
+  },
+  "Transformers": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "transformers"
+    ]
+  },
+  "Embeddings": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "embeddings"
+    ]
+  },
+  "LLM": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "llm"
+    ]
+  },
+  "Vector Search": {
+    "skill_type": "HARD",
+    "aliases": [
+      "vector search"
+    ]
+  },
+  "Tool Calling": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tool calling"
+    ]
+  },
+  "Fine-tuning": {
+    "skill_type": "HARD",
+    "aliases": [
+      "fine-tuning"
+    ]
+  },
+  "AI Evals": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ai evals"
+    ]
+  },
+  "LLMOps": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "llmops"
+    ]
+  },
+  "AI Safety": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ai safety"
+    ]
+  },
+  "Phục vụ bàn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phục vụ bàn"
+    ]
+  },
+  "Ghi order": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ghi order"
+    ]
+  },
+  "Tiếng Thái": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng thái"
+    ]
+  },
+  "Tiếng Indonesia": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng indonesia"
+    ]
+  },
+  "Tiếng Khmer": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng khmer"
+    ]
+  },
+  "Xúc tiến sản phẩm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xúc tiến sản phẩm"
+    ]
+  },
+  "Đăng ký sản phẩm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đăng ký sản phẩm"
+    ]
+  },
+  "Đăng ký BHXH, BHYT, BHTN": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đăng ký bhxh, bhyt, bhtn"
+    ]
+  },
+  "Nguyên tắc kế toán cơ bản": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "nguyên tắc kế toán cơ bản"
+    ]
+  },
+  "Luật Thuế GTGT": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật thuế gtgt"
+    ]
+  },
+  "Luật Thuế TNDN": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật thuế tndn"
+    ]
+  },
+  "Phòng cháy chữa cháy (PCCC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "phòng cháy chữa cháy (pccc"
+    ]
+  },
+  "Đại số tuyến tính": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "đại số tuyến tính"
+    ]
+  },
+  "API Development": {
+    "skill_type": "HARD",
+    "aliases": [
+      "api development"
+    ]
+  },
+  "Apache Airflow": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "apache airflow"
+    ]
+  },
+  "Apache Kafka": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "apache kafka"
+    ]
+  },
+  "Optimization": {
+    "skill_type": "HARD",
+    "aliases": [
+      "optimization"
+    ]
+  },
+  "Query Optimization": {
+    "skill_type": "HARD",
+    "aliases": [
+      "query optimization"
+    ]
+  },
+  "Model Tuning": {
+    "skill_type": "HARD",
+    "aliases": [
+      "model tuning"
+    ]
+  },
+  "Model Optimization": {
+    "skill_type": "HARD",
+    "aliases": [
+      "model optimization"
+    ]
+  },
+  "Data Governance": {
+    "skill_type": "HARD",
+    "aliases": [
+      "data governance"
+    ]
+  },
+  "GitLab CI/CD": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "gitlab ci/cd"
+    ]
+  },
+  "Infrastructure as Code (IaC": {
+    "skill_type": "HARD",
+    "aliases": [
+      "infrastructure as code (iac"
+    ]
+  },
+  "Terraform": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "terraform"
+    ]
+  },
+  "Prometheus": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "prometheus"
+    ]
+  },
+  "Grafana": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "grafana"
+    ]
+  },
+  "OpenTelemetry": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "opentelemetry"
+    ]
+  },
+  "Loki": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "loki"
+    ]
+  },
+  "Jaeger": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "jaeger"
+    ]
+  },
+  "GitOps": {
+    "skill_type": "HARD",
+    "aliases": [
+      "gitops"
+    ]
+  },
+  "Service Level Objectives (SLOs": {
+    "skill_type": "HARD",
+    "aliases": [
+      "service level objectives (slos"
+    ]
+  },
+  "Quản lý showroom": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý showroom"
+    ]
+  },
+  "Công việc hành chính": {
+    "skill_type": "HARD",
+    "aliases": [
+      "công việc hành chính"
+    ]
+  },
+  "Lập bảng lương": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập bảng lương"
+    ]
+  },
+  "Tính hoa hồng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tính hoa hồng"
+    ]
+  },
+  "Kiotviet": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "kiotviet"
+    ]
+  },
+  "Thành thạo tin học văn phòng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "thành thạo tin học văn phòng"
+    ]
+  },
+  "React": {
+    "skill_type": "HARD",
+    "aliases": [
+      "react"
+    ]
+  },
+  "Phát triển API": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phát triển api"
+    ]
+  },
+  "ERP/CRM": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "erp/crm"
+    ]
+  },
+  "Thiết kế bao bì": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thiết kế bao bì"
+    ]
+  },
+  "Vẽ tay": {
+    "skill_type": "HARD",
+    "aliases": [
+      "vẽ tay"
+    ]
+  },
+  "Hệ thống nhận diện thương hiệu": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hệ thống nhận diện thương hiệu"
+    ]
+  },
+  "Kinh nghiệm thiết kế FMCG": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm thiết kế fmcg"
+    ]
+  },
+  "Kinh nghiệm thiết kế Mỹ phẩm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm thiết kế mỹ phẩm"
+    ]
+  },
+  "Appium": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "appium"
+    ]
+  },
+  "ISTQB Advanced": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "istqb advanced"
+    ]
+  },
+  "Kinh nghiệm thủ kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm thủ kho"
+    ]
+  },
+  "Ghi nhận order": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ghi nhận order"
+    ]
+  },
+  "Theo dõi sự hài lòng của khách": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi sự hài lòng của khách"
+    ]
+  },
+  "Hỗ trợ thanh toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hỗ trợ thanh toán"
+    ]
+  },
+  "Kiểm tra đồng phục/tác phong": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra đồng phục/tác phong"
+    ]
+  },
+  "Phong cách phục vụ Omotenashi": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "phong cách phục vụ omotenashi"
+    ]
+  },
+  "Bằng lái xe hạng C": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bằng lái xe hạng c"
+    ]
+  },
+  "Kinh nghiệm làm việc": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm làm việc"
+    ]
+  },
+  "Kiến thức địa phương": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức địa phương"
+    ]
+  },
+  "Kỹ thuật chế biến món Nhật": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kỹ thuật chế biến món nhật"
+    ]
+  },
+  "Kiểm soát food cost": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm soát food cost"
+    ]
+  },
+  "Kiểm soát định lượng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm soát định lượng"
+    ]
+  },
+  "An toàn PCCC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "an toàn pccc"
+    ]
+  },
+  "Kiểm tra chứng từ hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra chứng từ hải quan"
+    ]
+  },
+  "Kiểm tra Hs code": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra hs code"
+    ]
+  },
+  "Kiểm tra chính sách nhập khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra chính sách nhập khẩu"
+    ]
+  },
+  "Chuẩn bị hồ sơ hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chuẩn bị hồ sơ hải quan"
+    ]
+  },
+  "Khai báo hải quan điện tử": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khai báo hải quan điện tử"
+    ]
+  },
+  "Nhập liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhập liệu"
+    ]
+  },
+  "Kinh nghiệm vị trí tương đương": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm vị trí tương đương"
+    ]
+  },
+  "ECUSS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ecuss"
+    ]
+  },
+  "Kinh nghiệm Sale Tour Inbound": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm sale tour inbound"
+    ]
+  },
+  "Kinh doanh dịch vụ du lịch": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh doanh dịch vụ du lịch"
+    ]
+  },
+  "Quy trình mua hàng End-to-End": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy trình mua hàng end-to-end"
+    ]
+  },
+  "Zinc Alloy Die Casting": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "zinc alloy die casting"
+    ]
+  },
+  "Stamping": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "stamping"
+    ]
+  },
+  "Sheet Metal": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "sheet metal"
+    ]
+  },
+  "Phân tích cấu thành giá thành": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân tích cấu thành giá thành"
+    ]
+  },
+  "Strategic Sourcing": {
+    "skill_type": "HARD",
+    "aliases": [
+      "strategic sourcing"
+    ]
+  },
+  "Commodity Management": {
+    "skill_type": "HARD",
+    "aliases": [
+      "commodity management"
+    ]
+  },
+  "Tiếng Anh đọc hiểu": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh đọc hiểu"
+    ]
+  },
+  "Viết tài liệu đặc tả kỹ thuật": {
+    "skill_type": "HARD",
+    "aliases": [
+      "viết tài liệu đặc tả kỹ thuật"
+    ]
+  },
+  "Đào tạo người dùng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đào tạo người dùng"
+    ]
+  },
+  "GitLab CI": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "gitlab ci"
+    ]
+  },
+  "Quotation": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quotation"
+    ]
+  },
+  "SOPs": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "sops"
+    ]
+  },
+  "Self-Declarations": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "self-declarations"
+    ]
+  },
+  "Sales B2B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sales b2b"
+    ]
+  },
+  "Bằng dược": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bằng dược"
+    ]
+  },
+  "Kinh nghiệm làm việc tại kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm làm việc tại kho"
+    ]
+  },
+  "Kiểm hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm hàng"
+    ]
+  },
+  "Đối chiếu hàng hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đối chiếu hàng hóa"
+    ]
+  },
+  "Kiểm kê định kỳ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm kê định kỳ"
+    ]
+  },
+  "Kinh doanh B2B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh doanh b2b"
+    ]
+  },
+  "Kiến thức CNTT": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức cntt"
+    ]
+  },
+  "Thiết kế nhân vật": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thiết kế nhân vật"
+    ]
+  },
+  "Vẽ tay digital": {
+    "skill_type": "HARD",
+    "aliases": [
+      "vẽ tay digital"
+    ]
+  },
+  "Xuất sprite sheet": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xuất sprite sheet"
+    ]
+  },
+  "Hiểu bố cục thị giác": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hiểu bố cục thị giác"
+    ]
+  },
+  "Hiểu màu sắc": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hiểu màu sắc"
+    ]
+  },
+  "Clip Studio": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "clip studio"
+    ]
+  },
+  "Unity": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "unity"
+    ]
+  },
+  "Spine": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "spine"
+    ]
+  },
+  "After Effects": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "after effects"
+    ]
+  },
+  "Dragon Bones": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "dragon bones"
+    ]
+  },
+  "Cocos": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "cocos"
+    ]
+  },
+  "Quản lý Pháp lý Đầu tư (IRC": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý pháp lý đầu tư (irc"
+    ]
+  },
+  "Quản lý Hồ sơ Pháp nhân": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý hồ sơ pháp nhân"
+    ]
+  },
+  "Lập báo cáo giám sát đầu tư": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập báo cáo giám sát đầu tư"
+    ]
+  },
+  "Quản lý Nhân sự": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý nhân sự"
+    ]
+  },
+  "Luật Thuế (VAT, PIT": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật thuế (vat, pit"
+    ]
+  },
+  "Thủ tục Đầu tư nước ngoài (IRC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thủ tục đầu tư nước ngoài (irc"
+    ]
+  },
+  "Rà soát chứng từ kế toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "rà soát chứng từ kế toán"
+    ]
+  },
+  "Phần mềm khai thuế": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm khai thuế"
+    ]
+  },
+  "Phần mềm BHXH": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm bhxh"
+    ]
+  },
+  "Kiểm soát chứng từ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm soát chứng từ"
+    ]
+  },
+  "Oracle Golden Gate": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "oracle golden gate"
+    ]
+  },
+  "SAN (Storage Area Network": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "san (storage area network"
+    ]
+  },
+  "Database Recovery": {
+    "skill_type": "HARD",
+    "aliases": [
+      "database recovery"
+    ]
+  },
+  "AWR Report Analysis": {
+    "skill_type": "HARD",
+    "aliases": [
+      "awr report analysis"
+    ]
+  },
+  "Kiến thức kế toán Việt Nam": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức kế toán việt nam"
+    ]
+  },
+  "Adobe After Effects": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "adobe after effects"
+    ]
+  },
+  "Kiến thức in ấn": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức in ấn"
+    ]
+  },
+  "Kiến thức dịch vụ F&B": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức dịch vụ f&b"
+    ]
+  },
+  "Kinh nghiệm câu lạc bộ tư nhân": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm câu lạc bộ tư nhân"
+    ]
+  },
+  "DMS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "dms"
+    ]
+  },
+  "ERP Next": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "erp next"
+    ]
+  },
+  "Netsuit": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "netsuit"
+    ]
+  },
+  "DWH & BI": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "dwh & bi"
+    ]
+  },
+  "Tư vấn chuyển đổi số": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tư vấn chuyển đổi số"
+    ]
+  },
+  "Demo giải pháp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "demo giải pháp"
+    ]
+  },
+  "Hỗ trợ sau bán hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hỗ trợ sau bán hàng"
+    ]
+  },
+  "Kinh nghiệm 3-5 năm": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kinh nghiệm 3-5 năm"
+    ]
+  },
+  "HSK 4": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "hsk 4"
+    ]
+  },
+  "Kinh nghiệm Presales": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm presales"
+    ]
+  },
+  "Kinh doanh giải pháp CNTT/B2B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh doanh giải pháp cntt/b2b"
+    ]
+  },
+  "Tư vấn giải pháp AI": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tư vấn giải pháp ai"
+    ]
+  },
+  "Tư vấn giải pháp SaaS": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tư vấn giải pháp saas"
+    ]
+  },
+  "Khảo sát yêu cầu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khảo sát yêu cầu"
+    ]
+  },
+  "Trình bày giải pháp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "trình bày giải pháp"
+    ]
+  },
+  "Demo sản phẩm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "demo sản phẩm"
+    ]
+  },
+  "Xây dựng hồ sơ dự thầu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xây dựng hồ sơ dự thầu"
+    ]
+  },
+  "Hiểu biết về khối Chính phủ": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hiểu biết về khối chính phủ"
+    ]
+  },
+  "Đọc hiểu BOQ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đọc hiểu boq"
+    ]
+  },
+  "Đọc hiểu spec kỹ thuật": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đọc hiểu spec kỹ thuật"
+    ]
+  },
+  "Kiến thức vật tư HVAC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức vật tư hvac"
+    ]
+  },
+  "Kiến thức vật tư ống gió": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức vật tư ống gió"
+    ]
+  },
+  "Phân Tích Thị Trường": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân tích thị trường"
+    ]
+  },
+  "Hiểu Biết Về Vật Liệu": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hiểu biết về vật liệu"
+    ]
+  },
+  "Diễn họa phối cảnh": {
+    "skill_type": "HARD",
+    "aliases": [
+      "diễn họa phối cảnh"
+    ]
+  },
+  "Bán lẻ - Hàng tiêu dùng - FMCG": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "bán lẻ - hàng tiêu dùng - fmcg"
+    ]
+  },
+  "NET Core": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "net core"
+    ]
+  },
+  "Express.js": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "express.js"
+    ]
+  },
+  "Vue.js": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "vue.js"
+    ]
+  },
+  "GraphQL": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "graphql"
+    ]
+  },
+  "Kinh nghiệm F&B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm f&b"
+    ]
+  },
+  "Lập chứng từ xuất nhập khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập chứng từ xuất nhập khẩu"
+    ]
+  },
+  "Lập hồ sơ C/O": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập hồ sơ c/o"
+    ]
+  },
+  "Tính toán RVC": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tính toán rvc"
+    ]
+  },
+  "Xử lý thông quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý thông quan"
+    ]
+  },
+  "Quản lý hồ sơ hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý hồ sơ hải quan"
+    ]
+  },
+  "Nhập liệu hệ thống MES": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "nhập liệu hệ thống mes"
+    ]
+  },
+  "Theo dõi đơn hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi đơn hàng"
+    ]
+  },
+  "Xuất hóa đơn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xuất hóa đơn"
+    ]
+  },
+  "Kinh nghiệm Khai báo hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm khai báo hải quan"
+    ]
+  },
+  "Kinh nghiệm Ngoại thương": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm ngoại thương"
+    ]
+  },
+  "ZBrush": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "zbrush"
+    ]
+  },
+  "Blender": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "blender"
+    ]
+  },
+  "Texture": {
+    "skill_type": "HARD",
+    "aliases": [
+      "texture"
+    ]
+  },
+  "Alpha": {
+    "skill_type": "HARD",
+    "aliases": [
+      "alpha"
+    ]
+  },
+  "Vacom": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "vacom"
+    ]
+  },
+  "PM": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "pm"
+    ]
+  },
+  "EPC": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "epc"
+    ]
+  },
+  "Tiếng Nhật N3": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "tiếng nhật n3"
+    ]
+  },
+  "Kinh nghiệm CCTV": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm cctv"
+    ]
+  },
+  "Xử lý sự cố vận hành": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý sự cố vận hành"
+    ]
+  },
+  "Sử dụng máy tính tiền": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sử dụng máy tính tiền"
+    ]
+  },
+  "Xử lý tiền mặt và thẻ tín dụng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý tiền mặt và thẻ tín dụng"
+    ]
+  },
+  "Kinh nghiệm hệ thống Siêu thị": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kinh nghiệm hệ thống siêu thị"
+    ]
+  },
+  "Lái xe hạng C": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "lái xe hạng c"
+    ]
+  },
+  "Phát Triển Đối Tác": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phát triển đối tác"
+    ]
+  },
+  "Đàm phán thương mại": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đàm phán thương mại"
+    ]
+  },
+  "Thủ tục Hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thủ tục hải quan"
+    ]
+  },
+  "Thủ tục Kiểm dịch": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thủ tục kiểm dịch"
+    ]
+  },
+  "Thông quan hàng hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thông quan hàng hóa"
+    ]
+  },
+  "Đánh giá hiệu quả": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đánh giá hiệu quả"
+    ]
+  },
+  "Bằng lái xe ô tô": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bằng lái xe ô tô"
+    ]
+  },
+  "Khai báo ECOS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "khai báo ecos"
+    ]
+  },
+  "VNACCS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "vnaccs"
+    ]
+  },
+  "Phương thức thanh toán quốc tế": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "phương thức thanh toán quốc tế"
+    ]
+  },
+  "Bán hàng B2B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "bán hàng b2b"
+    ]
+  },
+  "UAV/Drone systems": {
+    "skill_type": "HARD",
+    "aliases": [
+      "uav/drone systems"
+    ]
+  },
+  "PX4": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "px4"
+    ]
+  },
+  "ArduPilot": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ardupilot"
+    ]
+  },
+  "Autonomous navigation": {
+    "skill_type": "HARD",
+    "aliases": [
+      "autonomous navigation"
+    ]
+  },
+  "Obstacle avoidance": {
+    "skill_type": "HARD",
+    "aliases": [
+      "obstacle avoidance"
+    ]
+  },
+  "Delivery drone": {
+    "skill_type": "HARD",
+    "aliases": [
+      "delivery drone"
+    ]
+  },
+  "Autonomous systems": {
+    "skill_type": "HARD",
+    "aliases": [
+      "autonomous systems"
+    ]
+  },
+  "Gazebo": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "gazebo"
+    ]
+  },
+  "SITL": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sitl"
+    ]
+  },
+  "Chứng chỉ UAV": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ uav"
+    ]
+  },
+  "ATGT hàng không": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "atgt hàng không"
+    ]
+  },
+  "Quy chuẩn pháp lý drone": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy chuẩn pháp lý drone"
+    ]
+  },
+  "Tìm kiếm khách hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tìm kiếm khách hàng"
+    ]
+  },
+  "Phối Hợp Dự Án": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phối hợp dự án"
+    ]
+  },
+  "Hồ sơ thầu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hồ sơ thầu"
+    ]
+  },
+  "Chào giá": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chào giá"
+    ]
+  },
+  "Triển khai dự án CNTT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "triển khai dự án cntt"
+    ]
+  },
+  "Kinh nghiệm dịch vụ công nghệ": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kinh nghiệm dịch vụ công nghệ"
+    ]
+  },
+  "Kinh doanh dự án CNTT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh doanh dự án cntt"
+    ]
+  },
+  "Tax Agent": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "tax agent"
+    ]
+  },
+  "Liquidation": {
+    "skill_type": "HARD",
+    "aliases": [
+      "liquidation"
+    ]
+  },
+  "Tax finalization": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tax finalization"
+    ]
+  },
+  "Tính lương": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tính lương"
+    ]
+  },
+  "Kiểm Tra Chứng Từ Kế Toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra chứng từ kế toán"
+    ]
+  },
+  "Lập báo cáo quản trị": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập báo cáo quản trị"
+    ]
+  },
+  "Kê Khai Thuế GTGT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kê khai thuế gtgt"
+    ]
+  },
+  "Kê Khai Thuế TNDN": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kê khai thuế tndn"
+    ]
+  },
+  "Theo dõi tồn kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi tồn kho"
+    ]
+  },
+  "Theo dõi thu chi": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi thu chi"
+    ]
+  },
+  "Thu thập chứng từ kế toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thu thập chứng từ kế toán"
+    ]
+  },
+  "Hạch toán chứng từ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hạch toán chứng từ"
+    ]
+  },
+  "Khấu hao tài sản cố định": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khấu hao tài sản cố định"
+    ]
+  },
+  "Tính thưởng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tính thưởng"
+    ]
+  },
+  "Theo dõi giá vốn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi giá vốn"
+    ]
+  },
+  "Kinh nghiệm làm việc văn phòng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm làm việc văn phòng"
+    ]
+  },
+  "Quản lý KPI": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý kpi"
+    ]
+  },
+  "Kinh nghiệm 2 năm": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kinh nghiệm 2 năm"
+    ]
+  },
+  "Kiến thức tuyến đường": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức tuyến đường"
+    ]
+  },
+  "Kỹ năng máy tính văn phòng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "kỹ năng máy tính văn phòng"
+    ]
+  },
+  "F&B": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "f&b"
+    ]
+  },
+  "Vận hành chuỗi": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "vận hành chuỗi"
+    ]
+  },
+  "Vận hành đa điểm": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "vận hành đa điểm"
+    ]
+  },
+  "Quản lý vận hành F&B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý vận hành f&b"
+    ]
+  },
+  "CDP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "cdp"
+    ]
+  },
+  "Phân quyền người dùng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phân quyền người dùng"
+    ]
+  },
+  "AI SaaS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ai saas"
+    ]
+  },
+  "Data thương mại": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "data thương mại"
+    ]
+  },
+  "Data phục vụ tăng trưởng": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "data phục vụ tăng trưởng"
+    ]
+  },
+  "Sử Dụng Tin Học Văn Phòng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "sử dụng tin học văn phòng"
+    ]
+  },
+  "Nghiệp Vụ Xuất Nhập Khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghiệp vụ xuất nhập khẩu"
+    ]
+  },
+  "Kiến thức về nông sản chuối": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về nông sản chuối"
+    ]
+  },
+  "Xử lý chứng từ Xuất Nhập Khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý chứng từ xuất nhập khẩu"
+    ]
+  },
+  "Kinh nghiệm xử lý hàng Mỹ (US": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm xử lý hàng mỹ (us"
+    ]
+  },
+  "Mua dịch vụ du lịch": {
+    "skill_type": "HARD",
+    "aliases": [
+      "mua dịch vụ du lịch"
+    ]
+  },
+  "Tổ chức đoàn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tổ chức đoàn"
+    ]
+  },
+  "MICE": {
+    "skill_type": "HARD",
+    "aliases": [
+      "mice"
+    ]
+  },
+  "Khách lẻ cao cấp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khách lẻ cao cấp"
+    ]
+  },
+  "Kiến thức Kiểm toán": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức kiểm toán"
+    ]
+  },
+  "Supabase": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "supabase"
+    ]
+  },
+  "End-to-End Test": {
+    "skill_type": "HARD",
+    "aliases": [
+      "end-to-end test"
+    ]
+  },
+  "AI Coding Tools": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ai coding tools"
+    ]
+  },
+  "Bảo mật ứng dụng multi-tenant": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "bảo mật ứng dụng multi-tenant"
+    ]
+  },
+  "Firebase": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "firebase"
+    ]
+  },
+  "Giao Nhận Vận Tải": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "giao nhận vận tải"
+    ]
+  },
+  "TanStack Query": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "tanstack query"
+    ]
+  },
+  "Deno": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "deno"
+    ]
+  },
+  "UX Audit": {
+    "skill_type": "HARD",
+    "aliases": [
+      "ux audit"
+    ]
+  },
+  "Kinh nghiệm sản phẩm SaaS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kinh nghiệm sản phẩm saas"
+    ]
+  },
+  "Mobile Order": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "mobile order"
+    ]
+  },
+  "IPad": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "ipad"
+    ]
+  },
+  "HSK5": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "hsk5"
+    ]
+  },
+  "Mua hàng BOM": {
+    "skill_type": "HARD",
+    "aliases": [
+      "mua hàng bom"
+    ]
+  },
+  "Theo dõi phân luồng hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi phân luồng hải quan"
+    ]
+  },
+  "Thanh toán cho bên forwarder": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thanh toán cho bên forwarder"
+    ]
+  },
+  "VSATTP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "vsattp"
+    ]
+  },
+  "Chứng chỉ VSATTP": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ vsattp"
+    ]
+  },
+  "Chứng chỉ nghề bếp": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ nghề bếp"
+    ]
+  },
+  "Kiến thức về chi nhánh JLR": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về chi nhánh jlr"
+    ]
+  },
+  "Kiến thức về sản phẩm JLR": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về sản phẩm jlr"
+    ]
+  },
+  "Illustration": {
+    "skill_type": "HARD",
+    "aliases": [
+      "illustration"
+    ]
+  },
+  "Typography": {
+    "skill_type": "HARD",
+    "aliases": [
+      "typography"
+    ]
+  },
+  "Concept Development": {
+    "skill_type": "HARD",
+    "aliases": [
+      "concept development"
+    ]
+  },
+  "Composition": {
+    "skill_type": "HARD",
+    "aliases": [
+      "composition"
+    ]
+  },
+  "Color Theory": {
+    "skill_type": "HARD",
+    "aliases": [
+      "color theory"
+    ]
+  },
+  "Perspective": {
+    "skill_type": "HARD",
+    "aliases": [
+      "perspective"
+    ]
+  },
+  "Moodboard": {
+    "skill_type": "HARD",
+    "aliases": [
+      "moodboard"
+    ]
+  },
+  "Style Guide": {
+    "skill_type": "HARD",
+    "aliases": [
+      "style guide"
+    ]
+  },
+  "Book Design": {
+    "skill_type": "HARD",
+    "aliases": [
+      "book design"
+    ]
+  },
+  "Kiến thức VSATTP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức vsattp"
+    ]
+  },
+  "Thủ tục hành chính/pháp lý": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thủ tục hành chính/pháp lý"
+    ]
+  },
+  "Báo cáo P&L": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "báo cáo p&l"
+    ]
+  },
+  "Quản lý bếp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý bếp"
+    ]
+  },
+  "Đọc, viết": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đọc, viết"
+    ]
+  },
+  "Định hướng đường đi": {
+    "skill_type": "HARD",
+    "aliases": [
+      "định hướng đường đi"
+    ]
+  },
+  "Đóng gói": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đóng gói"
+    ]
+  },
+  "Xử lý đơn hoàn trả": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý đơn hoàn trả"
+    ]
+  },
+  "Nhập kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhập kho"
+    ]
+  },
+  "Theo dõi nhập – xuất – tồn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi nhập – xuất – tồn"
+    ]
+  },
+  "Kiểm kê": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm kê"
+    ]
+  },
+  "Kinh nghiệm vận đơn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm vận đơn"
+    ]
+  },
+  "Coding standards": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "coding standards"
+    ]
+  },
+  "Quản lý vận hành đội xe": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý vận hành đội xe"
+    ]
+  },
+  "Điều phối hiện trường": {
+    "skill_type": "HARD",
+    "aliases": [
+      "điều phối hiện trường"
+    ]
+  },
+  "Bằng lái xe B2": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "bằng lái xe b2"
+    ]
+  },
+  "Kiến thức Kho vận": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức kho vận"
+    ]
+  },
+  "Kỹ Năng Quản Lý Công Nợ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kỹ năng quản lý công nợ"
+    ]
+  },
+  "Swagger": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "swagger"
+    ]
+  },
+  "Backend Development": {
+    "skill_type": "HARD",
+    "aliases": [
+      "backend development"
+    ]
+  },
+  "Microservices Architecture": {
+    "skill_type": "HARD",
+    "aliases": [
+      "microservices architecture"
+    ]
+  },
+  "Java Spring Boot": {
+    "skill_type": "HARD",
+    "aliases": [
+      "java spring boot"
+    ]
+  },
+  "Kafka": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "kafka"
+    ]
+  },
+  "API Security": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "api security"
+    ]
+  },
+  "OpenAPI": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "openapi"
+    ]
+  },
+  "Quản lý chứng từ và sổ sách": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý chứng từ và sổ sách"
+    ]
+  },
+  "Nhập liệu tiếng Ả Rập": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhập liệu tiếng ả rập"
+    ]
+  },
+  "Annotation": {
+    "skill_type": "HARD",
+    "aliases": [
+      "annotation"
+    ]
+  },
+  "Wellness": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "wellness"
+    ]
+  },
+  "Transcription": {
+    "skill_type": "HARD",
+    "aliases": [
+      "transcription"
+    ]
+  },
+  "Chuẩn bị nguyên liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chuẩn bị nguyên liệu"
+    ]
+  },
+  "Chế biến món BBQ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chế biến món bbq"
+    ]
+  },
+  "Sử dụng dao thớt": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sử dụng dao thớt"
+    ]
+  },
+  "Nấu ăn món Thái": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nấu ăn món thái"
+    ]
+  },
+  "Kiến thức về nguyên liệu Thái": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về nguyên liệu thái"
+    ]
+  },
+  "TMĐT": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "tmđt"
+    ]
+  },
+  "CRM MISA": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "crm misa"
+    ]
+  },
+  "Thanh toán lương": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thanh toán lương"
+    ]
+  },
+  "NVR/DVR": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "nvr/dvr"
+    ]
+  },
+  "TCP/IP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "tcp/ip"
+    ]
+  },
+  "Switch": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "switch"
+    ]
+  },
+  "Router": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "router"
+    ]
+  },
+  "Wi-Fi": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "wi-fi"
+    ]
+  },
+  "Tủ rack": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "tủ rack"
+    ]
+  },
+  "Trung học cơ sở": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "trung học cơ sở"
+    ]
+  },
+  "Logistic": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "logistic"
+    ]
+  },
+  "Bưu chính": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "bưu chính"
+    ]
+  },
+  "Kinh nghiệm làm hồ sơ thầu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm làm hồ sơ thầu"
+    ]
+  },
+  "Tiếng Pháp": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng pháp"
+    ]
+  },
+  "Xử lý bảo hành": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý bảo hành"
+    ]
+  },
+  "Báo cáo quản trị": {
+    "skill_type": "HARD",
+    "aliases": [
+      "báo cáo quản trị"
+    ]
+  },
+  "Tính giá thành": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tính giá thành"
+    ]
+  },
+  "Tính thưởng/hoa hồng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tính thưởng/hoa hồng"
+    ]
+  },
+  "Excel nâng cao": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "excel nâng cao"
+    ]
+  },
+  "Pivot Table": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "pivot table"
+    ]
+  },
+  "Power Query": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "power query"
+    ]
+  },
+  "Quy định pháp luật về kế toán": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy định pháp luật về kế toán"
+    ]
+  },
+  "Claims": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "claims"
+    ]
+  },
+  "Underwriting": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "underwriting"
+    ]
+  },
+  "Billing": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "billing"
+    ]
+  },
+  "Laptop cá nhân": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "laptop cá nhân"
+    ]
+  },
+  "Phương tiện di chuyển riêng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phương tiện di chuyển riêng"
+    ]
+  },
+  "Kinh nghiệm telesales": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm telesales"
+    ]
+  },
+  "Tư vấn ERP": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tư vấn erp"
+    ]
+  },
+  "Đào tạo ERP": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đào tạo erp"
+    ]
+  },
+  "NestJS": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nestjs"
+    ]
+  },
+  "Clean code": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "clean code"
+    ]
+  },
+  "Authentication/Authorization": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "authentication/authorization"
+    ]
+  },
+  "API Design": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "api design"
+    ]
+  },
+  "Multi-tenant systems": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "multi-tenant systems"
+    ]
+  },
+  "Kỹ năng phục vụ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kỹ năng phục vụ"
+    ]
+  },
+  "Kinh nghiệm hành chính, lễ tân": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm hành chính, lễ tân"
+    ]
+  },
+  "UDP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "udp"
+    ]
+  },
+  "HTTP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "http"
+    ]
+  },
+  "SSL/TLS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ssl/tls"
+    ]
+  },
+  "DNS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "dns"
+    ]
+  },
+  "Hybrid AD": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hybrid ad"
+    ]
+  },
+  "System hardening": {
+    "skill_type": "HARD",
+    "aliases": [
+      "system hardening"
+    ]
+  },
+  "Quyết toán thuế cuối năm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quyết toán thuế cuối năm"
+    ]
+  },
+  "Kiểm tra và đối chiếu sổ sách": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm tra và đối chiếu sổ sách"
+    ]
+  },
+  "Nhận diện rủi ro thuế": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhận diện rủi ro thuế"
+    ]
+  },
+  "Kế toán xây dựng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán xây dựng"
+    ]
+  },
+  "Tailwind CSS": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "tailwind css"
+    ]
+  },
+  "Văn hóa làm việc Nhật Bản": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "văn hóa làm việc nhật bản"
+    ]
+  },
+  "Data Center": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "data center"
+    ]
+  },
+  "Vận hành phần mềm bán hàng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "vận hành phần mềm bán hàng"
+    ]
+  },
+  "Oracle FLEXCUBE": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "oracle flexcube"
+    ]
+  },
+  "Temenos Transact (T24": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "temenos transact (t24"
+    ]
+  },
+  "Deposits": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "deposits"
+    ]
+  },
+  "Solution architecture": {
+    "skill_type": "HARD",
+    "aliases": [
+      "solution architecture"
+    ]
+  },
+  "Latte art": {
+    "skill_type": "HARD",
+    "aliases": [
+      "latte art"
+    ]
+  },
+  "Web/Mobile Application": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "web/mobile application"
+    ]
+  },
+  "Quy trình hải quan": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy trình hải quan"
+    ]
+  },
+  "Lưu trữ hồ sơ chứng từ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lưu trữ hồ sơ chứng từ"
+    ]
+  },
+  "Theo dõi tiến độ lô hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi tiến độ lô hàng"
+    ]
+  },
+  "Hướng dẫn khai báo hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hướng dẫn khai báo hải quan"
+    ]
+  },
+  "Đăng ký kiểm tra chuyên ngành": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đăng ký kiểm tra chuyên ngành"
+    ]
+  },
+  "Phối hợp thanh toán L/C": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phối hợp thanh toán l/c"
+    ]
+  },
+  "Theo dõi trạng thái tờ khai": {
+    "skill_type": "HARD",
+    "aliases": [
+      "theo dõi trạng thái tờ khai"
+    ]
+  },
+  "Chính sách mặt hàng": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "chính sách mặt hàng"
+    ]
+  },
+  "Giao Tiếp Tiếng Anh": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "giao tiếp tiếng anh"
+    ]
+  },
+  "Lắp đặt thiết bị sự kiện": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lắp đặt thiết bị sự kiện"
+    ]
+  },
+  "Chỉnh nhạc chương trình": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chỉnh nhạc chương trình"
+    ]
+  },
+  "Kinh nghiệm làm sự kiện": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm làm sự kiện"
+    ]
+  },
+  "Kiểm soát số liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm soát số liệu"
+    ]
+  },
+  "Điều phối đơn hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "điều phối đơn hàng"
+    ]
+  },
+  "Kế toán dịch vụ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán dịch vụ"
+    ]
+  },
+  "Chứng chỉ hành nghề KTV": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ hành nghề ktv"
+    ]
+  },
+  "Google Docs": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "google docs"
+    ]
+  },
+  "Phần mềm Thuế": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm thuế"
+    ]
+  },
+  "Phần mềm bán hàng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm bán hàng"
+    ]
+  },
+  "Phần mềm mua hàng": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm mua hàng"
+    ]
+  },
+  "Xuất Nhập Khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xuất nhập khẩu"
+    ]
+  },
+  "Đọc Hiểu Tài Liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đọc hiểu tài liệu"
+    ]
+  },
+  "Soát xét số liệu kế toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "soát xét số liệu kế toán"
+    ]
+  },
+  "Smart Pro": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "smart pro"
+    ]
+  },
+  "Lập Kế Hoạch Và Ngân Sách": {
+    "skill_type": "HARD",
+    "aliases": [
+      "lập kế hoạch và ngân sách"
+    ]
+  },
+  "Kiến Thức Kế Toán Toàn Diện": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức kế toán toàn diện"
+    ]
+  },
+  "Quản lý vận hành bưu cục": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý vận hành bưu cục"
+    ]
+  },
+  "Xử lý khiếu nại": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xử lý khiếu nại"
+    ]
+  },
+  "Khai thuế GTGT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khai thuế gtgt"
+    ]
+  },
+  "Hóa đơn VAT": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hóa đơn vat"
+    ]
+  },
+  "ACCA": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "acca"
+    ]
+  },
+  "Kế toán dự án bất động sản": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kế toán dự án bất động sản"
+    ]
+  },
+  "VAT": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "vat"
+    ]
+  },
+  "JSON": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "json"
+    ]
+  },
+  "Log Analysis": {
+    "skill_type": "HARD",
+    "aliases": [
+      "log analysis"
+    ]
+  },
+  "Workflow Logic": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "workflow logic"
+    ]
+  },
+  "Audit Log Analysis": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "audit log analysis"
+    ]
+  },
+  "ERP/CRM Systems": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "erp/crm systems"
+    ]
+  },
+  "Log Viewer": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "log viewer"
+    ]
+  },
+  "BI/Dashboard": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "bi/dashboard"
+    ]
+  },
+  "Kiến thức về ERP": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về erp"
+    ]
+  },
+  "Kiểm thử phần mềm (UAT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kiểm thử phần mềm (uat"
+    ]
+  },
+  "Microsoft Dynamics": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "microsoft dynamics"
+    ]
+  },
+  "Kiến thức dịch vụ thẩm mỹ": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức dịch vụ thẩm mỹ"
+    ]
+  },
+  "Crawling/Scraping": {
+    "skill_type": "HARD",
+    "aliases": [
+      "crawling/scraping"
+    ]
+  },
+  "Apache NiFi": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "apache nifi"
+    ]
+  },
+  "ClickHouse": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "clickhouse"
+    ]
+  },
+  "Elasticsearch": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "elasticsearch"
+    ]
+  },
+  "Neo4j": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "neo4j"
+    ]
+  },
+  "Amazon S3": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "amazon s3"
+    ]
+  },
+  "Batch vs Streaming": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "batch vs streaming"
+    ]
+  },
+  "Star Schema": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "star schema"
+    ]
+  },
+  "Hive": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "hive"
+    ]
+  },
+  "Nghiệp vụ khai báo hải quan": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghiệp vụ khai báo hải quan"
+    ]
+  },
+  "Phần mềm khai hải quan": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "phần mềm khai hải quan"
+    ]
+  },
+  "Xác định mã HS code": {
+    "skill_type": "HARD",
+    "aliases": [
+      "xác định mã hs code"
+    ]
+  },
+  "Kiểm tra chuyên ngành": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiểm tra chuyên ngành"
+    ]
+  },
+  "Kinh nghiệm thương mại": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm thương mại"
+    ]
+  },
+  "Huấn luyện nhân sự": {
+    "skill_type": "HARD",
+    "aliases": [
+      "huấn luyện nhân sự"
+    ]
+  },
+  "Dự báo": {
+    "skill_type": "HARD",
+    "aliases": [
+      "dự báo"
+    ]
+  },
+  "Unreal Engine": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "unreal engine"
+    ]
+  },
+  "Substance Painter": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "substance painter"
+    ]
+  },
+  "Visual Storytelling": {
+    "skill_type": "HARD",
+    "aliases": [
+      "visual storytelling"
+    ]
+  },
+  "Performance Optimization": {
+    "skill_type": "HARD",
+    "aliases": [
+      "performance optimization"
+    ]
+  },
+  "Sculpting": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sculpting"
+    ]
+  },
+  "UI/UX Principles": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ui/ux principles"
+    ]
+  },
+  "Nghiên cứu người dùng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghiên cứu người dùng"
+    ]
+  },
+  "Layout": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "layout"
+    ]
+  },
+  "IOS Human Interface Guidelines": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ios human interface guidelines"
+    ]
+  },
+  "Android Material Design": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "android material design"
+    ]
+  },
+  "Quy trình vận hành F&B": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy trình vận hành f&b"
+    ]
+  },
+  "Kiến thức về F&B": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về f&b"
+    ]
+  },
+  "Thông tư 99": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "thông tư 99"
+    ]
+  },
+  "IFRS": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ifrs"
+    ]
+  },
+  "Chứng chỉ hành nghề kế toán": {
+    "skill_type": "CERTIFICATION",
+    "aliases": [
+      "chứng chỉ hành nghề kế toán"
+    ]
+  },
+  "Quy trình XNK": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "quy trình xnk"
+    ]
+  },
+  "Kiểm dịch": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiểm dịch"
+    ]
+  },
+  "Chứng từ XNK": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "chứng từ xnk"
+    ]
+  },
+  "Nhập Xuất Hàng Hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhập xuất hàng hóa"
+    ]
+  },
+  "Misa CRM": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "misa crm"
+    ]
+  },
+  "VFX": {
+    "skill_type": "HARD",
+    "aliases": [
+      "vfx"
+    ]
+  },
+  "Particle System": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "particle system"
+    ]
+  },
+  "Shader": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "shader"
+    ]
+  },
+  "Tối ưu hóa VFX": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tối ưu hóa vfx"
+    ]
+  },
+  "POS system": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "pos system"
+    ]
+  },
+  "Tuyển dụng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tuyển dụng"
+    ]
+  },
+  "Nhà hàng/Khách sạn/Du lịch": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhà hàng/khách sạn/du lịch"
+    ]
+  },
+  "Quản lý đội xe": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý đội xe"
+    ]
+  },
+  "Kiến thức về đăng kiểm xe": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về đăng kiểm xe"
+    ]
+  },
+  "Kiến thức về xe tải": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về xe tải"
+    ]
+  },
+  "Kiến thức về các tuyến đường": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "kiến thức về các tuyến đường"
+    ]
+  },
+  "Kinh nghiệm quản lý xe": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm quản lý xe"
+    ]
+  },
+  "Luật Xuất Nhập Khẩu": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "luật xuất nhập khẩu"
+    ]
+  },
+  "Chuyên môn Thu mua/Mua hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chuyên môn thu mua/mua hàng"
+    ]
+  },
+  "Thu mua/Mua hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "thu mua/mua hàng"
+    ]
+  },
+  "Kinh nghiệm sale, tư vấn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm sale, tư vấn"
+    ]
+  },
+  "Kinh nghiệm xuất nhập khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh nghiệm xuất nhập khẩu"
+    ]
+  },
+  "B2B": {
+    "skill_type": "HARD",
+    "aliases": [
+      "b2b"
+    ]
+  },
+  "Hệ thống thuế của Việt Nam": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "hệ thống thuế của việt nam"
+    ]
+  },
+  "Hải Dương": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hải dương"
+    ]
+  },
+  "Chuẩn bị sốt": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chuẩn bị sốt"
+    ]
+  },
+  "Du lịch hàng năm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "du lịch hàng năm"
+    ]
+  },
+  "Kho vận/Giao hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kho vận/giao hàng"
+    ]
+  },
+  "Tiếng Trung HSK 5": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung hsk 5"
+    ]
+  },
+  "Direct Sales": {
+    "skill_type": "HARD",
+    "aliases": [
+      "direct sales"
+    ]
+  },
+  "V-Ray": {
+    "skill_type": "TOOL",
+    "aliases": [
+      "v-ray"
+    ]
+  },
+  "Shading": {
+    "skill_type": "HARD",
+    "aliases": [
+      "shading"
+    ]
+  },
+  "Rendering": {
+    "skill_type": "HARD",
+    "aliases": [
+      "rendering"
+    ]
+  },
+  "Tiếng Trung HSK 4": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung hsk 4"
+    ]
+  },
+  "B2G": {
+    "skill_type": "HARD",
+    "aliases": [
+      "b2g"
+    ]
+  },
+  "Sales IT Phần mềm": {
+    "skill_type": "HARD",
+    "aliases": [
+      "sales it phần mềm"
+    ]
+  },
+  "Bill of Lading": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "bill of lading"
+    ]
+  },
+  "Đánh máy nhanh": {
+    "skill_type": "HARD",
+    "aliases": [
+      "đánh máy nhanh"
+    ]
+  },
+  "Phụ cấp: Ăn trưa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phụ cấp: ăn trưa"
+    ]
+  },
+  "Cơ khí / Tự động hóa": {
+    "skill_type": "HARD",
+    "aliases": [
+      "cơ khí / tự động hóa"
+    ]
+  },
+  "Khai báo hải quan và kiểm dịch": {
+    "skill_type": "HARD",
+    "aliases": [
+      "khai báo hải quan và kiểm dịch"
+    ]
+  },
+  "UI/UX": {
+    "skill_type": "KNOWLEDGE",
+    "aliases": [
+      "ui/ux"
+    ]
+  },
+  "Diễn đạt trôi chảy": {
+    "skill_type": "HARD",
+    "aliases": [
+      "diễn đạt trôi chảy"
+    ]
+  },
+  "Có phương tiện di chuyển": {
+    "skill_type": "HARD",
+    "aliases": [
+      "có phương tiện di chuyển"
+    ]
+  },
+  "B2C": {
+    "skill_type": "HARD",
+    "aliases": [
+      "b2c"
+    ]
+  },
+  "May mặc / Thời trang": {
+    "skill_type": "HARD",
+    "aliases": [
+      "may mặc / thời trang"
+    ]
+  },
+  "Product Owner/Product Manager": {
+    "skill_type": "HARD",
+    "aliases": [
+      "product owner/product manager"
+    ]
+  },
+  "Tiếng Anh Giao tiếp cơ bản": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh giao tiếp cơ bản"
+    ]
+  },
+  "Tiếng Anh Giao tiếp thành thạo": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh giao tiếp thành thạo"
+    ]
+  },
+  "Bán lẻ/Dịch vụ đời sống": {
+    "skill_type": "HARD",
+    "aliases": [
+      "bán lẻ/dịch vụ đời sống"
+    ]
+  },
+  "Tiếng Hàn Giao tiếp thành thạo": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng hàn giao tiếp thành thạo"
+    ]
+  },
+  "Tiếng Hàn Đọc hiểu": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng hàn đọc hiểu"
+    ]
+  },
+  "Kế hoạch sử dụng dòng tiền": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế hoạch sử dụng dòng tiền"
+    ]
+  },
+  "Nhân sự/Hành chính/Pháp chế": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nhân sự/hành chính/pháp chế"
+    ]
+  },
+  "Chứng từ": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chứng từ"
+    ]
+  },
+  "Nghiệp Vụ Nhập Khẩu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghiệp vụ nhập khẩu"
+    ]
+  },
+  "Điều phối giao hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "điều phối giao hàng"
+    ]
+  },
+  "Kinh doanh HORECA": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kinh doanh horeca"
+    ]
+  },
+  "Tiếng Hàn TOPIK 5": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng hàn topik 5"
+    ]
+  },
+  "Database Administrator (DBA": {
+    "skill_type": "HARD",
+    "aliases": [
+      "database administrator (dba"
+    ]
+  },
+  "Technical Leader": {
+    "skill_type": "HARD",
+    "aliases": [
+      "technical leader"
+    ]
+  },
+  "IT Management/Specialist": {
+    "skill_type": "HARD",
+    "aliases": [
+      "it management/specialist"
+    ]
+  },
+  "Tiếng Anh TOEIC 550": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh toeic 550"
+    ]
+  },
+  "Tiếng Trung HSK 6": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung hsk 6"
+    ]
+  },
+  "Pha chế (Barista": {
+    "skill_type": "HARD",
+    "aliases": [
+      "pha chế (barista"
+    ]
+  },
+  "Giọng miền Bắc": {
+    "skill_type": "HARD",
+    "aliases": [
+      "giọng miền bắc"
+    ]
+  },
+  "Phát âm chuẩn": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phát âm chuẩn"
+    ]
+  },
+  "Tiếng Nhật Đọc hiểu": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng nhật đọc hiểu"
+    ]
+  },
+  "IT Consultant": {
+    "skill_type": "HARD",
+    "aliases": [
+      "it consultant"
+    ]
+  },
+  "In ấn / Xuất bản": {
+    "skill_type": "HARD",
+    "aliases": [
+      "in ấn / xuất bản"
+    ]
+  },
+  "Tiếng Trung Đọc hiểu": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung đọc hiểu"
+    ]
+  },
+  "Bán hàng kỹ thuật IT": {
+    "skill_type": "HARD",
+    "aliases": [
+      "bán hàng kỹ thuật it"
+    ]
+  },
+  "IT Helpdesk/IT support": {
+    "skill_type": "HARD",
+    "aliases": [
+      "it helpdesk/it support"
+    ]
+  },
+  "Điều hành tour": {
+    "skill_type": "HARD",
+    "aliases": [
+      "điều hành tour"
+    ]
+  },
+  "Technical Director": {
+    "skill_type": "HARD",
+    "aliases": [
+      "technical director"
+    ]
+  },
+  "Tiếng Anh TOEIC 600": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh toeic 600"
+    ]
+  },
+  "Chăm sóc sức khỏe / Làm đẹp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "chăm sóc sức khỏe / làm đẹp"
+    ]
+  },
+  "Concept Artist": {
+    "skill_type": "HARD",
+    "aliases": [
+      "concept artist"
+    ]
+  },
+  "Nghệ thuật/Hoạt hình/Game": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nghệ thuật/hoạt hình/game"
+    ]
+  },
+  "Tiếng Anh TOEIC 650": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh toeic 650"
+    ]
+  },
+  "Tiếng Anh IELTS 6.0": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh ielts 6.0"
+    ]
+  },
+  "Solution Architect": {
+    "skill_type": "HARD",
+    "aliases": [
+      "solution architect"
+    ]
+  },
+  "Báo chí": {
+    "skill_type": "HARD",
+    "aliases": [
+      "báo chí"
+    ]
+  },
+  "Tiếng Nhật JLPT N2": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng nhật jlpt n2"
+    ]
+  },
+  "Tiếng Nhật JLPT N1": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng nhật jlpt n1"
+    ]
+  },
+  "Tiếng Nhật JLPT N3": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng nhật jlpt n3"
+    ]
+  },
+  "Kế toán thanh toán": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán thanh toán"
+    ]
+  },
+  "Tiếng Trung HSK 3": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng trung hsk 3"
+    ]
+  },
+  "Tiếng Pháp Đọc hiểu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "tiếng pháp đọc hiểu"
+    ]
+  },
+  "Hành chính kho": {
+    "skill_type": "HARD",
+    "aliases": [
+      "hành chính kho"
+    ]
+  },
+  "Điện/Điện tử/Viễn thông": {
+    "skill_type": "HARD",
+    "aliases": [
+      "điện/điện tử/viễn thông"
+    ]
+  },
+  "Tiếng Anh IELTS 7.0": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh ielts 7.0"
+    ]
+  },
+  "Công nhân": {
+    "skill_type": "HARD",
+    "aliases": [
+      "công nhân"
+    ]
+  },
+  "Phim và truyền hình": {
+    "skill_type": "HARD",
+    "aliases": [
+      "phim và truyền hình"
+    ]
+  },
+  "Quản lý trạm giao nhận/bưu cục": {
+    "skill_type": "HARD",
+    "aliases": [
+      "quản lý trạm giao nhận/bưu cục"
+    ]
+  },
+  "Tiếng Anh IELTS 5.5": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh ielts 5.5"
+    ]
+  },
+  "Tiếng Anh TOEIC 700": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh toeic 700"
+    ]
+  },
+  "Tiếng Anh IELTS 6.5": {
+    "skill_type": "LANGUAGE",
+    "aliases": [
+      "tiếng anh ielts 6.5"
+    ]
+  },
+  "Kế toán chi phí/giá thành": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán chi phí/giá thành"
+    ]
+  },
+  "Kế toán kho/nguyên vật liệu": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán kho/nguyên vật liệu"
+    ]
+  },
+  "Kế toán mua hàng": {
+    "skill_type": "HARD",
+    "aliases": [
+      "kế toán mua hàng"
+    ]
+  },
+  "Nông lâm ngư nghiệp": {
+    "skill_type": "HARD",
+    "aliases": [
+      "nông lâm ngư nghiệp"
+    ]
+  },
+  "Kỹ năng giao tiếp": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "communicate verbally",
+      "communication",
+      "communication principles",
+      "communication skills",
+      "digital communication and collaboration",
+      "electronic communication",
+      "feedback",
+      "giao tiếp tốt",
+      "giao tiếp với khách quốc tế",
+      "give constructive feedback",
+      "giọng nói dễ nghe",
+      "interpersonal skills",
+      "kỹ năng giao tiếp",
+      "kỹ năng kể chuyện bằng hình ảnh",
+      "kỹ năng phản hồi",
+      "kỹ năng trình bày",
+      "listen actively",
+      "lắng nghe",
+      "phản hồi (feedback",
+      "presentation skills",
+      "public speaking",
+      "thuyết trình thuyết phục",
+      "trình bày ý tưởng",
+      "visual presentation techniques",
+      "ứng xử"
+    ]
+  },
+  "Làm việc nhóm": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "chia sẻ và học hỏi",
+      "collaboration",
+      "cooperate with colleagues",
+      "cross-functional coordination",
+      "có khả năng làm việc độc lập và phối hợp tốt với đồng nghiệp",
+      "encourage teambuilding",
+      "hòa đồng",
+      "kỹ năng phối hợp",
+      "kỹ năng phối hợp liên phòng ban",
+      "làm việc liên phòng ban",
+      "làm việc nhóm",
+      "làm việc độc lập/nhóm",
+      "manage teamwork",
+      "phối hợp liên phòng ban",
+      "phối hợp nhóm",
+      "phối hợp nội bộ",
+      "support colleagues",
+      "team player",
+      "teamwork",
+      "teamwork principles",
+      "tinh thần tập thể",
+      "tinh thần đồng đội",
+      "tinh thần đồng đội linh hoạt",
+      "work in teams"
+    ]
+  },
+  "Đàm phán & Thuyết phục": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "giới thiệu thực đơn",
+      "khả năng thương lượng hợp đồng",
+      "kỹ năng thuyết phục",
+      "kỹ năng thuyết phục và chốt sale",
+      "kỹ năng đàm phán",
+      "negotiate compromises",
+      "negotiation",
+      "persuade others",
+      "persuasion",
+      "thương lượng",
+      "xử lý từ chối",
+      "đam mê kinh doanh",
+      "đàm phán & thuyết phục",
+      "đàm phán giá cả"
+    ]
+  },
+  "Chăm sóc khách hàng": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "build business relationships",
+      "chăm sóc khách hàng",
+      "chăm sóc và phục vụ khách hàng",
+      "consultation methods",
+      "customer care",
+      "customer insight",
+      "customer service",
+      "design customer experiences",
+      "engage with stakeholders",
+      "hỗ trợ khách hàng",
+      "kỹ năng xây dựng quan hệ",
+      "maintain relationship with customers",
+      "manage the customer experience",
+      "phát triển mối quan hệ",
+      "quan hệ & chăm sóc khách hàng",
+      "satisfy customers",
+      "thái độ phục vụ",
+      "thái độ phục vụ chuyên nghiệp",
+      "xây dựng mối quan hệ tốt",
+      "xây dựng mối quan hệ với khách hàng",
+      "xây dựng và duy trì mối quan hệ"
+    ]
+  },
+  "Kỹ năng lãnh đạo": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "apply strategic thinking",
+      "coach employees",
+      "conflict resolution",
+      "delegation",
+      "giám sát",
+      "giám sát công việc",
+      "giảng dạy",
+      "implement strategic planning",
+      "kỹ năng lãnh đạo",
+      "kỹ năng điều phối công việc",
+      "kỹ năng đào tạo nhân viên",
+      "lead a team",
+      "lead others",
+      "leadership",
+      "leadership principles",
+      "manage a team",
+      "mentor individuals",
+      "motivate others",
+      "organisational structure",
+      "people management",
+      "project management",
+      "project-based learning",
+      "provide technical training",
+      "quản lý nhóm",
+      "recruit employees",
+      "resolve conflicts",
+      "strategic planning",
+      "supervise the management of an establishment",
+      "team leading",
+      "team management",
+      "trưởng nhóm"
+    ]
+  },
+  "Quản lý thời gian": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "develop working procedures",
+      "goal setting",
+      "khả năng xử lý đa nhiệm",
+      "kỹ năng lập kế hoạch",
+      "kỹ năng đa nhiệm",
+      "manage time",
+      "multi-tasking",
+      "organisation skills",
+      "organization skills",
+      "organizational skills",
+      "prioritization",
+      "quản lý thời gian",
+      "quản lý đa nhiệm",
+      "time management",
+      "tư duy sắp xếp tổ chức",
+      "tổ chức công việc",
+      "điều phối và sắp xếp công việc",
+      "đúng giờ",
+      "đảm bảo tiến độ",
+      "đảm bảo tiến độ công việc"
+    ]
+  },
+  "Giải quyết vấn đề": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "decision making",
+      "develop strategy to solve problems",
+      "giải quyết vấn đề",
+      "khả năng xử lý tình huống",
+      "khắc phục sự cố",
+      "kỹ năng quyết đoán",
+      "kỹ năng xử lý tình huống khẩn cấp",
+      "kỹ năng ứng biến",
+      "make decisions",
+      "phân tích và xử lý vấn đề",
+      "problem-solving",
+      "root cause analysis",
+      "solve problems",
+      "troubleshooting",
+      "xử lý khủng hoảng kinh doanh",
+      "xử lý sự cố",
+      "xử lý tình huống",
+      "xử lý tình huống khẩn cấp",
+      "xử lý tình huống linh hoạt",
+      "đưa ra quyết định"
+    ]
+  },
+  "Tư duy logic & Phản biện": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "analyse concepts",
+      "analytical skills",
+      "control systems",
+      "critical thinking",
+      "data cross-referencing",
+      "data quality assessment",
+      "empirical analysis",
+      "information confidentiality",
+      "information extraction",
+      "kỹ năng phân tích tổng hợp làm báo cáo",
+      "kỹ năng quản lý thông tin",
+      "logical thinking",
+      "phân tích lỗi",
+      "quality standards",
+      "quan sát tốt",
+      "strategic thinking",
+      "synthesise information",
+      "systems theory",
+      "think analytically",
+      "trí nhớ tốt",
+      "tư duy cải tiến",
+      "tư duy hướng đến mục tiêu",
+      "tư duy hệ thống",
+      "tư duy kiểm soát số liệu",
+      "tư duy logic",
+      "tư duy logic & phản biện",
+      "tư duy phân tích",
+      "tư duy phản biện",
+      "tư duy phản biện & logic",
+      "use logic programming"
+    ]
+  },
+  "Chủ động & Trách nhiệm": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "accountability",
+      "adapt to change",
+      "adaptability",
+      "assume responsibility",
+      "cam kết tiến độ",
+      "chủ động",
+      "chủ động & trách nhiệm",
+      "chủ động trong công việc",
+      "cầu thị",
+      "cầu tiến",
+      "cập nhật công nghệ mới",
+      "cập nhật kiến thức",
+      "demonstrate willingness to learn",
+      "dependability",
+      "dám nghĩ dám làm",
+      "ham học hỏi",
+      "học hỏi nhanh",
+      "học tập liên tục",
+      "khả năng thích ứng",
+      "learning ability",
+      "learning agility",
+      "làm việc độc lập",
+      "ownership",
+      "proactive",
+      "proactivity",
+      "reliability",
+      "responsibility",
+      "self-management",
+      "self-motivation",
+      "show initiative",
+      "show professional responsibility",
+      "sẵn sàng học hỏi",
+      "take initiative",
+      "think proactively",
+      "tinh thần cầu tiến",
+      "tinh thần học hỏi",
+      "tinh thần sở hữu",
+      "tinh thần trách nhiệm cao",
+      "trách nhiệm",
+      "trách nhiệm cao",
+      "tư duy hướng đến mục tiêu (khi mang nghĩa ownership",
+      "tự học",
+      "tự học nhanh",
+      "tự quản lý",
+      "tự tạo động lực",
+      "work independently",
+      "định hướng kết quả"
+    ]
+  },
+  "Chịu áp lực công việc": {
+    "skill_type": "SOFT",
+    "aliases": [
+      "chịu áp lực",
+      "chịu áp lực cao",
+      "chịu áp lực công việc",
+      "chịu được áp lực cao",
+      "chịu được áp lực kpi",
+      "cope with stress",
+      "deal with challenging work conditions",
+      "deal with pressure from unexpected circumstances",
+      "khả năng chịu áp lực cao",
+      "kiên nhẫn",
+      "kỹ năng chịu áp lực",
+      "kỹ năng chịu áp lực cao",
+      "làm việc dưới áp lực cao",
+      "react calmly in stressful situations",
+      "resilience",
+      "stress tolerance",
+      "tolerate stress",
+      "work under pressure"
+    ]
+  }
+}

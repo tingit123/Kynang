@@ -13,8 +13,8 @@ import unittest
 from datetime import date
 import requests
 
-API_URL = "http://localhost:8000/api/dashboard/analytics"
-DASHBOARD_URL = "http://localhost:8080/"
+API_URL = "http://127.0.0.1:8000/api/dashboard/analytics"
+DASHBOARD_URL = "http://127.0.0.1:8080/"
 
 # Cho phép import trực tiếp service để unit-test công thức tổng hợp đa tỉnh
 BACKEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "services", "core-api-backend"))
@@ -152,7 +152,7 @@ class TestDashboardAnalyticsLiveAPI(unittest.TestCase):
         """Kiểm tra HTML Dashboard được phục vụ trên cổng 8080 có cấu hình trục ngang đúng và gọi /api/dashboard/analytics."""
         r = requests.get(DASHBOARD_URL, timeout=10)
         self.assertEqual(r.status_code, 200)
-        html = r.text
+        html = r.text.replace("\r\n", "\n")
         self.assertIn("/api/dashboard/analytics", html)
         self.assertIn("isHoriz\n            ? { x: valueAxisConfig, y: categoryAxisConfig }", html)
         self.assertIn("setChartEmptyState", html)

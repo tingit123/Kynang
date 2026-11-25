@@ -244,7 +244,13 @@ def auto_detect_candidate_profile(cv_text: str) -> Dict[str, str]:
 
     if not target_role:
         # Tự động suy luận từ các từ khóa kỹ năng và ngành
-        if any(k in cv_lower for k in ["kế toán", "misa", "báo cáo tài chính", "thuế", "fast", "sổ sách", "hạch toán"]):
+        # Do not match the generic token "fast": FastAPI is a programming
+        # framework and must never route a software CV to accounting.
+        accounting_signals = [
+            "kế toán", "misa", "báo cáo tài chính", "thuế",
+            "fast accounting", "phần mềm fast", "sổ sách", "hạch toán",
+        ]
+        if any(k in cv_lower for k in accounting_signals):
             if "phân tích tài chính" in cv_lower or "power bi" in cv_lower:
                 target_role = "Chuyên Viên Phân Tích Tài Chính"
             elif "thuế" in cv_lower and "quyết toán" in cv_lower:
@@ -261,7 +267,9 @@ def auto_detect_candidate_profile(cv_text: str) -> Dict[str, str]:
         elif any(k in cv_lower for k in ["du lịch", "hướng dẫn", "tour", "khách sạn"]):
             target_role = "Hướng Dẫn Viên Du Lịch"
         else:
-            target_role = "Kế Toán Tổng Hợp"
+            target_role = "Python Developer" if any(
+                k in cv_lower for k in ["lập trình", "developer", "software", "api", "code"]
+            ) else "Kế Toán Tổng Hợp"
 
     return {
         "candidate_name": name,
@@ -400,7 +408,7 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
 """
     # ── 1. Thử gọi Google Gemini Cloud API trước ──
     if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
-        gemini_models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"]
+        gemini_models = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"]
         for gm in gemini_models:
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{gm}:generateContent?key={GEMINI_API_KEY}"
@@ -423,7 +431,7 @@ Hãy trả về DUY NHẤT một chuỗi JSON hợp lệ theo định dạng sau
 
     # ── 2. Nếu Gemini hết quota / lỗi billing 403, tự động chuyển sang Groq Cloud AI ──
     if GROQ_API_KEY and len(GROQ_API_KEY) > 10:
-        groq_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
+        groq_models = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "llama-3.1-8b-instant"]
         headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
         for qm in groq_models:
             try:
@@ -542,7 +550,7 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
             from google import genai
             from google.genai import types
             client = genai.Client(api_key=GEMINI_API_KEY)
-            models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+            models_to_try = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"]
             for m in models_to_try:
                 try:
                     response = client.models.generate_content(
@@ -601,7 +609,7 @@ Hãy trả về duy nhất chuỗi JSON (không kèm markdown):
                 try:
                     import base64
                     b64_pdf = base64.b64encode(content_bytes).decode("utf-8")
-                    pdf_models = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"]
+                    pdf_models = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"]
                     for pm in pdf_models:
                         try:
                             url = f"https://generativelanguage.googleapis.com/v1beta/models/{pm}:generateContent?key={GEMINI_API_KEY}"

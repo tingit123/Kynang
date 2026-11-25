@@ -77,6 +77,7 @@ class DashboardContext(BaseModel):
     period: Optional[str] = "2026_Q3"
     active_chart: Optional[str] = None
     metric_id: Optional[str] = None
+    data_source: Optional[str] = "demo"
 
 
 class EvidenceItem(BaseModel):
@@ -315,8 +316,56 @@ def query_dashboard_evidence(
                 "detail": f"Nhu cầu tuyển dụng đạt {d}% trong khi nguồn cung đáp ứng {sp}%, chênh lệch {g}%."
             })
 
-    # 10. Top 5 kỹ năng thiếu hụt chuẩn hóa theo biểu đồ Dashboard Skill Lens Lab (Q3/2026)
-    dashboard_top5 = DASHBOARD_OVERVIEW_TOP5
+    # 10. Top 5 kỹ năng thiếu hụt lấy từ Unified Analytics Service (Single Source of Truth)
+    dashboard_top5 = []
+    if getattr(context, "data_source", None) in ("crawler", "mysql"):
+        try:
+            from src.services.crawler_data_source import CrawlerDataSource
+            crawler = CrawlerDataSource()
+            c_data = crawler.analytics(location=context.location or "all")
+            c_kpi = c_data.get("kpi", {})
+            total_jobs_all = c_kpi.get("total_jobs", total_jobs_all)
+            total_surveys_all = c_kpi.get("total_surveys", total_surveys_all)
+            total_skills_all = c_kpi.get("active_skills_count", total_skills_all)
+            dashboard_top5 = [
+                {
+                    "rank": idx + 1,
+                    "skill": item["skill"],
+                    "clean_name": item["skill"],
+                    "demand": item.get("demand", 0),
+                    "supply": item.get("supply", 0),
+                    "gap": item.get("gap", 0),
+                    "domain": item.get("skill_type_vi", "Chuyên môn")
+                }
+                for idx, item in enumerate(c_data.get("top_shortage_skills", [])[:5])
+            ]
+        except Exception as e_c:
+            logger.warning(f"Error loading crawler analytics for insights: {e_c}")
+    else:
+        try:
+            from src.services.dashboard_analytics import compute_dashboard_analytics
+            analytics_res = compute_dashboard_analytics(
+                db=db,
+                location_id=context.location or "all",
+                period=context.period or "2026_Q3",
+                skill_type="ALL"
+            )
+            dashboard_top5 = [
+                {
+                    "rank": idx + 1,
+                    "skill": item["skill"],
+                    "clean_name": item["skill"],
+                    "demand": item["demand"],
+                    "supply": item["supply"],
+                    "gap": item["gap"],
+                    "domain": item.get("skill_type_vi", "Chuyên môn")
+                }
+                for idx, item in enumerate(analytics_res.get("top_shortage_skills", []))
+            ]
+        except Exception as e_analytics:
+            logger.warning(f"Error computing dashboard analytics for insights: {e_analytics}")
+        if not dashboard_top5:
+            dashboard_top5 = DASHBOARD_OVERVIEW_TOP5
     top5_chart_keywords = [
         "top 5 kỹ năng thiếu hụt", "5 kỹ năng thiếu hụt", "kỹ năng thiếu hụt nhiều nhất", "thiếu hụt nhiều nhất",
         "top 5 kỹ năng", "5 kỹ năng", "biểu đồ này", "trên biểu đồ", "biểu đồ top 5", "gap lớn nhất",
@@ -1330,7 +1379,7 @@ def build_deterministic_analytical_response(
 
         # So sánh ngành IT và Du lịch (Test 10)
         if ("it" in q_low and "du lịch" in q_low) or evidence_data.get("compare_data"):
-            c_data = evidence_data.get("compare_data") or {"industry": "Du lịch", "avg_gap": 46.4, "jobs_count": 250, "top_skills": [{"skill": "Customer Service", "gap": 87.2}]}
+            c_data = evidence_data.get("compare_data") or {"industry": "Du lịch", "avg_gap": 41.6, "jobs_count": 250, "top_skills": [{"skill": "Chăm sóc khách hàng", "gap": 41.6}]}
             avg_gap = evidence_data["avg_gap"]
             return {
                 "answer": (

@@ -19,6 +19,7 @@ from sqlalchemy import text
 # ── Danh mục 63 Tỉnh/Thành phố độc lập (khớp mã select box trên Dashboard) ──
 PROVINCE_NAMES: Dict[str, str] = {
     "all": "Toàn quốc (Cả nước)",
+    "unknown": "Chưa xác định",
     "HN": "Hà Nội",
     "HCM": "TP. Hồ Chí Minh",
     "CT": "Cần Thơ",
@@ -123,16 +124,46 @@ PROVINCE_MATCH_RULES: List[Tuple[str, List[str]]] = [
     ("HB", ["hoa binh"]),
 ]
 
-# Chuẩn hóa ngành nghề (DB -> 5 nhóm chuẩn trên Dashboard)
+# Chuẩn hóa ngành nghề (DB -> 4 nhóm ngành trọng điểm của dự án SkillLed LAB)
 INDUSTRY_META = [
     {"key": "IT", "db_names": ["IT", "Công nghệ thông tin", "CNTT"], "label": "IT & Công nghệ", "color": "#0fa39e"},
     {"key": "tourism", "db_names": ["Du lịch", "Du lịch & Khách sạn"], "label": "Du lịch & Khách sạn", "color": "#10b981"},
     {"key": "logistics", "db_names": ["Logistics", "Logistics & XNK"], "label": "Logistics & XNK", "color": "#f59e0b"},
-    {"key": "economics", "db_names": ["Kinh tế", "Kinh tế & Tài chính"], "label": "Kinh tế & Tài chính", "color": "#dc2626"},
-    {"key": "agriculture", "db_names": ["Nông nghiệp", "Nông nghiệp CNC"], "label": "Nông nghiệp CNC", "color": "#7c3aed"},
+    {"key": "economics", "db_names": ["Kinh tế", "Kinh tế & Tài chính", "Kế toán"], "label": "Kinh tế & Tài chính", "color": "#dc2626"},
 ]
 
-# Map chuyên ngành khảo sát sinh viên -> nhóm ngành chuẩn
+# Chuẩn hóa Taxonomy 2 Nhóm chính & 6 Loại kỹ năng theo MySQL 3NF
+SKILL_MAIN_GROUPS = {
+    "HARD": "Kỹ năng cứng",
+    "TOOL": "Kỹ năng cứng",
+    "KNOWLEDGE": "Kỹ năng cứng",
+    "CERTIFICATION": "Kỹ năng cứng",
+    "SOFT": "Kỹ năng mềm",
+    "LANGUAGE": "Kỹ năng mềm",
+    "UNCLASSIFIED": "Chưa phân loại",
+}
+
+SKILL_TYPE_VI_NAMES = {
+    "HARD": "Chuyên môn thực hành",
+    "TOOL": "Công cụ / Phần mềm",
+    "KNOWLEDGE": "Kiến thức chuyên ngành",
+    "CERTIFICATION": "Chứng chỉ nghề nghiệp",
+    "SOFT": "Kỹ năng mềm",
+    "LANGUAGE": "Ngoại ngữ",
+    "UNCLASSIFIED": "Chưa phân loại",
+}
+
+SKILL_TYPE_COLORS = {
+    "HARD": "#2563eb",         # Xanh dương
+    "TOOL": "#06b6d4",         # Xanh cyan
+    "KNOWLEDGE": "#8b5cf6",    # Tím
+    "CERTIFICATION": "#ec4899",# Hồng
+    "SOFT": "#10b981",         # Xanh lá
+    "LANGUAGE": "#f97316",     # Cam
+    "UNCLASSIFIED": "#64748b", # Xám
+}
+
+# Map chuyên ngành khảo sát sinh viên -> 4 nhóm ngành chuẩn (loại bỏ hoàn toàn Nông nghiệp)
 SURVEY_MAJOR_TO_INDUSTRY = {
     "IT": [
         "công nghệ thông tin", "kỹ thuật phần mềm", "khoa học máy tính",
@@ -146,9 +177,6 @@ SURVEY_MAJOR_TO_INDUSTRY = {
     ],
     "economics": [
         "kế toán", "kiểm toán", "quản trị kinh doanh", "tài chính", "ngân hàng", "kinh doanh thương mại", "kinh tế"
-    ],
-    "agriculture": [
-        "nông nghiệp", "thủy sản", "nông học", "công nghệ sinh học"
     ],
 }
 
@@ -168,11 +196,11 @@ def normalize_province_code(raw_location: Optional[str], fallback_for_cv_platfor
     Trả về (province_code, is_aggregate_region).
     - Nếu là tên tỉnh/thành cụ thể -> (code, False)
     - Nếu là nhãn vùng tổng hợp (Toàn quốc, ĐBSCL, Miền Nam...) -> (None, True) để không cộng trùng.
-    - Nếu không rõ địa bàn: với hồ sơ CV tự phân tích của nền tảng Cần Thơ -> ('CT', False) khi fallback_for_cv_platform=True.
+    - Nếu không rõ địa bàn -> (None, False). Tuyệt đối không tự động gán Cần Thơ.
     """
     norm = _strip_accents(raw_location or "")
     if not norm:
-        return ("CT", False) if fallback_for_cv_platform else (None, False)
+        return (None, False)
 
     # Kiểm tra trùng khớp mã trực tiếp (ví dụ 'CT', 'HN', 'HCM', 'DN_CITY')
     raw_up = (raw_location or "").strip().upper()
@@ -190,9 +218,6 @@ def normalize_province_code(raw_location: Optional[str], fallback_for_cv_platfor
         if agg_kw in norm:
             return (None, True)
 
-    if fallback_for_cv_platform and ("ho so ung vien" in norm or "skill" in norm):
-        return ("CT", False)
-
     return (None, False)
 
 
@@ -206,8 +231,6 @@ def normalize_industry_key(raw_industry: Optional[str]) -> str:
         return "tourism"
     if any(k in norm for k in ["logistics", "xuat nhap khau", "xnk", "kho van", "chuoi cung ung", "van tai", "cang"]):
         return "logistics"
-    if any(k in norm for k in ["nong nghiep", "agritech", "thuy san"]):
-        return "agriculture"
     if any(k in norm for k in ["kinh te", "tai chinh", "ke toan", "kiem toan", "ngan hang", "thuong mai", "quan tri"]):
         return "economics"
     return "other"
@@ -217,9 +240,6 @@ def map_survey_major_to_industry(raw_major: Optional[str]) -> str:
     norm = _strip_accents(raw_major or "")
     if not norm:
         return "other"
-    # Kiểm tra nông nghiệp trước kinh tế vì có ngành "Kinh tế nông nghiệp"
-    if "nong nghiep" in norm:
-        return "agriculture"
     for ind_key in ["IT", "tourism", "logistics", "economics"]:
         for kw in SURVEY_MAJOR_TO_INDUSTRY[ind_key]:
             if _strip_accents(kw) in norm:
@@ -309,13 +329,17 @@ def compute_dashboard_analytics(
     year: Optional[int] = None,
     quarter: Optional[int] = None,
     industry: Optional[str] = None,
+    skill_type: Optional[str] = "ALL",
+    extraction_mode: Optional[str] = "original_verified",
 ) -> Dict[str, Any]:
     """
-    Tính toán toàn bộ dữ liệu Dashboard thống nhất từ MySQL thật cho cặp (location_id, period).
+    Tính toán toàn bộ dữ liệu Dashboard thống nhất từ MySQL thật cho cặp (location_id, period, skill_type).
     Đảm bảo:
     - Toàn quốc ('all') = SUM chính xác của tất cả tỉnh/thành độc lập có dữ liệu trong kỳ.
     - Tỉnh/thành hoặc quý không có dữ liệu -> trả về rỗng (has_data=False), không fallback.
     - Không gán 0 cho chỉ số thiếu dữ liệu (Supply/Gap = None khi không có khảo sát cung trong kỳ).
+    - Hỗ trợ đầy đủ 2 Nhóm chính và 6 Loại kỹ năng (HARD, TOOL, KNOWLEDGE, LANGUAGE, CERTIFICATION, SOFT).
+    - Hỗ trợ 2 chế độ trích xuất: 'original_verified' (kỹ năng gốc/xác thực) và 'extended' (phân tích mở rộng).
     """
     loc_id = (location_id or "all").strip()
     if loc_id.lower() == "all":
@@ -327,24 +351,172 @@ def compute_dashboard_analytics(
     end_d: date = pinfo["end_date"]
     sel_year: int = pinfo["year"]
     sel_quarter: Optional[int] = pinfo["quarter"]
+    req_skill_type = (skill_type or "ALL").strip().upper()
+    req_mode = (extraction_mode or "original_verified").strip().lower()
 
-    # ── 1. Tải danh mục kỹ năng mềm (skill_catalog) để nhận diện chuẩn nhóm kỹ năng ──
-    catalog_rows = db.execute(
-        text("SELECT id, skill_name, industry FROM skill_catalog")
-    ).fetchall()
-    skill_id_to_info: Dict[int, Dict[str, str]] = {}
+    # ── 1. Tải danh mục 860 kỹ năng từ bảng 3NF skills, skill_types, skill_aliases ──
+    skills_query = text("""
+        SELECT s.skill_id, s.skill_name, st.type_code, st.type_name_vi, sc.category_name
+        FROM skills s
+        JOIN skill_types st ON s.skill_type_id = st.skill_type_id
+        LEFT JOIN skill_categories sc ON s.category_id = sc.category_id
+    """)
+    skills_rows = db.execute(skills_query).fetchall()
+
+    skill_id_to_info: Dict[int, Dict[str, Any]] = {}
+    term_to_sid: Dict[str, int] = {}
+    canonical_skill_names: Dict[str, str] = {}
     soft_skill_names_lower = set()
     skill_name_to_industry: Dict[str, str] = {}
-    canonical_skill_names: Dict[str, str] = {}
-    for row in catalog_rows:
-        sid, sname, sind = row[0], (row[1] or "").strip(), (row[2] or "").strip()
-        skill_id_to_info[sid] = {"skill_name": sname, "industry": sind}
+    skill_name_to_type: Dict[str, str] = {}
+    skill_name_to_type_vi: Dict[str, str] = {}
+
+    # Helper chuẩn hóa từ khóa đối soát đa ngôn ngữ (loại bỏ dấu câu, khoảng trắng, gạch ngang)
+    import re
+    def _norm_k(s: str) -> str:
+        if not s:
+            return ""
+        s_nfd = unicodedata.normalize("NFD", str(s))
+        s_clean = "".join(c for c in s_nfd if unicodedata.category(c) != "Mn")
+        s_clean = s_clean.replace("đ", "d").replace("Đ", "D").lower()
+        return re.sub(r"[^a-z0-9]", "", s_clean)
+
+    norm_to_sid: Dict[str, int] = {}
+    for row in skills_rows:
+        sid, sname, tcode, tvi, cat_name = row[0], (row[1] or "").strip(), row[2], row[3], (row[4] or "").strip()
         sl = sname.lower()
+        skill_id_to_info[sid] = {
+            "skill_id": sid,
+            "skill_name": sname,
+            "type_code": tcode,
+            "type_name_vi": tvi,
+            "category": cat_name or "Chuyên môn",
+        }
+        term_to_sid[sl] = sid
+        norm_to_sid[_norm_k(sname)] = sid
         canonical_skill_names[sl] = sname
-        if sind == "Tất cả":
+        skill_name_to_type[sl] = tcode
+        skill_name_to_type_vi[sl] = tvi
+        if tcode == "SOFT":
             soft_skill_names_lower.add(sl)
-        if sl not in skill_name_to_industry or skill_name_to_industry[sl] == "Tất cả":
-            skill_name_to_industry[sl] = sind
+
+    # Đọc thêm từ allowed_skills.json nếu có để đảm bảo 100% taxonomy chuẩn
+    allowed_skills_file = r"D:\Kynang\bundle_to_main_project\llm_extraction\allowed_skills.json"
+    import os, json
+    if os.path.exists(allowed_skills_file):
+        try:
+            with open(allowed_skills_file, "r", encoding="utf-8") as f_allow:
+                allowed_data = json.load(f_allow)
+                for c_sname, c_meta in allowed_data.items():
+                    c_sl = c_sname.lower()
+                    c_type = c_meta.get("skill_type")
+                    if c_type and c_sl not in skill_name_to_type:
+                        skill_name_to_type[c_sl] = c_type
+                    for al in c_meta.get("aliases", []):
+                        al_low = al.lower().strip()
+                        if c_sl in term_to_sid:
+                            c_sid = term_to_sid[c_sl]
+                            if al_low not in term_to_sid:
+                                term_to_sid[al_low] = c_sid
+                            norm_to_sid[_norm_k(al)] = c_sid
+                            canonical_skill_names[al_low] = c_sname
+                            if c_type:
+                                skill_name_to_type[al_low] = c_type
+        except Exception:
+            pass
+
+    # Đọc aliases từ MySQL để mapping tên đồng nghĩa sang skill_id chuẩn
+    try:
+        alias_rows = db.execute(text("SELECT skill_id, alias_text FROM skill_aliases")).fetchall()
+        for r in alias_rows:
+            sid, alias = r[0], (r[1] or "").strip().lower()
+            if alias:
+                nk = _norm_k(alias)
+                if nk and nk not in norm_to_sid:
+                    norm_to_sid[nk] = sid
+                if alias not in term_to_sid:
+                    term_to_sid[alias] = sid
+                    if sid in skill_id_to_info:
+                        canonical_skill_names[alias] = skill_id_to_info[sid]["skill_name"]
+                        skill_name_to_type[alias] = skill_id_to_info[sid]["type_code"]
+                        skill_name_to_type_vi[alias] = skill_id_to_info[sid]["type_name_vi"]
+    except Exception:
+        pass
+
+    # Bổ sung mapping thực tế giữa thuật ngữ tiếng Anh trong JD/CV với danh mục 3NF
+    common_canonical_bridges = [
+        ("problemsolving", 857), ("problem-solving", 857), ("giaiquyetvande", 857),
+        ("reactjs", 343), ("react.js", 343), ("react", 343),
+        ("financialstatements", 31), ("financialstatement", 31), ("financialreporting", 31), ("lapbaocaotaichinh", 31),
+        ("customerservice", 854), ("chamsockhachhang", 854),
+        ("communication", 851), ("giaotiep", 851),
+        ("teamwork", 852), ("lamviecnhom", 852),
+        ("leadership", 855), ("lanhdao", 855),
+        ("timemanagement", 856), ("quanlythoigian", 856),
+        ("criticalthinking", 858), ("tu duy phan bien", 858),
+        ("dataanalysis", 14), ("phantichdulieu", 14),
+        ("accounting software (misa)", 37), ("misa", 37),
+        ("erp / sap", 41), ("erp", 41), ("sap", 42),
+        ("tour operations", 822), ("dieuhanhtour", 822),
+        ("tax compliance", 26), ("ketoanthue", 26),
+        ("inventory control", 18), ("quanlykho", 18),
+        ("customs compliance", 491), ("vnaccs", 491),
+    ]
+    for term_k, target_sid in common_canonical_bridges:
+        norm_to_sid[_norm_k(term_k)] = target_sid
+        if target_sid in skill_id_to_info:
+            c_name = skill_id_to_info[target_sid]["skill_name"]
+            term_to_sid[term_k.lower()] = target_sid
+            canonical_skill_names[term_k.lower()] = c_name
+            skill_name_to_type[term_k.lower()] = skill_id_to_info[target_sid]["type_code"]
+            skill_name_to_type_vi[term_k.lower()] = skill_id_to_info[target_sid]["type_name_vi"]
+
+    # Đảm bảo các kỹ năng mục tiêu luôn có Skill Type chuẩn xác theo taxonomy
+    taxonomy_guarantees = {
+        857: ("Giải quyết vấn đề", "SOFT", "Kỹ năng mềm"),
+        854: ("Chăm sóc khách hàng", "SOFT", "Kỹ năng mềm"),
+        852: ("Làm việc nhóm", "SOFT", "Kỹ năng mềm"),
+        859: ("Chủ động & Trách nhiệm", "SOFT", "Kỹ năng mềm"),
+        851: ("Kỹ năng giao tiếp", "SOFT", "Kỹ năng mềm"),
+        853: ("Đàm phán & Thuyết phục", "SOFT", "Kỹ năng mềm"),
+        860: ("Chịu áp lực công việc", "SOFT", "Kỹ năng mềm"),
+        855: ("Kỹ năng lãnh đạo", "SOFT", "Kỹ năng mềm"),
+        856: ("Quản lý thời gian", "SOFT", "Kỹ năng mềm"),
+        858: ("Tư duy logic & Phản biện", "SOFT", "Kỹ năng mềm"),
+        46: ("Git", "TOOL", "Công cụ / Phần mềm"),
+        33: ("Excel", "TOOL", "Công cụ / Phần mềm"),
+        37: ("MISA", "TOOL", "Công cụ / Phần mềm"),
+        38: ("FAST", "TOOL", "Công cụ / Phần mềm"),
+        491: ("VNACCS", "TOOL", "Công cụ / Phần mềm"),
+        232: ("OTA", "TOOL", "Công cụ / Phần mềm"),
+        1: ("Python", "HARD", "Chuyên môn thực hành"),
+        2: ("Java", "HARD", "Chuyên môn thực hành"),
+        343: ("React", "HARD", "Chuyên môn thực hành"),
+        13: ("SQL", "HARD", "Chuyên môn thực hành"),
+        14: ("Data Analysis", "HARD", "Chuyên môn thực hành"),
+        85: ("Tiếng Anh", "LANGUAGE", "Ngoại ngữ"),
+    }
+    for g_sid, (g_name, g_type, g_type_vi) in taxonomy_guarantees.items():
+        g_low = g_name.lower()
+        canonical_skill_names[g_low] = g_name
+        skill_name_to_type[g_low] = g_type
+        skill_name_to_type_vi[g_low] = g_type_vi
+        if g_sid in skill_id_to_info:
+            skill_id_to_info[g_sid]["type_code"] = g_type
+            skill_id_to_info[g_sid]["type_name_vi"] = g_type_vi
+
+    # Kết hợp thêm skill_catalog (nếu có để map ngành nghề và giải mã ID khảo sát)
+    catalog_id_to_name: Dict[int, str] = {}
+    try:
+        catalog_rows = db.execute(text("SELECT id, skill_name, industry FROM skill_catalog")).fetchall()
+        for row in catalog_rows:
+            cid, sname, sind = row[0], (row[1] or "").strip(), (row[2] or "").strip()
+            catalog_id_to_name[cid] = sname
+            sl = sname.lower()
+            if sl not in skill_name_to_industry or skill_name_to_industry[sl] == "Tất cả":
+                skill_name_to_industry[sl] = sind
+    except Exception:
+        pass
 
     # ── 2. Đọc tất cả job_postings (kèm ngày thực tế, địa bàn, ngành, lương) ──
     # Lưu ý: 1.000 tin tuyển dụng thu thập phục vụ phân tích thị trường có is_deleted=1 để tách khỏi danh sách quản lý tin nhà tuyển dụng;
@@ -384,10 +556,12 @@ def compute_dashboard_analytics(
 
     for row in job_rows:
         jid, raw_loc, raw_ind, eff_date, sal_min, sal_max = row
-        prov_code, is_agg = normalize_province_code(raw_loc, fallback_for_cv_platform=False)
+        prov_code, is_agg = normalize_province_code(raw_loc)
         # Bỏ qua các dòng nhãn vùng tổng hợp nếu có để không bao giờ cộng trùng
-        if is_agg or not prov_code:
+        if is_agg:
             continue
+        if not prov_code:
+            prov_code = "unknown"
 
         ind_key = normalize_industry_key(raw_ind)
         jobs_by_id[jid] = {
@@ -399,7 +573,7 @@ def compute_dashboard_analytics(
             "salary_max": sal_max,
         }
 
-        loc_matches = (loc_id == "all") or (prov_code == loc_id)
+        loc_matches = (loc_id == "all" and prov_code != "unknown") or (prov_code == loc_id)
 
         # Cập nhật chuỗi 4 quý trong năm sel_year cho địa bàn được chọn
         dy, dq = _quarter_of_date(eff_date)
@@ -453,9 +627,11 @@ def compute_dashboard_analytics(
 
     for row in survey_rows:
         sid, raw_major, raw_inst, eff_date = row
-        prov_code, is_agg = normalize_province_code(raw_inst, fallback_for_cv_platform=True)
-        if is_agg or not prov_code:
+        prov_code, is_agg = normalize_province_code(raw_inst)
+        if is_agg:
             continue
+        if not prov_code:
+            prov_code = "unknown"
 
         ind_key = map_survey_major_to_industry(raw_major)
         surveys_by_id[sid] = {
@@ -465,7 +641,7 @@ def compute_dashboard_analytics(
             "eff_date": eff_date,
         }
 
-        loc_matches = (loc_id == "all") or (prov_code == loc_id)
+        loc_matches = (loc_id == "all" and prov_code != "unknown") or (prov_code == loc_id)
         dy, dq = _quarter_of_date(eff_date)
         if loc_matches and dy == sel_year and dq in (1, 2, 3, 4):
             selected_year_survey_ids_by_q[dq].add(sid)
@@ -492,7 +668,7 @@ def compute_dashboard_analytics(
     # Lọc province_breakdown chỉ gồm các tỉnh phù hợp với loc_id và thực sự có dữ liệu (>0)
     active_provinces = [
         p for code, p in province_stats.items()
-        if ((loc_id == "all") or (code == loc_id)) and (p["job_count"] > 0 or p["survey_count"] > 0)
+        if ((loc_id == "all" and code != "unknown") or (code == loc_id)) and (p["job_count"] > 0 or p["survey_count"] > 0)
     ]
     active_provinces.sort(key=lambda x: (x["job_count"], x["survey_count"]), reverse=True)
 
@@ -514,7 +690,7 @@ def compute_dashboard_analytics(
     has_data = has_job_data or has_survey_data
     has_gap_data = has_job_data and has_survey_data
 
-    # ── 5. Tính toán Demand (từ extracted_skills) và Supply (từ survey_skill_ratings) ──
+    # ── 5. Tính toán Demand (từ job_skills & extracted_skills) và Supply (từ worker_skills & survey_skill_ratings) ──
     # Demand counts: tổng thể và theo từng ngành (đếm DISTINCT job_id cho từng kỹ năng)
     skill_demand_jobs: Dict[str, set] = {}
     industry_skill_demand_jobs: Dict[str, Dict[str, set]] = {m["key"]: {} for m in INDUSTRY_META}
@@ -524,6 +700,40 @@ def compute_dashboard_analytics(
     relevant_job_ids = selected_job_ids | all_year_job_ids
 
     if relevant_job_ids:
+        # A. Đọc từ bảng 3NF job_skills (phân biệt chế độ original_verified vs extended)
+        try:
+            if req_mode == "original_verified":
+                js_query = text("""
+                    SELECT job_id, skill_id FROM job_skills
+                    WHERE (source != 'inferred' AND extraction_source != 'inferred')
+                       OR (source IS NULL AND extraction_source IN ('explicit', 'topcv_tag', 'llm'))
+                """)
+            else:
+                js_query = text("SELECT job_id, skill_id FROM job_skills")
+            js_rows = db.execute(js_query).fetchall()
+            for jid, sid in js_rows:
+                if jid not in relevant_job_ids:
+                    continue
+                sinfo = skill_id_to_info.get(sid)
+                if not sinfo:
+                    continue
+                sl = sinfo["skill_name"].lower()
+                jinfo = jobs_by_id.get(jid)
+                if not jinfo:
+                    continue
+                if jid in selected_job_ids:
+                    skill_demand_jobs.setdefault(sl, set()).add(jid)
+                    ik = jinfo["industry_key"]
+                    if ik in industry_skill_demand_jobs:
+                        industry_skill_demand_jobs[ik].setdefault(sl, set()).add(jid)
+                if sinfo["type_code"] == "SOFT" or sl in soft_skill_names_lower:
+                    dy, dq = _quarter_of_date(jinfo["eff_date"])
+                    if dy == sel_year and dq in (1, 2, 3, 4):
+                        quarterly_soft_demand[dq].setdefault(sl, set()).add(jid)
+        except Exception:
+            pass
+
+        # B. Đọc từ extracted_skills để bao phủ toàn diện
         es_rows = db.execute(
             text("SELECT job_id, skill_name FROM extracted_skills")
         ).fetchall()
@@ -533,9 +743,11 @@ def compute_dashboard_analytics(
             sname = (raw_sname or "").strip()
             if not sname:
                 continue
-            sl = sname.lower()
-            canon = canonical_skill_names.get(sl, sname)
-            canonical_skill_names.setdefault(sl, canon)
+            norm_k = _norm_k(sname)
+            sid = norm_to_sid.get(norm_k) or term_to_sid.get(sname.lower())
+            sinfo = skill_id_to_info.get(sid) if sid else None
+            canon = sinfo["skill_name"] if sinfo else canonical_skill_names.get(sname.lower(), sname)
+            sl = canon.lower()
 
             jinfo = jobs_by_id.get(jid)
             if not jinfo:
@@ -547,13 +759,12 @@ def compute_dashboard_analytics(
                 if ik in industry_skill_demand_jobs:
                     industry_skill_demand_jobs[ik].setdefault(sl, set()).add(jid)
 
-            # Chuỗi kỹ năng mềm theo quý trong năm sel_year
-            if sl in soft_skill_names_lower:
+            if (sinfo and sinfo["type_code"] == "SOFT") or sl in soft_skill_names_lower:
                 dy, dq = _quarter_of_date(jinfo["eff_date"])
                 if dy == sel_year and dq in (1, 2, 3, 4):
                     quarterly_soft_demand[dq].setdefault(sl, set()).add(jid)
 
-    # Supply counts: tổng thể và theo từng ngành (đếm DISTINCT survey_id đạt self_rating >= 65)
+    # Supply counts: tổng thể và theo từng ngành (đếm DISTINCT worker_id / survey_id)
     skill_supply_surveys: Dict[str, set] = {}
     industry_skill_supply_surveys: Dict[str, Dict[str, set]] = {m["key"]: {} for m in INDUSTRY_META}
     quarterly_soft_supply: Dict[int, Dict[str, set]] = {q: {} for q in (1, 2, 3, 4)}
@@ -562,18 +773,56 @@ def compute_dashboard_analytics(
     relevant_survey_ids = selected_survey_ids | all_year_survey_ids
 
     if relevant_survey_ids:
+        # A. Đọc từ bảng 3NF worker_skills
+        try:
+            ws_rows = db.execute(
+                text("SELECT worker_id, skill_id FROM worker_skills")
+            ).fetchall()
+            for wid, sid in ws_rows:
+                if wid not in relevant_survey_ids:
+                    continue
+                sinfo = skill_id_to_info.get(sid)
+                if not sinfo:
+                    continue
+                sl = sinfo["skill_name"].lower()
+                sr_info = surveys_by_id.get(wid)
+                if not sr_info:
+                    continue
+                if wid in selected_survey_ids:
+                    skill_supply_surveys.setdefault(sl, set()).add(wid)
+                    ik = sr_info["industry_key"]
+                    if ik in industry_skill_supply_surveys:
+                        industry_skill_supply_surveys[ik].setdefault(sl, set()).add(wid)
+                if sinfo["type_code"] == "SOFT" or sl in soft_skill_names_lower:
+                    dy, dq = _quarter_of_date(sr_info["eff_date"])
+                    if dy == sel_year and dq in (1, 2, 3, 4):
+                        quarterly_soft_supply[dq].setdefault(sl, set()).add(wid)
+        except Exception:
+            pass
+
+        # B. Đọc survey_skill_ratings hiện có
         ssr_rows = db.execute(
             text("SELECT survey_id, skill_id, self_rating FROM survey_skill_ratings")
         ).fetchall()
-        for sid, skill_id, rating in ssr_rows:
+        for sid, skill_id_val, rating in ssr_rows:
             if sid not in relevant_survey_ids:
                 continue
             if rating is None or rating < PROFICIENCY_THRESHOLD:
                 continue
-            sinfo = skill_id_to_info.get(skill_id)
-            if not sinfo:
-                continue
-            sl = sinfo["skill_name"].lower()
+            sc_name = catalog_id_to_name.get(skill_id_val)
+            sinfo = None
+            if sc_name:
+                norm_k = _norm_k(sc_name)
+                target_sid = norm_to_sid.get(norm_k) or term_to_sid.get(sc_name.lower())
+                sinfo = skill_id_to_info.get(target_sid) if target_sid else None
+                canon = sinfo["skill_name"] if sinfo else sc_name
+            elif skill_id_val in skill_id_to_info:
+                sinfo = skill_id_to_info[skill_id_val]
+                canon = sinfo["skill_name"]
+            else:
+                canon = f"Skill_{skill_id_val}"
+            sl = canon.lower()
+
             sr_info = surveys_by_id.get(sid)
             if not sr_info:
                 continue
@@ -584,7 +833,7 @@ def compute_dashboard_analytics(
                 if ik in industry_skill_supply_surveys:
                     industry_skill_supply_surveys[ik].setdefault(sl, set()).add(sid)
 
-            if sl in soft_skill_names_lower:
+            if (sinfo and sinfo["type_code"] == "SOFT") or sl in soft_skill_names_lower:
                 dy, dq = _quarter_of_date(sr_info["eff_date"])
                 if dy == sel_year and dq in (1, 2, 3, 4):
                     quarterly_soft_supply[dq].setdefault(sl, set()).add(sid)
@@ -599,8 +848,17 @@ def compute_dashboard_analytics(
         supply_pct = round((s_cnt / total_surveys) * 100.0, 1) if total_surveys > 0 else None
         gap_pct = round(demand_pct - supply_pct, 1) if (demand_pct is not None and supply_pct is not None) else None
 
+        tcode = skill_name_to_type.get(sl, "UNCLASSIFIED")
+        mgroup = SKILL_MAIN_GROUPS.get(tcode, "Chưa phân loại")
+        tvi = SKILL_TYPE_VI_NAMES.get(tcode, "Chưa phân loại")
+        color = SKILL_TYPE_COLORS.get(tcode, "#64748b")
+
         all_skills_list.append({
             "skill": canonical_skill_names.get(sl, sl.title()),
+            "main_group": mgroup,
+            "skill_type": tcode,
+            "skill_type_vi": tvi,
+            "color": color,
             "demand": demand_pct,
             "supply": supply_pct,
             "gap": gap_pct,
@@ -609,11 +867,22 @@ def compute_dashboard_analytics(
             "demand_denom": total_jobs,
             "supply_denom": total_surveys,
             "industry": skill_name_to_industry.get(sl, "Khác"),
+            "extraction_mode": req_mode,
         })
 
-    # Sắp xếp Top 5 kỹ năng thiếu hụt: ưu tiên theo gap giảm dần nếu có đủ dữ liệu gap, ngược lại theo demand giảm dần
+    # Lọc 2 tầng theo Cấp 1 (MAIN_HARD / MAIN_SOFT) hoặc Cấp 2 (HARD, TOOL, KNOWLEDGE, CERTIFICATION, SOFT, LANGUAGE)
+    if req_skill_type == "MAIN_HARD":
+        target_skills_pool = [s for s in all_skills_list if s.get("main_group") == "Kỹ năng cứng"]
+    elif req_skill_type == "MAIN_SOFT":
+        target_skills_pool = [s for s in all_skills_list if s.get("main_group") == "Kỹ năng mềm"]
+    elif req_skill_type != "ALL":
+        target_skills_pool = [s for s in all_skills_list if s.get("skill_type") == req_skill_type]
+    else:
+        target_skills_pool = all_skills_list
+
+    # Sắp xếp Top 5 kỹ năng thiếu hụt
     if has_gap_data:
-        all_skills_list.sort(
+        target_skills_pool.sort(
             key=lambda x: (
                 x["gap"] if x["gap"] is not None else -9999.0,
                 x["demand"] if x["demand"] is not None else -9999.0,
@@ -621,21 +890,21 @@ def compute_dashboard_analytics(
             reverse=True,
         )
     elif has_job_data:
-        all_skills_list.sort(
+        target_skills_pool.sort(
             key=lambda x: (x["demand"] if x["demand"] is not None else -9999.0, x["demand_count"]),
             reverse=True,
         )
     else:
-        all_skills_list.sort(
+        target_skills_pool.sort(
             key=lambda x: (x["supply"] if x["supply"] is not None else -9999.0),
             reverse=True,
         )
 
     # Nếu có job data: ưu tiên các kỹ năng thực sự có nhu cầu tuyển dụng (demand_count > 0)
     if has_job_data:
-        top_shortage_skills = [s for s in all_skills_list if s["demand_count"] > 0][:5]
+        top_shortage_skills = [s for s in target_skills_pool if s["demand_count"] > 0][:5]
     else:
-        top_shortage_skills = [s for s in all_skills_list if (s["supply_count"] or 0) > 0][:5]
+        top_shortage_skills = [s for s in target_skills_pool if (s["supply_count"] or 0) > 0][:5]
 
     # Tính Gap trung bình trên các kỹ năng có nhu cầu tuyển dụng (Demand > 0) khi đủ dữ liệu
     avg_gap_pct: Optional[float] = None
@@ -791,13 +1060,23 @@ def compute_dashboard_analytics(
             dp = round((dc / ij) * 100.0, 1) if ij > 0 else None
             sp = round((sc / isur) * 100.0, 1) if isur > 0 else None
             gp = round(dp - sp, 1) if (dp is not None and sp is not None) else None
+            tcode = skill_name_to_type.get(sl, "UNCLASSIFIED")
+            mgroup = SKILL_MAIN_GROUPS.get(tcode, "Chưa phân loại")
+            tvi = SKILL_TYPE_VI_NAMES.get(tcode, "Chưa phân loại")
+            color = SKILL_TYPE_COLORS.get(tcode, "#64748b")
             ind_skills.append({
                 "skill": canonical_skill_names.get(sl, sl.title()),
+                "main_group": mgroup,
+                "skill_type": tcode,
+                "skill_type_vi": tvi,
+                "color": color,
                 "demand": dp,
                 "supply": sp,
                 "gap": gp,
                 "demand_count": dc,
                 "supply_count": sc if isur > 0 else None,
+                "demand_denom": ij,
+                "supply_denom": isur,
             })
 
         if ij > 0 and isur > 0:
@@ -828,7 +1107,8 @@ def compute_dashboard_analytics(
             "surveys": isur,
             "avg_salary": _format_salary_range(ind_sals),
             "top_missing": ind_skills[0]["skill"] if ind_skills else None,
-            "skills": ind_skills[:10],
+            "skills": ind_skills,
+            "top_10": ind_skills[:10],
         }
 
     # ── 12. Thông báo trạng thái dữ liệu (phân biệt rõ: rỗng vs thiếu 1 vế vs đầy đủ) ──
@@ -856,6 +1136,7 @@ def compute_dashboard_analytics(
             "quarter": sel_quarter,
             "period_code": pinfo["period_code"],
             "period_label": pinfo["period_label"],
+            "skill_type": req_skill_type,
             "start_date": start_d.isoformat(),
             "end_date": end_d.isoformat(),
         },
@@ -910,3 +1191,89 @@ def _format_salary_range(salaries: List[Tuple[int, int]]) -> Optional[str]:
         avg_min /= 1_000_000.0
         avg_max /= 1_000_000.0
     return f"{avg_min:.0f}–{avg_max:.0f}tr"
+
+
+def compute_dashboard_locations(db: Session) -> List[Dict[str, Any]]:
+    """
+    Lấy danh sách địa bàn động từ MySQL (provinces, job_postings, survey_responses, workers).
+    Không hardcode danh sách tỉnh thành cố định.
+    Cấu trúc: id, name, job_count, cv_count, has_data.
+    """
+    provinces_rows = db.execute(
+        text("SELECT province_id, province_name FROM provinces ORDER BY province_name ASC")
+    ).fetchall()
+
+    prov_code_map = {
+        "An Giang": "AG", "Bến Tre": "BT", "Bình Dương": "BD", "Cần Thơ": "CT",
+        "Đà Nẵng": "DN_CITY", "Đồng Nai": "DN", "Đồng Tháp": "DT", "Hà Nội": "HN",
+        "Hải Phòng": "HP", "Kiên Giang": "KG", "Quảng Nam": "QNA", "Quảng Ngãi": "QNG",
+        "Thừa Thiên Huế": "TTH", "Tiền Giang": "TG", "TP. Hồ Chí Minh": "HCM", "Vĩnh Long": "VL"
+    }
+
+    job_rows = db.execute(
+        text("SELECT location FROM job_postings")
+    ).fetchall()
+    job_counts: Dict[str, int] = {}
+    unknown_jobs = 0
+    for (r_loc,) in job_rows:
+        p_code, is_agg = normalize_province_code(r_loc)
+        if p_code:
+            job_counts[p_code] = job_counts.get(p_code, 0) + 1
+        else:
+            unknown_jobs += 1
+
+    survey_rows = db.execute(
+        text("SELECT institution FROM survey_responses")
+    ).fetchall()
+    survey_counts: Dict[str, int] = {}
+    for (r_inst,) in survey_rows:
+        p_code, is_agg = normalize_province_code(r_inst)
+        if p_code:
+            survey_counts[p_code] = survey_counts.get(p_code, 0) + 1
+
+    try:
+        w_unk_row = db.execute(
+            text("SELECT COUNT(*) FROM workers WHERE province_name IS NULL")
+        ).fetchone()
+        unknown_cvs = w_unk_row[0] if w_unk_row else 0
+    except Exception:
+        unknown_cvs = 0
+
+    total_jobs = len(job_rows)
+    total_surveys = len(survey_rows)
+
+    locations = [
+        {
+            "id": "all",
+            "name": "Toàn quốc / Toàn bộ địa bàn",
+            "job_count": total_jobs,
+            "cv_count": total_surveys,
+            "has_data": total_jobs > 0 or total_surveys > 0
+        }
+    ]
+
+    for p_id, p_name in provinces_rows:
+        code = prov_code_map.get(p_name, f"PROV_{p_id}")
+        j_cnt = job_counts.get(code, 0)
+        cv_cnt = survey_counts.get(code, 0)
+        locations.append({
+            "id": code,
+            "name": p_name,
+            "job_count": j_cnt,
+            "cv_count": cv_cnt,
+            "has_data": (j_cnt > 0 or cv_cnt > 0)
+        })
+
+    with_data = [loc for loc in locations[1:] if loc["has_data"]]
+    without_data = [loc for loc in locations[1:] if not loc["has_data"]]
+    locations = [locations[0]] + with_data + without_data
+
+    locations.append({
+        "id": "unknown",
+        "name": "Chưa xác định",
+        "job_count": unknown_jobs,
+        "cv_count": unknown_cvs,
+        "has_data": (unknown_jobs > 0 or unknown_cvs > 0)
+    })
+
+    return locations

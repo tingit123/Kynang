@@ -1029,40 +1029,36 @@ def _generate_core_trend_insight_answer(intent_info: Dict[str, Any]) -> Optional
     # ──────────────────────────────────────────────────────────────────────────
     if intent_info["intent"] == "EXPLAIN_LABOR_MARKET_SHIFT":
         answer = (
-            "Hệ thống đưa ra nhận định này vì số tin tuyển dụng trong bộ dữ liệu biểu đồ giai đoạn 2025–2026 tại TP. Cần Thơ & ĐBSCL "
-            "có sự thay đổi rõ rệt giữa các ngành:\n"
-            "- IT & Công nghệ tăng từ 285 lên 385 tin (+35,1%, tỷ trọng chuẩn hóa tăng từ 28,5% lên 35,7%).\n"
-            "- Logistics & XNK tăng từ 190 lên 241 tin (+26,8%, tỷ trọng chuẩn hóa tăng từ 19,0% lên 22,4%).\n"
-            "- Kinh tế & Tài chính giảm từ 270 xuống 156 tin (-42,2%, tỷ trọng chuẩn hóa sụt giảm từ 27,0% xuống 14,5%).\n"
-            "- Du lịch & Khách sạn tăng nhẹ từ 210 lên 218 tin (+3,8%, tỷ trọng chuẩn hóa giữ mức 20,2%).\n"
-            "- Nông nghiệp công nghệ cao tăng từ 45 lên 78 tin (+73,3%, tỷ trọng chuẩn hóa tăng từ 4,5% lên 7,2%), dù quy mô tuyển dụng còn nhỏ.\n\n"
-            "Xu hướng này phù hợp với những bằng chứng bổ trợ trong 4 tài liệu ngành chính thức: nhu cầu phát triển công nghệ số và ứng dụng AI (khảo sát ITviec), "
-            "mở rộng hoạt động thương mại – xuất nhập khẩu đạt trên 1.000 tỷ USD kéo theo nhu cầu logistics (Bộ Công Thương, ManpowerGroup), "
-            "và quá trình tái cấu trúc nâng cao năng suất bằng tự động hóa trong nhóm tài chính – ngân hàng (nghiên cứu Học viện Ngân hàng).\n\n"
-            "Tuy nhiên, đây là biến động số tin tuyển dụng trong bộ dữ liệu được phân tích (1.000 tin năm 2025 và 1.078 tin năm 2026), "
-            "chưa đủ để kết luận toàn bộ thị trường lao động Cần Thơ thay đổi với đúng các tỷ lệ đó. Tác động của AI và chuyển đổi số là một cách giải thích "
-            "có cơ sở tham khảo thực tiễn, nhưng cần thêm bằng chứng thống kê chuyên biệt để khẳng định quan hệ nguyên nhân trực tiếp."
+            "Hệ thống đưa ra nhận định này dựa trên bộ số liệu tham khảo chuyển dịch 4 ngành kinh tế trọng điểm giai đoạn 2025–2026:\n"
+            "- IT & Công nghệ tăng từ 285 lên 385 tin (+35,1%, tỷ trọng trong 4 ngành tăng từ 29,8% lên 38,5%).\n"
+            "- Logistics & XNK tăng từ 190 lên 241 tin (+26,8%, tỷ trọng trong 4 ngành tăng từ 19,9% lên 24,1%).\n"
+            "- Du lịch & Khách sạn duy trì ổn định, tăng từ 210 lên 218 tin (+3,8%, tỷ trọng trong 4 ngành đạt 21,8%).\n"
+            "- Kế toán – Tài chính giảm từ 270 xuống 156 tin (-42,2%, tỷ trọng trong 4 ngành sụt giảm từ 28,3% xuống 15,6%).\n\n"
+            "Xu hướng này phù hợp với những bằng chứng bổ trợ trong các tài liệu ngành chính thức: nhu cầu phát triển công nghệ số và ứng dụng AI (khảo sát ITviec), "
+            "mở rộng hoạt động thương mại – xuất nhập khẩu kéo theo nhu cầu logistics (Bộ Công Thương, ManpowerGroup), "
+            "phục hồi dịch vụ lữ hành – lưu trú và quá trình tự động hóa tác vụ lặp lại trong nhóm tài chính – ngân hàng.\n\n"
+            "Lưu ý: Đây là biến động số tin trong bộ dữ liệu tham khảo mô phỏng cho 4 ngành nghiên cứu, "
+            "không phải số liệu quan sát thực tế từ database MySQL hiện tại."
         )
         return {
             "answer": answer,
             "data_status": "verified",
             "evidence": [
-                {"metric": "it_shift", "value": "+35.1% (285 -> 385)", "source": "SHIFT_CHART_2025_2026 (Cần Thơ & ĐBSCL)"},
-                {"metric": "logistics_shift", "value": "+26.8% (190 -> 241)", "source": "SHIFT_CHART_2025_2026 (Cần Thơ & ĐBSCL)"},
-                {"metric": "finance_shift", "value": "-42.2% (270 -> 156)", "source": "SHIFT_CHART_2025_2026 (Cần Thơ & ĐBSCL)"},
-                {"metric": "tourism_shift", "value": "+3.8% (210 -> 218)", "source": "SHIFT_CHART_2025_2026 (Cần Thơ & ĐBSCL)"},
-                {"metric": "agri_shift", "value": "+73.3% (45 -> 78)", "source": "SHIFT_CHART_2025_2026 (Cần Thơ & ĐBSCL)"}
+                {"metric": "it_shift", "value": "+35.1% (285 -> 385)", "source": "BENCHMARK_SHIFT_2025_2026 (Tham khảo)"},
+                {"metric": "logistics_shift", "value": "+26.8% (190 -> 241)", "source": "BENCHMARK_SHIFT_2025_2026 (Tham khảo)"},
+                {"metric": "tourism_shift", "value": "+3.8% (210 -> 218)", "source": "BENCHMARK_SHIFT_2025_2026 (Tham khảo)"},
+                {"metric": "finance_shift", "value": "-42.2% (270 -> 156)", "source": "BENCHMARK_SHIFT_2025_2026 (Tham khảo)"}
             ],
-            "analysis": "Chuyển dịch trọng tâm từ kế toán truyền thống sang kinh tế số, logistics và nông nghiệp công nghệ cao.",
+            "analysis": "Chuyển dịch trọng tâm từ kế toán thủ công sang công nghệ số, logistics và du lịch sinh thái.",
             "recommendations": ["Theo dõi biến động cung cầu nhân lực theo từng quý để kịp thời điều chỉnh chuẩn đào tạo."],
             "chart_refs": [
-                "Bảng Chi Tiết Mức Độ Dịch Chuyển & Nguyên Nhân Tác Động",
+                "Bảng Chi Tiết Mức Độ Dịch Chuyển & Nguyên Nhân Tác Động (4 ngành)",
                 "So Sánh Cơ Cấu Tỷ Trọng (2025 vs 2026)",
                 "Đường Đi Chuyển Dịch Nhu Cầu Việc Làm (2023–2027)"
             ],
             "limitations": [
-                "Bốn tài liệu ngành cung cấp bằng chứng bối cảnh toàn quốc, không đồng nhất tuyệt đối với thống kê hành chính riêng tại Cần Thơ.",
-                "Tổng số tin năm 2026 là 1.078 tin; tỷ trọng chuẩn hóa đã được tính toán lại theo đúng mẫu số này."
+                "Bộ số liệu chuyển dịch là dữ liệu tham khảo mô phỏng cho 4 ngành trọng điểm, tách biệt với dữ liệu crawler MySQL.",
+                "Tổng mẫu số 4 ngành được chuẩn hóa 100% cho 4 ngành nghiên cứu (955 tin năm 2025 và 1.000 tin năm 2026)."
             ]
         }
 

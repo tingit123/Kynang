@@ -1,0 +1,152 @@
+{
+  "job_postings_evaluation": {
+    "total_jds": 80,
+    "metrics": {
+      "true_positive": 281,
+      "false_positive": 220,
+      "false_negative": 37,
+      "precision": 0.5609,
+      "recall": 0.8836,
+      "f1_score": 0.6862,
+      "total_gold_skills": 318,
+      "total_machine_skills": 501
+    },
+    "by_skill_type": {
+      "HARD": {
+        "true_positive": 58,
+        "false_positive": 44,
+        "false_negative": 1,
+        "precision": 0.5686,
+        "recall": 0.9831,
+        "f1_score": 0.7205,
+        "gold_count": 59,
+        "machine_count": 102
+      },
+      "SOFT": {
+        "true_positive": 97,
+        "false_positive": 105,
+        "false_negative": 28,
+        "precision": 0.4802,
+        "recall": 0.776,
+        "f1_score": 0.5933,
+        "gold_count": 125,
+        "machine_count": 202
+      },
+      "TOOL": {
+        "true_positive": 87,
+        "false_positive": 45,
+        "false_negative": 1,
+        "precision": 0.6591,
+        "recall": 0.9886,
+        "f1_score": 0.7909,
+        "gold_count": 88,
+        "machine_count": 132
+      },
+      "KNOWLEDGE": {
+        "true_positive": 7,
+        "false_positive": 16,
+        "false_negative": 7,
+        "precision": 0.3043,
+        "recall": 0.5,
+        "f1_score": 0.3783,
+        "gold_count": 14,
+        "machine_count": 23
+      },
+      "CERTIFICATION": {
+        "true_positive": 2,
+        "false_positive": 2,
+        "false_negative": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6667,
+        "gold_count": 2,
+        "machine_count": 4
+      },
+      "LANGUAGE": {
+        "true_positive": 30,
+        "false_positive": 8,
+        "false_negative": 0,
+        "precision": 0.7895,
+        "recall": 1.0,
+        "f1_score": 0.8824,
+        "gold_count": 30,
+        "machine_count": 38
+      }
+    }
+  },
+  "curriculum_vitae_evaluation": {
+    "total_cvs": 40,
+    "metrics": {
+      "true_positive": 94,
+      "false_positive": 131,
+      "false_negative": 62,
+      "precision": 0.4178,
+      "recall": 0.6026,
+      "f1_score": 0.4935,
+      "total_gold_skills": 156,
+      "total_machine_skills": 225
+    },
+    "by_skill_type": {
+      "HARD": {
+        "true_positive": 7,
+        "false_positive": 29,
+        "false_negative": 4,
+        "precision": 0.1944,
+        "recall": 0.6364,
+        "f1_score": 0.2978,
+        "gold_count": 11,
+        "machine_count": 36
+      },
+      "SOFT": {
+        "true_positive": 51,
+        "false_positive": 56,
+        "false_negative": 35,
+        "precision": 0.4766,
+        "recall": 0.593,
+        "f1_score": 0.5285,
+        "gold_count": 86,
+        "machine_count": 107
+      },
+      "TOOL": {
+        "true_positive": 35,
+        "false_positive": 40,
+        "false_negative": 20,
+        "precision": 0.4667,
+        "recall": 0.6364,
+        "f1_score": 0.5385,
+        "gold_count": 55,
+        "machine_count": 75
+      },
+      "KNOWLEDGE": {
+        "true_positive": 0,
+        "false_positive": 2,
+        "false_negative": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "gold_count": 0,
+        "machine_count": 2
+      },
+      "CERTIFICATION": {
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "gold_count": 0,
+        "machine_count": 1
+      },
+      "LANGUAGE": {
+        "true_positive": 1,
+        "false_positive": 3,
+        "false_negative": 3,
+        "precision": 0.25,
+        "recall": 0.25,
+        "f1_score": 0.25,
+        "gold_count": 4,
+        "machine_count": 4
+      }
+    }
+  }
+}
