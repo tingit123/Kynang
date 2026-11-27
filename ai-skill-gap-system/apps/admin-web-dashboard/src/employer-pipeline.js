@@ -79,22 +79,7 @@
    const more = values.length > limit ? `<button type="button" class="pp-skill-more" data-pp-skills-expand="${candidate.id}" aria-expanded="${expanded}">${expanded ? 'Thu gọn' : `Xem thêm (${values.length - limit})`}</button>` : '';
    return `<div class="pp-skill-list" aria-label="Kỹ năng của ${esc(candidate.candidate_name)}">${tags || '<span class="pp-muted">Chưa có kỹ năng để đối chiếu</span>'}${more}</div>`;
   }
-  function card(a){return `<article class="pp-person ${a.id===s.selected?'pp-current':''}" data-pp-card="${a.id}"><button type="button" class="pp-person-main" data-pp-person="${a.id}" aria-pressed="${a.id===s.selected}"><span class="pp-person-name">${esc(a.candidate_name)}</span><span class="pp-muted">${esc(a.candidate_email)}</span><span class="pp-person-info">${badge(s.data,a.stage)}</span>${a.is_demo?'<span class="pp-muted">Dữ liệu thử</span>':''}</button>${skillTags(a)}<div class="pp-card-summary">${window.RecruitmentStatuses.candidateSkillCoverage(a.skill_states || [], s.priorities)}${!s.compact&&(s.view==='list'||s.stage)?'<span class="pp-owner" aria-hidden="true">Mở hồ sơ →</span>':''}</div></article>`;}
-  function boardCandidate(candidate) {
-   return `<div class="pp-person pp-board-person">
-    <span class="pp-person-name">${esc(candidate.candidate_name)}</span>
-    <span class="pp-muted">${esc(candidate.candidate_email)}</span>
-   </div>`;
-  }
-  function boardColumn(stage, candidates) {
-   return `<section class="pp-column" data-pp-open-stage="${stage.id}">
-    <h3><button type="button" class="pp-column-title"
-     aria-label="Xem danh sách ${esc(stage.label)} (${candidates.length} hồ sơ)">
-     <span>${esc(stage.label)} · ${candidates.length}</span><span aria-hidden="true">→</span>
-    </button></h3>
-    ${candidates.map(boardCandidate).join('') || '<p class="pp-muted">Chưa có hồ sơ</p>'}
-   </section>`;
-  }
+  function card(a){return `<article class="pp-person ${a.id===s.selected?'pp-current':''}" data-pp-card="${a.id}"><button type="button" class="pp-person-main" data-pp-person="${a.id}" aria-pressed="${a.id===s.selected}"><span class="pp-person-name">${esc(a.candidate_name)}</span><span class="pp-muted">${esc(a.candidate_email)}</span>${a.is_demo?'<span class="pp-muted">Dữ liệu thử</span>':''}</button>${skillTags(a)}<div class="pp-card-summary">${window.RecruitmentStatuses.candidateSkillCoverage(a.skill_states || [], s.priorities)}${!s.compact?'<span class="pp-owner" aria-hidden="true">Mở hồ sơ →</span>':''}</div></article>`;}
   function renderRows() {
    const box = s.root.querySelector('[data-pp-list-content]');
    if (!box || !s.data) return;
@@ -106,12 +91,7 @@
     if (count) count.textContent = '(' + matching.filter(candidate => matchesContact(candidate, contact)).length + ')';
     button.setAttribute('aria-pressed', String(s.contact === contact));
    }
-   if (s.view === 'board' && !s.stage) {
-    const columns = s.data.stages.map(stage => boardColumn(stage, visible.filter(candidate => candidate.stage === stage.id)));
-    box.innerHTML = `<div class="pp-board" tabindex="0" aria-label="Bảng trạng thái tuyển dụng, có thể cuộn ngang">${columns.join('')}</div>`;
-   } else {
-    box.innerHTML = `<div class="pp-list">${visible.map(card).join('') || '<div class="pp-empty">Không có ứng viên theo điều kiện đang chọn.</div>'}</div>`;
-   }
+   box.innerHTML = `<div class="pp-list">${visible.map(card).join('') || '<div class="pp-empty">Không có ứng viên theo điều kiện đang chọn.</div>'}</div>`;
    const count = s.root.querySelector('[data-pp-visible]');
    if (count) count.textContent = `${visible.length}/${s.data.applications.length} hồ sơ`;
   }
@@ -181,10 +161,6 @@
      ${button('Bỏ lọc', 'reset')}
     </div>
     <div class="pp-view-row">
-     <div class="pp-toggle" role="group" aria-label="Chế độ xem">
-      <button type="button" class="ev-button" data-pp-view="list" aria-pressed="${s.view === 'list'}">Danh sách</button>
-      <button type="button" class="ev-button" data-pp-view="board" aria-pressed="${s.view === 'board'}">Bảng tiến trình</button>
-     </div>
      <span class="pp-muted" data-pp-visible aria-live="polite"></span>
     </div>
     ${priorityFilter()}
@@ -304,7 +280,7 @@
   const live=()=>!s.disposed&&root.isConnected;
   function eventText(e){if(e.details.interview){const item=e.details.interview;const states={scheduled:'Đã lên lịch',completed:'Đã diễn ra',no_show:'Ứng viên vắng',cancelled:'Đã hủy'};const previous=item.before;return (e.event_type==='interview_created'?'Tạo lịch phỏng vấn: ':'Cập nhật lịch phỏng vấn: ')+(previous?date(previous.starts_at)+' → ':'')+date(item.starts_at)+' · '+(states[item.status]||item.status);}if(e.event_type==='note')return 'Đã thêm ghi chú nội bộ';const changes=[];if(e.details.stage)changes.push(`${stageLabel(s.data,e.details.stage.from)} → ${stageLabel(s.data,e.details.stage.to)}`);if(e.details.assignee)changes.push(`Phụ trách: ${e.details.assignee.from} → ${e.details.assignee.to}`);return (e.event_type==='demo_setup'?'Khởi tạo dữ liệu thử: ':'')+changes.join(' · ');}
   function accept(data){s.data=data;s.stage=data.stage;}
-  function render(){if(!live())return;const d=s.data;root.innerHTML=style()+`<div class="pp-root">${s.loading?'<p role="status">Đang tải thông tin…</p>':''}${s.error?`<p class="pp-error" role="alert">${esc(s.error)} ${button('Tải lại thông tin','reload',s.busy)}</p>`:''}${s.notice?`<p class="pp-success" role="status">${esc(s.notice)}</p>`:''}${d?`<section class="pp-panel"><div class="pp-detail-state"><h2>Thông tin tuyển dụng</h2>${badge(d,d.stage)}</div><form data-pp-process-form><div class="pp-form"><label>Trạng thái tuyển dụng<select data-pp-field="stage" ${s.busy?'disabled':''}>${d.stages.map(v=>`<option value="${v.id}" ${s.stage===v.id?'selected':''}>${esc(v.label)}</option>`).join('')}</select></label><label class="pp-wide">Lý do cập nhật<textarea data-pp-field="reason" maxlength="2000" placeholder="Ví dụ: đã xem CV, chuyển sang phỏng vấn…" ${s.busy?'disabled':''}>${esc(s.reason)}</textarea></label></div><div class="pp-toolbar"><button type="submit" class="ev-button" ${s.busy?'disabled':''}>${s.busy?'Đang lưu…':'Lưu thông tin'}</button></div></form><p class="pp-muted">Cập nhật nội bộ, không gửi thông báo cho ứng viên. Có thể đổi lại trạng thái khi ghi rõ lý do.</p></section><section class="pp-panel"><h3>Ghi chú nội bộ</h3><form data-pp-note-form><textarea class="pp-note" data-pp-field="note" maxlength="2000" placeholder="Ghi nhận việc cần làm hoặc nội dung trao đổi nội bộ…" ${s.busy?'disabled':''}>${esc(s.note)}</textarea><div class="pp-toolbar"><button type="submit" class="ev-button" ${s.busy?'disabled':''}>Thêm ghi chú</button></div></form></section><section class="pp-panel"><div class="pp-detail-state"><h3>Lịch sử thao tác</h3><span class="pp-muted">${d.event_count} thao tác</span></div>${d.event_count>200?'<p class="pp-muted">Đang hiển thị 200 thao tác gần nhất.</p>':''}<ol class="pp-timeline"><li><strong>Đã nhận hồ sơ</strong><p class="pp-muted">${esc(date(d.applied_at))}</p></li>${d.events.map(e=>`<li><strong>${esc(eventText(e))}</strong><p class="pp-muted">${esc(e.actor_name)} · ${esc(date(e.created_at))}</p><div class="pp-reason">${esc(e.reason)}</div></li>`).join('')}</ol></section>`:''}</div>`;}
+  function render(){if(!live())return;const d=s.data;root.innerHTML=style()+`<div class="pp-root">${s.loading?'<p role="status">Đang tải thông tin…</p>':''}${s.error?`<p class="pp-error" role="alert">${esc(s.error)} ${button('Tải lại thông tin','reload',s.busy)}</p>`:''}${s.notice?`<p class="pp-success" role="status">${esc(s.notice)}</p>`:''}${d?`<section class="pp-panel"><h3>Ghi chú nội bộ</h3><form data-pp-note-form><textarea class="pp-note" data-pp-field="note" maxlength="2000" placeholder="Ghi nhận việc cần làm hoặc nội dung trao đổi nội bộ…" ${s.busy?'disabled':''}>${esc(s.note)}</textarea><div class="pp-toolbar"><button type="submit" class="ev-button" ${s.busy?'disabled':''}>Thêm ghi chú</button></div></form></section><section class="pp-panel"><div class="pp-detail-state"><h3>Lịch sử thao tác</h3><span class="pp-muted">${d.event_count} thao tác</span></div>${d.event_count>200?'<p class="pp-muted">Đang hiển thị 200 thao tác gần nhất.</p>':''}<ol class="pp-timeline"><li><strong>Đã nhận hồ sơ</strong><p class="pp-muted">${esc(date(d.applied_at))}</p></li>${d.events.map(e=>`<li><strong>${esc(eventText(e))}</strong><p class="pp-muted">${esc(e.actor_name)} · ${esc(date(e.created_at))}</p><div class="pp-reason">${esc(e.reason)}</div></li>`).join('')}</ol></section>`:''}</div>`;}
   async function load(){s.loading=true;s.error='';render();try{const d=await request(`/applications/${id}/process`);if(live())accept(d);}catch(e){s.error=e.message;}finally{s.loading=false;render();}}
   root.oninput=root.onchange=e=>{if(e.target.dataset.ppField)s[e.target.dataset.ppField]=e.target.value;};
   root.onclick=e=>{const action=e.target.closest('[data-pp-action]')?.dataset.ppAction;if(s.busy)return;if(action==='reload')load();};

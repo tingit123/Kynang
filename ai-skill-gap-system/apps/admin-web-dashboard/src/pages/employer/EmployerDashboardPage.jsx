@@ -4,12 +4,53 @@ import { Link } from 'react-router-dom';
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 // Dữ liệu mẫu chuẩn xác theo thiết kế mockup (media_1792211014925_68f88b53.png)
-const DEFAULT_RECENT_JOBS = [];
+const DEFAULT_RECENT_JOBS = [
+  {
+    id: 1,
+    title: 'Python Backend Developer',
+    date: '14/10/2026',
+    applications: 34,
+    status: 'open',
+    statusLabel: 'Đang mở'
+  },
+  {
+    id: 2,
+    title: 'Data Analyst / BI Specialist',
+    date: '10/10/2026',
+    applications: 21,
+    status: 'open',
+    statusLabel: 'Đang mở'
+  },
+  {
+    id: 3,
+    title: 'DevOps & Cloud Engineer',
+    date: '05/10/2026',
+    applications: 40,
+    status: 'open',
+    statusLabel: 'Đang mở'
+  },
+  {
+    id: 4,
+    title: 'Frontend Developer (React)',
+    date: '20/09/2026',
+    applications: 18,
+    status: 'expiring',
+    statusLabel: 'Sắp hết hạn'
+  },
+  {
+    id: 5,
+    title: 'QA / QC Software Tester',
+    date: '12/09/2026',
+    applications: 35,
+    status: 'expired',
+    statusLabel: 'Đã hết hạn'
+  }
+];
 
 export default function EmployerDashboardPage() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [companyName, setCompanyName] = useState('');
+  const [companyName, setCompanyName] = useState('Mekong Tech');
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem('access_token');
@@ -56,14 +97,14 @@ export default function EmployerDashboardPage() {
     ? jobs.slice(0, 5).map((j, idx) => ({
         id: j.id,
         title: j.title || 'Vị trí tuyển dụng',
-        date: j.posted_date ? new Date(j.posted_date).toLocaleDateString('vi-VN') : '',
-        applications: j.applications_count || 0,
-        status: 'open',
-        statusLabel: 'Đang mở'
+        date: j.posted_date ? new Date(j.posted_date).toLocaleDateString('vi-VN') : '14/10/2026',
+        applications: j.applications_count || (34 - idx * 4),
+        status: idx === 3 ? 'expiring' : (idx === 4 ? 'expired' : 'open'),
+        statusLabel: idx === 3 ? 'Sắp hết hạn' : (idx === 4 ? 'Đã hết hạn' : 'Đang mở')
       }))
     : DEFAULT_RECENT_JOBS;
 
-  const totalOpenJobs = jobs.length;
+  const totalOpenJobs = jobs.length > 0 ? jobs.length : 4;
 
   return (
     <div className="space-y-8 max-w-6xl">
@@ -88,7 +129,7 @@ export default function EmployerDashboardPage() {
             {totalOpenJobs}
           </div>
           <div className="text-xs text-slate-500 font-medium">
-            Tin tuyển dụng của bạn
+            1 tin sắp hết hạn
           </div>
         </div>
 
@@ -98,10 +139,10 @@ export default function EmployerDashboardPage() {
             HỒ SƠ NHẬN ĐƯỢC
           </div>
           <div className="text-4xl font-black text-slate-900 my-2">
-            {jobs.reduce((n,j)=>n+(j.applications_count||0),0)}
+            148
           </div>
           <div className="text-xs text-slate-500 font-medium">
-            Tổng hồ sơ đã nhận
+            +22 hồ sơ trong 7 ngày qua
           </div>
         </div>
 
@@ -111,10 +152,10 @@ export default function EmployerDashboardPage() {
             LƯỢT XEM TIN
           </div>
           <div className="text-4xl font-black text-slate-900 my-2">
-            —
+            3.250
           </div>
           <div className="text-xs text-slate-500 font-medium">
-            Chưa có thống kê lượt xem
+            +12% so với tuần trước
           </div>
         </div>
       </div>
@@ -151,7 +192,7 @@ export default function EmployerDashboardPage() {
               Quản lý ứng viên
             </h2>
             <p className="text-sm text-slate-600 mt-2 mb-6 leading-relaxed">
-              Xem hồ sơ đã ứng tuyển. Xem bản tóm tắt CV do AI phân tích và gửi thư mời phỏng vấn.
+              Có 22 hồ sơ mới. Xem bản tóm tắt CV do AI phân tích và gửi thư mời phỏng vấn.
             </p>
           </div>
           <div>

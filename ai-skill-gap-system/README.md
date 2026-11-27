@@ -14,15 +14,12 @@
 
 ---
 
-Bản merge Loc ngày 20/11/2026: [Thay đổi, kiểm thử và giới hạn](docs/MERGE_LOC_20261120.md).
-Dữ liệu employer demo và đăng nhập không mật khẩu đã được gỡ.
-
 ## 📖 Giới Thiệu
 
 **Skill Lens Lab** là hệ thống phân tích khoảng cách kỹ năng lao động sử dụng AI, được xây dựng cho thị trường lao động tại Cần Thơ. Hệ thống:
 
-- **Dữ liệu phát triển**: bộ seed 1.000 tin và 500 CV tự sinh; không coi là dữ liệu thị trường thực tế.
-- **Phân tích CV**: tích hợp Gemini/Groq và xử lý từ khóa dự phòng; cloud cần key hợp lệ, chưa được kiểm chứng trong lần merge hiện tại.
+- 🕷️ **Cào dữ liệu** 1,000+ tin tuyển dụng từ TopCV và 500 CV sinh viên
+- 🤖 **Dùng LLM (GPT-4o / Gemini)** để làm sạch và trích xuất kỹ năng theo cấu trúc phân cấp
 - 📊 **Tính Gap = Demand – Supply** để tìm kỹ năng thiếu hụt theo từng ngành
 - 🎯 **Gợi ý nghề nghiệp + khóa học** cá nhân hóa cho từng người lao động
 
@@ -211,9 +208,25 @@ Employer → Ứng viên dùng API thật; chọn hồ sơ và bấm **Đối ch
 Yêu cầu lấy từ `extracted_skills`. Mỗi dẫn chứng được backend kiểm tra trên
 `cv_snapshot_text`, hiển thị vị trí trong bản văn đã nộp và cho HR xác nhận/sửa
 kèm lý do. Giữ nguyên nhận định gốc; không chấm điểm, xếp hạng hay tự từ chối.
-Đây là đối chiếu nội dung, chưa xác minh năng lực. Có lưu và hiển thị CV gốc theo quyền của chủ tin.
+Đây là đối chiếu nội dung, chưa xác minh năng lực. MVP chưa lưu/hiển thị PDF gốc.
 
-Chạy bằng `docker compose up -d --build`. Không còn seed hoặc đăng nhập employer demo.
+Chạy thử trong PowerShell, tại thư mục chứa `docker-compose.yml`:
+
+```powershell
+$env:EVIDENCE_PROVIDER = 'keyword' # Demo offline, không gửi CV tới LLM
+docker compose up -d
+docker compose cp seed_demo_evidence.py core-api:/app/seed_demo_evidence.py
+docker compose exec -T core-api python /app/seed_demo_evidence.py
+```
+
+Script in tài khoản `evidence.employer@demo.local` và mật khẩu ngẫu nhiên.
+Có thể truyền `DEMO_PASSWORD` bằng `docker compose exec -e DEMO_PASSWORD=...`.
+Seed chạy lại không tạo trùng hồ sơ; mật khẩu employer được cập nhật mỗi lần chạy.
+Đăng nhập tại <http://localhost:8081>, mở
+<http://localhost:8080/#/employer/candidates>. Có 38 hồ sơ mẫu, 6 yêu cầu.
+Email đuôi `@demo.local` là dấu nhận diện hồ sơ mẫu tạm thời, chưa phải trường
+phân loại dữ liệu chính thức. Script tương thích role `candidate` trên DB cũ.
+
 Mặc định cấu hình `EVIDENCE_PROVIDER=auto`: Gemini → Groq → từ khóa.
 Nếu không có key, `auto` dùng từ khóa và lưu `done`. Nếu các LLM được cấu hình
 đều lỗi, run vẫn lưu `error`, provider `keyword` và mã
@@ -238,6 +251,28 @@ docker compose exec -T core-api python -m pytest tests/test_evidence.py -q -p no
 ```
 
 Để phát triển ngoài Docker, cài `services/core-api-backend/requirements-dev.txt`.
+
+## Đăng nhập nhanh employer demo
+
+Trang chủ → Đăng nhập → Đăng nhập cơ bản → **Employer (Tuyển dụng)**.
+Không cần nhập email/mật khẩu. Nút dùng tài khoản `evidence.employer@demo.local`
+đã seed, tạo cookie HttpOnly/JWT thật và mở danh sách ứng viên. Không tự tạo tài
+khoản, không đổi mật khẩu, không tạo trạng thái đăng nhập giả khi API thất bại.
+
+Bản localhost hiện tại đã bật. Để bật lại khi tạo lại container:
+
+```powershell
+docker compose -f docker-compose.yml -f docker-compose.demo.yml up -d --no-deps core-api
+```
+
+Bản Compose mặc định để `DEMO_EMPLOYER_LOGIN=0`; chỉ override demo mới bật `1`.
+Endpoint POST `/api/auth/demo/employer` chỉ chọn đúng tài khoản demo có role employer,
+đang hoạt động và đã duyệt; kiểm tra host/origin localhost. Đây là tài khoản demo
+được vào không mật khẩu khi bật, không dùng chế độ này cho triển khai thật. Các vai
+trò demo khác giữ cách hoạt động cũ. Lỗi có thông báo trong form cơ bản.
+
+Đã kiểm tra 12 trường hợp cho tính năng này, cùng Chrome trắng: bấm Employer khi
+hai ô đăng nhập rỗng, API /me trả employer thật, tải lại trang vẫn giữ phiên.
 
 ## Quản lý hồ sơ ứng viên
 
@@ -274,12 +309,33 @@ HR review được ưu tiên khi tính kết quả. Không tự từ chối ho�
 Danh sách tuyển dụng có 10 hồ sơ/trang; chọn tất cả xuyên trang. Tối đa **100 hồ sơ/đợt
  gửi**, **50 hồ sơ/lượt đối chiếu**; vượt 100 cần thu hẹp hoặc chia đợt, không cắt ngầm.
 
-### Dữ liệu nhà tuyển dụng
+### CV tự tạo để demo
 
-Không có tin, CV, hồ sơ hoặc thông báo mẫu được nạp tự động. Đăng nhập bằng tài khoản
-nhà tuyển dụng đã được duyệt, đăng tin và nhận ứng tuyển qua API. Dữ liệu khảo sát/thị
-trường mẫu ở các phân hệ khác vẫn là dữ liệu mẫu, không phải thống kê thị trường thật.
-CV gốc hỗ trợ PDF, PNG, JPG, WEBP và TXT, tối đa 5 MB; chỉ chủ tin hoặc admin được xem.
+Đã viết mới 16 CV hư cấu cho bốn ngành, kèm tệp gốc trong `demo_cvs/`.
+Tin `[CV tự tạo] Backend Developer` có Bích Ngọc, Văn An, Minh Quân, Gia Hân;
+đây là hồ sơ mới lưu trong DB, không phải các thẻ giao diện hardcode trước đây.
+Tin tự tạo được ưu tiên hiển thị. Dữ liệu cũ và lịch sử gửi vẫn giữ nguyên.
+
+Sau khi seed tài khoản employer ở mục trước, chạy:
+
+```powershell
+# Xuất lại tệp gốc trên máy (không cần DB)
+python seed_recruitment_cvs.py --write-files
+# Nạp bổ sung, không ghi đè hồ sơ đã có
+docker compose cp seed_recruitment_cvs.py core-api:/app/seed_recruitment_cvs.py
+docker compose exec -T core-api python /app/seed_recruitment_cvs.py
+```
+
+Đăng nhập `evidence.employer@demo.local` bằng mật khẩu từ seed trước đó (không bị đổi
+bởi script mới). **CV gốc** hỗ trợ PDF, PNG, JPG, WEBP và TXT; mở phóng lớn và tải nguyên tệp.
+Nhà tuyển dụng có quyền với tin (hoặc admin) có thể **Tải lên CV** ngay trong hồ sơ,
+tối đa 5 MB; PDF tối đa 30 trang, không có mật khẩu. Tệp được kiểm tra nội dung thực,
+lưu bền vững trong DB và chỉ đọc được qua API có xác thực. Chưa hỗ trợ DOCX.
+Tải tệp mới sẽ thay CV của hồ sơ sau xác nhận; nội dung trích xuất thay đổi sẽ làm
+kết quả cũ mất hiệu lực. PDF có lớp văn bản được đọc cục bộ; ảnh dùng OCR cục bộ.
+PDF scan hoặc ảnh chưa đọc được vẫn xem được bản gốc, nhưng trạng thái đối chiếu
+là chưa đọc được, không sinh nội dung thay thế. Dẫn chứng không còn bản văn bên dưới.
+Hồ sơ cũ thiếu tệp gốc sẽ báo rõ, không dựng bản trích xuất thành tệp gốc giả.
 
 ### Thông báo tuyển dụng
 

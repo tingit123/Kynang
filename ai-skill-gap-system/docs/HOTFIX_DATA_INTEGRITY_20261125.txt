@@ -1,0 +1,91 @@
+SKILLLED LAB — Kiểm tra dữ liệu và hotfix, 25/11/2026
+
+Phạm vi: sửa code, kiểm tra SELECT; không migration, không cleaning/enrichment,
+không tạo/xóa/sửa bản ghi, không commit/push. Không sửa FE, CV analyzer, khóa học.
+
+KẾT QUẢ MYSQL KIỂM CHỨNG
+- Tổng jobs theo ngành qua positions: IT=1059, Tourism=852, Logistics=950,
+  Accounting=830. Đây là tổng nhiều batch, không phải số IT Q2.
+- 1000 job_id đầu: IT=234, Tourism=238, Logistics=278, Accounting=250.
+- Theo batch hiện tại: Q2_VERIFIED=998; Q3_RAW=2002; Q4_INGEST=691.
+- job_id 106 (Logistics), 110 (IT) thuộc 1000 JD đầu nhưng batch hiện là Q3_RAW.
+  Không tự đổi batch hai JD này; cần đối chiếu snapshot/backup để phê duyệt.
+- 1000 workers có cv_raw_id liên kết, chia đều 250/category; cvs_raw.batch_id=NULL.
+  Không có bằng chứng ghép cohort CV này vào Q2/Q3. Supply/Gap phải null.
+- Hải Dương: HARD explicit 64 liên kết; Du lịch hàng năm: HARD explicit 154;
+  Tuyển dụng: HARD explicit 53; Phát âm chuẩn: HARD explicit 19.
+  Các số này là tổng liên kết distinct JD toàn DB, không phải riêng IT.
+- report test findings: HARD esco_essential 43 JD;
+  levels of software testing: HARD esco_essential 44 JD.
+  Hai cụm kiểm thử không mặc định là rác; không dùng kỹ năng suy luận này tính Demand explicit.
+
+NGUYÊN NHÂN
+1. analytics() lọc KPI tổng bằng job_id<=1000; queries industries_detail và
+   soft_skills không có period predicate nên đọc toàn DB. FE dùng jobs và
+   demand_denom từ industries_detail, gây 1059 ở IT/Q2.
+2. Batch mới vẫn bị coi RAW Q3 trong API, mặc dù đã có 2002 jobs chuẩn hóa.
+   Chưa được published/quality gate, không tự công bố là dữ liệu sạch đã xác minh.
+3. Cleaner chỉ dò substring whitelist, gán extraction_source='llm', confidence=.950.
+   Khi không thấy kỹ năng, nó tự thêm kỹ năng mặc định theo ngành.
+   Skill mới luôn skill_type_id=1. Không có lời gọi LLM thực trong đoạn đó.
+4. Crawler tự dựng description/requirements, kinh nghiệm 1–3 năm và ngày hiện tại.
+   Ngày crawl/cleaning không phải ngày đăng; không thể dùng làm quý quan sát thật.
+5. CV Supply JOIN bằng worker_id=cv_id, mẫu số cứng 125/500, bỏ qua batch.
+
+CODE ĐÃ SỬA
+- reporting_scope.py: cohort predicate dùng batch, annual chỉ lấy batch published
+  và quality-gated; không suy quý từ ngày cleaning hoặc auto_increment ID.
+- crawler_data_source.py: cùng predicate cho tổng, industry detail, soft skills,
+  location; Demand chỉ source=explicit; CV JOIN cv_raw_id + batch thực; bỏ 125/500.
+- dashboard.py: quarter=1 đúng Q1; bỏ fallback địa bàn giả khi crawler lỗi (503).
+- grounded_skill_extraction.py: Groq thật qua model cấu hình môi trường; bắt buộc
+  evidence nguyên văn, 6 loại skill, không default skill, lỗi provider thì không
+  dựng số hoặc giả danh llm. Địa danh/phúc lợi đã xác minh bị loại ở validation.
+- crawler_lakehouse_service.py: extraction trước khi ghi; không tái ghi JD đã sạch;
+  không gán HARD mặc định; confidence chưa hiệu chuẩn=NULL; bỏ ngày/nội dung giả.
+- .env.example/docker-compose.yml: CRAWLER_EXTRACTION_MODEL, để trống mặc định.
+  Chưa gọi LLM thực/cleaning; cần xác nhận model được tài khoản cho phép trước staging.
+
+KẾT QUẢ ANALYTICS SAU HOTFIX (SELECT)
+Q2=998 JD; IT=233; Tourism=238; Logistics=277; Accounting=250.
+IT: Java 43/233; Python 40/233; Kiểm thử 35/233.
+Tourism: Excel 14/238; OTA 5/238; Facebook 2/238.
+Logistics: Excel 35/277; VNACCS 9/277; ERP 5/277.
+Accounting: Kế toán tổng hợp 192/250; Lập Báo cáo tài chính 142/250; Hạch toán 107/250.
+Python lệch baseline 41/234 do JD 110 đang mang batch Q3, không sửa cứng để khớp.
+CV verified cohort=0 khác với không có CV trong database; thông báo thiếu cohort.
+
+SQL TỰ KIỂM TRA (CHỈ ĐỌC)
+SELECT p.industry_id,COUNT(*) n FROM jobs j JOIN positions p
+ON p.position_id=j.position_id GROUP BY p.industry_id;
+
+SELECT r.batch_id,COUNT(DISTINCT j.job_id) n FROM jobs j
+JOIN jobs_raw r ON r.job_id=j.raw_job_id GROUP BY r.batch_id;
+
+SELECT j.job_id,r.batch_id FROM jobs j JOIN jobs_raw r ON r.job_id=j.raw_job_id
+WHERE j.job_id<=1000 AND r.batch_id<>'BATCH_2026_Q2_VERIFIED';
+
+SELECT p.industry_id,COUNT(DISTINCT j.job_id) n FROM jobs j
+JOIN jobs_raw r ON r.job_id=j.raw_job_id JOIN positions p ON p.position_id=j.position_id
+WHERE j.status='active' AND r.batch_id='BATCH_2026_Q2_VERIFIED'
+GROUP BY p.industry_id;
+
+SELECT c.batch_id,c.category,COUNT(DISTINCT w.worker_id) n FROM workers w
+JOIN cvs_raw c ON c.cv_id=w.cv_raw_id WHERE w.is_active=1
+GROUP BY c.batch_id,c.category;
+
+CHƯA GIẢI QUYẾT BẰNG GHI DATABASE
+- Cần đối chiếu/duyệt batch membership 106/110, CV chưa có batch.
+- Chưa chuẩn hóa lại liên kết rác sẵn có hoặc type/alias; không xóa skill gốc.
+- Các kỹ năng nhân sự/phát âm cần review từng JD, không blanket-delete.
+- Chưa tự publish Q3; cần đánh giá chất lượng cohort sau khi cleaning xong.
+- Chưa sửa cơ chế historical 2025; vẫn phải ghi rõ đây là dữ liệu tái dựng.
+- Evidence LLM được kiểm tra trong bộ nhớ, chưa có migration lưu run/model/quote
+  vào provenance table. Cần bổ sung staging trước khi chạy pipeline ghi thật.
+- Không xác nhận UI/browser hoặc API container đã hot reload; kết quả trên là
+  service Analytics trực tiếp + SQL. Không tuyên bố đã deploy production.
+
+KIỂM THỬ
+verification/test_data_integrity_hotfix.py: batch isolation, validation evidence,
+testing/language contexts, so sánh payload với SQL cho từng ngành và mẫu số,
+Supply/Gap null khi thiếu cohort, Q3 unpublished không rò dữ liệu vào Q2.

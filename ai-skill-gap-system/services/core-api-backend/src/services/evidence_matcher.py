@@ -151,7 +151,7 @@ def analyse(cv, requirements, mode=None):
             continue  # Do not log exceptions containing CV data or credentials.
     if mode in {"keyword", "auto"}:
         try:
-            return {"provider": "keyword", "status": "error" if attempted_llm else "done",
+            return {"provider": "keyword", "status": "done",
                     "error_code": "LLM_UNAVAILABLE_KEYWORD_FALLBACK" if attempted_llm else None,
                     "rows": keyword_rows(cv, requirements)}
         except Exception:

@@ -24,6 +24,7 @@ services:
   # ─── Core API Backend (FastAPI) ────────────
   core-api:
     build: ./services/core-api-backend
+    command: ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--timeout-graceful-shutdown", "10"]
     container_name: skillgap_api
     restart: always
     ports:
@@ -35,6 +36,7 @@ services:
       - ./services/core-api-backend/src:/app/src
     environment:
       DB_HOST: mysql-db
+      APP_STARTUP_DB_WRITES: ${APP_STARTUP_DB_WRITES:-true}
       DB_PORT: 3306
       DB_NAME: skillgap_db
       DB_USER: skillgap_user
@@ -55,6 +57,14 @@ services:
       SMTP_FROM: ${SMTP_FROM:-}
       SMTP_SECURITY: ${SMTP_SECURITY:-starttls}
       NOTIFY_SIMULATE: ${NOTIFY_SIMULATE:-0}
+      DEMO_EMPLOYER_LOGIN: ${DEMO_EMPLOYER_LOGIN:-0}
+      CRAWLER_DB_HOST: ${CRAWLER_DB_HOST:-host.docker.internal}
+      CRAWLER_DB_PORT: ${CRAWLER_DB_PORT:-3306}
+      CRAWLER_DB_NAME: ${CRAWLER_DB_NAME:-skill_intelligence}
+      CRAWLER_EXTRACTION_MODEL: ${CRAWLER_EXTRACTION_MODEL:-}
+      CRAWLER_DB_USER: ${CRAWLER_DB_USER:-}
+      CRAWLER_DB_PASSWORD: ${CRAWLER_DB_PASSWORD:-}
+      CRAWLER_ANALYTICS_ENABLED: ${CRAWLER_ANALYTICS_ENABLED:-false}
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
       timeout: 15s

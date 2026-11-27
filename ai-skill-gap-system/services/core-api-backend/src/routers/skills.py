@@ -107,50 +107,31 @@ def list_skills_detailed(
     return results
 
 
+def _scoped_crawler_metrics(period, location_id, industry, skill_type):
+    from src.services.crawler_data_source import CrawlerDataSource
+    try:
+        return CrawlerDataSource().analytics(period=period, location=location_id,
+            industry=industry, skill_type=skill_type)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
 @router.get("/gap-matrix")
 def skill_gap_matrix(
-    limit: int = Query(10, le=50),
-    industry: Optional[str] = Query(None),
-    db: Session = Depends(get_db)
+    limit: int = Query(10, ge=1, le=500), industry: Optional[str] = Query(None),
+    period: str = Query("2026_Q2"), location_id: str = Query("all"),
+    skill_type: str = Query("ALL"),
 ):
-    """Ma trận skill gap – dùng cho biểu đồ Dashboard."""
-    q = db.query(SkillCatalog)
-    if industry and industry != "Tất cả":
-        q = q.filter(SkillCatalog.industry == industry)
-    skills = q.order_by(SkillCatalog.gap_pct.desc()).limit(limit).all()
-    return [
-        {
-            "skill": s.skill_name,
-            "demand": s.demand_pct,
-            "supply": s.supply_pct,
-            "gap": s.gap_pct,
-            "trend": s.trend_pct,
-            "industry": s.industry,
-        }
-        for s in skills
-    ]
+    """Crawler-only scope, no silent fallback to legacy SkillCatalog."""
+    data = _scoped_crawler_metrics(period, location_id, industry, skill_type)
+    return data.get('all_skills', [])[:limit]
 
 
 @router.get("/soft-skills")
-def get_soft_skills(db: Session = Depends(get_db)):
-    """Lấy danh sách các kỹ năng mềm/chuyển giao (Transversal Skills)."""
-    skills = (
-        db.query(SkillCatalog)
-        .filter(SkillCatalog.industry == "Tất cả")
-        .order_by(desc(SkillCatalog.gap_pct))
-        .all()
-    )
-    return [
-        {
-            "skill": s.skill_name,
-            "demand": s.demand_pct,
-            "supply": s.supply_pct,
-            "gap": s.gap_pct,
-            "trend": s.trend_pct,
-            "industry": "Kỹ năng mềm"
-        }
-        for s in skills
-    ]
+def get_soft_skills(period: str = Query("2026_Q2"), location_id: str = Query("all"),
+                    industry: Optional[str] = Query(None)):
+    data = _scoped_crawler_metrics(period, location_id, industry, 'MAIN_SOFT')
+    return data.get('soft_skills', [])
 
 
 @router.get("/trend-data")
@@ -161,7 +142,7 @@ def trend_data():
         "datasets": [
             {"label": "Python & AI",          "data": [35, 48, 62, 78, 89.2], "color": "#6366f1"},
             {"label": "Data Analysis",       "data": [28, 36, 45, 50, 52.3], "color": "#10b981"},
-            {"label": "Customer Service",     "data": [40, 55, 75, 95, 115.2],"color": "#f59e0b"},
+            {"label": "Customer Service",     "data": [20.0, 22.5, 25.0, 27.5, 28.8],"color": "#f59e0b"},
             {"label": "Customs & Logistics",  "data": [22, 28, 36, 42, 48.0], "color": "#06b6d4"},
             {"label": "Financial Statements", "data": [30, 38, 45, 52, 58.5], "color": "#ef4444"},
         ],

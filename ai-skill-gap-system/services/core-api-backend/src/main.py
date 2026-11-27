@@ -139,6 +139,7 @@ async def expire_old_jobs_cron():
                 cutoff = date.today() - timedelta(days=30)
                 affected = db.query(JobPosting).filter(
                     JobPosting.is_deleted == False,
+                    JobPosting.id > 1000,  # Bảo vệ toàn bộ dữ liệu mẫu / market analysis jobs (IDs 1-1000)
                     JobPosting.posted_date != None,
                     JobPosting.posted_date < cutoff,
                 ).update({"is_deleted": True})
@@ -156,10 +157,16 @@ async def expire_old_jobs_cron():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup: chờ DB → tạo bảng. Shutdown: cleanup."""
-    wait_for_db_and_init()
-    cron_task = asyncio.create_task(expire_old_jobs_cron())
+    import os
+    startup_writes = os.getenv("APP_STARTUP_DB_WRITES", "true").lower() in ("1", "true", "yes")
+    if startup_writes:
+        wait_for_db_and_init()
+    else:
+        log.info("[DB] Startup read-only: bỏ qua DDL, seed và cron hết hạn tin.")
+    cron_task = asyncio.create_task(expire_old_jobs_cron()) if startup_writes else None
     yield
-    cron_task.cancel()
+    if cron_task:
+        cron_task.cancel()
     log.info("[API] Shutdown.")
 
 
@@ -208,7 +215,10 @@ from src.routers import auth, jobs, skills, surveys, crawler_data, courses, cv_a
 from src.routers import quick_hire
 from src.routers import notifications
 from src.routers import recruitment_process
+from src.routers import dashboard
+from src.routers import crawler_admin
 
+app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard Analytics (Unified)"])
 app.include_router(recruitment_process.router, prefix="/api", tags=["Tiến trình tuyển dụng — bản thử"])
 app.include_router(notifications.router, prefix="/api", tags=["Thông báo tuyển dụng"])
 app.include_router(quick_hire.router, prefix="/api", tags=["Tuyển dụng nhanh theo bộ lọc"])
@@ -219,6 +229,7 @@ app.include_router(auth.router,         prefix="/api/auth",     tags=["Xác Th�
 app.include_router(jobs.router,         prefix="/api/jobs",     tags=["Tin Tuyển Dụng"])
 app.include_router(skills.router,       prefix="/api/skills",   tags=["Kỹ Năng & Skill Gap"])
 app.include_router(surveys.router,      prefix="/api/surveys",  tags=["Khảo Sát Sinh Viên"])
+app.include_router(crawler_admin.router, prefix="/api/crawler", tags=["Admin Auto-Crawler & Lakehouse Ingestion"])
 app.include_router(crawler_data.router, prefix="/api/crawler",  tags=["Dữ Liệu Cào"])
 app.include_router(courses.router,      prefix="/api/courses",  tags=["Gợi Ý Khóa Học"])
 app.include_router(courses.router,      prefix="/api/v1/courses", tags=["Gợi Ý Khóa Học (v1)"])

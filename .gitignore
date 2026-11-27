@@ -22,7 +22,8 @@ Thumbs.db
 # Local secrets backup
 *.local
 
-
+# Scratch scripts
+scripts/
 
 # Local credentials and merge snapshots
 .env

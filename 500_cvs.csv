@@ -1,0 +1,501 @@
+﻿id,student_code,full_name,major,year_of_study,institution,completed_at,created_at
+1,SVCT0001,Trần Hoàng Quân,Kiểm toán,4,Trường Cao đẳng Cần Thơ,2026-07-29,2026-10-02 16:00:48
+2,SVCT0002,Phạm Ngọc Cường,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học FPT Cần Thơ,2026-07-22,2026-10-02 16:00:48
+3,SVCT0003,Lê Văn Hùng,Quản trị kinh doanh,4,Trường Cao đẳng Cần Thơ,2026-08-06,2026-10-02 16:00:48
+4,SVCT0004,Huỳnh Hoàng Minh,Kỹ thuật phần mềm,3,Trường Đại học Cần Thơ (CTU),2026-08-08,2026-10-02 16:00:48
+5,SVCT0005,Dương Anh Quân,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-08-21,2026-10-02 16:00:48
+6,SVCT0006,Đặng Đức Quân,Quản trị khách sạn,4,Trường Đại học FPT Cần Thơ,2026-08-27,2026-10-02 16:00:48
+7,SVCT0007,Võ Gia Hải,Quản trị khách sạn,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-26,2026-10-02 16:00:48
+8,SVCT0008,Nguyễn Văn Diễm,Công nghệ thông tin,3,Trường Đại học Cần Thơ (CTU),2026-08-15,2026-10-02 16:00:48
+9,SVCT0009,Đặng Thị Thảo,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Cần Thơ (CTU),2026-07-21,2026-10-02 16:00:49
+10,SVCT0010,Hồ Anh Quân,Hệ thống thông tin,3,Trường Đại học Cần Thơ (CTU),2026-09-27,2026-10-02 16:00:49
+11,SVCT0011,Đặng Ngọc Quân,Kỹ thuật phần mềm,5,Trường Đại học Cần Thơ (CTU),2026-09-24,2026-10-02 16:00:49
+12,SVCT0012,Võ Đức Vinh,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),5,Trường Cao đẳng Cần Thơ,2026-07-04,2026-10-02 16:00:49
+13,SVCT0013,Nguyễn Gia Yến,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Cần Thơ (CTU),2026-08-30,2026-10-02 16:00:49
+14,SVCT0014,Võ Thị Diễm,Quản trị kinh doanh,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-24,2026-10-02 16:00:49
+15,SVCT0015,Nguyễn Gia Thảo,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-20,2026-10-02 16:00:49
+16,SVCT0016,Hồ Thanh Hùng,Kinh tế nông nghiệp,5,Trường Đại học Cần Thơ (CTU),2026-09-29,2026-10-02 16:00:49
+17,SVCT0017,Lê Đức Hoa,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-20,2026-10-02 16:00:49
+18,SVCT0018,Trần Quốc Trang,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học Cần Thơ (CTU),2026-08-27,2026-10-02 16:00:49
+19,SVCT0019,Đỗ Gia Thảo,Hệ thống thông tin,3,Trường Đại học Cần Thơ (CTU),2026-09-01,2026-10-02 16:00:49
+20,SVCT0020,Dương Anh Em,Kinh tế vận tải,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-04,2026-10-02 16:00:49
+21,SVCT0021,Hồ Anh Em,Tài chính - Ngân hàng,3,Trường Đại học Cần Thơ (CTU),2026-08-20,2026-10-02 16:00:49
+22,SVCT0022,Bùi Gia Uyên,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Cần Thơ (CTU),2026-09-02,2026-10-02 16:00:49
+23,SVCT0023,Hoàng Thanh Yến,Hệ thống thông tin,4,Trường Đại học Cần Thơ (CTU),2026-08-23,2026-10-02 16:00:49
+24,SVCT0024,Vũ Gia Yến,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Cần Thơ (CTU),2026-09-01,2026-10-02 16:00:49
+25,SVCT0025,Phan Bảo Trang,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-08,2026-10-02 16:00:49
+26,SVCT0026,Phan Quốc Tú,Công nghệ thông tin,3,Trường Đại học Cần Thơ (CTU),2026-07-25,2026-10-02 16:00:49
+27,SVCT0027,Hoàng Anh Hùng,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học FPT Cần Thơ,2026-08-10,2026-10-02 16:00:49
+28,SVCT0028,Bùi Xuân Uyên,Quản trị nhà hàng và dịch vụ ăn uống,5,Trường Đại học Cần Thơ (CTU),2026-08-18,2026-10-02 16:00:49
+29,SVCT0029,Lê Hữu Em,Quản trị dịch vụ du lịch và lữ hành,5,Trường Đại học FPT Cần Thơ,2026-07-31,2026-10-02 16:00:49
+30,SVCT0030,Hoàng Xuân Hương,Công nghệ thông tin,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-15,2026-10-02 16:00:49
+31,SVCT0031,Bùi Thanh Quân,Khai thác cảng,4,Trường Đại học Cần Thơ (CTU),2026-09-02,2026-10-02 16:00:49
+32,SVCT0032,Đỗ Xuân Phương,Quản trị khách sạn,3,Trường Đại học Cần Thơ (CTU),2026-07-01,2026-10-02 16:00:49
+33,SVCT0033,Hồ Đức Hoa,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-07-27,2026-10-02 16:00:49
+34,SVCT0034,Võ Đức Vinh,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Cần Thơ (CTU),2026-07-24,2026-10-02 16:00:49
+35,SVCT0035,Phạm Văn Hà,Công nghệ thông tin,5,Trường Đại học Nam Cần Thơ (DNC),2026-08-05,2026-10-02 16:00:49
+36,SVCT0036,Lê Minh Sơn,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Cần Thơ (CTU),2026-07-16,2026-10-02 16:00:50
+37,SVCT0037,Võ Minh An,Kinh doanh thương mại,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-27,2026-10-02 16:00:50
+38,SVCT0038,Lê Bảo Phương,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-26,2026-10-02 16:00:50
+39,SVCT0039,Đặng Thanh Cường,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học FPT Cần Thơ,2026-07-21,2026-10-02 16:00:50
+40,SVCT0040,Ngô Thanh Sơn,Công nghệ thông tin,5,Trường Đại học Nam Cần Thơ (DNC),2026-08-12,2026-10-02 16:00:50
+41,SVCT0041,Huỳnh Đình Thảo,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Cần Thơ (CTU),2026-07-27,2026-10-02 16:00:50
+42,SVCT0042,Bùi Anh Dung,Khoa học máy tính,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-09,2026-10-02 16:00:50
+43,SVCT0043,Phạm Anh Em,Logistics và Quản lý chuỗi cung ứng,3,Trường Đại học Nam Cần Thơ (DNC),2026-08-21,2026-10-02 16:00:50
+44,SVCT0044,Ngô Thanh Hải,Quản trị kinh doanh,4,Trường Đại học Cần Thơ (CTU),2026-08-13,2026-10-02 16:00:50
+45,SVCT0045,Phạm Hoàng Tuấn,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-26,2026-10-02 16:00:50
+46,SVCT0046,Vũ Quốc Uyên,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Cần Thơ (CTU),2026-09-29,2026-10-02 16:00:50
+47,SVCT0047,Trần Minh Yến,Công nghệ thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-27,2026-10-02 16:00:50
+48,SVCT0048,Huỳnh Bảo Quân,Kế toán,3,Trường Đại học Cần Thơ (CTU),2026-09-26,2026-10-02 16:00:50
+49,SVCT0049,Đỗ Ngọc Xuân,Công nghệ thông tin,3,Trường Đại học FPT Cần Thơ,2026-08-25,2026-10-02 16:00:50
+50,SVCT0050,Dương Ngọc Xuân,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học FPT Cần Thơ,2026-09-23,2026-10-02 16:00:50
+51,SVCT0051,Phạm Xuân Hải,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-18,2026-10-02 16:00:50
+52,SVCT0052,Hoàng Ngọc Em,Quản trị khách sạn,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-04,2026-10-02 16:00:50
+53,SVCT0053,Bùi Bảo Quân,Kế toán,4,Trường Đại học Cần Thơ (CTU),2026-08-17,2026-10-02 16:00:50
+54,SVCT0054,Lê Gia Phương,Quản trị khách sạn,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-05,2026-10-02 16:00:50
+55,SVCT0055,Hoàng Anh Oanh,Logistics và Quản lý chuỗi cung ứng,5,Trường Đại học Nam Cần Thơ (DNC),2026-09-07,2026-10-02 16:00:50
+56,SVCT0056,Võ Minh Tú,Khai thác cảng,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-17,2026-10-02 16:00:51
+57,SVCT0057,Bùi Hữu Phương,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:00:51
+58,SVCT0058,Ngô Đức Minh,Công nghệ thông tin,4,Trường Cao đẳng Cần Thơ,2026-09-01,2026-10-02 16:00:51
+59,SVCT0059,Ngô Đức Bình,Trí tuệ nhân tạo (AI),3,Trường Đại học Nam Cần Thơ (DNC),2026-08-13,2026-10-02 16:00:51
+60,SVCT0060,Hồ Đức Xuân,Quản trị dịch vụ du lịch và lữ hành,3,Trường Cao đẳng Cần Thơ,2026-09-17,2026-10-02 16:00:51
+61,SVCT0061,Hồ Anh Khoa,Kinh tế vận tải,3,Trường Đại học Cần Thơ (CTU),2026-08-26,2026-10-02 16:00:51
+62,SVCT0062,Hoàng Gia Cường,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-22,2026-10-02 16:00:51
+63,SVCT0063,Dương Gia Thảo,Kế toán,3,Trường Đại học Cần Thơ (CTU),2026-08-18,2026-10-02 16:00:51
+64,SVCT0064,Huỳnh Đức Hà,Quản trị khách sạn,5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-16,2026-10-02 16:00:51
+65,SVCT0065,Hoàng Đình Sơn,Khoa học máy tính,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-22,2026-10-02 16:00:51
+66,SVCT0066,Phan Quốc Tuấn,Công nghệ thông tin,3,Trường Đại học Cần Thơ (CTU),2026-07-23,2026-10-02 16:00:51
+67,SVCT0067,Trần Hoàng Em,Kiểm toán,3,Trường Đại học Cần Thơ (CTU),2026-07-17,2026-10-02 16:00:51
+68,SVCT0068,Dương Xuân Thảo,Khai thác cảng,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-08,2026-10-02 16:00:51
+69,SVCT0069,Phạm Quốc Phương,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-07-04,2026-10-02 16:00:51
+70,SVCT0070,Dương Minh Uyên,Hệ thống thông tin,4,Trường Đại học FPT Cần Thơ,2026-07-27,2026-10-02 16:00:51
+71,SVCT0071,Lý Văn Diễm,Hệ thống thông tin,3,Trường Đại học Cần Thơ (CTU),2026-08-09,2026-10-02 16:00:51
+72,SVCT0072,Bùi Minh Phúc,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-26,2026-10-02 16:00:51
+73,SVCT0073,Hồ Minh Quân,Kỹ thuật phần mềm,3,Trường Đại học Cần Thơ (CTU),2026-07-18,2026-10-02 16:00:51
+74,SVCT0074,Lý Bảo Cường,Kỹ thuật phần mềm,5,Trường Đại học FPT Cần Thơ,2026-09-25,2026-10-02 16:00:51
+75,SVCT0075,Hoàng Ngọc Hải,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-01,2026-10-02 16:00:51
+76,SVCT0076,Hoàng Xuân Linh,Quản trị khách sạn,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-20,2026-10-02 16:00:51
+77,SVCT0077,Lê Bảo Oanh,Logistics và Quản lý chuỗi cung ứng,5,Trường Đại học FPT Cần Thơ,2026-07-20,2026-10-02 16:00:51
+78,SVCT0078,Huỳnh Quốc Oanh,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Cần Thơ (CTU),2026-07-11,2026-10-02 16:00:51
+79,SVCT0079,Lý Hữu Bình,Kỹ thuật phần mềm,5,Trường Đại học Cần Thơ (CTU),2026-09-25,2026-10-02 16:00:51
+80,SVCT0080,Hồ Đình Uyên,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Cần Thơ (CTU),2026-09-06,2026-10-02 16:00:51
+81,SVCT0081,Bùi Ngọc Hoa,Khai thác cảng,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-04,2026-10-02 16:00:52
+82,SVCT0082,Phạm Anh Em,Kỹ thuật phần mềm,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-12,2026-10-02 16:00:51
+83,SVCT0083,Trần Thanh Hoa,Quản trị kinh doanh,3,Trường Đại học Cần Thơ (CTU),2026-07-05,2026-10-02 16:00:52
+84,SVCT0084,Huỳnh Văn Hà,Quản trị khách sạn,4,Trường Cao đẳng Cần Thơ,2026-09-01,2026-10-02 16:00:52
+85,SVCT0085,Đỗ Thanh An,Công nghệ thông tin,5,Trường Đại học FPT Cần Thơ,2026-09-03,2026-10-02 16:00:52
+86,SVCT0086,Ngô Bảo Khang,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học FPT Cần Thơ,2026-09-09,2026-10-02 16:00:52
+87,SVCT0087,Vũ Anh Minh,Khoa học máy tính,5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-30,2026-10-02 16:00:52
+88,SVCT0088,Nguyễn Xuân Hà,Kinh doanh thương mại,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-09,2026-10-02 16:00:52
+89,SVCT0089,Vũ Anh An,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-08-03,2026-10-02 16:00:52
+90,SVCT0090,Lê Hữu Hà,Công nghệ thông tin,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-31,2026-10-02 16:00:52
+91,SVCT0091,Phạm Anh Hải,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Cần Thơ (CTU),2026-07-12,2026-10-02 16:00:52
+92,SVCT0092,Lý Bảo Hùng,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),5,Trường Đại học Cần Thơ (CTU),2026-08-25,2026-10-02 16:00:52
+93,SVCT0093,Lý Xuân Trang,Khai thác cảng,4,Trường Đại học Cần Thơ (CTU),2026-07-26,2026-10-02 16:00:52
+94,SVCT0094,Dương Thị Em,Công nghệ thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-15,2026-10-02 16:00:52
+95,SVCT0095,Hoàng Gia Minh,Khai thác cảng,3,Trường Cao đẳng Cần Thơ,2026-08-22,2026-10-02 16:00:52
+96,SVCT0096,Hoàng Xuân Tú,Mạng máy tính & Truyền thông dữ liệu,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-13,2026-10-02 16:00:52
+97,SVCT0097,Lê Bảo Tuấn,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-13,2026-10-02 16:00:52
+98,SVCT0098,Đỗ Hoàng Xuân,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-09-10,2026-10-02 16:00:52
+99,SVCT0099,Vũ Hoàng An,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Nam Cần Thơ (DNC),2026-07-25,2026-10-02 16:00:52
+100,SVCT0100,Phạm Gia Sơn,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Nam Cần Thơ (DNC),2026-07-15,2026-10-02 16:00:52
+101,SVCT0101,Hoàng Đức Minh,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-15,2026-10-02 16:00:52
+102,SVCT0102,Võ Anh Hải,Kỹ thuật phần mềm,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-19,2026-10-02 16:00:52
+103,SVCT0103,Trần Gia Tâm,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Cần Thơ (CTU),2026-08-06,2026-10-02 16:00:52
+104,SVCT0104,Võ Đình Uyên,Khai thác cảng,4,Trường Đại học Cần Thơ (CTU),2026-08-26,2026-10-02 16:00:52
+105,SVCT0105,Đặng Gia Quân,Kế toán,5,Trường Đại học Cần Thơ (CTU),2026-07-14,2026-10-02 16:00:53
+106,SVCT0106,Ngô Quốc Oanh,Công nghệ thông tin,3,Trường Đại học FPT Cần Thơ,2026-08-09,2026-10-02 16:00:53
+107,SVCT0107,Bùi Thanh Uyên,Kinh tế vận tải,4,Trường Đại học FPT Cần Thơ,2026-08-25,2026-10-02 16:00:53
+108,SVCT0108,Đỗ Thị Bình,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Cần Thơ (CTU),2026-07-16,2026-10-02 16:00:53
+109,SVCT0109,Trần Anh Tuấn,Tài chính - Ngân hàng,4,Trường Đại học FPT Cần Thơ,2026-09-28,2026-10-02 16:00:53
+110,SVCT0110,Đỗ Thanh Trang,Hệ thống thông tin,3,Trường Đại học FPT Cần Thơ,2026-07-13,2026-10-02 16:00:53
+111,SVCT0111,Phan Thanh Hùng,Khoa học máy tính,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-27,2026-10-02 16:00:53
+112,SVCT0112,Lê Bảo Hoa,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-08-25,2026-10-02 16:00:53
+113,SVCT0113,Dương Hữu Hương,Kinh tế vận tải,4,Trường Cao đẳng Cần Thơ,2026-09-17,2026-10-02 16:00:53
+114,SVCT0114,Phạm Xuân Uyên,Quản trị kinh doanh,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-18,2026-10-02 16:00:53
+115,SVCT0115,Lê Thanh Vinh,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Cần Thơ (CTU),2026-09-09,2026-10-02 16:00:53
+116,SVCT0116,Lê Gia Trang,Tài chính - Ngân hàng,4,Trường Đại học FPT Cần Thơ,2026-08-13,2026-10-02 16:00:53
+117,SVCT0117,Lê Thị Tuấn,Kiểm toán,5,Trường Đại học FPT Cần Thơ,2026-08-26,2026-10-02 16:00:53
+118,SVCT0118,Hoàng Quốc Hải,Kinh tế nông nghiệp,3,Trường Đại học FPT Cần Thơ,2026-09-05,2026-10-02 16:00:53
+119,SVCT0119,Trần Quốc Bình,Kế toán,5,Trường Đại học Nam Cần Thơ (DNC),2026-08-18,2026-10-02 16:00:53
+120,SVCT0120,Đỗ Ngọc Bình,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Cần Thơ (CTU),2026-09-12,2026-10-02 16:00:53
+121,SVCT0121,Huỳnh Hữu Cường,Công nghệ thông tin,3,Trường Đại học Cần Thơ (CTU),2026-07-16,2026-10-02 16:00:53
+122,SVCT0122,Phan Hoàng Tuấn,Kỹ thuật phần mềm,3,Trường Đại học FPT Cần Thơ,2026-08-04,2026-10-02 16:00:53
+123,SVCT0123,Ngô Minh Hoa,Công nghệ thông tin,4,Trường Đại học Cần Thơ (CTU),2026-07-17,2026-10-02 16:00:53
+124,SVCT0124,Đỗ Bảo Phúc,Tài chính - Ngân hàng,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-21,2026-10-02 16:00:53
+125,SVCT0125,Nguyễn Bảo Linh,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Cần Thơ (CTU),2026-09-03,2026-10-02 16:00:53
+126,SVCT0126,Đỗ Đức Hương,Kinh tế nông nghiệp,3,Trường Đại học Cần Thơ (CTU),2026-09-29,2026-10-02 16:00:53
+127,SVCT0127,Phạm Xuân Bình,Mạng máy tính & Truyền thông dữ liệu,3,Trường Cao đẳng Cần Thơ,2026-07-12,2026-10-02 16:00:53
+128,SVCT0128,Lý Bảo Oanh,Quản trị kinh doanh,5,Trường Đại học Cần Thơ (CTU),2026-08-22,2026-10-02 16:00:53
+129,SVCT0129,Lý Ngọc Tuấn,Hệ thống thông tin,3,Trường Đại học Cần Thơ (CTU),2026-09-15,2026-10-02 16:00:53
+130,SVCT0130,Đặng Quốc Cường,Công nghệ thông tin,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-12,2026-10-02 16:00:53
+131,SVCT0131,Phan Quốc Tú,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Cần Thơ (CTU),2026-08-05,2026-10-02 16:00:53
+132,SVCT0132,Bùi Đức Uyên,Hệ thống thông tin,5,Trường Đại học FPT Cần Thơ,2026-07-06,2026-10-02 16:00:54
+133,SVCT0133,Hồ Hữu Hải,Hệ thống thông tin,5,Trường Đại học Cần Thơ (CTU),2026-07-28,2026-10-02 16:00:54
+134,SVCT0134,Lý Ngọc Hà,Hệ thống thông tin,4,Trường Đại học FPT Cần Thơ,2026-07-19,2026-10-02 16:00:54
+135,SVCT0135,Hoàng Hoàng Bình,Quản trị khách sạn,4,Trường Đại học Cần Thơ (CTU),2026-07-16,2026-10-02 16:00:54
+136,SVCT0136,Đặng Quốc Hoa,Công nghệ thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-02,2026-10-02 16:00:54
+137,SVCT0137,Dương Thị Phương,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Cần Thơ (CTU),2026-09-13,2026-10-02 16:00:54
+138,SVCT0138,Vũ Minh Trang,Kinh tế vận tải,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-11,2026-10-02 16:00:54
+139,SVCT0139,Đỗ Ngọc Linh,Kinh tế vận tải,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-03,2026-10-02 16:00:54
+140,SVCT0140,Đỗ Xuân Hải,Kinh tế vận tải,3,Trường Đại học FPT Cần Thơ,2026-09-09,2026-10-02 16:00:54
+141,SVCT0141,Bùi Quốc Oanh,Kế toán,3,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:00:54
+142,SVCT0142,Hồ Hoàng Cường,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-08-19,2026-10-02 16:00:54
+143,SVCT0143,Trần Anh Sơn,Kinh tế vận tải,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-13,2026-10-02 16:00:54
+144,SVCT0144,Hồ Bảo Hà,Quản trị kinh doanh,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-14,2026-10-02 16:00:54
+145,SVCT0145,Nguyễn Hoàng Diễm,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Cần Thơ (CTU),2026-07-26,2026-10-02 16:00:54
+146,SVCT0146,Phạm Thị Tú,Quản trị khách sạn,3,Trường Đại học Cần Thơ (CTU),2026-08-24,2026-10-02 16:00:54
+147,SVCT0147,Đặng Minh Yến,Logistics và Quản lý chuỗi cung ứng,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-13,2026-10-02 16:00:54
+148,SVCT0148,Phạm Hữu Phương,Quản trị kinh doanh,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-04,2026-10-02 16:00:54
+149,SVCT0149,Huỳnh Quốc Xuân,Khoa học máy tính,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-26,2026-10-02 16:00:54
+150,SVCT0150,Ngô Hoàng Hải,Công nghệ thông tin,4,Trường Đại học FPT Cần Thơ,2026-08-21,2026-10-02 16:00:54
+151,SVCT0151,Huỳnh Thị Quân,Trí tuệ nhân tạo (AI),4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-12,2026-10-02 16:00:54
+152,SVCT0152,Võ Đức Sơn,Quản trị nhà hàng và dịch vụ ăn uống,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-21,2026-10-02 16:00:54
+153,SVCT0153,Đặng Quốc Oanh,Trí tuệ nhân tạo (AI),4,Trường Đại học Nam Cần Thơ (DNC),2026-07-09,2026-10-02 16:00:54
+154,SVCT0154,Hồ Anh Quân,Hệ thống thông tin,4,Trường Đại học Cần Thơ (CTU),2026-09-23,2026-10-02 16:00:55
+155,SVCT0155,Hồ Xuân Em,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-02,2026-10-02 16:00:55
+156,SVCT0156,Huỳnh Ngọc Hùng,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-07-04,2026-10-02 16:00:55
+157,SVCT0157,Bùi Đình Phúc,Khoa học máy tính,5,Trường Đại học Cần Thơ (CTU),2026-08-20,2026-10-02 16:00:55
+158,SVCT0158,Vũ Đình Khoa,Kinh tế nông nghiệp,5,Trường Cao đẳng Cần Thơ,2026-07-14,2026-10-02 16:00:55
+159,SVCT0159,Huỳnh Hoàng Yến,Kỹ thuật phần mềm,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-06,2026-10-02 16:00:55
+160,SVCT0160,Bùi Bảo Uyên,Trí tuệ nhân tạo (AI),3,Trường Đại học Cần Thơ (CTU),2026-07-01,2026-10-02 16:00:55
+161,SVCT0161,Bùi Quốc Linh,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-16,2026-10-02 16:00:55
+162,SVCT0162,Ngô Anh Khang,Kinh tế nông nghiệp,4,Trường Đại học Cần Thơ (CTU),2026-08-27,2026-10-02 16:00:55
+163,SVCT0163,Lý Xuân Bình,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-31,2026-10-02 16:00:55
+164,SVCT0164,Ngô Hoàng Bình,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-23,2026-10-02 16:00:55
+165,SVCT0165,Bùi Bảo Tuấn,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Cần Thơ (CTU),2026-09-17,2026-10-02 16:00:55
+166,SVCT0166,Vũ Quốc Hùng,Quản trị khách sạn,3,Trường Đại học Cần Thơ (CTU),2026-09-21,2026-10-02 16:00:55
+167,SVCT0167,Huỳnh Ngọc Dung,Khoa học máy tính,5,Trường Đại học Cần Thơ (CTU),2026-09-06,2026-10-02 16:00:55
+168,SVCT0168,Hoàng Thanh Hà,Kinh tế vận tải,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-09,2026-10-02 16:00:55
+169,SVCT0169,Lê Xuân Linh,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-09-09,2026-10-02 16:00:55
+170,SVCT0170,Võ Anh Em,Hệ thống thông tin,4,Trường Đại học Cần Thơ (CTU),2026-07-05,2026-10-02 16:00:55
+171,SVCT0171,Huỳnh Gia Tâm,Công nghệ thông tin,3,Trường Đại học Nam Cần Thơ (DNC),2026-08-28,2026-10-02 16:00:55
+172,SVCT0172,Phan Gia Sơn,Kiểm toán,4,Trường Cao đẳng Cần Thơ,2026-08-11,2026-10-02 16:00:55
+173,SVCT0173,Phạm Anh Khang,Trí tuệ nhân tạo (AI),4,Trường Đại học FPT Cần Thơ,2026-09-02,2026-10-02 16:00:55
+174,SVCT0174,Phạm Hữu Phương,Khai thác cảng,5,Trường Đại học Nam Cần Thơ (DNC),2026-09-13,2026-10-02 16:00:55
+175,SVCT0175,Bùi Hữu Yến,Kinh tế nông nghiệp,4,Trường Cao đẳng Cần Thơ,2026-07-17,2026-10-02 16:00:55
+176,SVCT0176,Dương Xuân Vinh,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-09-29,2026-10-02 16:00:55
+177,SVCT0177,Bùi Thị Tâm,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-07-27,2026-10-02 16:00:55
+178,SVCT0178,Trần Quốc Hương,Kiểm toán,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-30,2026-10-02 16:00:55
+179,SVCT0179,Dương Hoàng Tâm,Kinh tế vận tải,4,Trường Đại học Cần Thơ (CTU),2026-09-25,2026-10-02 16:00:55
+180,SVCT0180,Dương Đức Khoa,Quản trị khách sạn,4,Trường Đại học Cần Thơ (CTU),2026-08-25,2026-10-02 16:00:55
+181,SVCT0181,Hồ Ngọc Vinh,Kỹ thuật phần mềm,5,Trường Cao đẳng Cần Thơ,2026-09-12,2026-10-02 16:00:55
+182,SVCT0182,Nguyễn Bảo Diễm,Kiểm toán,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-14,2026-10-02 16:00:56
+183,SVCT0183,Đặng Bảo Diễm,Quản trị khách sạn,3,Trường Đại học Cần Thơ (CTU),2026-07-10,2026-10-02 16:00:56
+184,SVCT0184,Trần Anh Khang,Trí tuệ nhân tạo (AI),4,Trường Cao đẳng Cần Thơ,2026-09-14,2026-10-02 16:00:56
+185,SVCT0185,Nguyễn Đức Tuấn,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Cần Thơ (CTU),2026-07-03,2026-10-02 16:00:56
+186,SVCT0186,Vũ Minh Uyên,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-08-29,2026-10-02 16:00:56
+187,SVCT0187,Võ Bảo Cường,Khai thác cảng,4,Trường Đại học Cần Thơ (CTU),2026-09-08,2026-10-02 16:00:56
+188,SVCT0188,Phan Xuân Bình,Hệ thống thông tin,3,Trường Đại học FPT Cần Thơ,2026-08-29,2026-10-02 16:00:56
+189,SVCT0189,Nguyễn Quốc Sơn,Kỹ thuật phần mềm,5,Trường Đại học Cần Thơ (CTU),2026-09-25,2026-10-02 16:00:56
+190,SVCT0190,Hồ Hữu Hương,Quản trị kinh doanh,5,Trường Cao đẳng Cần Thơ,2026-08-20,2026-10-02 16:00:56
+191,SVCT0191,Lê Bảo Dung,Công nghệ thông tin,4,Trường Đại học FPT Cần Thơ,2026-08-29,2026-10-02 16:00:56
+192,SVCT0192,Võ Quốc An,Khoa học máy tính,5,Trường Đại học Cần Thơ (CTU),2026-07-09,2026-10-02 16:00:56
+193,SVCT0193,Lý Ngọc Linh,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Cần Thơ (CTU),2026-09-26,2026-10-02 16:00:56
+194,SVCT0194,Võ Đức Linh,Kỹ thuật phần mềm,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-27,2026-10-02 16:00:56
+195,SVCT0195,Huỳnh Thị Cường,Quản trị kinh doanh,3,Trường Đại học Cần Thơ (CTU),2026-09-24,2026-10-02 16:00:56
+196,SVCT0196,Dương Hữu Phương,Công nghệ thông tin,4,Trường Đại học Cần Thơ (CTU),2026-07-03,2026-10-02 16:00:56
+197,SVCT0197,Vũ Quốc Tâm,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Cần Thơ (CTU),2026-09-08,2026-10-02 16:00:56
+198,SVCT0198,Lê Minh Tú,Quản trị kinh doanh,4,Trường Đại học Cần Thơ (CTU),2026-07-11,2026-10-02 16:00:56
+199,SVCT0199,Lý Ngọc Hùng,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Cần Thơ (CTU),2026-07-30,2026-10-02 16:00:56
+200,SVCT0200,Vũ Thanh Khang,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học Cần Thơ (CTU),2026-08-28,2026-10-02 16:00:56
+201,SVCT0201,Dương Văn Em,Kinh tế nông nghiệp,4,Trường Đại học Cần Thơ (CTU),2026-07-21,2026-10-02 16:00:56
+202,SVCT0202,Hoàng Minh Quân,Hệ thống thông tin,5,Trường Đại học Cần Thơ (CTU),2026-09-06,2026-10-02 16:00:56
+203,SVCT0203,Huỳnh Đình Hà,Kinh tế vận tải,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-28,2026-10-02 16:00:56
+204,SVCT0204,Đặng Anh Em,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Cần Thơ (CTU),2026-08-10,2026-10-02 16:00:56
+205,SVCT0205,Lê Bảo Vinh,Quản trị khách sạn,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-12,2026-10-02 16:00:56
+206,SVCT0206,Hồ Minh Xuân,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học Nam Cần Thơ (DNC),2026-08-01,2026-10-02 16:00:56
+207,SVCT0207,Trần Đình Hải,Khai thác cảng,3,Trường Cao đẳng Cần Thơ,2026-08-18,2026-10-02 16:00:56
+208,SVCT0208,Hồ Đức Sơn,Quản trị nhà hàng và dịch vụ ăn uống,5,Trường Đại học Cần Thơ (CTU),2026-09-21,2026-10-02 16:00:56
+209,SVCT0209,Đặng Xuân Yến,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Cần Thơ (CTU),2026-08-18,2026-10-02 16:00:56
+210,SVCT0210,Bùi Xuân Phương,Công nghệ thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-09,2026-10-02 16:00:56
+211,SVCT0211,Hoàng Đình Hùng,Quản trị khách sạn,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-07,2026-10-02 16:00:56
+212,SVCT0212,Huỳnh Thị Hoa,Kinh tế vận tải,5,Trường Đại học Cần Thơ (CTU),2026-08-27,2026-10-02 16:00:57
+213,SVCT0213,Võ Xuân Thảo,Việt Nam học (Chuyên ngành Du lịch),3,Trường Cao đẳng Cần Thơ,2026-09-07,2026-10-02 16:00:57
+214,SVCT0214,Đỗ Anh Diễm,Công nghệ thông tin,3,Trường Cao đẳng Cần Thơ,2026-07-18,2026-10-02 16:00:57
+215,SVCT0215,Ngô Thanh Tuấn,Kinh tế nông nghiệp,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-07,2026-10-02 16:00:57
+216,SVCT0216,Vũ Xuân Oanh,Tài chính - Ngân hàng,4,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:00:57
+217,SVCT0217,Phạm Hữu Khoa,Kiểm toán,5,Trường Cao đẳng Cần Thơ,2026-08-06,2026-10-02 16:00:57
+218,SVCT0218,Lý Thanh Tuấn,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-09,2026-10-02 16:00:57
+219,SVCT0219,Vũ Minh An,Quản trị dịch vụ du lịch và lữ hành,5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-20,2026-10-02 16:00:57
+220,SVCT0220,Võ Minh Minh,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Cần Thơ (CTU),2026-09-07,2026-10-02 16:00:57
+221,SVCT0221,Bùi Đức Hùng,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-09-03,2026-10-02 16:00:57
+222,SVCT0222,Dương Ngọc Em,Khoa học máy tính,3,Trường Đại học Cần Thơ (CTU),2026-07-12,2026-10-02 16:00:57
+223,SVCT0223,Lý Văn Quân,Quản trị khách sạn,4,Trường Cao đẳng Cần Thơ,2026-07-23,2026-10-02 16:00:57
+224,SVCT0224,Ngô Hoàng Dung,Công nghệ thông tin,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-19,2026-10-02 16:00:57
+225,SVCT0225,Đặng Thanh Hùng,Kinh tế vận tải,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-04,2026-10-02 16:00:57
+226,SVCT0226,Nguyễn Đức Khang,Công nghệ thông tin,4,Trường Đại học FPT Cần Thơ,2026-07-24,2026-10-02 16:00:57
+227,SVCT0227,Ngô Hoàng Phương,Khai thác cảng,3,Trường Đại học FPT Cần Thơ,2026-07-02,2026-10-02 16:00:57
+228,SVCT0228,Trần Xuân Tú,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Cần Thơ (CTU),2026-07-25,2026-10-02 16:00:57
+229,SVCT0229,Phạm Anh Vinh,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-04,2026-10-02 16:00:57
+230,SVCT0230,Dương Đình Hùng,Kinh tế vận tải,3,Trường Đại học Cần Thơ (CTU),2026-07-11,2026-10-02 16:00:57
+231,SVCT0231,Huỳnh Bảo Cường,Kế toán,4,Trường Đại học FPT Cần Thơ,2026-09-21,2026-10-02 16:00:57
+232,SVCT0232,Võ Gia Khang,Tài chính - Ngân hàng,3,Trường Đại học Cần Thơ (CTU),2026-09-09,2026-10-02 16:00:57
+233,SVCT0233,Nguyễn Gia Bình,Công nghệ thông tin,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-29,2026-10-02 16:00:57
+234,SVCT0234,Võ Văn Bình,Kế toán,4,Trường Đại học FPT Cần Thơ,2026-09-05,2026-10-02 16:00:57
+235,SVCT0235,Nguyễn Anh Cường,Logistics và Quản lý chuỗi cung ứng,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-21,2026-10-02 16:00:58
+236,SVCT0236,Trần Gia Phúc,Kinh tế vận tải,5,Trường Cao đẳng Cần Thơ,2026-08-26,2026-10-02 16:00:58
+237,SVCT0237,Lê Xuân Yến,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Nam Cần Thơ (DNC),2026-08-07,2026-10-02 16:00:58
+238,SVCT0238,Phạm Hoàng Hương,Kinh doanh thương mại,4,Trường Đại học Cần Thơ (CTU),2026-09-04,2026-10-02 16:00:58
+239,SVCT0239,Hồ Đức Hải,Kỹ thuật phần mềm,5,Trường Đại học Cần Thơ (CTU),2026-07-28,2026-10-02 16:00:58
+240,SVCT0240,Phan Quốc Xuân,Quản trị khách sạn,5,Trường Cao đẳng Cần Thơ,2026-08-08,2026-10-02 16:00:58
+241,SVCT0241,Đỗ Anh Tú,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Cần Thơ (CTU),2026-08-20,2026-10-02 16:00:58
+242,SVCT0242,Phạm Đức Dung,Công nghệ thông tin,4,Trường Cao đẳng Cần Thơ,2026-09-03,2026-10-02 16:00:58
+243,SVCT0243,Vũ Thanh Hương,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-23,2026-10-02 16:00:58
+244,SVCT0244,Trần Thị Oanh,Kế toán,5,Trường Đại học Cần Thơ (CTU),2026-07-24,2026-10-02 16:00:58
+245,SVCT0245,Trần Thanh Tuấn,Trí tuệ nhân tạo (AI),4,Trường Đại học Nam Cần Thơ (DNC),2026-07-04,2026-10-02 16:00:58
+246,SVCT0246,Phạm Văn Minh,Tài chính - Ngân hàng,3,Trường Đại học Cần Thơ (CTU),2026-07-28,2026-10-02 16:00:58
+247,SVCT0247,Vũ Thanh Hải,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Cần Thơ (CTU),2026-07-10,2026-10-02 16:00:58
+248,SVCT0248,Hồ Gia Tâm,Hệ thống thông tin,4,Trường Đại học Cần Thơ (CTU),2026-07-31,2026-10-02 16:00:58
+249,SVCT0249,Hồ Bảo Hà,Kỹ thuật phần mềm,3,Trường Đại học Cần Thơ (CTU),2026-07-21,2026-10-02 16:00:58
+250,SVCT0250,Huỳnh Ngọc Yến,Kinh tế vận tải,3,Trường Đại học Cần Thơ (CTU),2026-08-12,2026-10-02 16:00:58
+251,SVCT0251,Ngô Xuân Minh,Kiểm toán,5,Trường Đại học Cần Thơ (CTU),2026-07-15,2026-10-02 16:00:58
+252,SVCT0252,Dương Thanh Hà,Kinh tế vận tải,4,Trường Đại học Cần Thơ (CTU),2026-09-14,2026-10-02 16:00:58
+253,SVCT0253,Dương Văn Tuấn,Kinh tế nông nghiệp,5,Trường Đại học Cần Thơ (CTU),2026-07-15,2026-10-02 16:00:58
+254,SVCT0254,Huỳnh Thị Phúc,Quản trị dịch vụ du lịch và lữ hành,5,Trường Đại học FPT Cần Thơ,2026-07-01,2026-10-02 16:00:58
+255,SVCT0255,Dương Gia Uyên,Kinh tế vận tải,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-10,2026-10-02 16:00:58
+256,SVCT0256,Võ Thanh Phương,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-04,2026-10-02 16:00:58
+257,SVCT0257,Hoàng Văn Minh,Công nghệ thông tin,4,Trường Đại học Cần Thơ (CTU),2026-08-05,2026-10-02 16:00:58
+258,SVCT0258,Nguyễn Hữu Bình,Kinh tế vận tải,3,Trường Cao đẳng Cần Thơ,2026-09-28,2026-10-02 16:00:58
+259,SVCT0259,Hoàng Xuân Cường,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-08-02,2026-10-02 16:00:58
+260,SVCT0260,Nguyễn Ngọc Hoa,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Cần Thơ (CTU),2026-09-26,2026-10-02 16:00:58
+261,SVCT0261,Vũ Đình Khang,Kinh tế nông nghiệp,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-19,2026-10-02 16:00:58
+262,SVCT0262,Dương Bảo Phương,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-07-20,2026-10-02 16:00:59
+263,SVCT0263,Ngô Hoàng Khoa,Kinh doanh thương mại,4,Trường Đại học Cần Thơ (CTU),2026-07-29,2026-10-02 16:00:59
+264,SVCT0264,Ngô Ngọc Em,Kinh doanh thương mại,4,Trường Đại học Cần Thơ (CTU),2026-09-28,2026-10-02 16:00:59
+265,SVCT0265,Hoàng Ngọc Linh,Kinh doanh thương mại,5,Trường Đại học Cần Thơ (CTU),2026-07-11,2026-10-02 16:00:59
+266,SVCT0266,Trần Bảo Tuấn,Kiểm toán,4,Trường Đại học Cần Thơ (CTU),2026-08-16,2026-10-02 16:00:59
+267,SVCT0267,Bùi Đức Phúc,Kiểm toán,4,Trường Đại học FPT Cần Thơ,2026-08-04,2026-10-02 16:00:59
+268,SVCT0268,Đặng Xuân Cường,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Cần Thơ (CTU),2026-07-19,2026-10-02 16:00:59
+269,SVCT0269,Huỳnh Hoàng Dung,Khoa học máy tính,4,Trường Đại học Cần Thơ (CTU),2026-08-03,2026-10-02 16:00:59
+270,SVCT0270,Nguyễn Văn Xuân,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học FPT Cần Thơ,2026-08-15,2026-10-02 16:00:59
+271,SVCT0271,Ngô Xuân Thảo,Khai thác cảng,5,Trường Đại học Cần Thơ (CTU),2026-09-22,2026-10-02 16:00:59
+272,SVCT0272,Hoàng Quốc Sơn,Hệ thống thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-25,2026-10-02 16:00:59
+273,SVCT0273,Trần Văn An,Kỹ thuật phần mềm,4,Trường Đại học FPT Cần Thơ,2026-07-17,2026-10-02 16:00:59
+274,SVCT0274,Phan Bảo Quân,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-02,2026-10-02 16:00:59
+275,SVCT0275,Huỳnh Quốc Khang,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-17,2026-10-02 16:00:59
+276,SVCT0276,Vũ Bảo Phúc,Kinh tế vận tải,4,Trường Đại học Cần Thơ (CTU),2026-07-12,2026-10-02 16:00:59
+277,SVCT0277,Hồ Văn Dung,Công nghệ thông tin,3,Trường Đại học FPT Cần Thơ,2026-07-13,2026-10-02 16:00:59
+278,SVCT0278,Võ Xuân Hà,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-11,2026-10-02 16:00:59
+279,SVCT0279,Hoàng Gia Hương,Trí tuệ nhân tạo (AI),4,Trường Cao đẳng Cần Thơ,2026-07-24,2026-10-02 16:00:59
+280,SVCT0280,Lý Đình Thảo,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-09-07,2026-10-02 16:00:59
+281,SVCT0281,Đặng Bảo Dung,Kinh doanh thương mại,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-23,2026-10-02 16:00:59
+282,SVCT0282,Đỗ Hoàng Cường,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-06,2026-10-02 16:00:59
+283,SVCT0283,Bùi Hoàng Minh,Công nghệ thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-12,2026-10-02 16:01:00
+284,SVCT0284,Lê Quốc Hà,Trí tuệ nhân tạo (AI),3,Trường Đại học FPT Cần Thơ,2026-09-23,2026-10-02 16:01:00
+285,SVCT0285,Dương Hoàng Bình,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-09-01,2026-10-02 16:01:00
+286,SVCT0286,Vũ Đình Hùng,Quản trị khách sạn,4,Trường Cao đẳng Cần Thơ,2026-09-28,2026-10-02 16:01:00
+287,SVCT0287,Hoàng Văn Hoa,Công nghệ thông tin,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-04,2026-10-02 16:01:00
+288,SVCT0288,Đặng Xuân Hải,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học FPT Cần Thơ,2026-08-27,2026-10-02 16:01:00
+289,SVCT0289,Hồ Minh Yến,Hệ thống thông tin,5,Trường Đại học Nam Cần Thơ (DNC),2026-08-26,2026-10-02 16:01:00
+290,SVCT0290,Dương Gia An,Kiểm toán,3,Trường Đại học Cần Thơ (CTU),2026-09-06,2026-10-02 16:01:00
+291,SVCT0291,Bùi Quốc Quân,Khoa học máy tính,4,Trường Cao đẳng Cần Thơ,2026-08-25,2026-10-02 16:01:00
+292,SVCT0292,Vũ Bảo Tú,Quản trị khách sạn,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-03,2026-10-02 16:01:00
+293,SVCT0293,Lý Gia Diễm,Kinh tế vận tải,4,Trường Cao đẳng Cần Thơ,2026-09-07,2026-10-02 16:01:00
+294,SVCT0294,Đỗ Đức Nam,Kinh doanh thương mại,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-13,2026-10-02 16:01:00
+295,SVCT0295,Đỗ Thị Em,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-08-12,2026-10-02 16:01:00
+296,SVCT0296,Phan Thị Minh,Trí tuệ nhân tạo (AI),3,Trường Đại học Cần Thơ (CTU),2026-08-03,2026-10-02 16:01:00
+297,SVCT0297,Hoàng Văn Hà,Quản trị khách sạn,4,Trường Đại học Cần Thơ (CTU),2026-07-24,2026-10-02 16:01:00
+298,SVCT0298,Bùi Gia Tuấn,Kiểm toán,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-13,2026-10-02 16:01:00
+299,SVCT0299,Trần Hữu Linh,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-07,2026-10-02 16:01:00
+300,SVCT0300,Phan Đức Em,Quản trị khách sạn,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-18,2026-10-02 16:01:01
+301,SVCT0301,Lê Gia Tuấn,Kế toán,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-28,2026-10-02 16:01:01
+302,SVCT0302,Lê Hữu Diễm,Kỹ thuật phần mềm,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-03,2026-10-02 16:01:01
+303,SVCT0303,Lê Anh Tuấn,Kỹ thuật phần mềm,4,Trường Cao đẳng Cần Thơ,2026-07-17,2026-10-02 16:01:01
+304,SVCT0304,Lý Thanh Hương,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học FPT Cần Thơ,2026-09-15,2026-10-02 16:01:01
+305,SVCT0305,Lê Hữu Em,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),5,Trường Đại học Nam Cần Thơ (DNC),2026-09-13,2026-10-02 16:01:01
+306,SVCT0306,Lê Bảo Hoa,Logistics và Quản lý chuỗi cung ứng,3,Trường Đại học Cần Thơ (CTU),2026-07-07,2026-10-02 16:01:01
+307,SVCT0307,Lê Anh Hà,Công nghệ thông tin,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-27,2026-10-02 16:01:01
+308,SVCT0308,Phạm Anh Dung,Kinh tế vận tải,5,Trường Đại học Cần Thơ (CTU),2026-08-19,2026-10-02 16:01:01
+309,SVCT0309,Hồ Đình Khoa,Kỹ thuật phần mềm,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-08,2026-10-02 16:01:01
+310,SVCT0310,Nguyễn Bảo Hoa,Kế toán,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-18,2026-10-02 16:01:01
+311,SVCT0311,Bùi Hoàng Linh,Khoa học máy tính,5,Trường Đại học Cần Thơ (CTU),2026-08-30,2026-10-02 16:01:01
+312,SVCT0312,Huỳnh Hữu Yến,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Cần Thơ (CTU),2026-08-22,2026-10-02 16:01:01
+313,SVCT0313,Huỳnh Đình Tú,Trí tuệ nhân tạo (AI),4,Trường Đại học Cần Thơ (CTU),2026-07-24,2026-10-02 16:01:01
+314,SVCT0314,Phạm Đức Hùng,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-07-29,2026-10-02 16:01:01
+315,SVCT0315,Hoàng Đình Sơn,Việt Nam học (Chuyên ngành Du lịch),5,Trường Đại học FPT Cần Thơ,2026-08-08,2026-10-02 16:01:01
+316,SVCT0316,Nguyễn Văn Thảo,Khai thác cảng,5,Trường Đại học Cần Thơ (CTU),2026-09-02,2026-10-02 16:01:01
+317,SVCT0317,Hoàng Đức Nam,Kinh doanh thương mại,4,Trường Đại học Cần Thơ (CTU),2026-08-25,2026-10-02 16:01:01
+318,SVCT0318,Lý Xuân Diễm,Quản trị dịch vụ du lịch và lữ hành,5,Trường Đại học Cần Thơ (CTU),2026-08-27,2026-10-02 16:01:01
+319,SVCT0319,Ngô Hoàng Sơn,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-29,2026-10-02 16:01:01
+320,SVCT0320,Trần Thanh Thảo,Kỹ thuật phần mềm,5,Trường Đại học Cần Thơ (CTU),2026-07-31,2026-10-02 16:01:01
+321,SVCT0321,Vũ Đình Linh,Kỹ thuật phần mềm,5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-27,2026-10-02 16:01:01
+322,SVCT0322,Hồ Anh Dung,Kinh tế vận tải,3,Trường Đại học FPT Cần Thơ,2026-07-14,2026-10-02 16:01:01
+323,SVCT0323,Vũ Thanh Phương,Kinh tế vận tải,4,Trường Đại học FPT Cần Thơ,2026-07-09,2026-10-02 16:01:01
+324,SVCT0324,Võ Đức Trang,Kế toán,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-26,2026-10-02 16:01:01
+325,SVCT0325,Hoàng Gia Quân,Hệ thống thông tin,5,Trường Đại học Cần Thơ (CTU),2026-08-21,2026-10-02 16:01:01
+326,SVCT0326,Ngô Ngọc Hùng,Công nghệ thông tin,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-18,2026-10-02 16:01:01
+327,SVCT0327,Dương Minh Hải,Trí tuệ nhân tạo (AI),4,Trường Đại học FPT Cần Thơ,2026-09-26,2026-10-02 16:01:01
+328,SVCT0328,Phạm Hoàng Nam,Logistics và Quản lý chuỗi cung ứng,3,Trường Đại học Cần Thơ (CTU),2026-09-16,2026-10-02 16:01:02
+329,SVCT0329,Trần Văn Hương,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Cần Thơ (CTU),2026-08-02,2026-10-02 16:01:02
+330,SVCT0330,Vũ Quốc Tú,Trí tuệ nhân tạo (AI),5,Trường Đại học FPT Cần Thơ,2026-07-14,2026-10-02 16:01:02
+331,SVCT0331,Đỗ Ngọc Khoa,Công nghệ thông tin,5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-19,2026-10-02 16:01:02
+332,SVCT0332,Nguyễn Ngọc Dung,Kinh tế nông nghiệp,4,Trường Đại học FPT Cần Thơ,2026-09-21,2026-10-02 16:01:02
+333,SVCT0333,Hoàng Quốc Tú,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Cần Thơ (CTU),2026-08-13,2026-10-02 16:01:02
+334,SVCT0334,Huỳnh Đình Hoa,Logistics và Quản lý chuỗi cung ứng,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-28,2026-10-02 16:01:02
+335,SVCT0335,Phạm Đình Hương,Kiểm toán,3,Trường Đại học FPT Cần Thơ,2026-09-01,2026-10-02 16:01:02
+336,SVCT0336,Vũ Hoàng Em,Trí tuệ nhân tạo (AI),3,Trường Đại học Cần Thơ (CTU),2026-07-09,2026-10-02 16:01:02
+337,SVCT0337,Bùi Xuân Oanh,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-07-22,2026-10-02 16:01:02
+338,SVCT0338,Trần Thanh Nam,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:01:02
+339,SVCT0339,Dương Đức Minh,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-05,2026-10-02 16:01:02
+340,SVCT0340,Huỳnh Hoàng Diễm,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học FPT Cần Thơ,2026-07-23,2026-10-02 16:01:02
+341,SVCT0341,Phan Thanh Khang,Kinh tế vận tải,5,Trường Đại học FPT Cần Thơ,2026-09-04,2026-10-02 16:01:02
+342,SVCT0342,Dương Gia Quân,Kỹ thuật phần mềm,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-09,2026-10-02 16:01:02
+343,SVCT0343,Nguyễn Gia Bình,Công nghệ thông tin,4,Trường Đại học Cần Thơ (CTU),2026-08-13,2026-10-02 16:01:02
+344,SVCT0344,Hồ Minh Khang,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),5,Trường Đại học Nam Cần Thơ (DNC),2026-09-24,2026-10-02 16:01:02
+345,SVCT0345,Lê Anh Khang,Kinh tế nông nghiệp,4,Trường Đại học FPT Cần Thơ,2026-09-23,2026-10-02 16:01:02
+346,SVCT0346,Đặng Minh Diễm,Khoa học máy tính,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-27,2026-10-02 16:01:02
+347,SVCT0347,Lê Quốc Linh,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-13,2026-10-02 16:01:02
+348,SVCT0348,Đỗ Thị Hùng,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-03,2026-10-02 16:01:02
+349,SVCT0349,Hoàng Ngọc Hà,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Cần Thơ (CTU),2026-08-24,2026-10-02 16:01:02
+350,SVCT0350,Phan Gia Tâm,Kỹ thuật phần mềm,5,Trường Đại học FPT Cần Thơ,2026-09-28,2026-10-02 16:01:02
+351,SVCT0351,Bùi Xuân Oanh,Hệ thống thông tin,4,Trường Đại học Cần Thơ (CTU),2026-08-07,2026-10-02 16:01:02
+352,SVCT0352,Trần Ngọc Em,Mạng máy tính & Truyền thông dữ liệu,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-24,2026-10-02 16:01:02
+353,SVCT0353,Lê Đình Tuấn,Khai thác cảng,5,Trường Đại học Cần Thơ (CTU),2026-09-18,2026-10-02 16:01:02
+354,SVCT0354,Lý Hoàng Khoa,Quản trị kinh doanh,5,Trường Đại học Cần Thơ (CTU),2026-07-14,2026-10-02 16:01:02
+355,SVCT0355,Võ Gia Trang,Trí tuệ nhân tạo (AI),4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-27,2026-10-02 16:01:03
+356,SVCT0356,Phạm Đình Tuấn,Quản trị khách sạn,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-07,2026-10-02 16:01:03
+357,SVCT0357,Trần Đức Nam,Kinh tế vận tải,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-09,2026-10-02 16:01:03
+358,SVCT0358,Nguyễn Quốc Diễm,Kế toán,3,Trường Cao đẳng Cần Thơ,2026-09-04,2026-10-02 16:01:03
+359,SVCT0359,Đỗ Anh Tâm,Quản trị khách sạn,4,Trường Đại học Cần Thơ (CTU),2026-07-09,2026-10-02 16:01:03
+360,SVCT0360,Lê Văn Tú,Quản trị kinh doanh,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-20,2026-10-02 16:01:03
+361,SVCT0361,Huỳnh Thanh Cường,Quản trị kinh doanh,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-24,2026-10-02 16:01:03
+362,SVCT0362,Ngô Thị Tuấn,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học Cần Thơ (CTU),2026-07-20,2026-10-02 16:01:03
+363,SVCT0363,Nguyễn Văn Oanh,Khai thác cảng,3,Trường Đại học FPT Cần Thơ,2026-07-08,2026-10-02 16:01:03
+364,SVCT0364,Dương Hữu Hoa,Công nghệ thông tin,4,Trường Đại học Cần Thơ (CTU),2026-08-18,2026-10-02 16:01:03
+365,SVCT0365,Phạm Anh Dung,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Cần Thơ (CTU),2026-07-09,2026-10-02 16:01:03
+366,SVCT0366,Hồ Văn Em,Tài chính - Ngân hàng,5,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:01:03
+367,SVCT0367,Ngô Ngọc Hùng,Khoa học máy tính,3,Trường Đại học Cần Thơ (CTU),2026-07-17,2026-10-02 16:01:03
+368,SVCT0368,Trần Hữu Dung,Kế toán,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-07,2026-10-02 16:01:03
+369,SVCT0369,Trần Văn Vinh,Kinh tế nông nghiệp,4,Trường Đại học Cần Thơ (CTU),2026-07-04,2026-10-02 16:01:03
+370,SVCT0370,Phan Hoàng Tú,Kinh tế vận tải,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-30,2026-10-02 16:01:03
+371,SVCT0371,Nguyễn Hữu Cường,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-09-26,2026-10-02 16:01:03
+372,SVCT0372,Hồ Anh Linh,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Cần Thơ (CTU),2026-09-05,2026-10-02 16:01:03
+373,SVCT0373,Lý Đức Diễm,Quản trị kinh doanh,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-07,2026-10-02 16:01:03
+374,SVCT0374,Võ Ngọc Linh,Quản trị khách sạn,5,Trường Đại học FPT Cần Thơ,2026-08-01,2026-10-02 16:01:03
+375,SVCT0375,Võ Bảo Hà,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Cần Thơ (CTU),2026-07-31,2026-10-02 16:01:03
+376,SVCT0376,Trần Thị Bình,Mạng máy tính & Truyền thông dữ liệu,5,Trường Đại học Cần Thơ (CTU),2026-07-03,2026-10-02 16:01:03
+377,SVCT0377,Hồ Hữu Bình,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học FPT Cần Thơ,2026-08-03,2026-10-02 16:01:04
+378,SVCT0378,Hoàng Xuân Tuấn,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Cần Thơ (CTU),2026-08-23,2026-10-02 16:01:04
+379,SVCT0379,Trần Minh Sơn,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-09-10,2026-10-02 16:01:04
+380,SVCT0380,Nguyễn Ngọc Phương,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Cao đẳng Cần Thơ,2026-07-02,2026-10-02 16:01:04
+381,SVCT0381,Nguyễn Thị Tú,Công nghệ thông tin,3,Trường Đại học Cần Thơ (CTU),2026-09-02,2026-10-02 16:01:04
+382,SVCT0382,Phạm Gia Hải,Kỹ thuật phần mềm,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-24,2026-10-02 16:01:04
+383,SVCT0383,Dương Xuân Hà,Khoa học máy tính,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-29,2026-10-02 16:01:04
+384,SVCT0384,Lý Minh Em,Quản trị khách sạn,5,Trường Đại học Cần Thơ (CTU),2026-07-27,2026-10-02 16:01:04
+385,SVCT0385,Đỗ Hữu Phúc,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),3,Trường Đại học Nam Cần Thơ (DNC),2026-08-21,2026-10-02 16:01:04
+386,SVCT0386,Vũ Thanh Hải,Quản trị nhà hàng và dịch vụ ăn uống,5,Trường Đại học FPT Cần Thơ,2026-07-23,2026-10-02 16:01:04
+387,SVCT0387,Phạm Văn Hoa,Kế toán,5,Trường Đại học Cần Thơ (CTU),2026-08-09,2026-10-02 16:01:04
+388,SVCT0388,Vũ Anh Em,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-03,2026-10-02 16:01:04
+389,SVCT0389,Nguyễn Đức Nam,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-27,2026-10-02 16:01:04
+390,SVCT0390,Đặng Đình Hùng,Hệ thống thông tin,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-16,2026-10-02 16:01:04
+391,SVCT0391,Dương Xuân Khang,Kế toán,4,Trường Đại học FPT Cần Thơ,2026-09-15,2026-10-02 16:01:04
+392,SVCT0392,Hoàng Đức Hải,Mạng máy tính & Truyền thông dữ liệu,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-19,2026-10-02 16:01:04
+393,SVCT0393,Đặng Xuân An,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-03,2026-10-02 16:01:04
+394,SVCT0394,Trần Bảo Quân,Kinh tế nông nghiệp,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-15,2026-10-02 16:01:04
+395,SVCT0395,Hoàng Thị Oanh,Quản trị dịch vụ du lịch và lữ hành,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-08,2026-10-02 16:01:04
+396,SVCT0396,Đặng Đình Khoa,Logistics và Quản lý chuỗi cung ứng,5,Trường Đại học Nam Cần Thơ (DNC),2026-09-12,2026-10-02 16:01:04
+397,SVCT0397,Nguyễn Thanh Hà,Kiểm toán,3,Trường Đại học Cần Thơ (CTU),2026-07-10,2026-10-02 16:01:04
+398,SVCT0398,Nguyễn Thanh An,Logistics và Quản lý chuỗi cung ứng,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-02,2026-10-02 16:01:04
+399,SVCT0399,Dương Anh Oanh,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-09-11,2026-10-02 16:01:04
+400,SVCT0400,Đỗ Bảo Minh,Khai thác cảng,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-05,2026-10-02 16:01:04
+401,SVCT0401,Vũ Anh Hải,Trí tuệ nhân tạo (AI),3,Trường Đại học Cần Thơ (CTU),2026-08-10,2026-10-02 16:01:04
+402,SVCT0402,Huỳnh Thanh Minh,Khai thác cảng,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-19,2026-10-02 16:01:05
+403,SVCT0403,Phan Thanh Khoa,Kinh doanh thương mại,5,Trường Đại học FPT Cần Thơ,2026-08-30,2026-10-02 16:01:05
+404,SVCT0404,Vũ Hữu Bình,Trí tuệ nhân tạo (AI),4,Trường Đại học Cần Thơ (CTU),2026-07-31,2026-10-02 16:01:05
+405,SVCT0405,Võ Bảo An,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Cần Thơ (CTU),2026-08-11,2026-10-02 16:01:05
+406,SVCT0406,Võ Hữu Hà,Quản trị khách sạn,5,Trường Đại học FPT Cần Thơ,2026-07-17,2026-10-02 16:01:05
+407,SVCT0407,Phạm Anh Dung,Khai thác cảng,4,Trường Đại học Cần Thơ (CTU),2026-07-21,2026-10-02 16:01:05
+408,SVCT0408,Huỳnh Hữu An,Quản trị khách sạn,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-11,2026-10-02 16:01:05
+409,SVCT0409,Lê Hoàng Diễm,Kiểm toán,4,Trường Đại học FPT Cần Thơ,2026-08-13,2026-10-02 16:01:05
+410,SVCT0410,Phạm Đình Thảo,Hệ thống thông tin,3,Trường Đại học Cần Thơ (CTU),2026-08-26,2026-10-02 16:01:05
+411,SVCT0411,Vũ Gia Tú,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-09-02,2026-10-02 16:01:05
+412,SVCT0412,Ngô Gia Sơn,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Cần Thơ (CTU),2026-07-22,2026-10-02 16:01:05
+413,SVCT0413,Lý Thanh Trang,Việt Nam học (Chuyên ngành Du lịch),3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-06,2026-10-02 16:01:05
+414,SVCT0414,Vũ Hữu Phương,Kiểm toán,3,Trường Đại học Cần Thơ (CTU),2026-07-27,2026-10-02 16:01:05
+415,SVCT0415,Đặng Thanh Thảo,Trí tuệ nhân tạo (AI),3,Trường Đại học Nam Cần Thơ (DNC),2026-08-21,2026-10-02 16:01:05
+416,SVCT0416,Nguyễn Thanh Yến,Kinh tế vận tải,5,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:01:05
+417,SVCT0417,Phan Thị Uyên,Hệ thống thông tin,4,Trường Đại học Cần Thơ (CTU),2026-07-21,2026-10-02 16:01:05
+418,SVCT0418,Phạm Quốc Em,Kiểm toán,3,Trường Đại học Cần Thơ (CTU),2026-07-30,2026-10-02 16:01:05
+419,SVCT0419,Hồ Minh Quân,Logistics và Quản lý chuỗi cung ứng,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-04,2026-10-02 16:01:05
+420,SVCT0420,Vũ Đình Oanh,Khoa học máy tính,3,Trường Đại học Cần Thơ (CTU),2026-07-27,2026-10-02 16:01:06
+421,SVCT0421,Dương Quốc Em,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-17,2026-10-02 16:01:06
+422,SVCT0422,Lý Anh Bình,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học FPT Cần Thơ,2026-09-12,2026-10-02 16:01:06
+423,SVCT0423,Đặng Hoàng Minh,Công nghệ thông tin,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-03,2026-10-02 16:01:06
+424,SVCT0424,Võ Hoàng Uyên,Kỹ thuật phần mềm,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-16,2026-10-02 16:01:06
+425,SVCT0425,Phạm Xuân Hoa,Tài chính - Ngân hàng,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-20,2026-10-02 16:01:06
+426,SVCT0426,Đặng Quốc Yến,Quản trị khách sạn,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-16,2026-10-02 16:01:06
+427,SVCT0427,Huỳnh Thị Uyên,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Nam Cần Thơ (DNC),2026-07-30,2026-10-02 16:01:06
+428,SVCT0428,Nguyễn Gia Bình,Hệ thống thông tin,5,Trường Cao đẳng Cần Thơ,2026-07-19,2026-10-02 16:01:06
+429,SVCT0429,Đỗ Văn An,Kinh tế nông nghiệp,4,Trường Đại học Cần Thơ (CTU),2026-07-26,2026-10-02 16:01:06
+430,SVCT0430,Võ Minh Tuấn,Kế toán,3,Trường Cao đẳng Cần Thơ,2026-07-26,2026-10-02 16:01:06
+431,SVCT0431,Lý Hoàng Phương,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học FPT Cần Thơ,2026-08-02,2026-10-02 16:01:06
+432,SVCT0432,Đặng Gia Hoa,Kế toán,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-29,2026-10-02 16:01:06
+433,SVCT0433,Nguyễn Hữu Phúc,Kinh doanh quốc tế (Chuyên ngành Ngoại thương & Logistics),4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-29,2026-10-02 16:01:06
+434,SVCT0434,Bùi Ngọc Phương,Khoa học máy tính,5,Trường Đại học FPT Cần Thơ,2026-07-23,2026-10-02 16:01:06
+435,SVCT0435,Lê Minh Hải,Khai thác cảng,4,Trường Đại học Cần Thơ (CTU),2026-09-21,2026-10-02 16:01:06
+436,SVCT0436,Ngô Đình Tâm,Quản trị khách sạn,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-30,2026-10-02 16:01:06
+437,SVCT0437,Đặng Thanh Bình,Việt Nam học (Chuyên ngành Du lịch),5,Trường Đại học Nam Cần Thơ (DNC),2026-08-19,2026-10-02 16:01:06
+438,SVCT0438,Ngô Quốc Vinh,Kinh tế vận tải,4,Trường Đại học Cần Thơ (CTU),2026-09-21,2026-10-02 16:01:06
+439,SVCT0439,Nguyễn Bảo Vinh,Việt Nam học (Chuyên ngành Du lịch),4,Trường Đại học FPT Cần Thơ,2026-08-12,2026-10-02 16:01:06
+440,SVCT0440,Lý Hoàng An,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-03,2026-10-02 16:01:06
+441,SVCT0441,Nguyễn Hoàng Quân,Quản trị khách sạn,3,Trường Đại học Cần Thơ (CTU),2026-07-09,2026-10-02 16:01:06
+442,SVCT0442,Bùi Bảo Khoa,Kiểm toán,4,Trường Đại học FPT Cần Thơ,2026-07-01,2026-10-02 16:01:06
+443,SVCT0443,Đặng Ngọc Hùng,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học Nam Cần Thơ (DNC),2026-08-15,2026-10-02 16:01:07
+444,SVCT0444,Võ Ngọc Thảo,Quản trị khách sạn,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-27,2026-10-02 16:01:07
+445,SVCT0445,Trần Thị Quân,Trí tuệ nhân tạo (AI),5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-13,2026-10-02 16:01:07
+446,SVCT0446,Đặng Văn Tâm,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-09-08,2026-10-02 16:01:07
+447,SVCT0447,Đặng Đình Nam,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-03,2026-10-02 16:01:07
+448,SVCT0448,Hồ Đình Dung,Quản trị khách sạn,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-17,2026-10-02 16:01:07
+449,SVCT0449,Võ Minh Minh,Quản trị khách sạn,4,Trường Đại học Cần Thơ (CTU),2026-09-19,2026-10-02 16:01:07
+450,SVCT0450,Huỳnh Ngọc Phương,Quản trị nhà hàng và dịch vụ ăn uống,4,Trường Đại học Cần Thơ (CTU),2026-09-13,2026-10-02 16:01:07
+451,SVCT0451,Trần Đức Tú,Quản trị kinh doanh,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-17,2026-10-02 16:01:07
+452,SVCT0452,Dương Bảo Phúc,Quản trị nhà hàng và dịch vụ ăn uống,5,Trường Đại học Nam Cần Thơ (DNC),2026-08-21,2026-10-02 16:01:07
+453,SVCT0453,Trần Hoàng Quân,Khai thác cảng,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-06,2026-10-02 16:01:07
+454,SVCT0454,Ngô Quốc Tú,Kiểm toán,4,Trường Đại học Cần Thơ (CTU),2026-07-10,2026-10-02 16:01:07
+455,SVCT0455,Lý Anh Tú,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-07-02,2026-10-02 16:01:07
+456,SVCT0456,Hoàng Hữu Quân,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-08-07,2026-10-02 16:01:07
+457,SVCT0457,Lê Đức Nam,Công nghệ thông tin,4,Trường Đại học Cần Thơ (CTU),2026-09-12,2026-10-02 16:01:07
+458,SVCT0458,Hoàng Minh Diễm,Công nghệ thông tin,5,Trường Đại học Cần Thơ (CTU),2026-09-22,2026-10-02 16:01:07
+459,SVCT0459,Hồ Hữu Diễm,Mạng máy tính & Truyền thông dữ liệu,5,Trường Cao đẳng Cần Thơ,2026-09-08,2026-10-02 16:01:07
+460,SVCT0460,Ngô Hoàng Dung,Mạng máy tính & Truyền thông dữ liệu,3,Trường Đại học FPT Cần Thơ,2026-08-31,2026-10-02 16:01:07
+461,SVCT0461,Bùi Đức Cường,Kinh doanh thương mại,4,Trường Đại học Cần Thơ (CTU),2026-08-10,2026-10-02 16:01:07
+462,SVCT0462,Bùi Đình Tú,Logistics và Quản lý chuỗi cung ứng,4,Trường Đại học Nam Cần Thơ (DNC),2026-07-25,2026-10-02 16:01:07
+463,SVCT0463,Ngô Văn Tâm,Việt Nam học (Chuyên ngành Du lịch),4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-10,2026-10-02 16:01:07
+464,SVCT0464,Lê Anh Tuấn,Kiểm toán,3,Trường Cao đẳng Cần Thơ,2026-09-07,2026-10-02 16:01:07
+465,SVCT0465,Dương Minh Minh,Kinh doanh thương mại,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-08-16,2026-10-02 16:01:07
+466,SVCT0466,Bùi Minh Dung,Kinh tế nông nghiệp,3,Trường Đại học Cần Thơ (CTU),2026-08-01,2026-10-02 16:01:07
+467,SVCT0467,Hồ Ngọc Minh,Trí tuệ nhân tạo (AI),4,Trường Cao đẳng Cần Thơ,2026-09-23,2026-10-02 16:01:07
+468,SVCT0468,Vũ Thanh Khang,Khai thác cảng,3,Trường Đại học Cần Thơ (CTU),2026-07-25,2026-10-02 16:01:07
+469,SVCT0469,Đặng Đình Linh,Kế toán,4,Trường Đại học Cần Thơ (CTU),2026-07-19,2026-10-02 16:01:07
+470,SVCT0470,Trần Minh Tâm,Trí tuệ nhân tạo (AI),3,Trường Đại học Nam Cần Thơ (DNC),2026-07-03,2026-10-02 16:01:07
+471,SVCT0471,Hoàng Ngọc Phương,Quản trị khách sạn,4,Trường Đại học Cần Thơ (CTU),2026-08-07,2026-10-02 16:01:08
+472,SVCT0472,Đỗ Đức An,Kỹ thuật phần mềm,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-07,2026-10-02 16:01:08
+473,SVCT0473,Hồ Hoàng Linh,Hệ thống thông tin,4,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-17,2026-10-02 16:01:08
+474,SVCT0474,Nguyễn Hữu Phúc,Kinh tế vận tải,3,Trường Đại học Cần Thơ (CTU),2026-07-21,2026-10-02 16:01:08
+475,SVCT0475,Trần Hữu Hà,Hệ thống thông tin,5,Trường Đại học Cần Thơ (CTU),2026-09-02,2026-10-02 16:01:08
+476,SVCT0476,Lê Thị Xuân,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Nam Cần Thơ (DNC),2026-09-09,2026-10-02 16:01:08
+477,SVCT0477,Bùi Gia Sơn,Hệ thống thông tin,5,Trường Đại học Cần Thơ (CTU),2026-08-22,2026-10-02 16:01:08
+478,SVCT0478,Ngô Hoàng An,Kỹ thuật phần mềm,4,Trường Đại học Cần Thơ (CTU),2026-07-09,2026-10-02 16:01:08
+479,SVCT0479,Bùi Hoàng Bình,Tài chính - Ngân hàng,4,Trường Đại học FPT Cần Thơ,2026-08-17,2026-10-02 16:01:08
+480,SVCT0480,Đỗ Đức Dung,Quản trị nhà hàng và dịch vụ ăn uống,5,Trường Đại học Nam Cần Thơ (DNC),2026-08-29,2026-10-02 16:01:08
+481,SVCT0481,Vũ Đức Phương,Khoa học máy tính,4,Trường Đại học Nam Cần Thơ (DNC),2026-09-19,2026-10-02 16:01:08
+482,SVCT0482,Huỳnh Hữu An,Mạng máy tính & Truyền thông dữ liệu,4,Trường Đại học Cần Thơ (CTU),2026-07-28,2026-10-02 16:01:08
+483,SVCT0483,Trần Hữu Hà,Mạng máy tính & Truyền thông dữ liệu,3,Trường Cao đẳng Cần Thơ,2026-07-21,2026-10-02 16:01:08
+484,SVCT0484,Bùi Ngọc Em,Quản trị dịch vụ du lịch và lữ hành,4,Trường Đại học Cần Thơ (CTU),2026-07-03,2026-10-02 16:01:08
+485,SVCT0485,Nguyễn Bảo Hải,Khai thác cảng,3,Trường Đại học Cần Thơ (CTU),2026-07-11,2026-10-02 16:01:08
+486,SVCT0486,Hồ Bảo Nam,Kỹ thuật phần mềm,3,Trường Đại học Cần Thơ (CTU),2026-08-25,2026-10-02 16:01:08
+487,SVCT0487,Đặng Gia Uyên,Kế toán,4,Trường Cao đẳng Cần Thơ,2026-07-27,2026-10-02 16:01:08
+488,SVCT0488,Đặng Gia Bình,Kiểm toán,3,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-09-25,2026-10-02 16:01:08
+489,SVCT0489,Đỗ Ngọc Hà,Quản trị kinh doanh,4,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-08-22,2026-10-02 16:01:08
+490,SVCT0490,Lý Gia Yến,Kinh tế nông nghiệp,5,Trường Đại học Nam Cần Thơ (DNC),2026-09-15,2026-10-02 16:01:08
+491,SVCT0491,Hoàng Đình Sơn,Khai thác cảng,3,Trường Đại học Cần Thơ (CTU),2026-07-29,2026-10-02 16:01:08
+492,SVCT0492,Huỳnh Ngọc Tâm,Quản trị kinh doanh,5,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-21,2026-10-02 16:01:08
+493,SVCT0493,Hoàng Hữu Khoa,Quản trị kinh doanh,4,Trường Đại học FPT Cần Thơ,2026-08-31,2026-10-02 16:01:08
+494,SVCT0494,Hồ Minh Tâm,Trí tuệ nhân tạo (AI),4,Trường Cao đẳng Cần Thơ,2026-08-04,2026-10-02 16:01:08
+495,SVCT0495,Dương Hữu Khoa,Việt Nam học (Chuyên ngành Du lịch),3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-09-08,2026-10-02 16:01:08
+496,SVCT0496,Ngô Minh Oanh,Quản trị kinh doanh,4,Trường Đại học Nam Cần Thơ (DNC),2026-08-21,2026-10-02 16:01:09
+497,SVCT0497,Ngô Bảo Vinh,Kỹ thuật phần mềm,3,Trường Đại học Cần Thơ (CTU),2026-07-10,2026-10-02 16:01:09
+498,SVCT0498,Phan Đức Vinh,Việt Nam học (Chuyên ngành Du lịch),5,Trường Cao đẳng Kinh tế - Kỹ thuật Cần Thơ,2026-07-03,2026-10-02 16:01:09
+499,SVCT0499,Ngô Văn Hoa,Quản trị dịch vụ du lịch và lữ hành,3,Trường Đại học Kỹ thuật - Công nghệ Cần Thơ (CTUT),2026-07-07,2026-10-02 16:01:09
+500,SVCT0500,Lý Hữu Hương,Quản trị nhà hàng và dịch vụ ăn uống,3,Trường Đại học Cần Thơ (CTU),2026-08-04,2026-10-02 16:01:09

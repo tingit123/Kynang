@@ -1,0 +1,121 @@
+SKILLLED LAB — KIỂM KÊ VÀ ĐỀ XUẤT PHÂN BỔ QUÝ (CHƯA THỰC THI UPDATE)
+25/11/2026
+
+DONE — kiểm kê SQL chỉ đọc, bản sao lưu độc lập, hotfix hiển thị Q3; chờ người dùng xác nhận.
+PENDING APPROVAL — chuyển đúng 2 JP và gán batch cho tập 1500 CV RAW.
+BLOCKED — khôi phục cv_raw_id của 500 workers đầu, chưa có chứng cứ quan hệ.
+TODO — UI browser regression và nghiệm thu sau khi dữ liệu được phê duyệt.
+
+1. KIỂM KÊ BẢNG VÀ QUAN HỆ
+Tên đúng là jobs_raw (không có job_raw). JP CLEANED: jobs; kỹ năng: skills,
+skill_types, skill_aliases; liên kết: job_skills. CV RAW: cvs_raw; CLEANED:
+workers; liên kết: worker_skills. jobs.raw_job_id -> jobs_raw.job_id;
+workers.cv_raw_id -> cvs_raw.cv_id. batch_id đã có trên cả hai bảng RAW,
+crawler_batches.period_code xác định kỳ. KHÔNG cần thêm data_year/data_quarter.
+Ngày đăng/crawled_at giữ nguyên; quý phân tích theo cohort batch, không phải
+tuyên bố ngày tuyển dụng thật thuộc quý đó.
+
+Validation: không tìm thấy bảng kết quả kiểm định từng bản ghi trong SHOW TABLES.
+Chỉ có quality_gate_passed/status/published ở crawler_batches và metadata
+reporting_datasets. Không dùng llm_processed để chứng nhận VALIDATED.
+
+2. TRƯỚC VÀ SAU THAY ĐỔI CODE (DB KHÔNG ĐƯỢC GHI)
+                                        Trước     Sau code
+jobs_raw                                3691      3691 (không UPDATE)
+jobs                                    3691      3691
+job_skills                             21100     21100
+cvs_raw                                 1500      1500
+workers                                 1500      1500
+worker_skills                           6293      6293
+historical_jobs_2025                     3000      3000
+historical_workers_2025                  1500      1500
+
+Theo batch hiện tại:
+Q2: RAW=998; llm_processed=998; CLEANED=998; có skill=998; skill links=7716.
+Q3: RAW=2002; llm_processed=2000; CLEANED=2002; có skill=1932; links=11506.
+Q4: RAW=691; llm_processed=691; CLEANED=691; có skill=635; links=1878.
+Q1/2026: không có cohort RAW/CLEANED tương ứng được tìm thấy.
+2025: dữ liệu lịch sử tái dựng tách historical_*; không coi 1500 CV lịch sử
+là tập cvs_raw 1500 được chỉ định. Không thay đổi các bảng này.
+CV chưa có quý: toàn bộ 1500 cvs_raw.batch_id=NULL.
+327/500 worker đầu có skill (791 links); 1000/1000 worker tiếp theo có skill
+(5502 links). 500 worker đầu có cv_raw_id=NULL; 1000 worker sau có cv_raw_id hợp lệ.
+Q2 batch metadata nói 1000/500, Q3 nói 2000 RAW/0 CLEANED; đây là counter cũ,
+không phải số thực tế. Q3 quality_gate_passed=0, published_to_dashboard=0.
+Không có số Validated cấp bản ghi đủ chứng cứ để báo cáo PASS theo quý.
+
+3. JP ĐỀ XUẤT CHUYỂN (KHÔNG ĐỤNG ID, NỘI DUNG, NGÀY, LIÊN KẾT)
+jobs.job_id=106, raw_job_id=2111575, hiện Q3_RAW, 6 liên kết skill.
+jobs.job_id=110, raw_job_id=2128769, hiện Q3_RAW, 15 liên kết skill.
+Đây là hai ID thuộc bộ 1000 đầu, hiện bị chuyển batch sang Q3.
+Đề xuất chỉ UPDATE jobs_raw.batch_id cho hai raw ID trên.
+Kỳ vọng RAW/CLEANED Q2:998->1000, Q3:2002->2000; tổng3691 giữ nguyên.
+Q3 dashboard CLEANED+processed hiện đã là2000 vì hai JD cũ có llm_processed=0.
+Không đổi flag này để tránh sửa provenance ngoài phạm vi được yêu cầu.
+
+4. TẬP CV ĐỀ XUẤT
+Đã xác minh cvs_raw có đúng1500 ID liên tục1..1500, cùng nguồn Archive_PDF_Resume.
+ID1..500:500 CV, nhập14/10/2026 23:50:09..23:50:33.
+ID501..1500:1000 CV, nhập24/11/2026 23:51:59..23:52:58.
+source_url phân biệt từng hồ sơ; dữ liệu lịch sử2025 ở bảng khác.
+Đề xuất gán batch Q2_VERIFIED cho1..500, Q3_RAW cho501..1500.
+Đây là quý phân tích theo yêu cầu nghiệp vụ, KHÔNG thay crawled_at.
+Chưa đề xuất sửa workers.cv_raw_id: worker_id=cv_id không đủ làm bằng chứng.
+Do đó sau gán CV RAW, Q3 có thể tính cohort1000 worker đã có FK; Q2 vẫn
+không có cohort CLEANED được nối qua RAW cho tới khi xác minh được quan hệ500 CV.
+Không suy supply=0 cho 173 worker đầu không có liên kết kỹ năng.
+
+5. SAO LƯU VÀ SQL CHỜ PHÊ DUYỆT
+Script: database/audit_quarter_reallocation.py (START TRANSACTION READ ONLY + SELECT).
+Snapshot: scratch/quarter_reallocation_20261125_183112.json
+SHA256:40198af56f694fe65e0cda64dceccb1757719be0b246379696689c1e7beda0db
+Chứa 2 jobs/raw/skills/locations, 1500 CV RAW/workers/skills, batch metadata,
+reporting metadata và tổng bảng. File .sha256 độc lập, không có bảng backup mới.
+SQL: database/proposed_quarter_reallocation.sql, hai phương án A/B tách biệt.
+Có điều kiện998 và đúng2 candidates; điều kiện500+1000 CV đúng ngày nhập;
+SQL mẫu kết thúc ROLLBACK theo mặc định. Không chạy file này trong lượt này.
+Rollback chỉ trả batch về giá trị snapshot, không ghi lại nội dung/skills cũ.
+SQL thay đổi đã chạy: KHÔNG CÓ.
+
+6. SỬA NGUYÊN NHÂN Q3 BỊ ẨN
+analytics() trước có nhánh 2026_Q3 trả JSON RAW rỗng vô điều kiện. locations()
+cũng trả tùy chọn đang làm sạch. Hai nhánh được bỏ; dùng queries thật cùng
+predicate batch+llm_processed=1+jobs.status=active.
+Q3 hiển thị CLEANED_PREVIEW, không tự publish, không tự xác nhận Validation.
+Không cào/clean lại, không copy dữ liệu Q2 sang Q3.
+Dropdown /reporting-datasets hiển thị số RAW/CLEANED Q3 tính runtime,
+không UPDATE counter cũ trong DB.
+Quarter frontend lưu localStorage skillled.reportingPeriod, khôi phục sau F5.
+Không thay giao diện, không sửa module xu hướng Mock, CV analyzer/khóa học.
+
+7. API KIỂM TRA THỰC TẾ
+GET /api/dashboard/analytics?period=2026_Q2&data_source=crawler:200
+Q2:998 JP;IT233,tourism238,logistics277,economics250;CV verified cohort0;
+Supply/Gap=null do chưa gán batch CV, không phải không có CV trong DB.
+GET /api/dashboard/analytics?period=2026_Q3&data_source=crawler:200
+Q3:2000 JP;IT500,tourism500,logistics506,economics494;335 skill hoạt động;
+status=CLEANED_PREVIEW;is_published=false;Supply/Gap=null trước khi phê duyệt.
+GET /api/dashboard/locations với Q2/Q3:200; totals lần lượt998 và2000.
+
+8. KIỂM THỬ
+verification/test_data_integrity_hotfix.py:4/4 PASS, có MySQL SELECT integration,
+kiểm tra mẫu số từng ngành, period filter, evidence validation, Q3 preview.
+Python compileall PASS; Node vm.Script parse2 script nội tuyến PASS.
+Chưa chạy kiểm thử trình duyệt UI-01..10; không đánh dấu PASS giả.
+DB-01/02/04/05: PENDING APPROVAL. DB bảo toàn hiện không có writes.
+Supply/Gap Q3 sau phân bổ: PENDING APPROVAL và cần test sau SQL thật.
+Supply/Gap Q2: BLOCKED do thiếu FK của500 worker đầu và coverage skill chưa đủ.
+
+9. FILE THAY ĐỔI TRONG NHIỆM VỤ NÀY
+services/core-api-backend/src/services/reporting_scope.py
+services/core-api-backend/src/services/crawler_data_source.py
+apps/admin-web-dashboard/index.html
+verification/test_data_integrity_hotfix.py
+database/audit_quarter_reallocation.py
+database/proposed_quarter_reallocation.sql
+docs/QUARTER_REALLOCATION_REVIEW_20261125.txt
+
+Chờ phê duyệt riêng A (2 JP) và B (batch của1500 CV RAW).
+Sau duyệt: fresh snapshot+recheck guards, execute transaction, kiểm tra skill
+link counts và toàn bộ totals trước COMMIT; rollback nếu khác phạm vi.
+Không sửa metadata xuất bản/Validation, schema, Q1/Q4 hoặc historical2025.

@@ -114,7 +114,7 @@ def run_all_tests():
     ans_tour = r7_tour.get("answer", "")
     ev_it = r7_it.get("evidence", [])
     ev_tour = r7_tour.get("evidence", [])
-
+    
     it_filter_matches = any(e.get("filters", {}).get("industry") == "IT" for e in ev_it) or ("IT" in ans_it or "Công nghệ" in ans_it)
     tour_filter_matches = any(e.get("filters", {}).get("industry") == "Du lịch" for e in ev_tour) or ("Du lịch" in ans_tour)
     results["Test 7: Context Dashboard"] = "PASS" if (it_filter_matches and tour_filter_matches) else "FAIL"

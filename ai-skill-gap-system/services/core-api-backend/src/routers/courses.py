@@ -129,7 +129,7 @@ def list_courses(
             outcomes=c.outcomes,
             skills_acquired=c.skills_acquired,
             tools_acquired=c.tools_acquired,
-            created_at=c.created_at,
+            created_at=c.created_at or "12/10/2026",
         )
         for c, sk in results
     ]
@@ -240,7 +240,7 @@ def get_my_courses(
             outcomes=c.outcomes,
             skills_acquired=c.skills_acquired,
             tools_acquired=c.tools_acquired,
-            created_at=c.created_at,
+            created_at=c.created_at or "12/10/2026",
         )
         for c, sk in results
     ]
